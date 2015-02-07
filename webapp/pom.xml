@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.revaluate</groupId>
+        <artifactId>revaluate-api</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>webapp</artifactId>
+    <packaging>war</packaging>
+    <name>revaluate Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <main.basedir>${project.parent.basedir}</main.basedir>
+        <skipCodeAnalysis>true</skipCodeAnalysis>
+        <skipTests>true</skipTests>
+
+        <common.encoding>ISO-8859-1</common.encoding>
+        <common.resourceEncoding>UTF-8</common.resourceEncoding>
+        <src.dir>src/main/resources</src.dir>
+        <buildtime>${maven.build.timestamp}</buildtime>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>conn2local</id>
+            <properties>
+                <restApiRootUrl>http://localhost:8080/restapi/v2/</restApiRootUrl>
+            </properties>
+        </profile>
+        <profile>
+            <id>conn2dev</id>
+            <properties>
+                <restApiRootUrl>http://api-dev.revaluate.io/restapi/v2/</restApiRootUrl>
+            </properties>
+        </profile>
+        <profile>
+            <id>conn2uat</id>
+            <properties>
+                <restApiRootUrl>http://api-uat.revaluate.io/restapi/v2/</restApiRootUrl>
+            </properties>
+        </profile>
+        <profile>
+            <id>conn2st</id>
+            <properties>
+                <restApiRootUrl>http://api-st.revaluate.io/restapi/v2/</restApiRootUrl>
+            </properties>
+        </profile>
+        <profile>
+            <id>conn2prod</id>
+            <properties>
+                <restApiRootUrl>http://api.revaluate.io/restapi/v2/</restApiRootUrl>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.bull.javamelody</groupId>
+            <artifactId>javamelody-core</artifactId>
+            <version>${javamelody-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mitre.dsmiley.httpproxy</groupId>
+            <artifactId>smiley-http-proxy-servlet</artifactId>
+            <version>${version.smiley-http-proxy-servlet}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>revaluate</finalName>
+
+        <!--War plugin-->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                            <filtering>true</filtering>
+                        </resource>
+                        <resource>
+                            <directory>src/main/resources</directory>
+                            <filtering>true</filtering>
+                            <targetPath>WEB-INF/classes</targetPath>
+                        </resource>
+                    </webResources>
+                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                    <webappDirectory>exploded</webappDirectory>
+                </configuration>
+            </plugin>
+
+            <!--ANT plugin in order to generate sources-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <tasks>
+                                <echo file="${src.dir}/release.info"
+                                      message="build.time=${buildtime}${line.separator}"/>
+                                <echo file="${src.dir}/release.info" append="true"
+                                      message="build.version=${project.version}${line.separator}"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--Clean plugin-->
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${basedir}</directory>
+                            <includes>
+                                <include>src/main/resources/release.info</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
