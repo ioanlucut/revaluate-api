@@ -21,20 +21,4 @@ public class Resource {
 
     @Autowired
     private ConfigProperties configProperties;
-
-    /**
-     * Injected parameters
-     */
-    protected String token;
-    protected String remoteAddress;
-
-/*    @HeaderParam("X-header")
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    @HeaderParam("X-FORWARDED-FOR")
-    public void setRemoteAddress(String remoteAddress) {
-        this.remoteAddress = remoteAddress;
-    }*/
 }

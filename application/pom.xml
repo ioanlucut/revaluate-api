@@ -104,13 +104,6 @@
             <version>${bonecp.version}</version>
         </dependency>
 
-        <!-- H2 Database -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
-        </dependency>
-
         <!-- PostgreSQL JDBC 4 -->
         <dependency>
             <groupId>postgresql</groupId>
@@ -274,5 +267,30 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <!--Migration DB scripts-->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <driver>org.postgresql.Driver</driver>
+                    <url>jdbc:postgresql://localhost/postgres</url>
+                    <user>postgres</user>
+                    <password>postgres</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>migrate</goal>
+                        </goals>
+                        <phase>install</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

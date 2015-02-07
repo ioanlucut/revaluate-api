@@ -12,14 +12,14 @@ public class User implements Serializable, Comparable<User> {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
-    protected static final String SEQ_NAME = "user_id";
-    protected static final String SEQ_GENERATOR_NAME = "user_seq_generator";
+    protected static final String SEQ_NAME = "users_id_seq";
+    protected static final String SEQ_GENERATOR_NAME = "users_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 600000;
     protected static final int ALLOCATION_SIZE = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
-    private Long id;
+    private Integer id;
 
     @NotNull
     @Column(nullable = false)
@@ -54,11 +54,11 @@ public class User implements Serializable, Comparable<User> {
         this.registeredDate = new Date();
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -103,11 +103,13 @@ public class User implements Serializable, Comparable<User> {
     }
 
     public Date getRegisteredDate() {
-        return registeredDate;
+        return registeredDate != null ? new Date(registeredDate.getTime()) : null;
     }
 
     public void setRegisteredDate(Date registeredDate) {
-        this.registeredDate = registeredDate;
+        if (registeredDate != null) {
+            this.registeredDate = new Date(registeredDate.getTime());
+        }
     }
 
     @Override
