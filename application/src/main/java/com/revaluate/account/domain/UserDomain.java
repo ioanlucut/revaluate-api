@@ -1,22 +1,38 @@
-package com.revaluate.account.dto;
+package com.revaluate.account.domain;
 
+import net.karneim.pojobuilder.GeneratePojoBuilder;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-public class UserDto implements Serializable {
+@GeneratePojoBuilder
+public class UserDomain implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
-    private long id;
+    private int id;
+
+    @NotBlank
     private String firstName;
+
+    @NotBlank
     private String lastName;
+
+    @Email
+    @NotBlank
     private String email;
+
+    @NotBlank
+    @Size(min = 7)
     private String password;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
