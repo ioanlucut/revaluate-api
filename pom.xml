@@ -11,6 +11,7 @@
 
     <modules>
         <module>remote</module>
+        <module>application</module>
     </modules>
 
     <properties>
@@ -68,19 +69,19 @@
         <version.fluent-selenium>1.14.5</version.fluent-selenium>
 
         <!-- sonar -->
-<!--        <sonar.host.url>http://sonar.willhaben.at:9000</sonar.host.url>
-        <sonar.jdbc.url>jdbc:postgresql://sonar.willhaben.at:5432/sonar</sonar.jdbc.url>
-        <sonar.jdbc.username>sonar</sonar.jdbc.username>
-        <sonar.jdbc.password>QxEiKxx123</sonar.jdbc.password>
-        <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
-        <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.jacoco.reportPath>target/jacoco-ut.exec</sonar.jacoco.reportPath>-->
+        <!--        <sonar.host.url>http://sonar.willhaben.at:9000</sonar.host.url>
+                <sonar.jdbc.url>jdbc:postgresql://sonar.willhaben.at:5432/sonar</sonar.jdbc.url>
+                <sonar.jdbc.username>sonar</sonar.jdbc.username>
+                <sonar.jdbc.password>QxEiKxx123</sonar.jdbc.password>
+                <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
+                <sonar.core.coveragePlugin>jacoco</sonar.core.coveragePlugin>
+                <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+                <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+                <sonar.jacoco.reportPath>target/jacoco-ut.exec</sonar.jacoco.reportPath>-->
 
         <!-- maven plugin dependencies -->
-<!--        <maven.jacocco.plugin.version>0.7.1.201405082137</maven.jacocco.plugin.version>
-        <maven.sonar.plugin.version>2.2</maven.sonar.plugin.version>-->
+        <!--        <maven.jacocco.plugin.version>0.7.1.201405082137</maven.jacocco.plugin.version>
+                <maven.sonar.plugin.version>2.2</maven.sonar.plugin.version>-->
         <maven.surefire.plugin.version>2.18.1</maven.surefire.plugin.version>
         <maven-surefire-report-plugin.version>2.18.1</maven-surefire-report-plugin.version>
         <maven.site.plugin.version>3.2</maven.site.plugin.version>
@@ -129,6 +130,7 @@
                 </plugin>
 
                 <!-- code analysis -->
+<!--
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-pmd-plugin</artifactId>
@@ -148,6 +150,7 @@
                         <skip>${skipCodeAnalysis}</skip>
                     </configuration>
                 </plugin>
+-->
 
                 <!--Findbugs plugin-->
                 <plugin>
@@ -186,7 +189,6 @@
         </pluginManagement>
 
         <plugins>
-
             <!--Copy resources plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -198,12 +200,12 @@
             </plugin>
 
             <!--Sonar plugin-->
-<!--
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-            </plugin>
--->
+            <!--
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>sonar-maven-plugin</artifactId>
+                        </plugin>
+            -->
 
             <!--Executs testss-->
             <plugin>
@@ -221,29 +223,29 @@
             </plugin>
 
             <!--Java code coverage-->
-<!--
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>com/revaluate/**</include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>pre-unit-test</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <configuration>
-                            <destFile>${project.build.directory}/jacoco-ut.exec</destFile>
-                            <propertyName>surefireArgLine</propertyName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
--->
+            <!--
+                        <plugin>
+                            <groupId>org.jacoco</groupId>
+                            <artifactId>jacoco-maven-plugin</artifactId>
+                            <configuration>
+                                <includes>
+                                    <include>com/revaluate/**</include>
+                                </includes>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <id>pre-unit-test</id>
+                                    <goals>
+                                        <goal>prepare-agent</goal>
+                                    </goals>
+                                    <configuration>
+                                        <destFile>${project.build.directory}/jacoco-ut.exec</destFile>
+                                        <propertyName>surefireArgLine</propertyName>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+            -->
 
             <!--Generate site-->
             <plugin>
@@ -315,6 +317,7 @@
             </activation>
             <build>
                 <plugins>
+<!--
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-pmd-plugin</artifactId>
@@ -327,7 +330,7 @@
                                     <goal>check</goal>
                                 </goals>
                             </execution>
-                            <execution>
+                            <execution>n
                                 <id>analyze-cdp</id>
                                 <phase>validate</phase>
                                 <goals>
@@ -339,6 +342,7 @@
                             </execution>
                         </executions>
                     </plugin>
+-->
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>findbugs-maven-plugin</artifactId>
