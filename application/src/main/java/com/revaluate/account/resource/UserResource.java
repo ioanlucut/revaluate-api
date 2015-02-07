@@ -3,6 +3,8 @@ package com.revaluate.account.resource;
 import com.revaluate.account.dto.UserDto;
 import com.revaluate.account.model.User;
 import com.revaluate.account.repository.UserRepository;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,8 +38,9 @@ public class UserResource extends Resource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path(IS_UNIQUE_EMAIL)
-    public Response isUnique(@QueryParam(EMAIL) String email) {
-        LOGGER.info("cu emailul {email}", email);
+    public Response isUnique(@QueryParam(EMAIL) @NotBlank @Email String email) {
+        LOGGER.info("Checking if email is unique - {email}", email);
+
         List<User> byEmail = userRepository.findByEmail(email);
 
         if (byEmail.isEmpty()) {
@@ -75,13 +78,6 @@ public class UserResource extends Resource {
         User foundUser = userRepository.findOne(userDto.getId());
         if (foundUser == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("User not found").build();
-        }
-
-        if (!foundUser.getFirstName().equals(userDto.getFirstName())) {
-            foundUser.setFirstName(userDto.getFirstName());
-        }
-        if (!foundUser.getLastName().equals(userDto.getLastName())) {
-            foundUser.setLastName(userDto.getLastName());
         }
 
         // Copy only selective properties
