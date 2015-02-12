@@ -10,6 +10,15 @@ public class ConfigProperties {
 
     private boolean isProduction;
 
+    @Value("${shared}")
+    private String shared;
+
+    @Value("${issuer}")
+    private String issuer;
+
+    @Value("${authTokenHeaderKey}")
+    private String authTokenHeaderKey;
+
     public boolean isProduction() {
         return isProduction;
     }
@@ -17,5 +26,29 @@ public class ConfigProperties {
     @Value("${isProduction}")
     public void setProduction(boolean isProduction) {
         this.isProduction = isProduction;
+    }
+
+    public String getShared() {
+        return shared;
+    }
+
+    public void setShared(String shared) {
+        this.shared = shared;
+    }
+
+    public String getIssuer() {
+        return issuer;
+    }
+
+    public void setIssuer(String issuer) {
+        this.issuer = issuer;
+    }
+
+    public String getAuthTokenHeaderKey() {
+        return authTokenHeaderKey;
+    }
+
+    public void setAuthTokenHeaderKey(String authTokenHeaderKey) {
+        this.authTokenHeaderKey = authTokenHeaderKey;
     }
 }
