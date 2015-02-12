@@ -33,5 +33,8 @@ public class ConfigPropertiesDevTestIT {
     public void configPropertiesWorks() {
         Assert.assertNotNull(configProperties);
         Assert.assertFalse(configProperties.isProduction());
+        Assert.assertNotNull(configProperties.getAuthTokenHeaderKey());
+        Assert.assertNotNull(configProperties.getIssuer());
+        Assert.assertNotNull(configProperties.getShared());
     }
 }

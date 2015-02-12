@@ -1,5 +1,7 @@
 package com.revaluate.core;
 
+import com.revaluate.core.filters.AuthorizationRequestFilter;
+import com.revaluate.core.filters.CORSResponseFilter;
 import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
@@ -21,6 +23,12 @@ public class ApplicationConfig extends ResourceConfig {
 
         // Validation.
         register(ValidationConfigurationContextResolver.class);
+
+        // CORS filter
+        register(CORSResponseFilter.class);
+
+        // Authorization filter
+        register(AuthorizationRequestFilter.class);
 
         // Entity filtering
         register(EntityFilteringFeature.class);

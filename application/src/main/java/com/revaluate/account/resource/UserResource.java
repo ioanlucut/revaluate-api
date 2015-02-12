@@ -1,8 +1,13 @@
 package com.revaluate.account.resource;
 
+import com.revaluate.account.domain.LoginDomain;
 import com.revaluate.account.domain.UserDomain;
+import com.revaluate.account.exception.UserNotFoundException;
 import com.revaluate.account.model.User;
 import com.revaluate.account.repository.UserRepository;
+import com.revaluate.core.ConfigProperties;
+import com.revaluate.core.filters.PublicMethod;
+import com.revaluate.core.jwt.JwtService;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.BeanUtils;
@@ -26,6 +31,7 @@ public class UserResource extends Resource {
     private static final String IS_UNIQUE_EMAIL = "isUniqueEmail";
     private static final String EMAIL = "email";
     private static final String CREATE_USER = "create";
+    private static final String LOGIN_USER = "login";
     private static final String UPDATE_USER = "update";
     private static final String REMOVE_USER = "remove/{userId}";
     private static final String USER_ID = "userId";
@@ -33,7 +39,14 @@ public class UserResource extends Resource {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private ConfigProperties configProperties;
+
     @GET
+    @PublicMethod
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(IS_UNIQUE_EMAIL)
@@ -50,6 +63,7 @@ public class UserResource extends Resource {
     }
 
     @POST
+    @PublicMethod
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(CREATE_USER)
@@ -63,10 +77,25 @@ public class UserResource extends Resource {
 
         User savedUser = userRepository.save(user);
         if (savedUser != null) {
-            return Response.status(Response.Status.OK).entity(savedUser).build();
+            return jwtService.returnJwtResponse(savedUser.getId(), savedUser);
         }
 
         return Response.status(Response.Status.BAD_REQUEST).entity("Something went really bad").build();
+    }
+
+    @POST
+    @PublicMethod
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(LOGIN_USER)
+    public Response login(@Valid LoginDomain loginDomain) {
+        User userFound = userRepository.findFirstByEmailAndPassword(loginDomain.getEmail(), loginDomain.getPassword());
+
+        if (userFound == null) {
+            throw new UserNotFoundException("Invalid email or password");
+        }
+
+        return jwtService.returnJwtResponse(userFound.getId(), "Successfully logged in");
     }
 
     @POST
