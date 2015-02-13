@@ -22,6 +22,10 @@ public class JwtService {
     @Autowired
     private ConfigProperties configProperties;
 
+    public void setConfigProperties(ConfigProperties configProperties) {
+        this.configProperties = configProperties;
+    }
+
     public String createTokenForUserWithId(Integer userId) throws JOSEException, ParseException {
         // Generate random 256-bit (32-byte) shared secret
         // Create HMAC signer
