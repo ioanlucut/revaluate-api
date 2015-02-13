@@ -45,7 +45,7 @@ public class JwtService {
         return signedJWT.serialize();
     }
 
-    public long parseToken(String token) throws JwtException {
+    public int parseToken(String token) throws JwtException {
         try {
             return tryToParseFromToken(token);
         } catch (JwtException ex) {
@@ -53,7 +53,7 @@ public class JwtService {
         }
     }
 
-    private long tryToParseFromToken(String token) throws JwtException {
+    private int tryToParseFromToken(String token) throws JwtException {
         SignedJWT signedJWT;
         try {
             signedJWT = SignedJWT.parse(token);
@@ -79,7 +79,7 @@ public class JwtService {
         }
 
         try {
-            return Long.parseLong(subject);
+            return Integer.parseInt(subject);
         } catch (NumberFormatException ex) {
             throw new JwtException("Subject could not be parsed");
         }
