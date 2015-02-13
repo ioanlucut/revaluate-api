@@ -76,7 +76,9 @@ public class UserResource extends Resource {
 
         User savedUser = userRepository.save(user);
         if (savedUser != null) {
-            return jwtService.returnJwtResponse(savedUser.getId(), savedUser);
+            UserDomain savedUserDomain = new UserDomain();
+            BeanUtils.copyProperties(savedUser, savedUserDomain);
+            return jwtService.returnJwtResponse(savedUserDomain.getId(), savedUserDomain);
         }
 
         return Responses.respond(Response.Status.BAD_REQUEST, "Error");
@@ -115,7 +117,9 @@ public class UserResource extends Resource {
 
         User updatedUser = userRepository.save(foundUser);
         if (updatedUser != null) {
-            return Responses.respond(Response.Status.OK, updatedUser);
+            UserDomain updatedUserDomain = new UserDomain();
+            BeanUtils.copyProperties(updatedUser, updatedUserDomain);
+            return Responses.respond(Response.Status.OK, updatedUserDomain);
         }
 
         return Responses.respond(Response.Status.BAD_REQUEST, "Error");

@@ -1,6 +1,7 @@
 package com.revaluate.core.filters;
 
 import com.revaluate.account.repository.UserRepository;
+import com.revaluate.core.Responses;
 import com.revaluate.core.jwt.JwtException;
 import com.revaluate.core.jwt.JwtService;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +13,6 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
@@ -78,11 +78,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
     }
 
     public void abort(ContainerRequestContext requestContext) {
-        requestContext.abortWith(Response
-                .status(Response.Status.UNAUTHORIZED)
-                .type(MediaType.APPLICATION_JSON)
-                .entity("User is not authorized")
-                .build());
+        requestContext.abortWith(Responses.respond(Response.Status.UNAUTHORIZED, "User is not authorized"));
     }
 }
 
