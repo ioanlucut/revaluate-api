@@ -11,6 +11,7 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
 import java.util.Date;
@@ -92,6 +93,7 @@ public class JwtService {
             return Response
                     .status(Response.Status.OK)
                     .entity(entity)
+                    .type(MediaType.APPLICATION_JSON)
                     .header(configProperties.getAuthTokenHeaderKey(), jwtToken).build();
         } catch (JOSEException | ParseException ex) {
             throw new UserNotFoundException("Invalid email or password");
