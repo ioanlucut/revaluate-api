@@ -6,7 +6,7 @@ import com.revaluate.account.exception.UserNotFoundException;
 import com.revaluate.account.model.User;
 import com.revaluate.account.repository.UserRepository;
 import com.revaluate.core.ConfigProperties;
-import com.revaluate.core.filters.PublicMethod;
+import com.revaluate.core.filters.Public;
 import com.revaluate.core.jwt.JwtService;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -46,7 +46,7 @@ public class UserResource extends Resource {
     private ConfigProperties configProperties;
 
     @GET
-    @PublicMethod
+    @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(IS_UNIQUE_EMAIL)
@@ -63,7 +63,7 @@ public class UserResource extends Resource {
     }
 
     @POST
-    @PublicMethod
+    @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(CREATE_USER)
@@ -84,7 +84,7 @@ public class UserResource extends Resource {
     }
 
     @POST
-    @PublicMethod
+    @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(LOGIN_USER)

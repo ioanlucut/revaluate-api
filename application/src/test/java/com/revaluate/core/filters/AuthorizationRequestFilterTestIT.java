@@ -1,0 +1,126 @@
+package com.revaluate.core.filters;
+
+import com.revaluate.account.repository.UserRepository;
+import com.revaluate.core.jwt.JwtService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.ws.rs.container.ContainerRequestContext;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "/applicationContext.xml")
+public class AuthorizationRequestFilterTestIT {
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test
+    public void publicMethod() throws Exception {
+        AuthorizationRequestFilter authorizationRequestFilter = Mockito.spy(new AuthorizationRequestFilter());
+        Mockito.doReturn(true).when(authorizationRequestFilter).isPublicMethod();
+
+        ContainerRequestContext containerRequestContext = Mockito.mock(ContainerRequestContext.class);
+        Mockito.when(containerRequestContext.getHeaderString("Authorization")).thenReturn(null);
+
+        authorizationRequestFilter.filter(containerRequestContext);
+
+        Mockito.verify(authorizationRequestFilter, Mockito.never()).abort(Mockito.any());
+    }
+
+    @Test
+    public void nonPublicMethodWithoutToken() throws Exception {
+        AuthorizationRequestFilter authorizationRequestFilter = Mockito.spy(new AuthorizationRequestFilter());
+        Mockito.doReturn(false).when(authorizationRequestFilter).isPublicMethod();
+
+        ContainerRequestContext containerRequestContext = Mockito.mock(ContainerRequestContext.class);
+        Mockito.when(containerRequestContext.getHeaderString("Authorization")).thenReturn(null);
+
+        authorizationRequestFilter.filter(containerRequestContext);
+
+        Mockito.verify(authorizationRequestFilter, Mockito.times(1)).abort(Mockito.any());
+    }
+
+    @Test
+    public void nonPublicMethodWithEmptyToken() throws Exception {
+        AuthorizationRequestFilter authorizationRequestFilter = Mockito.spy(new AuthorizationRequestFilter());
+        Mockito.doReturn(false).when(authorizationRequestFilter).isPublicMethod();
+
+        ContainerRequestContext containerRequestContext = Mockito.mock(ContainerRequestContext.class);
+        Mockito.when(containerRequestContext.getHeaderString("Authorization")).thenReturn("");
+
+        authorizationRequestFilter.filter(containerRequestContext);
+
+        Mockito.verify(authorizationRequestFilter, Mockito.times(1)).abort(Mockito.any());
+    }
+
+    @Test
+    public void nonPublicMethodWithIncompleteAndInvalidToken() throws Exception {
+        AuthorizationRequestFilter authorizationRequestFilter = Mockito.spy(new AuthorizationRequestFilter());
+        authorizationRequestFilter.setJwtService(jwtService);
+        authorizationRequestFilter.setUserRepository(userRepository);
+        Mockito.doReturn(false).when(authorizationRequestFilter).isPublicMethod();
+
+        ContainerRequestContext containerRequestContext = Mockito.mock(ContainerRequestContext.class);
+        Mockito.when(containerRequestContext.getHeaderString("Authorization")).thenReturn("Bearer");
+
+        authorizationRequestFilter.filter(containerRequestContext);
+
+        Mockito.verify(authorizationRequestFilter, Mockito.times(1)).abort(Mockito.any());
+    }
+
+    @Test
+    public void nonPublicMethodWithInvalidToken() throws Exception {
+        AuthorizationRequestFilter authorizationRequestFilter = Mockito.spy(new AuthorizationRequestFilter());
+        authorizationRequestFilter.setJwtService(jwtService);
+        authorizationRequestFilter.setUserRepository(userRepository);
+        Mockito.doReturn(false).when(authorizationRequestFilter).isPublicMethod();
+
+        ContainerRequestContext containerRequestContext = Mockito.mock(ContainerRequestContext.class);
+        Mockito.when(containerRequestContext.getHeaderString("Authorization")).thenReturn("Bearer xxx");
+
+        authorizationRequestFilter.filter(containerRequestContext);
+
+        Mockito.verify(authorizationRequestFilter, Mockito.times(1)).abort(Mockito.any());
+    }
+
+    @Test
+    public void nonPublicMethodWithValidToken() throws Exception {
+        AuthorizationRequestFilter authorizationRequestFilter = Mockito.spy(new AuthorizationRequestFilter());
+        authorizationRequestFilter.setJwtService(jwtService);
+        authorizationRequestFilter.setUserRepository(userRepository);
+        Mockito.doReturn(false).when(authorizationRequestFilter).isPublicMethod();
+
+        String generatedToken = jwtService.createTokenForUserWithId(2);
+
+        ContainerRequestContext containerRequestContext = Mockito.mock(ContainerRequestContext.class);
+        Mockito.when(containerRequestContext.getHeaderString("Authorization")).thenReturn("Bearer " + generatedToken);
+
+        authorizationRequestFilter.filter(containerRequestContext);
+
+        Mockito.verify(authorizationRequestFilter, Mockito.never()).abort(Mockito.any());
+    }
+
+    @Test
+    public void nonPublicMethodWithValidTokenButInvalidUser() throws Exception {
+        AuthorizationRequestFilter authorizationRequestFilter = Mockito.spy(new AuthorizationRequestFilter());
+        authorizationRequestFilter.setJwtService(jwtService);
+        authorizationRequestFilter.setUserRepository(userRepository);
+        Mockito.doReturn(false).when(authorizationRequestFilter).isPublicMethod();
+
+        String generatedToken = jwtService.createTokenForUserWithId(99999999);
+
+        ContainerRequestContext containerRequestContext = Mockito.mock(ContainerRequestContext.class);
+        Mockito.when(containerRequestContext.getHeaderString("Authorization")).thenReturn("Bearer " + generatedToken);
+
+        authorizationRequestFilter.filter(containerRequestContext);
+
+        Mockito.verify(authorizationRequestFilter, Mockito.times(1)).abort(Mockito.any());
+    }
+}
