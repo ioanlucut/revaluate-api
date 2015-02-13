@@ -10,7 +10,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.ContextResolver;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -51,10 +50,6 @@ public class ValidationConfigurationContextResolver implements ContextResolver<V
 
         @Override
         public List<String> getParameterNames(final Method method) {
-            // See ContactCardTest#testAddInvalidContact.
-            if ("addContact".equals(method.getName())) {
-                return Arrays.asList("contact");
-            }
             return nameProvider.getParameterNames(method);
         }
     }
