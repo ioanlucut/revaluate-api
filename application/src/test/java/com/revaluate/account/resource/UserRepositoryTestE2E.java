@@ -71,12 +71,25 @@ public class UserRepositoryTestE2E extends JerseyTest {
 
     @Test
     public void validEmailButNotUnique() {
-        WebTarget target = target("/account/isUniqueEmail");
-        Response response = target.queryParam("email", "a@b.c").request().get();
+        UserDomain userDomain = new UserDomainBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+
+        WebTarget target = target("/account/create");
+        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDomain, MediaType.APPLICATION_JSON_TYPE));
+        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
+
+        UserDomain createdUserDomain = response.readEntity(UserDomain.class);
+        MatcherAssert.assertThat(createdUserDomain.getId(), Matchers.notNullValue());
+
+        // check if is unique email
+        target = target("/account/isUniqueEmail");
+        response = target.queryParam("email", userDomain.getEmail()).request().get();
         MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
         MatcherAssert.assertThat(answer, Matchers.is(Matchers.notNullValue()));
+
+        // remove user
+        removeUser(createdUserDomain.getId());
     }
 
     @Test
