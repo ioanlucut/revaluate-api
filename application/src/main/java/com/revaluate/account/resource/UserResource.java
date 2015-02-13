@@ -1,16 +1,16 @@
 package com.revaluate.account.resource;
 
 import com.revaluate.account.domain.LoginDomain;
+import com.revaluate.account.domain.UpdatePasswordDomain;
 import com.revaluate.account.domain.UserDomain;
 import com.revaluate.account.exception.UserNotFoundException;
 import com.revaluate.account.model.User;
 import com.revaluate.account.repository.UserRepository;
-import com.revaluate.core.ConfigProperties;
 import com.revaluate.core.Responses;
 import com.revaluate.core.filters.Public;
-import com.revaluate.core.jwt.JwtService;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,17 +34,12 @@ public class UserResource extends Resource {
     private static final String CREATE_USER = "create";
     private static final String LOGIN_USER = "login";
     private static final String UPDATE_USER = "update";
+    private static final String UPDATE_USER_PASSWORD = "updatePassword";
     private static final String REMOVE_USER = "remove/{userId}";
     private static final String USER_ID = "userId";
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private ConfigProperties configProperties;
 
     @GET
     @Public
@@ -76,6 +71,9 @@ public class UserResource extends Resource {
         User user = new User();
         BeanUtils.copyProperties(userDomain, user);
 
+        // Hash the password
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+
         User savedUser = userRepository.save(user);
         if (savedUser != null) {
             return jwtService.returnJwtResponse(savedUser.getId(), savedUser);
@@ -90,13 +88,16 @@ public class UserResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(LOGIN_USER)
     public Response login(@Valid LoginDomain loginDomain) {
-        User userFound = userRepository.findFirstByEmailAndPassword(loginDomain.getEmail(), loginDomain.getPassword());
-
-        if (userFound == null) {
+        User foundUser = userRepository.findFirstByEmail(loginDomain.getEmail());
+        if (foundUser == null) {
             throw new UserNotFoundException("Invalid email or password");
         }
 
-        return jwtService.returnJwtResponse(userFound.getId(), "Successfully logged in");
+        if (!BCrypt.checkpw(loginDomain.getPassword(), foundUser.getPassword())) {
+            throw new UserNotFoundException("Invalid email or password");
+        }
+
+        return jwtService.returnJwtResponse(foundUser.getId(), "Successfully logged in");
     }
 
     @POST
@@ -140,5 +141,33 @@ public class UserResource extends Resource {
         userRepository.delete(userId);
 
         return Responses.respond(Response.Status.OK, "Successfully removed");
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(UPDATE_USER_PASSWORD)
+    public Response updatePassword(@Valid UpdatePasswordDomain updatePasswordDomain) {
+        if (!updatePasswordDomain.getNewPassword().equals(updatePasswordDomain.getNewPasswordConfirmation())) {
+            return Responses.respond(Response.Status.BAD_REQUEST, "New password should match new password confirmation");
+        }
+
+        User existingUser = userRepository.findOne(getCurrentUserId());
+        if (existingUser == null) {
+            throw new UserNotFoundException("Invalid email or password");
+        }
+
+        if (!BCrypt.checkpw(updatePasswordDomain.getOldPassword(), existingUser.getPassword())) {
+            throw new UserNotFoundException("Current password is wrong");
+        }
+
+        existingUser.setPassword(BCrypt.hashpw(updatePasswordDomain.getNewPassword(), BCrypt.gensalt()));
+
+        User updatedUser = userRepository.save(existingUser);
+        if (updatedUser != null) {
+            return Responses.respond(Response.Status.OK, updatedUser);
+        }
+
+        return Responses.respond(Response.Status.BAD_REQUEST, "Error while trying to update the password.");
     }
 }

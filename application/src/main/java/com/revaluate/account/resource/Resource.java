@@ -1,6 +1,8 @@
 package com.revaluate.account.resource;
 
 import com.revaluate.core.ConfigProperties;
+import com.revaluate.core.jwt.JwtService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,4 +23,22 @@ public class Resource {
 
     @Autowired
     private ConfigProperties configProperties;
+
+    @Autowired
+    protected JwtService jwtService;
+
+    protected int getCurrentUserId() {
+        String authorization = httpHeaders.getHeaderString("Authorization");
+
+        if (!authorization.contains(configProperties.getBearerHeaderKey())) {
+            return -1;
+        }
+
+        String jwtToken = authorization.replaceAll(configProperties.getBearerHeaderKey(), "").trim();
+        if (StringUtils.isBlank(jwtToken)) {
+            return -1;
+        }
+
+        return jwtService.parseTokenSilent(jwtToken);
+    }
 }

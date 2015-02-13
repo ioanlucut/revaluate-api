@@ -1,5 +1,7 @@
 package com.revaluate.account.entityprovider;
 
+import com.revaluate.core.Responses;
+
 import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -10,6 +12,6 @@ public class EntityNotFoundMapper implements ExceptionMapper<EntityNotFoundExcep
 
     public Response toResponse(javax.persistence.EntityNotFoundException ex) {
 
-        return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
     }
 }

@@ -1,5 +1,6 @@
 package com.revaluate.account.entityprovider;
 
+import com.revaluate.core.Responses;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import javax.ws.rs.core.Response;
@@ -11,6 +12,6 @@ public class EntityNotDeleted implements ExceptionMapper<EmptyResultDataAccessEx
 
     public Response toResponse(EmptyResultDataAccessException ex) {
 
-        return Response.status(Response.Status.BAD_REQUEST).entity(ex.getMessage()).build();
+        return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
     }
 }

@@ -19,6 +19,9 @@ public class ConfigProperties {
     @Value("${authTokenHeaderKey}")
     private String authTokenHeaderKey;
 
+    @Value("${bearerHeaderKey}")
+    private String bearerHeaderKey;
+
     public boolean isProduction() {
         return isProduction;
     }
@@ -50,5 +53,13 @@ public class ConfigProperties {
 
     public void setAuthTokenHeaderKey(String authTokenHeaderKey) {
         this.authTokenHeaderKey = authTokenHeaderKey;
+    }
+
+    public String getBearerHeaderKey() {
+        return bearerHeaderKey;
+    }
+
+    public void setBearerHeaderKey(String bearerHeaderKey) {
+        this.bearerHeaderKey = bearerHeaderKey;
     }
 }
