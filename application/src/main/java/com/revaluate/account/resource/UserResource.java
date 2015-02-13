@@ -5,8 +5,8 @@ import com.revaluate.account.domain.UserDomain;
 import com.revaluate.account.exception.UserNotFoundException;
 import com.revaluate.account.model.User;
 import com.revaluate.account.repository.UserRepository;
-import com.revaluate.core.Answer;
 import com.revaluate.core.ConfigProperties;
+import com.revaluate.core.Responses;
 import com.revaluate.core.filters.Public;
 import com.revaluate.core.jwt.JwtService;
 import org.hibernate.validator.constraints.Email;
@@ -60,7 +60,7 @@ public class UserResource extends Resource {
             return Response.status(Response.Status.OK).build();
         }
 
-        return Response.status(Response.Status.BAD_REQUEST).entity(new Answer("Email is not unique")).build();
+        return Responses.respond(Response.Status.BAD_REQUEST, "Email is not unique");
     }
 
     @POST
@@ -70,7 +70,7 @@ public class UserResource extends Resource {
     @Path(CREATE_USER)
     public Response create(@Valid UserDomain userDomain) {
         if (!userRepository.findByEmail(userDomain.getEmail()).isEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(new Answer("Email is not unique")).build();
+            return Responses.respond(Response.Status.BAD_REQUEST, "Email is not unique");
         }
 
         User user = new User();
@@ -81,7 +81,7 @@ public class UserResource extends Resource {
             return jwtService.returnJwtResponse(savedUser.getId(), savedUser);
         }
 
-        return Response.status(Response.Status.BAD_REQUEST).entity(new Answer("Something went really bad")).build();
+        return Responses.respond(Response.Status.BAD_REQUEST, "Error");
     }
 
     @POST
@@ -106,7 +106,7 @@ public class UserResource extends Resource {
     public Response update(@Valid UserDomain userDomain) {
         User foundUser = userRepository.findOne(userDomain.getId());
         if (foundUser == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(new Answer("User not found")).build();
+            throw new UserNotFoundException();
         }
 
         // Copy only selective properties
@@ -114,10 +114,10 @@ public class UserResource extends Resource {
 
         User updatedUser = userRepository.save(foundUser);
         if (updatedUser != null) {
-            return Response.status(Response.Status.OK).entity(updatedUser).build();
+            return Responses.respond(Response.Status.OK, updatedUser);
         }
 
-        return Response.status(Response.Status.BAD_REQUEST).entity(new Answer("Error")).build();
+        return Responses.respond(Response.Status.BAD_REQUEST, "Error");
     }
 
     @POST
@@ -127,10 +127,10 @@ public class UserResource extends Resource {
         User foundUser = userRepository.findOne(userId);
 
         if (foundUser != null) {
-            return Response.status(Response.Status.OK).entity(foundUser).build();
+            return Responses.respond(Response.Status.OK, foundUser);
         }
 
-        return Response.status(Response.Status.BAD_REQUEST).entity(new Answer("Error")).build();
+        return Responses.respond(Response.Status.BAD_REQUEST, "Error");
     }
 
     @DELETE
@@ -139,6 +139,6 @@ public class UserResource extends Resource {
     public Response remove(@PathParam(USER_ID) @NotNull @Min(1) int userId) {
         userRepository.delete(userId);
 
-        return Response.status(Response.Status.OK).entity(new Answer("Successfully removed")).build();
+        return Responses.respond(Response.Status.OK, "Successfully removed");
     }
 }
