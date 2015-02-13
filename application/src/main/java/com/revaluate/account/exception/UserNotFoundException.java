@@ -1,16 +1,17 @@
 package com.revaluate.account.exception;
 
+import com.revaluate.core.Responses;
+
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 public class UserNotFoundException extends WebApplicationException {
 
     public UserNotFoundException() {
-        super(Response.Status.NOT_FOUND.getReasonPhrase());
+        super(Responses.respond(Response.Status.BAD_REQUEST, Response.Status.BAD_REQUEST.getReasonPhrase()));
     }
 
     public UserNotFoundException(String message) {
-        super(Response.status(Response.Status.NOT_FOUND).entity(message).type(MediaType.APPLICATION_JSON).build());
+        super(Responses.respond(Response.Status.BAD_REQUEST, message));
     }
 }

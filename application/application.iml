@@ -19,9 +19,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/generated/java" isTestSource="false" generated="true" />
-      <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/target/maven-status" />
       <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -142,6 +140,7 @@
     <orderEntry type="library" name="Maven: org.javasimon:javasimon-javaee:3.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.javasimon:javasimon-spring:3.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.7.2" level="project" />
+    <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.3m" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.5" level="project" />
   </component>
 </module>
