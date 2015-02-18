@@ -72,8 +72,8 @@ public class UserService {
         return foundUserDTO;
     }
 
-    public UserDTO update(UserDTO userDTO) throws UserException {
-        User foundUser = userRepository.findOne(userDTO.getId());
+    public UserDTO update(UserDTO userDTO, int userId) throws UserException {
+        User foundUser = userRepository.findOne(userId);
         if (foundUser == null) {
             throw new UserNotFoundException();
         }

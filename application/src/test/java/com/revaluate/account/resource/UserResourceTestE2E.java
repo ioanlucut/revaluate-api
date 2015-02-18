@@ -129,8 +129,8 @@ public class UserResourceTestE2E extends AbstractResourceTest {
     }
 
     @Test
-    public void removeNonExistingUser() {
-        Response response = target("/account/remove/9999999").request().delete();
+    public void removeNonAuthenticatedUser() {
+        Response response = target("/account/remove").request().delete();
         assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
     }
 
@@ -139,7 +139,7 @@ public class UserResourceTestE2E extends AbstractResourceTest {
         int id = 999999;
         try {
             String tokenForUserWithId = jwtService.createTokenForUserWithId(id);
-            Response delete = target("/account/remove/" + id).request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
+            Response delete = target("/account/remove").request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
             assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), delete.getStatus());
         } catch (JOSEException | ParseException e) {
             e.printStackTrace();
@@ -149,7 +149,7 @@ public class UserResourceTestE2E extends AbstractResourceTest {
     private void removeUser(int id) {
         try {
             String tokenForUserWithId = jwtService.createTokenForUserWithId(id);
-            Response delete = target("/account/remove/" + id).request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
+            Response delete = target("/account/remove").request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
             assertEquals(Response.Status.OK.getStatusCode(), delete.getStatus());
         } catch (JOSEException | ParseException e) {
             e.printStackTrace();

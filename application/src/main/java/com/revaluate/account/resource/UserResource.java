@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,14 +23,14 @@ import javax.ws.rs.core.Response;
 public class UserResource extends Resource {
 
     public static final String ACCOUNT = "account";
-    private static final String DETAILS_USER = "details/{userId}";
+    private static final String DETAILS_USER = "details";
     private static final String IS_UNIQUE_EMAIL = "isUniqueEmail";
     private static final String EMAIL = "email";
     private static final String CREATE_USER = "create";
     private static final String LOGIN_USER = "login";
     private static final String UPDATE_USER = "update";
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
-    private static final String REMOVE_USER = "remove/{userId}";
+    private static final String REMOVE_USER = "remove";
     private static final String USER_ID = "userId";
 
     @Autowired
@@ -89,7 +87,7 @@ public class UserResource extends Resource {
     @Path(UPDATE_USER)
     public Response update(@Valid UserDTO userDTO) {
         try {
-            UserDTO updatedUserDTO = userService.update(userDTO);
+            UserDTO updatedUserDTO = userService.update(userDTO, getCurrentUserId());
 
             return Response.status(Response.Status.OK).entity(updatedUserDTO).build();
         } catch (UserException ex) {
@@ -100,9 +98,9 @@ public class UserResource extends Resource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path(DETAILS_USER)
-    public Response getUserDetails(@PathParam(USER_ID) @NotNull @Min(1) int userId) {
+    public Response getUserDetails() {
         try {
-            UserDTO userDetailsDTO = userService.getUserDetails(userId);
+            UserDTO userDetailsDTO = userService.getUserDetails(getCurrentUserId());
 
             return Response.status(Response.Status.OK).entity(userDetailsDTO).build();
         } catch (UserException ex) {
@@ -113,8 +111,8 @@ public class UserResource extends Resource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path(REMOVE_USER)
-    public Response remove(@PathParam(USER_ID) @NotNull @Min(1) int userId) {
-        userService.remove(userId);
+    public Response remove() {
+        userService.remove(getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, "User successfully removed");
     }
