@@ -1,10 +1,14 @@
 package com.revaluate.core.filters;
 
+import com.revaluate.account.domain.UserDTO;
+import com.revaluate.account.domain.UserDTOBuilder;
+import com.revaluate.account.model.User;
 import com.revaluate.account.repository.UserRepository;
 import com.revaluate.core.jwt.JwtService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -97,7 +101,11 @@ public class AuthorizationRequestFilterTestIT {
         authorizationRequestFilter.setUserRepository(userRepository);
         Mockito.doReturn(false).when(authorizationRequestFilter).isPublicMethod();
 
-        String generatedToken = jwtService.createTokenForUserWithId(2);
+        User newUserEntity = new User();
+        UserDTO newUser = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+        BeanUtils.copyProperties(newUser, newUserEntity);
+        User savedUser = userRepository.save(newUserEntity);
+        String generatedToken = jwtService.createTokenForUserWithId(savedUser.getId());
 
         ContainerRequestContext containerRequestContext = Mockito.mock(ContainerRequestContext.class);
         Mockito.when(containerRequestContext.getHeaderString("Authorization")).thenReturn("Bearer " + generatedToken);
@@ -105,6 +113,8 @@ public class AuthorizationRequestFilterTestIT {
         authorizationRequestFilter.filter(containerRequestContext);
 
         Mockito.verify(authorizationRequestFilter, Mockito.never()).abort(Mockito.any());
+
+        userRepository.delete(savedUser.getId());
     }
 
     @Test
