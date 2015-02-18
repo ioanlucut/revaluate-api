@@ -1,17 +1,13 @@
 package com.revaluate.account.resource;
 
-import com.revaluate.account.domain.LoginDomain;
-import com.revaluate.account.domain.UpdatePasswordDomain;
-import com.revaluate.account.domain.UserDomain;
-import com.revaluate.account.exception.UserNotFoundException;
-import com.revaluate.account.model.User;
-import com.revaluate.account.repository.UserRepository;
+import com.revaluate.account.domain.LoginDTO;
+import com.revaluate.account.domain.UpdatePasswordDTO;
+import com.revaluate.account.domain.UserDTO;
+import com.revaluate.account.exception.UserException;
 import com.revaluate.core.Responses;
 import com.revaluate.core.filters.Public;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Path(UserResource.ACCOUNT)
 @Component
@@ -39,7 +34,7 @@ public class UserResource extends Resource {
     private static final String USER_ID = "userId";
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GET
     @Public
@@ -47,11 +42,7 @@ public class UserResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(IS_UNIQUE_EMAIL)
     public Response isUnique(@QueryParam(EMAIL) @NotBlank @Email String email) {
-        LOGGER.info("Checking if email is unique - {email}", email);
-
-        List<User> byEmail = userRepository.findByEmail(email);
-
-        if (byEmail.isEmpty()) {
+        if (userService.isUnique(email)) {
             return Response.status(Response.Status.OK).build();
         }
 
@@ -63,25 +54,19 @@ public class UserResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(CREATE_USER)
-    public Response create(@Valid UserDomain userDomain) {
-        if (!userRepository.findByEmail(userDomain.getEmail()).isEmpty()) {
-            return Responses.respond(Response.Status.BAD_REQUEST, "Email is not unique");
+    public Response create(@Valid UserDTO userDTO) {
+        try {
+            UserDTO createdUserDTO = userService.create(userDTO);
+            String jwtToken = jwtService.tryToGetUserToken(createdUserDTO.getId());
+
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(createdUserDTO)
+                    .header(configProperties.getAuthTokenHeaderKey(), jwtToken).build();
+
+        } catch (UserException ex) {
+            return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }
-
-        User user = new User();
-        BeanUtils.copyProperties(userDomain, user);
-
-        // Hash the password
-        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-
-        User savedUser = userRepository.save(user);
-        if (savedUser != null) {
-            UserDomain savedUserDomain = new UserDomain();
-            BeanUtils.copyProperties(savedUser, savedUserDomain);
-            return jwtService.returnJwtResponse(savedUserDomain.getId(), savedUserDomain);
-        }
-
-        return Responses.respond(Response.Status.BAD_REQUEST, "Error");
     }
 
     @POST
@@ -89,60 +74,48 @@ public class UserResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(LOGIN_USER)
-    public Response login(@Valid LoginDomain loginDomain) {
-        User foundUser = userRepository.findFirstByEmail(loginDomain.getEmail());
-        if (foundUser == null) {
-            throw new UserNotFoundException("Invalid email or password");
-        }
+    public Response login(@Valid LoginDTO loginDTO) {
+        try {
+            UserDTO foundUserDTO = userService.login(loginDTO);
 
-        if (!BCrypt.checkpw(loginDomain.getPassword(), foundUser.getPassword())) {
-            throw new UserNotFoundException("Invalid email or password");
+            return Response.status(Response.Status.OK).entity(foundUserDTO).build();
+        } catch (UserException ex) {
+            return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }
-
-        return jwtService.returnJwtResponse(foundUser.getId(), "Successfully logged in");
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(UPDATE_USER)
-    public Response update(@Valid UserDomain userDomain) {
-        User foundUser = userRepository.findOne(userDomain.getId());
-        if (foundUser == null) {
-            throw new UserNotFoundException();
+    public Response update(@Valid UserDTO userDTO) {
+        try {
+            UserDTO updatedUserDTO = userService.update(userDTO);
+
+            return Response.status(Response.Status.OK).entity(updatedUserDTO).build();
+        } catch (UserException ex) {
+            return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }
-
-        // Copy only selective properties
-        BeanUtils.copyProperties(userDomain, foundUser, "id", "email", "password");
-
-        User updatedUser = userRepository.save(foundUser);
-        if (updatedUser != null) {
-            UserDomain updatedUserDomain = new UserDomain();
-            BeanUtils.copyProperties(updatedUser, updatedUserDomain);
-            return Responses.respond(Response.Status.OK, updatedUserDomain);
-        }
-
-        return Responses.respond(Response.Status.BAD_REQUEST, "Error");
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path(DETAILS_USER)
     public Response getUserDetails(@PathParam(USER_ID) @NotNull @Min(1) int userId) {
-        User foundUser = userRepository.findOne(userId);
+        try {
+            UserDTO userDetailsDTO = userService.getUserDetails(userId);
 
-        if (foundUser != null) {
-            return Responses.respond(Response.Status.OK, foundUser);
+            return Response.status(Response.Status.OK).entity(userDetailsDTO).build();
+        } catch (UserException ex) {
+            return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }
-
-        return Responses.respond(Response.Status.BAD_REQUEST, "Error");
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path(REMOVE_USER)
     public Response remove(@PathParam(USER_ID) @NotNull @Min(1) int userId) {
-        userRepository.delete(userId);
+        userService.remove(userId);
 
         return Responses.respond(Response.Status.OK, "Successfully removed");
     }
@@ -151,27 +124,13 @@ public class UserResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(UPDATE_USER_PASSWORD)
-    public Response updatePassword(@Valid UpdatePasswordDomain updatePasswordDomain) {
-        if (!updatePasswordDomain.getNewPassword().equals(updatePasswordDomain.getNewPasswordConfirmation())) {
-            return Responses.respond(Response.Status.BAD_REQUEST, "New password should match new password confirmation");
+    public Response updatePassword(@Valid UpdatePasswordDTO updatePasswordDTO) {
+        try {
+            UserDTO updatedUserDTO = userService.updatePassword(updatePasswordDTO, getCurrentUserId());
+
+            return Response.status(Response.Status.OK).entity(updatedUserDTO).build();
+        } catch (UserException ex) {
+            return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }
-
-        User existingUser = userRepository.findOne(getCurrentUserId());
-        if (existingUser == null) {
-            throw new UserNotFoundException("Invalid email or password");
-        }
-
-        if (!BCrypt.checkpw(updatePasswordDomain.getOldPassword(), existingUser.getPassword())) {
-            throw new UserNotFoundException("Current password is wrong");
-        }
-
-        existingUser.setPassword(BCrypt.hashpw(updatePasswordDomain.getNewPassword(), BCrypt.gensalt()));
-
-        User updatedUser = userRepository.save(existingUser);
-        if (updatedUser != null) {
-            return Responses.respond(Response.Status.OK, updatedUser);
-        }
-
-        return Responses.respond(Response.Status.BAD_REQUEST, "Error while trying to update the password.");
     }
 }

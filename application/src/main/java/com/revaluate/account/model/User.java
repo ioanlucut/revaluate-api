@@ -49,6 +49,10 @@ public class User implements Serializable, Comparable<User> {
     @Column(nullable = false)
     private Date registeredDate;
 
+    @OneToOne
+    @JoinColumn(name = "user_email_token_id")
+    private UserEmailToken emailToken;
+
     @PrePersist
     void createdAt() {
         this.registeredDate = new Date();
@@ -110,6 +114,14 @@ public class User implements Serializable, Comparable<User> {
         if (registeredDate != null) {
             this.registeredDate = new Date(registeredDate.getTime());
         }
+    }
+
+    public UserEmailToken getEmailToken() {
+        return emailToken;
+    }
+
+    public void setEmailToken(UserEmailToken emailToken) {
+        this.emailToken = emailToken;
     }
 
     @Override

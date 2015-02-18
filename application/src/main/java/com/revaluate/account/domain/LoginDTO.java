@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @GeneratePojoBuilder
-public class LoginDomain {
+public class LoginDTO {
 
     @Email
     @NotBlank
