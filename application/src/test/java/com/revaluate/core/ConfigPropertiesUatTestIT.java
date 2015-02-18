@@ -1,5 +1,6 @@
 package com.revaluate.core;
 
+import com.revaluate.core.bootstrap.ConfigProperties;
 import junit.framework.Assert;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

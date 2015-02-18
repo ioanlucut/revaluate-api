@@ -1,4 +1,4 @@
-package com.revaluate.core;
+package com.revaluate.core.bootstrap;
 
 import com.revaluate.core.filters.AuthorizationRequestFilter;
 import com.revaluate.core.filters.CORSResponseFilter;

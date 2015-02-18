@@ -1,4 +1,4 @@
-package com.revaluate.core;
+package com.revaluate.core.bootstrap;
 
 import org.glassfish.jersey.moxy.json.MoxyJsonConfig;
 
