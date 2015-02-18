@@ -27,7 +27,7 @@
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>com.revaluate.core.ApplicationConfig</param-value>
+            <param-value>com.revaluate.core.bootstrap.ApplicationConfig</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

@@ -1,4 +1,4 @@
-package com.revaluate.account.model;
+package com.revaluate.account.persistence;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

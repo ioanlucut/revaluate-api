@@ -1,6 +1,6 @@
-package com.revaluate.account.repository;
+package com.revaluate.account.persistence;
 
-import com.revaluate.account.model.User;
+import com.revaluate.account.persistence.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

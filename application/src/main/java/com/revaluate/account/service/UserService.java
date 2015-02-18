@@ -1,12 +1,12 @@
-package com.revaluate.account.resource;
+package com.revaluate.account.service;
 
 import com.revaluate.account.domain.LoginDTO;
 import com.revaluate.account.domain.UpdatePasswordDTO;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.exception.UserNotFoundException;
-import com.revaluate.account.model.User;
-import com.revaluate.account.repository.UserRepository;
+import com.revaluate.account.persistence.User;
+import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.jwt.JwtService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;

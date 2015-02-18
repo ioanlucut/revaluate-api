@@ -2,8 +2,8 @@ package com.revaluate.core.filters;
 
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
-import com.revaluate.account.model.User;
-import com.revaluate.account.repository.UserRepository;
+import com.revaluate.account.persistence.User;
+import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.jwt.JwtService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

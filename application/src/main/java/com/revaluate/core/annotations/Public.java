@@ -1,4 +1,4 @@
-package com.revaluate.core.filters;
+package com.revaluate.core.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package com.revaluate.core;
+package com.revaluate.core.bootstrap;
 
 import org.glassfish.jersey.server.validation.ValidationConfig;
 import org.glassfish.jersey.server.validation.internal.InjectingConstraintValidatorFactory;

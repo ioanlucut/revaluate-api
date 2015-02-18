@@ -6,7 +6,7 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.core.ConfigProperties;
+import com.revaluate.core.bootstrap.ConfigProperties;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

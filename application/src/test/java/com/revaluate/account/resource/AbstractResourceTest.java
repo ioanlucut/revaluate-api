@@ -1,7 +1,7 @@
 package com.revaluate.account.resource;
 
-import com.revaluate.core.ApplicationConfig;
-import com.revaluate.core.ConfigProperties;
+import com.revaluate.core.bootstrap.ApplicationConfig;
+import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.core.jwt.JwtService;
 import org.glassfish.jersey.server.validation.ValidationError;
 import org.glassfish.jersey.test.JerseyTest;

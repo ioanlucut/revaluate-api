@@ -1,4 +1,4 @@
-package com.revaluate.core;
+package com.revaluate.core.bootstrap;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
