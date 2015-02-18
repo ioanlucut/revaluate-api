@@ -13,8 +13,6 @@ import javax.ws.rs.core.UriInfo;
 
 public class Resource {
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
-
     @Context
     protected UriInfo uriInfo;
 
@@ -22,7 +20,7 @@ public class Resource {
     protected HttpHeaders httpHeaders;
 
     @Autowired
-    private ConfigProperties configProperties;
+    protected ConfigProperties configProperties;
 
     @Autowired
     protected JwtService jwtService;

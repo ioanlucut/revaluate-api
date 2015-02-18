@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @GeneratePojoBuilder
-public class UpdatePasswordDomain {
+public class UpdatePasswordDTO {
 
     @NotBlank
     @Size(min = 7)

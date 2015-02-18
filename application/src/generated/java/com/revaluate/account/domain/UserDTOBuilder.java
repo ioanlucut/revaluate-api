@@ -3,9 +3,9 @@ package com.revaluate.account.domain;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class UserDomainBuilder
+public class UserDTOBuilder
     implements Cloneable {
-  protected UserDomainBuilder self;
+  protected UserDTOBuilder self;
   protected int value$id$int;
   protected boolean isSet$id$int;
   protected String value$firstName$java$lang$String;
@@ -18,67 +18,67 @@ public class UserDomainBuilder
   protected boolean isSet$password$java$lang$String;
 
   /**
-   * Creates a new {@link UserDomainBuilder}.
+   * Creates a new {@link UserDTOBuilder}.
    */
-  public UserDomainBuilder() {
-    self = (UserDomainBuilder)this;
+  public UserDTOBuilder() {
+    self = (UserDTOBuilder)this;
   }
 
   /**
-   * Sets the default value for the {@link UserDomain#id} property.
+   * Sets the default value for the {@link UserDTO#id} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public UserDomainBuilder withId(int value) {
+  public UserDTOBuilder withId(int value) {
     this.value$id$int = value;
     this.isSet$id$int = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link UserDomain#firstName} property.
+   * Sets the default value for the {@link UserDTO#firstName} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public UserDomainBuilder withFirstName(String value) {
+  public UserDTOBuilder withFirstName(String value) {
     this.value$firstName$java$lang$String = value;
     this.isSet$firstName$java$lang$String = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link UserDomain#lastName} property.
+   * Sets the default value for the {@link UserDTO#lastName} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public UserDomainBuilder withLastName(String value) {
+  public UserDTOBuilder withLastName(String value) {
     this.value$lastName$java$lang$String = value;
     this.isSet$lastName$java$lang$String = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link UserDomain#email} property.
+   * Sets the default value for the {@link UserDTO#email} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public UserDomainBuilder withEmail(String value) {
+  public UserDTOBuilder withEmail(String value) {
     this.value$email$java$lang$String = value;
     this.isSet$email$java$lang$String = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link UserDomain#password} property.
+   * Sets the default value for the {@link UserDTO#password} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public UserDomainBuilder withPassword(String value) {
+  public UserDTOBuilder withPassword(String value) {
     this.value$password$java$lang$String = value;
     this.isSet$password$java$lang$String = true;
     return self;
@@ -92,7 +92,7 @@ public class UserDomainBuilder
   @Override
   public Object clone() {
     try {
-      UserDomainBuilder result = (UserDomainBuilder)super.clone();
+      UserDTOBuilder result = (UserDTOBuilder)super.clone();
       result.self = result;
       return result;
     } catch (CloneNotSupportedException e) {
@@ -105,18 +105,18 @@ public class UserDomainBuilder
    *
    * @return the clone
    */
-  public UserDomainBuilder but() {
-    return (UserDomainBuilder)clone();
+  public UserDTOBuilder but() {
+    return (UserDTOBuilder)clone();
   }
 
   /**
-   * Creates a new {@link UserDomain} based on this builder's settings.
+   * Creates a new {@link UserDTO} based on this builder's settings.
    *
-   * @return the created UserDomain
+   * @return the created UserDTO
    */
-  public UserDomain build() {
+  public UserDTO build() {
     try {
-      UserDomain result = new UserDomain();
+      UserDTO result = new UserDTO();
       if (isSet$id$int) {
         result.setId(value$id$int);
       }

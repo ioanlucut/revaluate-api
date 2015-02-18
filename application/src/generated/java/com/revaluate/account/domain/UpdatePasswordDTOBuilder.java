@@ -3,9 +3,9 @@ package com.revaluate.account.domain;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class UpdatePasswordDomainBuilder
+public class UpdatePasswordDTOBuilder
     implements Cloneable {
-  protected UpdatePasswordDomainBuilder self;
+  protected UpdatePasswordDTOBuilder self;
   protected String value$oldPassword$java$lang$String;
   protected boolean isSet$oldPassword$java$lang$String;
   protected String value$newPassword$java$lang$String;
@@ -14,43 +14,43 @@ public class UpdatePasswordDomainBuilder
   protected boolean isSet$newPasswordConfirmation$java$lang$String;
 
   /**
-   * Creates a new {@link UpdatePasswordDomainBuilder}.
+   * Creates a new {@link UpdatePasswordDTOBuilder}.
    */
-  public UpdatePasswordDomainBuilder() {
-    self = (UpdatePasswordDomainBuilder)this;
+  public UpdatePasswordDTOBuilder() {
+    self = (UpdatePasswordDTOBuilder)this;
   }
 
   /**
-   * Sets the default value for the {@link UpdatePasswordDomain#oldPassword} property.
+   * Sets the default value for the {@link UpdatePasswordDTO#oldPassword} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public UpdatePasswordDomainBuilder withOldPassword(String value) {
+  public UpdatePasswordDTOBuilder withOldPassword(String value) {
     this.value$oldPassword$java$lang$String = value;
     this.isSet$oldPassword$java$lang$String = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link UpdatePasswordDomain#newPassword} property.
+   * Sets the default value for the {@link UpdatePasswordDTO#newPassword} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public UpdatePasswordDomainBuilder withNewPassword(String value) {
+  public UpdatePasswordDTOBuilder withNewPassword(String value) {
     this.value$newPassword$java$lang$String = value;
     this.isSet$newPassword$java$lang$String = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link UpdatePasswordDomain#newPasswordConfirmation} property.
+   * Sets the default value for the {@link UpdatePasswordDTO#newPasswordConfirmation} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public UpdatePasswordDomainBuilder withNewPasswordConfirmation(String value) {
+  public UpdatePasswordDTOBuilder withNewPasswordConfirmation(String value) {
     this.value$newPasswordConfirmation$java$lang$String = value;
     this.isSet$newPasswordConfirmation$java$lang$String = true;
     return self;
@@ -64,7 +64,7 @@ public class UpdatePasswordDomainBuilder
   @Override
   public Object clone() {
     try {
-      UpdatePasswordDomainBuilder result = (UpdatePasswordDomainBuilder)super.clone();
+      UpdatePasswordDTOBuilder result = (UpdatePasswordDTOBuilder)super.clone();
       result.self = result;
       return result;
     } catch (CloneNotSupportedException e) {
@@ -77,18 +77,18 @@ public class UpdatePasswordDomainBuilder
    *
    * @return the clone
    */
-  public UpdatePasswordDomainBuilder but() {
-    return (UpdatePasswordDomainBuilder)clone();
+  public UpdatePasswordDTOBuilder but() {
+    return (UpdatePasswordDTOBuilder)clone();
   }
 
   /**
-   * Creates a new {@link UpdatePasswordDomain} based on this builder's settings.
+   * Creates a new {@link UpdatePasswordDTO} based on this builder's settings.
    *
-   * @return the created UpdatePasswordDomain
+   * @return the created UpdatePasswordDTO
    */
-  public UpdatePasswordDomain build() {
+  public UpdatePasswordDTO build() {
     try {
-      UpdatePasswordDomain result = new UpdatePasswordDomain();
+      UpdatePasswordDTO result = new UpdatePasswordDTO();
       if (isSet$oldPassword$java$lang$String) {
         result.setOldPassword(value$oldPassword$java$lang$String);
       }

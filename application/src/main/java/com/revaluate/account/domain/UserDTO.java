@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 @GeneratePojoBuilder
-public class UserDomain implements Serializable {
+public class UserDTO implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 

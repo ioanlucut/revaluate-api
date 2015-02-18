@@ -3,40 +3,40 @@ package com.revaluate.account.domain;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class LoginDomainBuilder
+public class LoginDTOBuilder
     implements Cloneable {
-  protected LoginDomainBuilder self;
+  protected LoginDTOBuilder self;
   protected String value$email$java$lang$String;
   protected boolean isSet$email$java$lang$String;
   protected String value$password$java$lang$String;
   protected boolean isSet$password$java$lang$String;
 
   /**
-   * Creates a new {@link LoginDomainBuilder}.
+   * Creates a new {@link LoginDTOBuilder}.
    */
-  public LoginDomainBuilder() {
-    self = (LoginDomainBuilder)this;
+  public LoginDTOBuilder() {
+    self = (LoginDTOBuilder)this;
   }
 
   /**
-   * Sets the default value for the {@link LoginDomain#email} property.
+   * Sets the default value for the {@link LoginDTO#email} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public LoginDomainBuilder withEmail(String value) {
+  public LoginDTOBuilder withEmail(String value) {
     this.value$email$java$lang$String = value;
     this.isSet$email$java$lang$String = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link LoginDomain#password} property.
+   * Sets the default value for the {@link LoginDTO#password} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public LoginDomainBuilder withPassword(String value) {
+  public LoginDTOBuilder withPassword(String value) {
     this.value$password$java$lang$String = value;
     this.isSet$password$java$lang$String = true;
     return self;
@@ -50,7 +50,7 @@ public class LoginDomainBuilder
   @Override
   public Object clone() {
     try {
-      LoginDomainBuilder result = (LoginDomainBuilder)super.clone();
+      LoginDTOBuilder result = (LoginDTOBuilder)super.clone();
       result.self = result;
       return result;
     } catch (CloneNotSupportedException e) {
@@ -63,18 +63,18 @@ public class LoginDomainBuilder
    *
    * @return the clone
    */
-  public LoginDomainBuilder but() {
-    return (LoginDomainBuilder)clone();
+  public LoginDTOBuilder but() {
+    return (LoginDTOBuilder)clone();
   }
 
   /**
-   * Creates a new {@link LoginDomain} based on this builder's settings.
+   * Creates a new {@link LoginDTO} based on this builder's settings.
    *
-   * @return the created LoginDomain
+   * @return the created LoginDTO
    */
-  public LoginDomain build() {
+  public LoginDTO build() {
     try {
-      LoginDomain result = new LoginDomain();
+      LoginDTO result = new LoginDTO();
       if (isSet$email$java$lang$String) {
         result.setEmail(value$email$java$lang$String);
       }
