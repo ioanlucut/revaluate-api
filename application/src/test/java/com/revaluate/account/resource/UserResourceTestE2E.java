@@ -5,7 +5,7 @@ import com.revaluate.account.domain.UpdatePasswordDTO;
 import com.revaluate.account.domain.UpdatePasswordDTOBuilder;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
-import com.revaluate.core.Answer;
+import com.revaluate.core.resource.Answer;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

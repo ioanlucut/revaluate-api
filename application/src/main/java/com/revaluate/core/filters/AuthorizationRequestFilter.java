@@ -1,7 +1,7 @@
 package com.revaluate.core.filters;
 
 import com.revaluate.account.persistence.UserRepository;
-import com.revaluate.core.Responses;
+import com.revaluate.core.resource.Responses;
 import com.revaluate.core.annotations.Public;
 import com.revaluate.core.jwt.JwtException;
 import com.revaluate.core.jwt.JwtService;
