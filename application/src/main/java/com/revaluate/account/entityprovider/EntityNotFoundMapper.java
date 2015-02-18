@@ -1,6 +1,6 @@
 package com.revaluate.account.entityprovider;
 
-import com.revaluate.core.Responses;
+import com.revaluate.core.resource.Responses;
 
 import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.core.Response;

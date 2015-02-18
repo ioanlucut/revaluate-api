@@ -1,6 +1,6 @@
 package com.revaluate.account.exception;
 
-import com.revaluate.core.Responses;
+import com.revaluate.core.resource.Responses;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;

@@ -1,4 +1,4 @@
-package com.revaluate.core;
+package com.revaluate.core.resource;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 

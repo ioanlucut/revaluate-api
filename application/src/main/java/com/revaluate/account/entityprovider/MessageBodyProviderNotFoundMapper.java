@@ -1,6 +1,6 @@
 package com.revaluate.account.entityprovider;
 
-import com.revaluate.core.Responses;
+import com.revaluate.core.resource.Responses;
 import org.glassfish.jersey.message.internal.MessageBodyProviderNotFoundException;
 
 import javax.ws.rs.core.Response;

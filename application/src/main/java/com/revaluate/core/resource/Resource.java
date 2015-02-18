@@ -1,4 +1,4 @@
-package com.revaluate.account.resource;
+package com.revaluate.core.resource;
 
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.core.jwt.JwtService;
