@@ -61,10 +61,7 @@ public class UserResource extends Resource {
             UserDTO createdUserDTO = userService.create(userDTO);
             String jwtToken = jwtService.tryToGetUserToken(createdUserDTO.getId());
 
-            return Response
-                    .status(Response.Status.OK)
-                    .entity(createdUserDTO)
-                    .header(configProperties.getAuthTokenHeaderKey(), jwtToken).build();
+            return Response.status(Response.Status.OK).entity(createdUserDTO).header(configProperties.getAuthTokenHeaderKey(), jwtToken).build();
 
         } catch (UserException ex) {
             return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
@@ -119,7 +116,7 @@ public class UserResource extends Resource {
     public Response remove(@PathParam(USER_ID) @NotNull @Min(1) int userId) {
         userService.remove(userId);
 
-        return Responses.respond(Response.Status.OK, "Successfully removed");
+        return Responses.respond(Response.Status.OK, "User successfully removed");
     }
 
     @POST
