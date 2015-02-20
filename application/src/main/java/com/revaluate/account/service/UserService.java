@@ -1,6 +1,7 @@
 package com.revaluate.account.service;
 
 import com.revaluate.account.domain.LoginDTO;
+import com.revaluate.account.domain.ResetPasswordDTO;
 import com.revaluate.account.domain.UpdatePasswordDTO;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.exception.UserException;
@@ -24,4 +25,6 @@ public interface UserService<T> {
     void requestResetPassword(String email) throws UserException;
 
     void validateResetPasswordToken(String email, String token) throws UserException;
+
+    void resetPassword(ResetPasswordDTO resetPasswordDTO, String email, String token) throws UserException;
 }
