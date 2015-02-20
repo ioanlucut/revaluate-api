@@ -30,7 +30,7 @@ public class UserResource extends Resource {
     private static final String LOGIN_USER = "login";
     private static final String UPDATE_USER = "update";
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
-    private static final String REGISTER_BASE = "registerBase";
+    private static final String REQUEST_RESET_PASSWORD = "resetPassword";
     private static final String REMOVE_USER = "remove";
 
     @Autowired
@@ -134,12 +134,12 @@ public class UserResource extends Resource {
     @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(REGISTER_BASE)
+    @Path(REQUEST_RESET_PASSWORD)
     public Response requestResetPassword(@QueryParam(EMAIL) @NotBlank @Email String email) {
         try {
             userService.requestResetPassword(email);
 
-            return Responses.respond(Response.Status.OK, "Successfully reseted");
+            return Responses.respond(Response.Status.OK, "Password successfully reset.");
         } catch (UserException ex) {
             return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }
