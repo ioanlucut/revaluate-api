@@ -104,6 +104,7 @@
         <nimbus-jose-jwt.version>3.8</nimbus-jose-jwt.version>
         <pojobuilder.version>3.3.2</pojobuilder.version>
         <hsqldb.version>2.3.2</hsqldb.version>
+        <dozer.version>5.5.1</dozer.version>
     </properties>
 
     <dependencyManagement>

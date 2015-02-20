@@ -34,7 +34,7 @@ public class UserResource extends Resource {
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
     private static final String REQUEST_RESET_PASSWORD = "resetPassword/{email}";
     private static final String VALIDATE_RESET_PASSWORD_TOKEN = "validateResetPasswordToken/{email}/{token}";
-    private static final String RESET_PASSWORD = "resetPassword";
+    private static final String RESET_PASSWORD = "resetPassword/{email}/{token}";
     private static final String REMOVE_USER = "remove";
 
     @Autowired
@@ -126,9 +126,9 @@ public class UserResource extends Resource {
     @Path(UPDATE_USER_PASSWORD)
     public Response updatePassword(@Valid UpdatePasswordDTO updatePasswordDTO) {
         try {
-            UserDTO updatedUserDTO = userService.updatePassword(updatePasswordDTO, getCurrentUserId());
+            userService.updatePassword(updatePasswordDTO, getCurrentUserId());
 
-            return Responses.respond(Response.Status.OK, updatedUserDTO);
+            return Responses.respond(Response.Status.OK, "Password successfully updated");
         } catch (UserException ex) {
             return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }
