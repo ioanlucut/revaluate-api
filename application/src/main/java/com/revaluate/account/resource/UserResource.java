@@ -32,7 +32,6 @@ public class UserResource extends Resource {
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
     private static final String REQUEST_SIGNUP_REGISTRATION = "requestSignUpRegistration";
     private static final String REMOVE_USER = "remove";
-    private static final String USER_ID = "userId";
 
     @Autowired
     private UserService userService;
@@ -58,9 +57,8 @@ public class UserResource extends Resource {
     public Response create(@Valid UserDTO userDTO) {
         try {
             UserDTO createdUserDTO = userService.create(userDTO);
-            String jwtToken = jwtService.tryToGetUserToken(createdUserDTO.getId());
 
-            return Response.status(Response.Status.OK).entity(createdUserDTO).header(configProperties.getAuthTokenHeaderKey(), jwtToken).build();
+            return Response.status(Response.Status.OK).entity(createdUserDTO).build();
 
         } catch (UserException ex) {
             return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
@@ -75,8 +73,9 @@ public class UserResource extends Resource {
     public Response login(@Valid LoginDTO loginDTO) {
         try {
             UserDTO foundUserDTO = userService.login(loginDTO);
+            String jwtToken = jwtService.tryToGetUserToken(foundUserDTO.getId());
 
-            return Response.status(Response.Status.OK).entity(foundUserDTO).build();
+            return Response.status(Response.Status.OK).entity(foundUserDTO).header(configProperties.getAuthTokenHeaderKey(), jwtToken).build();
         } catch (UserException ex) {
             return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }

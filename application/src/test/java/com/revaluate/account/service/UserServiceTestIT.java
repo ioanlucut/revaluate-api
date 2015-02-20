@@ -59,6 +59,7 @@ public class UserServiceTestIT {
         assertThat(userDTO.getLastName(), equalTo(createdUserDTO.getLastName()));
         assertThat(userDTO.getPassword(), not(equalTo(createdUserDTO.getPassword())));
         assertThat(createdUserDTO.getId(), not(equalTo(0)));
+        assertThat(createdUserDTO.getPassword(), is(nullValue()));
     }
 
     @Test
@@ -76,6 +77,7 @@ public class UserServiceTestIT {
         assertThat(userDTO.getLastName(), equalTo(loggedUserDTO.getLastName()));
         assertThat(userDTO.getPassword(), not(equalTo(loggedUserDTO.getPassword())));
         assertThat(loggedUserDTO.getId(), not(equalTo(0)));
+        assertThat(loggedUserDTO.getPassword(), is(nullValue()));
     }
 
     @Test
