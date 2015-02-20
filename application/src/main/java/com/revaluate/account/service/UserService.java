@@ -22,4 +22,6 @@ public interface UserService<T> {
     UserDTO updatePassword(UpdatePasswordDTO updatePasswordDTO, int currentUserId) throws UserException;
 
     void requestResetPassword(String email) throws UserException;
+
+    void validateResetPasswordToken(String email, String token) throws UserException;
 }

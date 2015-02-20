@@ -157,4 +157,25 @@ public class UserServiceImpl implements UserService {
             throw new UserException("Error while trying to reset password.");
         }
     }
+
+    @Override
+    public void validateResetPasswordToken(String email, String token) throws UserException {
+        User user = userRepository.findFirstByEmail(email);
+        if (user == null) {
+            throw new UserException("No matching of this email");
+        }
+
+        if (user.getResetEmailToken() == null) {
+            throw new UserException("Token is invalid.");
+        }
+
+        if (!user.getResetEmailToken().getToken().equals(token)) {
+
+            // Invalidate current token
+            user.setResetEmailToken(null);
+            userRepository.save(user);
+
+            throw new UserException("Token is invalid.");
+        }
+    }
 }
