@@ -2,6 +2,7 @@ package com.revaluate.account.service;
 
 import com.revaluate.account.domain.*;
 import com.revaluate.account.exception.UserException;
+import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserEmailToken;
 import com.revaluate.account.persistence.UserRepository;
 import org.junit.After;
@@ -245,4 +246,62 @@ public class UserServiceTestIT {
     public void testRequestResetPasswordInExistingUser() throws Exception {
         userService.requestResetPassword("abcdefg@xx.com");
     }
+
+    @Test
+    public void testValidateResetPasswordTokenHappyFlow() throws Exception {
+        // Create a user
+        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
+
+        // Reset password
+        userService.requestResetPassword("xx@xx.xx");
+        User user = userRepository.findOne(userDTO.getId());
+
+        // validate token
+        userService.validateResetPasswordToken("xx@xx.xx", user.getResetEmailToken().getToken());
+    }
+
+    @Test(expected = UserException.class)
+    public void testValidateResetPasswordTokenEmailDoesNotExist() throws Exception {
+        userService.validateResetPasswordToken("xx@xx.xx", null);
+    }
+
+    @Test(expected = UserException.class)
+    public void testValidateResetPasswordTokenInvalidTokenSentBack() throws Exception {
+        // Create a user
+        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
+
+        // Reset password
+        userService.requestResetPassword("xx@xx.xx");
+        User user = userRepository.findOne(userDTO.getId());
+
+        // validate token
+        userService.validateResetPasswordToken("xx@xx.xx", user.getResetEmailToken().getToken() + "x");
+    }
+
+    @Test(expected = UserException.class)
+    public void testValidateResetPasswordTokenInvalidFirstTimeAndSecondTimeValidOneIsInvalidatedToo() throws Exception {
+        // Create a user
+        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
+
+        // Reset password
+        userService.requestResetPassword("xx@xx.xx");
+        User user = userRepository.findOne(userDTO.getId());
+
+        // validate token
+        try {
+            userService.validateResetPasswordToken("xx@xx.xx", user.getResetEmailToken().getToken() + "x");
+        } catch (UserException ex) {
+            // do nothing
+        }
+
+        userService.validateResetPasswordToken("xx@xx.xx", user.getResetEmailToken().getToken());
+    }
+
+
 }
