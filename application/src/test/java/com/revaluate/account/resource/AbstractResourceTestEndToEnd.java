@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class AbstractResourceTest extends JerseyTest {
+public class AbstractResourceTestEndToEnd extends JerseyTest {
 
     protected static final String JWT_ISSUER_TEST = "http://revaluate.io";
     protected static final String JWT_SHARED_TEST = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
