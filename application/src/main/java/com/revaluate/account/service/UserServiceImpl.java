@@ -30,15 +30,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUnique(String email) {
-        LOGGER.info("Checking if email is unique - {email}", email);
-
         return userRepository.findByEmail(email).isEmpty();
     }
 
     @Override
     public UserDTO create(UserDTO userDTO) throws UserException {
-        LOGGER.info("Create user - {userDomain}", userDTO);
-
         if (!userRepository.findByEmail(userDTO.getEmail()).isEmpty()) {
             throw new UserException("Email is not unique");
         }
@@ -52,7 +48,7 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
         if (savedUser != null) {
             UserDTO savedUserDTO = new UserDTO();
-            BeanUtils.copyProperties(savedUser, savedUserDTO);
+            BeanUtils.copyProperties(savedUser, savedUserDTO, "password");
 
             return savedUserDTO;
         }
@@ -72,7 +68,7 @@ public class UserServiceImpl implements UserService {
         }
 
         UserDTO foundUserDTO = new UserDTO();
-        BeanUtils.copyProperties(foundUser, foundUserDTO);
+        BeanUtils.copyProperties(foundUser, foundUserDTO, "password");
 
         return foundUserDTO;
     }

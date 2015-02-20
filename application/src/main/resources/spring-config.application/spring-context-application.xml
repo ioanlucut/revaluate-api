@@ -13,9 +13,9 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-    <context:component-scan base-package="com.revaluate"/>
-
     <aop:aspectj-autoproxy/>
+
+    <context:component-scan base-package="com.revaluate"/>
 
     <bean id="prop" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -68,5 +68,10 @@
       Configures Spring Data JPA and sets the base package of my DAOs.
     -->
     <jpa:repositories base-package="com.revaluate" entity-manager-factory-ref="entityManagerFactory"/>
+
+    <!--
+      Configures Spring AOP.
+    -->
+    <bean id="loggingAspect" class="com.revaluate.core.aop.LoggingAspect"/>
 
 </beans>
