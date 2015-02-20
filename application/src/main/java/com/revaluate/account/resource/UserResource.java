@@ -30,7 +30,7 @@ public class UserResource extends Resource {
     private static final String LOGIN_USER = "login";
     private static final String UPDATE_USER = "update";
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
-    private static final String REQUEST_SIGNUP_REGISTRATION = "requestSignUpRegistration";
+    private static final String REGISTER_BASE = "registerBase";
     private static final String REMOVE_USER = "remove";
 
     @Autowired
@@ -43,7 +43,7 @@ public class UserResource extends Resource {
     @Path(IS_UNIQUE_EMAIL)
     public Response isUnique(@QueryParam(EMAIL) @NotBlank @Email String email) {
         if (userService.isUnique(email)) {
-            return Response.status(Response.Status.OK).build();
+            return Responses.respond(Response.Status.OK, "");
         }
 
         return Responses.respond(Response.Status.BAD_REQUEST, "Email is not unique");
@@ -58,8 +58,7 @@ public class UserResource extends Resource {
         try {
             UserDTO createdUserDTO = userService.create(userDTO);
 
-            return Response.status(Response.Status.OK).entity(createdUserDTO).build();
-
+            return Responses.respond(Response.Status.OK, createdUserDTO);
         } catch (UserException ex) {
             return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }
@@ -89,7 +88,7 @@ public class UserResource extends Resource {
         try {
             UserDTO updatedUserDTO = userService.update(userDTO, getCurrentUserId());
 
-            return Response.status(Response.Status.OK).entity(updatedUserDTO).build();
+            return Responses.respond(Response.Status.OK, updatedUserDTO);
         } catch (UserException ex) {
             return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }
@@ -102,7 +101,7 @@ public class UserResource extends Resource {
         try {
             UserDTO userDetailsDTO = userService.getUserDetails(getCurrentUserId());
 
-            return Response.status(Response.Status.OK).entity(userDetailsDTO).build();
+            return Responses.respond(Response.Status.OK, userDetailsDTO);
         } catch (UserException ex) {
             return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }
@@ -125,7 +124,7 @@ public class UserResource extends Resource {
         try {
             UserDTO updatedUserDTO = userService.updatePassword(updatePasswordDTO, getCurrentUserId());
 
-            return Response.status(Response.Status.OK).entity(updatedUserDTO).build();
+            return Responses.respond(Response.Status.OK, updatedUserDTO);
         } catch (UserException ex) {
             return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }
@@ -135,12 +134,12 @@ public class UserResource extends Resource {
     @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(REQUEST_SIGNUP_REGISTRATION)
-    public Response requestSignUpRegistration(@QueryParam(EMAIL) @NotBlank @Email String email) {
+    @Path(REGISTER_BASE)
+    public Response requestResetPassword(@QueryParam(EMAIL) @NotBlank @Email String email) {
         try {
-            UserDTO updatedUserDTO = userService.requestSignUpRegistration(email);
+            userService.requestResetPassword(email);
 
-            return Response.status(Response.Status.OK).entity(updatedUserDTO).build();
+            return Responses.respond(Response.Status.OK, "Successfully reseted");
         } catch (UserException ex) {
             return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
         }

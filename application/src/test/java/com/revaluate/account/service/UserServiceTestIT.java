@@ -1,13 +1,11 @@
 package com.revaluate.account.service;
 
-import com.revaluate.account.domain.LoginDTO;
-import com.revaluate.account.domain.LoginDTOBuilder;
-import com.revaluate.account.domain.UserDTO;
-import com.revaluate.account.domain.UserDTOBuilder;
+import com.revaluate.account.domain.*;
+import com.revaluate.account.exception.UserException;
+import com.revaluate.account.exception.UserNotFoundException;
 import com.revaluate.account.persistence.UserEmailToken;
 import com.revaluate.account.persistence.UserRepository;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +28,12 @@ public class UserServiceTestIT {
 
     private UserDTO userDTO;
 
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
     @After
     public void tearDown() throws Exception {
         if (userDTO != null) {
-            userService.remove(userDTO.getId());
+            if (userRepository.exists(userDTO.getId())) {
+                userService.remove(userDTO.getId());
+            }
         }
     }
 
@@ -122,10 +117,76 @@ public class UserServiceTestIT {
 
     @Test
     public void testRemove() throws Exception {
+        // Create a user
+        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
+
+        // Remove
+        userService.remove(userDTO.getId());
+
+        // Assertions
+        boolean exists = userRepository.exists(userDTO.getId());
+        assertThat(exists, not(true));
     }
 
     @Test
-    public void testUpdatePassword() throws Exception {
+    public void testUpdatePasswordHappyFlow() throws Exception {
+        // Create a user
+        String oldPassword = "1234567";
+        String newPassword = "9999999";
+
+        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword(oldPassword).build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
+
+        // Update a user
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(newPassword).withNewPasswordConfirmation(newPassword).withOldPassword(oldPassword).build();
+        userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
+
+        // Try to login
+        LoginDTO loginDTO = new LoginDTOBuilder().withEmail("xx@xx.xx").withPassword(newPassword).build();
+        userService.login(loginDTO);
+    }
+
+    @Test(expected = UserException.class)
+    public void testUpdatePasswordOldPasswordDoesNotMatch() throws Exception {
+        // Create a user
+        String oldPassword = "1234567";
+        String newPassword = "9999999";
+
+        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword(oldPassword).build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
+
+        // Update a user
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(newPassword).withNewPasswordConfirmation(newPassword).withOldPassword(oldPassword + "2").build();
+        userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
+    }
+
+    @Test(expected = UserException.class)
+    public void testUpdatePasswordNewPasswordDoesNotMatchPasswordConfirmation() throws Exception {
+        // Create a user
+        String oldPassword = "1234567";
+        String newPassword = "9999999";
+
+        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword(oldPassword).build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
+
+        // Update a user
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(newPassword).withNewPasswordConfirmation(newPassword + "2").withOldPassword(oldPassword).build();
+        userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
+    }
+
+    @Test(expected = UserException.class)
+    public void testUpdatePasswordCurrentUserNotLoggedIn() throws Exception {
+        String oldPassword = "1234567";
+        String newPassword = "9999999";
+
+        // Update a user
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(newPassword).withNewPasswordConfirmation(newPassword + "2").withOldPassword(oldPassword).build();
+        userService.updatePassword(updatePasswordDTO, 99999999);
     }
 
     @Test
@@ -135,32 +196,34 @@ public class UserServiceTestIT {
         UserDTO createdUserDTO = userService.create(userDTO);
         userDTO.setId(createdUserDTO.getId());
 
-        UserDTO userDTOWithVerificationEmailTokenSent = userService.requestSignUpRegistration(userDTO.getEmail());
+        userService.requestResetPassword(userDTO.getEmail());
 
-        assertThat(userDTOWithVerificationEmailTokenSent, is(notNullValue()));
+        UserDTO userDTOWithResetPasswordRequest = userService.getUserDetails(userDTO.getId());
+
+        assertThat(userDTOWithResetPasswordRequest, is(notNullValue()));
         // email excluded
-        assertThat(userDTOWithVerificationEmailTokenSent.getEmail(), equalTo(userDTO.getEmail()));
-        assertThat(userDTOWithVerificationEmailTokenSent.getFirstName(), equalTo(userDTO.getFirstName()));
-        assertThat(userDTOWithVerificationEmailTokenSent.getLastName(), equalTo(userDTO.getLastName()));
-        assertThat(userDTOWithVerificationEmailTokenSent.getId(), not(equalTo(0)));
-        assertThat(userDTOWithVerificationEmailTokenSent.getId(), equalTo(userDTO.getId()));
-        assertThat(userDTOWithVerificationEmailTokenSent.getPassword(), not(equalTo(userDTO.getPassword())));
+        assertThat(userDTOWithResetPasswordRequest.getEmail(), equalTo(userDTO.getEmail()));
+        assertThat(userDTOWithResetPasswordRequest.getFirstName(), equalTo(userDTO.getFirstName()));
+        assertThat(userDTOWithResetPasswordRequest.getLastName(), equalTo(userDTO.getLastName()));
+        assertThat(userDTOWithResetPasswordRequest.getId(), not(equalTo(0)));
+        assertThat(userDTOWithResetPasswordRequest.getId(), equalTo(userDTO.getId()));
+        assertThat(userDTOWithResetPasswordRequest.getPassword(), not(equalTo(userDTO.getPassword())));
     }
 
     @Test
-    public void sendRequestEmailTokenWhileExistsOverrideTheFirstOne() throws Exception {
+    public void sendVerificationEmailTokenWhileExistsOverrideTheFirstOne() throws Exception {
         // Create a user
         userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
         UserDTO createdUserDTO = userService.create(userDTO);
         userDTO.setId(createdUserDTO.getId());
 
         // First time
-        userService.requestSignUpRegistration(userDTO.getEmail());
-        UserEmailToken firstEmailToken = userRepository.findOne(userDTO.getId()).getEmailToken();
+        userService.requestResetPassword(userDTO.getEmail());
+        UserEmailToken firstEmailToken = userRepository.findOne(userDTO.getId()).getResetEmailToken();
 
         // Second time
-        userService.requestSignUpRegistration(userDTO.getEmail());
-        UserEmailToken secondEmailToken = userRepository.findOne(userDTO.getId()).getEmailToken();
+        userService.requestResetPassword(userDTO.getEmail());
+        UserEmailToken secondEmailToken = userRepository.findOne(userDTO.getId()).getResetEmailToken();
 
         assertThat(secondEmailToken.getToken(), not(equalTo(firstEmailToken.getToken())));
     }
