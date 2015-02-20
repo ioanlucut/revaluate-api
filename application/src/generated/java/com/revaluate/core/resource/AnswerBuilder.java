@@ -1,6 +1,4 @@
-package com.revaluate.core;
-
-import com.revaluate.core.resource.Answer;
+package com.revaluate.core.resource;
 
 import javax.annotation.Generated;
 
@@ -19,7 +17,7 @@ public class AnswerBuilder
   }
 
   /**
-   * Sets the default value for the {@link com.revaluate.core.resource.Answer#answer} property.
+   * Sets the default value for the {@link Answer#answer} property.
    *
    * @param value the default value
    * @return this builder
@@ -56,7 +54,7 @@ public class AnswerBuilder
   }
 
   /**
-   * Creates a new {@link com.revaluate.core.resource.Answer} based on this builder's settings.
+   * Creates a new {@link Answer} based on this builder's settings.
    *
    * @return the created Answer
    */
