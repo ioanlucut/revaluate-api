@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
             return savedUserDTO;
         }
 
-        throw new UserException("Error");
+        throw new UserException("Could not create the user.");
     }
 
     @Override
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
             return updatedUserDTO;
         }
 
-        throw new UserException("Error");
+        throw new UserException("Could not update the user.");
     }
 
     @Override
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
             return foundUserDTO;
         }
 
-        throw new UserException("Error");
+        throw new UserException("Could not retrieve user details.");
     }
 
     @Override
