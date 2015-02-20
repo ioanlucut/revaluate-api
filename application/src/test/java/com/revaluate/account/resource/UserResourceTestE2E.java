@@ -22,6 +22,10 @@ import static junit.framework.Assert.assertEquals;
 
 public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
+    //-----------------------------------------------------------------
+    // Is email unique tests
+    //-----------------------------------------------------------------
+
     @Test
     public void emptyEmail() {
         WebTarget target = target("/account/isUniqueEmail");
@@ -65,6 +69,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
         // remove user
         removeUser(createdUserDTO.getId());
     }
+
+    //-----------------------------------------------------------------
+    // Create user tests
+    //-----------------------------------------------------------------
 
     @Test
     public void createUserWithInvalidEmail() {
@@ -116,17 +124,15 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
     @Test
     public void createUserWithValidDetails() {
-        UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-
-        WebTarget target = target("/account/create");
-        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
-
-        UserDTO createdUserDTO = response.readEntity(UserDTO.class);
+        UserDTO createdUserDTO = createUserGetCreatedUserDTO();
         MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
 
         removeUser(createdUserDTO.getId());
     }
+
+    //-----------------------------------------------------------------
+    // Remove user tests
+    //-----------------------------------------------------------------
 
     @Test
     public void removeNonAuthenticatedUser() {
@@ -156,24 +162,21 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
         }
     }
 
+    //-----------------------------------------------------------------
+    // Update password tests
+    //-----------------------------------------------------------------
+
     @Test
     public void updatePasswordWithMissingTwoJsonProperties() throws ParseException, JOSEException {
         // First, create a valid user - and account
-        UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-
-        WebTarget target = target("/account/create");
-        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
-
-        UserDTO createdUserDTO = response.readEntity(UserDTO.class);
+        UserDTO createdUserDTO = createUserGetCreatedUserDTO();
         MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
         String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
-
         // Real test - check the update password
-        response = target("/account/updatePassword").request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(new UpdatePasswordDTOBuilder().withNewPassword("x").build(), MediaType.APPLICATION_JSON_TYPE));
+        Response response = target("/account/updatePassword").request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(new UpdatePasswordDTOBuilder().withNewPassword("x").build(), MediaType.APPLICATION_JSON_TYPE));
         MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Set<String> violationsMessageTemplates = getValidationMessageTemplates(response);
@@ -188,13 +191,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     @Test
     public void updatePasswordWithUnProperOldPassword() throws ParseException, JOSEException {
         // First, create a valid user - and account
-        UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-
-        WebTarget target = target("/account/create");
-        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
-
-        UserDTO createdUserDTO = response.readEntity(UserDTO.class);
+        UserDTO createdUserDTO = createUserGetCreatedUserDTO();
         MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
         String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
         //-----------------------------------------------------------------
@@ -202,7 +199,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         // Real test - check the update password
         UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withOldPassword("1234567X").withNewPassword("999999999").withNewPasswordConfirmation("999999999").build();
-        response = target("/account/updatePassword")
+        Response response = target("/account/updatePassword")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + tokenForUserWithId)
                 .post(Entity.entity(updatePasswordDTO, MediaType.APPLICATION_JSON_TYPE));
@@ -220,13 +217,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     @Test
     public void updatePasswordWithProperOldPasswordButNewPasswordNotMatchingConfirmationPassword() throws ParseException, JOSEException {
         // First, create a valid user - and account
-        UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-
-        WebTarget target = target("/account/create");
-        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
-
-        UserDTO createdUserDTO = response.readEntity(UserDTO.class);
+        UserDTO createdUserDTO = createUserGetCreatedUserDTO();
         MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
         String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
         //-----------------------------------------------------------------
@@ -234,7 +225,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         // Real test - check the update password
         UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withOldPassword("1234567").withNewPassword("999999999").withNewPasswordConfirmation("999999999X").build();
-        response = target("/account/updatePassword")
+        Response response = target("/account/updatePassword")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + tokenForUserWithId)
                 .post(Entity.entity(updatePasswordDTO, MediaType.APPLICATION_JSON_TYPE));
@@ -251,14 +242,8 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
     @Test
     public void updatePasswordWorks() throws ParseException, JOSEException {
-        // First, create a valid user - and account
-        UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+        UserDTO createdUserDTO = createUserGetCreatedUserDTO();
 
-        WebTarget target = target("/account/create");
-        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
-
-        UserDTO createdUserDTO = response.readEntity(UserDTO.class);
         MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
         String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
         //-----------------------------------------------------------------
@@ -266,7 +251,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         // Real test - check the update password
         UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withOldPassword("1234567").withNewPassword("999999999").withNewPasswordConfirmation("999999999").build();
-        response = target("/account/updatePassword")
+        Response response = target("/account/updatePassword")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + tokenForUserWithId)
                 .post(Entity.entity(updatePasswordDTO, MediaType.APPLICATION_JSON_TYPE));
@@ -279,5 +264,58 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         // Lastly, remove the user
         removeUser(createdUserDTO.getId());
+    }
+
+    //-----------------------------------------------------------------
+    // Request reset password
+    //-----------------------------------------------------------------
+    @Test
+    public void requestResetPasswordWorks() throws ParseException, JOSEException {
+        UserDTO createdUserDTO = createUserGetCreatedUserDTO();
+
+        MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
+        //-----------------------------------------------------------------
+        //-----------------------------------------------------------------
+
+        // Real test - check the reset password
+        Response response = target("/account/resetPassword/" + createdUserDTO.getEmail())
+                .request().post(Entity.entity("", MediaType.APPLICATION_JSON_TYPE));
+
+        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
+
+        Answer answer = response.readEntity(Answer.class);
+        MatcherAssert.assertThat(answer, Matchers.is(Matchers.notNullValue()));
+        //-----------------------------------------------------------------
+        //-----------------------------------------------------------------
+
+        // Lastly, remove the user
+        removeUser(createdUserDTO.getId());
+    }
+
+    @Test
+    public void requestResetPasswordWithNonExistingEmail() throws ParseException, JOSEException {
+        Response response = target("/account/resetPassword/" + "xxxx@xxxx.xxxx")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .post(Entity.entity("", MediaType.APPLICATION_JSON_TYPE));
+
+        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+
+        Answer answer = response.readEntity(Answer.class);
+        MatcherAssert.assertThat(answer, Matchers.is(Matchers.notNullValue()));
+    }
+
+    //-----------------------------------------------------------------
+    // Common methods used
+    //-----------------------------------------------------------------
+
+    private UserDTO createUserGetCreatedUserDTO() {
+        // First, create a valid user - and account
+        UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+
+        WebTarget target = target("/account/create");
+        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
+        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
+
+        return response.readEntity(UserDTO.class);
     }
 }
