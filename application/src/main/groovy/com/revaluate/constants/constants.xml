@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<Constants>
+    <Constant name="Login" base="account" sub="/login"/>
+    <Constant name="Logout" base="account" sub="/logout"/>
+</Constants>
