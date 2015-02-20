@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
         User updatedUser = userRepository.save(foundUser);
         if (updatedUser != null) {
             UserDTO updatedUserDTO = new UserDTO();
-            BeanUtils.copyProperties(updatedUser, updatedUserDTO);
+            BeanUtils.copyProperties(updatedUser, updatedUserDTO, "password");
             return updatedUserDTO;
         }
 
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
 
         if (foundUser != null) {
             UserDTO foundUserDTO = new UserDTO();
-            BeanUtils.copyProperties(foundUser, foundUserDTO);
+            BeanUtils.copyProperties(foundUser, foundUserDTO, "password");
 
             return foundUserDTO;
         }
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
         if (updatedUser != null) {
 
             UserDTO updatedUserDTO = new UserDTO();
-            BeanUtils.copyProperties(updatedUser, updatedUserDTO);
+            BeanUtils.copyProperties(updatedUser, updatedUserDTO, "password");
 
             return updatedUserDTO;
         }
