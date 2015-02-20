@@ -303,5 +303,42 @@ public class UserServiceTestIT {
         userService.validateResetPasswordToken("xx@xx.xx", user.getResetEmailToken().getToken());
     }
 
+    @Test
+    public void testResetPasswordHappyFlow() throws Exception {
+        // Create a user
+        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
 
+        // Reset password
+        userService.requestResetPassword("xx@xx.xx");
+        User user = userRepository.findOne(userDTO.getId());
+
+        // reset password
+        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword("2345678").withPasswordConfirmation("2345678").build();
+        userService.resetPassword(resetPasswordDTO, "xx@xx.xx", user.getResetEmailToken().getToken());
+
+        // Try to login
+        LoginDTO loginDTO = new LoginDTOBuilder().withEmail("xx@xx.xx").withPassword("2345678").build();
+        userService.login(loginDTO);
+
+        User userWithUpdatedPassword = userRepository.findOne(userDTO.getId());
+        assertThat(userWithUpdatedPassword.getResetEmailToken(), is(nullValue()));
+    }
+
+    @Test(expected = UserException.class)
+    public void testResetPasswordInvalidTokenSentBack() throws Exception {
+        // Create a user
+        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
+
+        // Reset password
+        userService.requestResetPassword("xx@xx.xx");
+        User user = userRepository.findOne(userDTO.getId());
+
+        // reset password
+        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword("2345678").withPasswordConfirmation("2345678").build();
+        userService.resetPassword(resetPasswordDTO, "xx@xx.xx", user.getResetEmailToken().getToken() + "x");
+    }
 }

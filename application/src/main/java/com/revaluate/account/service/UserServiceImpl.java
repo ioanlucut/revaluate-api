@@ -1,6 +1,7 @@
 package com.revaluate.account.service;
 
 import com.revaluate.account.domain.LoginDTO;
+import com.revaluate.account.domain.ResetPasswordDTO;
 import com.revaluate.account.domain.UpdatePasswordDTO;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.exception.UserException;
@@ -170,12 +171,25 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!user.getResetEmailToken().getToken().equals(token)) {
-
-            // Invalidate current token
             user.setResetEmailToken(null);
             userRepository.save(user);
 
             throw new UserException("Token is invalid.");
         }
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordDTO resetPasswordDTO, String email, String token) throws UserException {
+        // Perform again the token validation
+        this.validateResetPasswordToken(email, token);
+
+        if (!resetPasswordDTO.getPassword().equals(resetPasswordDTO.getPasswordConfirmation())) {
+            throw new UserException("New password should match new password confirmation");
+        }
+
+        User existingUser = userRepository.findFirstByEmail(email);
+        existingUser.setResetEmailToken(null);
+        existingUser.setPassword(BCrypt.hashpw(resetPasswordDTO.getPassword(), BCrypt.gensalt()));
+        userRepository.save(existingUser);
     }
 }
