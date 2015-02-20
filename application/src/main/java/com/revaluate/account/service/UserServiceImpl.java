@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    protected static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -120,11 +120,11 @@ public class UserServiceImpl implements UserService {
 
         User existingUser = userRepository.findOne(currentUserId);
         if (existingUser == null) {
-            throw new UserNotFoundException("Invalid email or password");
+            throw new UserException("Invalid email or password");
         }
 
         if (!BCrypt.checkpw(updatePasswordDTO.getOldPassword(), existingUser.getPassword())) {
-            throw new UserNotFoundException("Current password is wrong");
+            throw new UserException("Current password is wrong");
         }
 
         existingUser.setPassword(BCrypt.hashpw(updatePasswordDTO.getNewPassword(), BCrypt.gensalt()));
@@ -142,13 +142,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO requestSignUpRegistration(String email) throws UserException {
+    public void requestResetPassword(String email) throws UserException {
         User user = userRepository.findFirstByEmail(email);
-        UserEmailToken emailToken = user.getEmailToken();
-        if (emailToken == null) {
-            user.setEmailToken(new UserEmailToken());
+        user.setResetEmailToken(new UserEmailToken());
+        user.getResetEmailToken().setToken(TokenGenerator.getGeneratedToken());
+        User updatedUser = userRepository.save(user);
+
+        if (updatedUser == null) {
+            throw new UserException("Error while trying reset password.");
         }
-        user.getEmailToken().setToken(TokenGenerator.getGeneratedToken());
+    }
+
+/*    @Override
+    public UserDTO signUp(String email) throws UserException {
+        User user = userRepository.findFirstByEmail(email);
+        UserEmailToken emailToken = user.getResetEmailToken();
+        if (emailToken == null) {
+            user.setResetEmailToken(new UserEmailToken());
+        }
+        user.getResetEmailToken().setToken(TokenGenerator.getGeneratedToken());
 
         User updatedUser = userRepository.save(user);
         if (updatedUser != null) {
@@ -160,5 +172,5 @@ public class UserServiceImpl implements UserService {
         }
 
         throw new UserException("Error while trying set a verification token.");
-    }
+    }*/
 }

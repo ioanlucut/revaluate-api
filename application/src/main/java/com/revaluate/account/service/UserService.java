@@ -21,5 +21,5 @@ public interface UserService<T> {
 
     UserDTO updatePassword(UpdatePasswordDTO updatePasswordDTO, int currentUserId) throws UserException;
 
-    UserDTO requestSignUpRegistration(String email) throws UserException;
+    void requestResetPassword(String email) throws UserException;
 }

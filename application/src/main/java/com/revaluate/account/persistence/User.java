@@ -45,13 +45,15 @@ public class User implements Serializable, Comparable<User> {
      */
     private boolean enabled;
 
+    private boolean initiated;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date registeredDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_email_token_id")
-    private UserEmailToken emailToken;
+    @JoinColumn(name = "reset_email_token_id")
+    private UserEmailToken resetEmailToken;
 
     @PrePersist
     void createdAt() {
@@ -106,6 +108,14 @@ public class User implements Serializable, Comparable<User> {
         this.enabled = enabled;
     }
 
+    public boolean isInitiated() {
+        return initiated;
+    }
+
+    public void setInitiated(boolean initiated) {
+        this.initiated = initiated;
+    }
+
     public Date getRegisteredDate() {
         return registeredDate != null ? new Date(registeredDate.getTime()) : null;
     }
@@ -116,12 +126,12 @@ public class User implements Serializable, Comparable<User> {
         }
     }
 
-    public UserEmailToken getEmailToken() {
-        return emailToken;
+    public UserEmailToken getResetEmailToken() {
+        return resetEmailToken;
     }
 
-    public void setEmailToken(UserEmailToken emailToken) {
-        this.emailToken = emailToken;
+    public void setResetEmailToken(UserEmailToken resetEmailToken) {
+        this.resetEmailToken = resetEmailToken;
     }
 
     @Override

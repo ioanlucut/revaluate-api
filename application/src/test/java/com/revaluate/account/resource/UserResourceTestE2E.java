@@ -283,7 +283,7 @@ public class UserResourceTestE2E extends AbstractResourceTest {
 
     @Test
     public void requestSignUpRegistrationWorks() throws ParseException, JOSEException {
-        Response response = target("/account/requestSignUpRegistration")
+        Response response = target("/account/signUp")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .post(Entity.entity("a@b.c", MediaType.APPLICATION_JSON_TYPE));
         MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));

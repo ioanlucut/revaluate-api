@@ -16,6 +16,8 @@ public class UserDTOBuilder
   protected boolean isSet$email$java$lang$String;
   protected String value$password$java$lang$String;
   protected boolean isSet$password$java$lang$String;
+  protected boolean value$initiated$boolean;
+  protected boolean isSet$initiated$boolean;
 
   /**
    * Creates a new {@link UserDTOBuilder}.
@@ -85,6 +87,18 @@ public class UserDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link UserDTO#initiated} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public UserDTOBuilder withInitiated(boolean value) {
+    this.value$initiated$boolean = value;
+    this.isSet$initiated$boolean = true;
+    return self;
+  }
+
+  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -131,6 +145,9 @@ public class UserDTOBuilder
       }
       if (isSet$password$java$lang$String) {
         result.setPassword(value$password$java$lang$String);
+      }
+      if (isSet$initiated$boolean) {
+        result.setInitiated(value$initiated$boolean);
       }
       return result;
     } catch (RuntimeException ex) {

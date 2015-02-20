@@ -5,8 +5,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 @GeneratePojoBuilder
@@ -29,6 +27,8 @@ public class UserDTO implements Serializable {
     @NotBlank
     @Size(min = 7)
     private String password;
+
+    private boolean initiated;
 
     public int getId() {
         return id;
@@ -68,5 +68,13 @@ public class UserDTO implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isInitiated() {
+        return initiated;
+    }
+
+    public void setInitiated(boolean initiated) {
+        this.initiated = initiated;
     }
 }
