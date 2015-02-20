@@ -4,6 +4,8 @@ import com.revaluate.account.domain.LoginDTO;
 import com.revaluate.account.domain.LoginDTOBuilder;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
+import com.revaluate.account.persistence.UserEmailToken;
+import com.revaluate.account.persistence.UserRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,10 +20,13 @@ import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/applicationContext.xml")
-public class UserServiceTest {
+public class UserServiceTestIT {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     private UserDTO userDTO;
 
@@ -119,5 +124,42 @@ public class UserServiceTest {
 
     @Test
     public void testUpdatePassword() throws Exception {
+    }
+
+    @Test
+    public void sendVerificationEmailToken() throws Exception {
+        // Create a user
+        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
+
+        UserDTO userDTOWithVerificationEmailTokenSent = userService.requestSignUpRegistration(userDTO.getEmail());
+
+        assertThat(userDTOWithVerificationEmailTokenSent, is(notNullValue()));
+        // email excluded
+        assertThat(userDTOWithVerificationEmailTokenSent.getEmail(), equalTo(userDTO.getEmail()));
+        assertThat(userDTOWithVerificationEmailTokenSent.getFirstName(), equalTo(userDTO.getFirstName()));
+        assertThat(userDTOWithVerificationEmailTokenSent.getLastName(), equalTo(userDTO.getLastName()));
+        assertThat(userDTOWithVerificationEmailTokenSent.getId(), not(equalTo(0)));
+        assertThat(userDTOWithVerificationEmailTokenSent.getId(), equalTo(userDTO.getId()));
+        assertThat(userDTOWithVerificationEmailTokenSent.getPassword(), not(equalTo(userDTO.getPassword())));
+    }
+
+    @Test
+    public void sendRequestEmailTokenWhileExistsOverrideTheFirstOne() throws Exception {
+        // Create a user
+        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
+
+        // First time
+        userService.requestSignUpRegistration(userDTO.getEmail());
+        UserEmailToken firstEmailToken = userRepository.findOne(userDTO.getId()).getEmailToken();
+
+        // Second time
+        userService.requestSignUpRegistration(userDTO.getEmail());
+        UserEmailToken secondEmailToken = userRepository.findOne(userDTO.getId()).getEmailToken();
+
+        assertThat(secondEmailToken.getToken(), not(equalTo(firstEmailToken.getToken())));
     }
 }

@@ -30,6 +30,7 @@ public class UserResource extends Resource {
     private static final String LOGIN_USER = "login";
     private static final String UPDATE_USER = "update";
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
+    private static final String REQUEST_SIGNUP_REGISTRATION = "requestSignUpRegistration";
     private static final String REMOVE_USER = "remove";
     private static final String USER_ID = "userId";
 
@@ -124,6 +125,21 @@ public class UserResource extends Resource {
     public Response updatePassword(@Valid UpdatePasswordDTO updatePasswordDTO) {
         try {
             UserDTO updatedUserDTO = userService.updatePassword(updatePasswordDTO, getCurrentUserId());
+
+            return Response.status(Response.Status.OK).entity(updatedUserDTO).build();
+        } catch (UserException ex) {
+            return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
+        }
+    }
+
+    @POST
+    @Public
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(REQUEST_SIGNUP_REGISTRATION)
+    public Response requestSignUpRegistration(@QueryParam(EMAIL) @NotBlank @Email String email) {
+        try {
+            UserDTO updatedUserDTO = userService.requestSignUpRegistration(email);
 
             return Response.status(Response.Status.OK).entity(updatedUserDTO).build();
         } catch (UserException ex) {

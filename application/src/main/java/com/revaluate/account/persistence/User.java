@@ -49,7 +49,7 @@ public class User implements Serializable, Comparable<User> {
     @Column(nullable = false)
     private Date registeredDate;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_email_token_id")
     private UserEmailToken emailToken;
 
