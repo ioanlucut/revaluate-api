@@ -20,7 +20,7 @@ import java.util.Set;
 
 import static junit.framework.Assert.assertEquals;
 
-public class UserResourceTestE2E extends AbstractResourceTest {
+public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
     @Test
     public void emptyEmail() {
