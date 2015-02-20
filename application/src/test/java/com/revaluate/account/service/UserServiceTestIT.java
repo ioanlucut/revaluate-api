@@ -2,7 +2,6 @@ package com.revaluate.account.service;
 
 import com.revaluate.account.domain.*;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.exception.UserNotFoundException;
 import com.revaluate.account.persistence.UserEmailToken;
 import com.revaluate.account.persistence.UserRepository;
 import org.junit.After;
@@ -211,7 +210,7 @@ public class UserServiceTestIT {
     }
 
     @Test
-    public void sendVerificationEmailTokenWhileExistsOverrideTheFirstOne() throws Exception {
+    public void requestResetPasswordFirstTokenOverriden() throws Exception {
         // Create a user
         userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
         UserDTO createdUserDTO = userService.create(userDTO);
@@ -226,5 +225,24 @@ public class UserServiceTestIT {
         UserEmailToken secondEmailToken = userRepository.findOne(userDTO.getId()).getResetEmailToken();
 
         assertThat(secondEmailToken.getToken(), not(equalTo(firstEmailToken.getToken())));
+    }
+
+    @Test
+    public void testRequestResetPasswordHappyFlow() throws Exception {
+        // Create a user
+        String oldPassword = "1234567";
+        String email = "xx@xx.xx";
+
+        userDTO = new UserDTOBuilder().withEmail(email).withFirstName("fn").withLastName("ln").withPassword(oldPassword).build();
+        UserDTO createdUserDTO = userService.create(userDTO);
+        userDTO.setId(createdUserDTO.getId());
+
+        // Reset password
+        userService.requestResetPassword(email);
+    }
+
+    @Test(expected = UserException.class)
+    public void testRequestResetPasswordInExistingUser() throws Exception {
+        userService.requestResetPassword("abcdefg@xx.com");
     }
 }

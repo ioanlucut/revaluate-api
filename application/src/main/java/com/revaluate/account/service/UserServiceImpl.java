@@ -144,33 +144,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public void requestResetPassword(String email) throws UserException {
         User user = userRepository.findFirstByEmail(email);
-        user.setResetEmailToken(new UserEmailToken());
-        user.getResetEmailToken().setToken(TokenGenerator.getGeneratedToken());
+        if (user == null) {
+            throw new UserException("No matching of this email");
+        }
+        UserEmailToken resetEmailToken = new UserEmailToken();
+        resetEmailToken.setToken(TokenGenerator.getGeneratedToken());
+        user.setResetEmailToken(resetEmailToken);
+
         User updatedUser = userRepository.save(user);
 
         if (updatedUser == null) {
-            throw new UserException("Error while trying reset password.");
+            throw new UserException("Error while trying to reset password.");
         }
     }
-
-/*    @Override
-    public UserDTO signUp(String email) throws UserException {
-        User user = userRepository.findFirstByEmail(email);
-        UserEmailToken emailToken = user.getResetEmailToken();
-        if (emailToken == null) {
-            user.setResetEmailToken(new UserEmailToken());
-        }
-        user.getResetEmailToken().setToken(TokenGenerator.getGeneratedToken());
-
-        User updatedUser = userRepository.save(user);
-        if (updatedUser != null) {
-
-            UserDTO updatedUserDTO = new UserDTO();
-            BeanUtils.copyProperties(updatedUser, updatedUserDTO);
-
-            return updatedUserDTO;
-        }
-
-        throw new UserException("Error while trying set a verification token.");
-    }*/
 }
