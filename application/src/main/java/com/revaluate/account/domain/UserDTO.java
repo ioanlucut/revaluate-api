@@ -1,11 +1,14 @@
 package com.revaluate.account.domain;
 
+import com.revaluate.category.domain.CategoryDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @GeneratePojoBuilder
 public class UserDTO implements Serializable {
@@ -29,6 +32,8 @@ public class UserDTO implements Serializable {
     private String password;
 
     private boolean initiated;
+
+    private List<CategoryDTO> categories = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -76,5 +81,13 @@ public class UserDTO implements Serializable {
 
     public void setInitiated(boolean initiated) {
         this.initiated = initiated;
+    }
+
+    public List<CategoryDTO> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryDTO> categories) {
+        this.categories = categories;
     }
 }

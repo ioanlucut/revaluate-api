@@ -1,0 +1,52 @@
+package com.revaluate.category.service;
+
+import com.revaluate.account.persistence.User;
+import com.revaluate.account.persistence.UserRepository;
+import com.revaluate.category.domain.CategoryDTO;
+import com.revaluate.category.exception.CategoryException;
+import com.revaluate.category.persistence.Category;
+import com.revaluate.category.persistence.CategoryRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CategoryServiceImpl implements CategoryService {
+    protected static final Logger LOGGER = LoggerFactory.getLogger(CategoryService.class);
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    public CategoryDTO create(CategoryDTO categoryDTO, int userId) throws CategoryException {
+        if (!categoryRepository.findByName(categoryDTO.getName()).isEmpty()) {
+            throw new CategoryException("Name is not unique");
+        }
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryDTO, category);
+
+        User foundUser = userRepository.findOne(userId);
+        category.setUser(foundUser);
+
+        Category savedCategory = categoryRepository.save(category);
+
+        if (savedCategory != null) {
+            CategoryDTO savedCategoryDTO = new CategoryDTO();
+            BeanUtils.copyProperties(savedCategory, savedCategoryDTO);
+
+            return savedCategoryDTO;
+        }
+
+        throw new CategoryException("Could not create category.");
+    }
+
+    @Override
+    public void remove(int categoryId, int userId) {
+        categoryRepository.delete(categoryId);
+    }
+}

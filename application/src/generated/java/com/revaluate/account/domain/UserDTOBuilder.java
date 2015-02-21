@@ -1,5 +1,7 @@
 package com.revaluate.account.domain;
 
+import com.revaluate.category.domain.CategoryDTO;
+import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -18,6 +20,8 @@ public class UserDTOBuilder
   protected boolean isSet$password$java$lang$String;
   protected boolean value$initiated$boolean;
   protected boolean isSet$initiated$boolean;
+  protected List<CategoryDTO> value$categories$java$util$List;
+  protected boolean isSet$categories$java$util$List;
 
   /**
    * Creates a new {@link UserDTOBuilder}.
@@ -99,6 +103,18 @@ public class UserDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link UserDTO#categories} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public UserDTOBuilder withCategories(List<CategoryDTO> value) {
+    this.value$categories$java$util$List = value;
+    this.isSet$categories$java$util$List = true;
+    return self;
+  }
+
+  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -148,6 +164,9 @@ public class UserDTOBuilder
       }
       if (isSet$initiated$boolean) {
         result.setInitiated(value$initiated$boolean);
+      }
+      if (isSet$categories$java$util$List) {
+        result.setCategories(value$categories$java$util$List);
       }
       return result;
     } catch (RuntimeException ex) {
