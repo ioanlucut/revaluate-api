@@ -259,6 +259,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${maven.jacocco.plugin.version}</version>
                 <configuration>
                     <includes>
                         <include>com/revaluate/**</include>
