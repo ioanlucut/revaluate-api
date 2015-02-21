@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+// [UnitOfWork_StateUnderTest_ExpectedBehavior]
+// public void Sum_NegativeNumberAs1stParam_ExceptionThrown()
 public class AbstractResourceTestEndToEnd extends JerseyTest {
 
     protected static final String JWT_ISSUER_TEST = "http://revaluate.io";

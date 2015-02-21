@@ -1,5 +1,14 @@
 <?xml version="1.0"?>
 <Constants>
+    <Constant name="Account" base="account" sub=""/>
+    <Constant name="Is unique email" base="account" sub="/isUniqueEmail"/>
+    <Constant name="Create" base="account" sub="/create"/>
     <Constant name="Login" base="account" sub="/login"/>
-    <Constant name="Logout" base="account" sub="/logout"/>
+    <Constant name="Details" base="account" sub="/details"/>
+    <Constant name="Update" base="account" sub="/update"/>
+    <Constant name="Cancel" base="account" sub="/remove"/>
+    <Constant name="Update password" base="account" sub="/updatePassword"/>
+    <Constant name="Request reset password" base="account" sub="/requestResetPassword/{email}"/>
+    <Constant name="Validate reset password token" base="account" sub="/validateResetPasswordToken/{email}/{token}"/>
+    <Constant name="Reset password" base="account" sub="/resetPassword/{email}/{token}"/>
 </Constants>

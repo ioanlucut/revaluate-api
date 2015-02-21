@@ -27,28 +27,28 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     //-----------------------------------------------------------------
 
     @Test
-    public void emptyEmail() {
+    public void isUniqueEmail_emptyEmail_badResponseReceived() {
         WebTarget target = target("/account/isUniqueEmail");
         Response response = target.request().get();
         MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
     }
 
     @Test
-    public void invalidEmail() {
+    public void isUniqueEmail_invalidEmail_badResponseReceived() {
         WebTarget target = target("/account/isUniqueEmail");
         Response response = target.queryParam("email", "invalidEmail").request().get();
         MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
     }
 
     @Test
-    public void validEmail() {
+    public void isUniqueEmail_validEmail_okReceived() {
         WebTarget target = target("/account/isUniqueEmail");
         Response response = target.queryParam("email", "abcd@efgh.acsd").request().get();
         MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
     }
 
     @Test
-    public void validEmailButNotUnique() {
+    public void isUniqueEmail_validEmailButNotUnique_badResponseReceived() {
         UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
 
         WebTarget target = target("/account/create");
@@ -75,7 +75,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     //-----------------------------------------------------------------
 
     @Test
-    public void createUserWithInvalidEmail() {
+    public void create_invalidEmail_badResponseReceived() {
         UserDTO userDTO = new UserDTOBuilder().withEmail("xxx").build();
 
         WebTarget target = target("/account/create");
@@ -87,7 +87,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     }
 
     @Test
-    public void createUserWithInvalidPassword() {
+    public void create_invalidPassword_badResponseReceived() {
         UserDTO userDTO = new UserDTOBuilder().withEmail("a@b.c").withFirstName("aaaaaaa").withLastName("asdadsadsa").build();
 
         WebTarget target = target("/account/create");
@@ -99,7 +99,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     }
 
     @Test
-    public void createUserWithInvalidFirstName() {
+    public void create_invalidFirstName_badResponseReceived() {
         UserDTO userDTO = new UserDTOBuilder().withEmail("a@b.c").withLastName("asdadsadsa").withPassword("aaaaaaaaaaa").build();
 
         WebTarget target = target("/account/create");
@@ -111,7 +111,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     }
 
     @Test
-    public void createUserWithInvalidLastName() {
+    public void create_invalidLastName_badResponseReceived() {
         UserDTO userDTO = new UserDTOBuilder().withEmail("a@b.c").withFirstName("asdadsadsa").withPassword("aaaaaaaaaaa").build();
 
         WebTarget target = target("/account/create");
@@ -123,7 +123,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     }
 
     @Test
-    public void createUserWithValidDetails() {
+    public void create_validDetails_okResponseReceived() {
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
         MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
 
@@ -135,13 +135,13 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     //-----------------------------------------------------------------
 
     @Test
-    public void removeNonAuthenticatedUser() {
+    public void remove_nonAuthenticatedUser_unauthorizedResponseReceived() {
         Response response = target("/account/remove").request().delete();
         assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
     }
 
     @Test
-    public void removeNonExistingUserWithValidToken() {
+    public void remove_nonExistingUserWithValidToken_unauthorizedResponseReceived() {
         int id = 999999;
         try {
             String tokenForUserWithId = jwtService.createTokenForUserWithId(id);
@@ -152,22 +152,12 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
         }
     }
 
-    private void removeUser(int id) {
-        try {
-            String tokenForUserWithId = jwtService.createTokenForUserWithId(id);
-            Response delete = target("/account/remove").request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
-            assertEquals(Response.Status.OK.getStatusCode(), delete.getStatus());
-        } catch (JOSEException | ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
     //-----------------------------------------------------------------
     // Update password tests
     //-----------------------------------------------------------------
 
     @Test
-    public void updatePasswordWithMissingTwoJsonProperties() throws ParseException, JOSEException {
+    public void updatePassword_withMissingTwoJsonProperties_badResponseReceived() throws ParseException, JOSEException {
         // First, create a valid user - and account
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
         MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
@@ -189,7 +179,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     }
 
     @Test
-    public void updatePasswordWithUnProperOldPassword() throws ParseException, JOSEException {
+    public void updatePassword_withUnProperOldPassword_badResponseReceived() throws ParseException, JOSEException {
         // First, create a valid user - and account
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
         MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
@@ -215,7 +205,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     }
 
     @Test
-    public void updatePasswordWithProperOldPasswordButNewPasswordNotMatchingConfirmationPassword() throws ParseException, JOSEException {
+    public void updatePassword_withProperOldPasswordButNewPasswordNotMatchingConfirmationPassword_badResponseReceived() throws ParseException, JOSEException {
         // First, create a valid user - and account
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
         MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
@@ -241,7 +231,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     }
 
     @Test
-    public void updatePasswordWorks() throws ParseException, JOSEException {
+    public void updatePassword_withProperDetails_okResponseReceived() throws ParseException, JOSEException {
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
 
         MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
@@ -270,7 +260,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     // Request reset password
     //-----------------------------------------------------------------
     @Test
-    public void requestResetPasswordWorks() throws ParseException, JOSEException {
+    public void requestResetPassword_withProperDetails_okResponseReceived() throws ParseException, JOSEException {
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
 
         MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
@@ -278,7 +268,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
         //-----------------------------------------------------------------
 
         // Real test - check the reset password
-        Response response = target("/account/resetPassword/" + createdUserDTO.getEmail())
+        Response response = target("/account/requestResetPassword/" + createdUserDTO.getEmail())
                 .request().post(Entity.entity("", MediaType.APPLICATION_JSON_TYPE));
 
         MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
@@ -293,8 +283,8 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     }
 
     @Test
-    public void requestResetPasswordWithNonExistingEmail() throws ParseException, JOSEException {
-        Response response = target("/account/resetPassword/" + "xxxx@xxxx.xxxx")
+    public void requestResetPassword_withNonExistingEmail_okResponseReceived() throws ParseException, JOSEException {
+        Response response = target("/account/requestResetPassword/" + "xxxx@xxxx.xxxx")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .post(Entity.entity("", MediaType.APPLICATION_JSON_TYPE));
 
@@ -317,5 +307,15 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
         MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
 
         return response.readEntity(UserDTO.class);
+    }
+
+    private void removeUser(int id) {
+        try {
+            String tokenForUserWithId = jwtService.createTokenForUserWithId(id);
+            Response delete = target("/account/remove").request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
+            assertEquals(Response.Status.OK.getStatusCode(), delete.getStatus());
+        } catch (JOSEException | ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
