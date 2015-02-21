@@ -8,7 +8,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class MessageBodyProviderNotFoundMapper implements ExceptionMapper<MessageBodyProviderNotFoundException> {
+public class MessageBodyProviderNotFoundExceptionMapper implements ExceptionMapper<MessageBodyProviderNotFoundException> {
 
     public Response toResponse(MessageBodyProviderNotFoundException ex) {
 

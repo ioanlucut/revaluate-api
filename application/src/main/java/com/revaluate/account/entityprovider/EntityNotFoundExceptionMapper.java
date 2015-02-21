@@ -8,7 +8,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class EntityNotFoundMapper implements ExceptionMapper<EntityNotFoundException> {
+public class EntityNotFoundExceptionMapper implements ExceptionMapper<EntityNotFoundException> {
 
     public Response toResponse(javax.persistence.EntityNotFoundException ex) {
 
