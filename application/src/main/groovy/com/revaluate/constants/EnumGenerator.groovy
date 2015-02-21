@@ -24,9 +24,13 @@ attributesCtorSetters = new StringBuilder();
 attributes.each
         {
             attributesSection << generateAttributeDeclaration(it.key, it.value)
-            attributesAccessors << buildAccessor(it.key, it.value) << NEW_LINE
             attributesCtorSetters << buildConstructorAssignments(it.key)
         }
+
+// Last attribute - URI
+attributesSection << generateAttributeDeclaration("uri", "String")
+attributesCtorSetters << buildConstructorAssignments("uri")
+
 outputFile << attributesSection
 outputFile << NEW_LINE
 
@@ -47,7 +51,7 @@ def String generateEnumConstants() {
                 enumConstants << it.@base.toString().replace(' ', '_').toUpperCase()
                 enumConstants << '_'
                 enumConstants << it.@name.toString().replace(' ', '_').toUpperCase()
-                enumConstants << "(\"${it.@name}\", \"${it.@base}\", \"${it.@path}\", \"${it.@path}\\\"),"
+                enumConstants << "(\"${it.@name}\", \"${it.@base}\", \"${it.@sub}\", \"${it.@base}${it.@sub}\"),"
                 enumConstants << NEW_LINE
             }
     // Subtract three off end of substring: one for new line, one for extra comma,
@@ -58,7 +62,7 @@ def String generateEnumConstants() {
 }
 
 def String generateAttributeDeclaration(String attrName, String attrType) {
-    return "${SINGLE_INDENT}private ${attrType} ${attrName};${NEW_LINE}"
+    return "${SINGLE_INDENT}public final ${attrType} ${attrName};${NEW_LINE}"
 }
 
 def String buildAccessor(String attrName, String attrType) {
@@ -77,6 +81,7 @@ def String generateParameterizedConstructor(Map<String, String> attributesMap) {
             {
                 constructorInit << "final ${it.value} new${capitalizeFirstLetter(it.key)}, "
             }
+            constructorInit << "final String new${capitalizeFirstLetter("uri")}, "
     constructorFinal = new StringBuilder(constructorInit.substring(0, constructorInit.size() - 2))
     constructorFinal << ')'
     constructorFinal << NEW_LINE << SINGLE_INDENT << '{' << NEW_LINE
