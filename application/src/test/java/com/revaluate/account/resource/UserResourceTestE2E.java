@@ -7,8 +7,6 @@ import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
 import com.revaluate.core.resource.Answer;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import javax.ws.rs.client.Entity;
@@ -18,7 +16,8 @@ import javax.ws.rs.core.Response;
 import java.text.ParseException;
 import java.util.Set;
 
-import static junit.framework.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
@@ -30,21 +29,21 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     public void isUniqueEmail_emptyEmail_badResponseReceived() {
         WebTarget target = target("/account/isUniqueEmail");
         Response response = target.request().get();
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
     }
 
     @Test
     public void isUniqueEmail_invalidEmail_badResponseReceived() {
         WebTarget target = target("/account/isUniqueEmail");
         Response response = target.queryParam("email", "invalidEmail").request().get();
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
     }
 
     @Test
     public void isUniqueEmail_validEmail_okReceived() {
         WebTarget target = target("/account/isUniqueEmail");
         Response response = target.queryParam("email", "abcd@efgh.acsd").request().get();
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
     }
 
     @Test
@@ -53,18 +52,18 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
 
         UserDTO createdUserDTO = response.readEntity(UserDTO.class);
-        MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
+        assertThat(createdUserDTO.getId(), notNullValue());
 
         // check if is unique email
         target = target("/account/isUniqueEmail");
         response = target.queryParam("email", userDTO.getEmail()).request().get();
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        MatcherAssert.assertThat(answer, Matchers.is(Matchers.notNullValue()));
+        assertThat(answer, is(notNullValue()));
 
         // remove user
         removeUser(createdUserDTO.getId());
@@ -80,10 +79,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Set<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-        assertEquals(2, violationsMessageTemplates.size());
+        assertThat(violationsMessageTemplates.size(), is(2));
     }
 
     @Test
@@ -92,10 +91,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Set<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-        assertEquals(1, violationsMessageTemplates.size());
+        assertThat(violationsMessageTemplates.size(), is(1));
     }
 
     @Test
@@ -104,10 +103,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Set<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-        assertEquals(1, violationsMessageTemplates.size());
+        assertThat(violationsMessageTemplates.size(), is(1));
     }
 
     @Test
@@ -116,16 +115,16 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Set<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-        assertEquals(1, violationsMessageTemplates.size());
+        assertThat(violationsMessageTemplates.size(), is(1));
     }
 
     @Test
     public void create_validDetails_okResponseReceived() {
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
-        MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
+        assertThat(createdUserDTO.getId(), notNullValue());
 
         removeUser(createdUserDTO.getId());
     }
@@ -137,7 +136,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     @Test
     public void remove_nonAuthenticatedUser_unauthorizedResponseReceived() {
         Response response = target("/account/remove").request().delete();
-        assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
+        assertThat(Response.Status.UNAUTHORIZED.getStatusCode(), is(equalTo(response.getStatus())));
     }
 
     @Test
@@ -145,8 +144,8 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
         int id = 999999;
         try {
             String tokenForUserWithId = jwtService.createTokenForUserWithId(id);
-            Response delete = target("/account/remove").request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
-            assertEquals(Response.Status.UNAUTHORIZED.getStatusCode(), delete.getStatus());
+            Response response = target("/account/remove").request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
+            assertThat(Response.Status.UNAUTHORIZED.getStatusCode(), is(equalTo(response.getStatus())));
         } catch (JOSEException | ParseException e) {
             e.printStackTrace();
         }
@@ -160,17 +159,17 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     public void updatePassword_withMissingTwoJsonProperties_badResponseReceived() throws ParseException, JOSEException {
         // First, create a valid user - and account
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
-        MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
+        assertThat(createdUserDTO.getId(), notNullValue());
         String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
         // Real test - check the update password
         Response response = target("/account/updatePassword").request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(new UpdatePasswordDTOBuilder().withNewPassword("x").build(), MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Set<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-        assertEquals(2, violationsMessageTemplates.size());
+        assertThat(violationsMessageTemplates.size(), is(2));
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
@@ -182,7 +181,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     public void updatePassword_withUnProperOldPassword_badResponseReceived() throws ParseException, JOSEException {
         // First, create a valid user - and account
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
-        MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
+        assertThat(createdUserDTO.getId(), notNullValue());
         String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
@@ -193,10 +192,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + tokenForUserWithId)
                 .post(Entity.entity(updatePasswordDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        MatcherAssert.assertThat(answer, Matchers.is(Matchers.notNullValue()));
+        assertThat(answer, is(notNullValue()));
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
@@ -208,7 +207,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     public void updatePassword_withProperOldPasswordButNewPasswordNotMatchingConfirmationPassword_badResponseReceived() throws ParseException, JOSEException {
         // First, create a valid user - and account
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
-        MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
+        assertThat(createdUserDTO.getId(), notNullValue());
         String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
@@ -219,10 +218,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + tokenForUserWithId)
                 .post(Entity.entity(updatePasswordDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        MatcherAssert.assertThat(answer, Matchers.is(Matchers.notNullValue()));
+        assertThat(answer, is(notNullValue()));
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
@@ -234,7 +233,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     public void updatePassword_withProperDetails_okResponseReceived() throws ParseException, JOSEException {
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
 
-        MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
+        assertThat(createdUserDTO.getId(), notNullValue());
         String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
@@ -245,10 +244,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + tokenForUserWithId)
                 .post(Entity.entity(updatePasswordDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        MatcherAssert.assertThat(answer, Matchers.is(Matchers.notNullValue()));
+        assertThat(answer, is(notNullValue()));
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
@@ -263,7 +262,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     public void requestResetPassword_withProperDetails_okResponseReceived() throws ParseException, JOSEException {
         UserDTO createdUserDTO = createUserGetCreatedUserDTO();
 
-        MatcherAssert.assertThat(createdUserDTO.getId(), Matchers.notNullValue());
+        assertThat(createdUserDTO.getId(), notNullValue());
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
@@ -271,10 +270,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
         Response response = target("/account/requestResetPassword/" + createdUserDTO.getEmail())
                 .request().post(Entity.entity("", MediaType.APPLICATION_JSON_TYPE));
 
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        MatcherAssert.assertThat(answer, Matchers.is(Matchers.notNullValue()));
+        assertThat(answer, is(notNullValue()));
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
@@ -288,10 +287,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .post(Entity.entity("", MediaType.APPLICATION_JSON_TYPE));
 
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        MatcherAssert.assertThat(answer, Matchers.is(Matchers.notNullValue()));
+        assertThat(answer, is(notNullValue()));
     }
 
     //-----------------------------------------------------------------
@@ -304,7 +303,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        MatcherAssert.assertThat(response.getStatus(), Matchers.is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
 
         return response.readEntity(UserDTO.class);
     }
@@ -312,8 +311,8 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     private void removeUser(int id) {
         try {
             String tokenForUserWithId = jwtService.createTokenForUserWithId(id);
-            Response delete = target("/account/remove").request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
-            assertEquals(Response.Status.OK.getStatusCode(), delete.getStatus());
+            Response response = target("/account/remove").request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
+            assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
         } catch (JOSEException | ParseException e) {
             e.printStackTrace();
         }

@@ -1,7 +1,6 @@
 package com.revaluate.core;
 
 import com.revaluate.core.bootstrap.ConfigProperties;
-import junit.framework.Assert;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,6 +10,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring-config.application/spring-context-application.xml")
@@ -32,10 +35,11 @@ public class ConfigPropertiesDevTestIT {
     @Test
     @DirtiesContext(hierarchyMode = DirtiesContext.HierarchyMode.CURRENT_LEVEL)
     public void configPropertiesWorks() {
-        Assert.assertNotNull(configProperties);
-        Assert.assertFalse(configProperties.isProduction());
-        Assert.assertNotNull(configProperties.getAuthTokenHeaderKey());
-        Assert.assertNotNull(configProperties.getIssuer());
-        Assert.assertNotNull(configProperties.getShared());
+        assertThat(configProperties, is(notNullValue()));
+        assertThat(configProperties.isProduction(), is(false));
+
+        assertThat(configProperties.getAuthTokenHeaderKey(), is(notNullValue()));
+        assertThat(configProperties.getIssuer(), is(notNullValue()));
+        assertThat(configProperties.getShared(), is(notNullValue()));
     }
 }
