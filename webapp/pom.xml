@@ -26,39 +26,6 @@
         <buildtime>${maven.build.timestamp}</buildtime>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>conn2local</id>
-            <properties>
-                <restApiRootUrl>http://localhost:8080/restapi/v2/</restApiRootUrl>
-            </properties>
-        </profile>
-        <profile>
-            <id>conn2dev</id>
-            <properties>
-                <restApiRootUrl>http://api-dev.revaluate.io/restapi/v2/</restApiRootUrl>
-            </properties>
-        </profile>
-        <profile>
-            <id>conn2uat</id>
-            <properties>
-                <restApiRootUrl>http://api-uat.revaluate.io/restapi/v2/</restApiRootUrl>
-            </properties>
-        </profile>
-        <profile>
-            <id>conn2st</id>
-            <properties>
-                <restApiRootUrl>http://api-st.revaluate.io/restapi/v2/</restApiRootUrl>
-            </properties>
-        </profile>
-        <profile>
-            <id>conn2prod</id>
-            <properties>
-                <restApiRootUrl>http://api.revaluate.io/restapi/v2/</restApiRootUrl>
-            </properties>
-        </profile>
-    </profiles>
-
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -90,8 +57,9 @@
     <build>
         <finalName>revaluate</finalName>
 
-        <!--War plugin-->
         <plugins>
+
+            <!--War plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -113,7 +81,7 @@
                 </configuration>
             </plugin>
 
-            <!--ANT plugin in order to generate sources-->
+            <!--ANT plugin in order to generate the realease.info file-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -136,7 +104,7 @@
                 </executions>
             </plugin>
 
-            <!--Clean plugin-->
+            <!--Clean plugin - removes the release.info file-->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>2.5</version>
@@ -153,6 +121,40 @@
             </plugin>
         </plugins>
     </build>
+
+    <!--Profiles containing the root url's-->
+    <profiles>
+        <profile>
+            <id>conn2local</id>
+            <properties>
+                <restApiRootUrl>http://localhost:8080</restApiRootUrl>
+            </properties>
+        </profile>
+        <profile>
+            <id>conn2dev</id>
+            <properties>
+                <restApiRootUrl>http://api-dev.revaluate.io</restApiRootUrl>
+            </properties>
+        </profile>
+        <profile>
+            <id>conn2uat</id>
+            <properties>
+                <restApiRootUrl>http://api-uat.revaluate.io</restApiRootUrl>
+            </properties>
+        </profile>
+        <profile>
+            <id>conn2st</id>
+            <properties>
+                <restApiRootUrl>http://api-st.revaluate.io</restApiRootUrl>
+            </properties>
+        </profile>
+        <profile>
+            <id>conn2prod</id>
+            <properties>
+                <restApiRootUrl>http://api.revaluate.io</restApiRootUrl>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
 

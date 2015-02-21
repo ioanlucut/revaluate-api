@@ -68,8 +68,8 @@ public class JwtService {
         SignedJWT signedJWT;
         try {
             signedJWT = SignedJWT.parse(token);
-        } catch (ParseException e) {
-            throw new JwtException("The jwt is invalid");
+        } catch (ParseException ex) {
+            throw new JwtException("The jwt is invalid", ex);
         }
 
         JWSVerifier verifier = new MACVerifier(configProperties.getShared());
@@ -79,20 +79,20 @@ public class JwtService {
             if (!isValid) {
                 throw new JwtException("Jwt is not valid");
             }
-        } catch (JOSEException e) {
-            throw new JwtException("Jwt could not be verified");
+        } catch (JOSEException ex) {
+            throw new JwtException("Jwt could not be verified", ex);
         }
         String subject;
         try {
             subject = signedJWT.getJWTClaimsSet().getSubject();
-        } catch (ParseException e) {
-            throw new JwtException("Subject could not be obtained");
+        } catch (ParseException ex) {
+            throw new JwtException("Subject could not be obtained", ex);
         }
 
         try {
             return Integer.parseInt(subject);
         } catch (NumberFormatException ex) {
-            throw new JwtException("Subject could not be parsed");
+            throw new JwtException("Subject could not be parsed", ex);
         }
     }
 
@@ -100,7 +100,7 @@ public class JwtService {
         try {
             return createTokenForUserWithId(id);
         } catch (JOSEException | ParseException ex) {
-            throw new UserException("Invalid email or password");
+            throw new UserException("Invalid email or password", ex);
         }
     }
 }
