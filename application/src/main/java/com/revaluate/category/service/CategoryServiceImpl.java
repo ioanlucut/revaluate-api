@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
+
     protected static final Logger LOGGER = LoggerFactory.getLogger(CategoryService.class);
 
     @Autowired
@@ -21,6 +22,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Override
+    public boolean isUnique(String name) {
+        return categoryRepository.findByName(name).isEmpty();
+    }
 
     @Override
     public CategoryDTO create(CategoryDTO categoryDTO, int userId) throws CategoryException {
@@ -46,7 +52,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void remove(int categoryId, int userId) {
-        categoryRepository.delete(categoryId);
+    public void remove(int categoryId, int userId) throws CategoryException {
+        if (categoryRepository.exists(categoryId)) {
+            Category foundCategory = categoryRepository.findOne(categoryId);
+
+            if (foundCategory.getUser().getId() != userId) {
+                throw new CategoryException("Not authorized");
+            }
+
+            categoryRepository.delete(categoryId);
+        } else {
+            throw new CategoryException("No category found with the given id");
+        }
+
     }
 }

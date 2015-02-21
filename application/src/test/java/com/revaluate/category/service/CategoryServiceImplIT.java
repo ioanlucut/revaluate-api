@@ -56,6 +56,27 @@ public class CategoryServiceImplIT {
     }
 
     @Test
+    public void isUniqueName_validName_ok() throws Exception {
+        assertThat(categoryService.isUnique("name"), is(true));
+    }
+
+    @Test
+    public void isUniqueName_existingName_exceptionThrown() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        assertThat(categoryService.isUnique("name"), is(false));
+    }
+
+    @Test
     public void create_validDetails_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create user
@@ -181,6 +202,25 @@ public class CategoryServiceImplIT {
 
         assertThat(user, is(notNullValue()));
         assertThat(user.getCategories().size(), is(equalTo(0)));
+    }
+
+    @Test(expected = CategoryException.class)
+    public void remove_categoryInvalid_exceptionThrown() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category 1
+        //-----------------------------------------------------------------
+        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Remove invalid category id
+        //-----------------------------------------------------------------
+        categoryService.remove(99999, createdUserDTO.getId());
     }
 
     @Test
