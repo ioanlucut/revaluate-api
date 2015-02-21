@@ -1,9 +1,15 @@
 package com.revaluate.account.persistence;
 
+import com.revaluate.category.persistence.Category;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @SequenceGenerator(name = User.SEQ_GENERATOR_NAME, sequenceName = User.SEQ_NAME, initialValue = User.SEQ_INITIAL_VALUE, allocationSize = User.ALLOCATION_SIZE)
@@ -54,6 +60,10 @@ public class User implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "reset_email_token_id")
     private UserEmailToken resetEmailToken;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Category> categories = new ArrayList<>();
 
     @PrePersist
     void createdAt() {
@@ -134,4 +144,11 @@ public class User implements Serializable {
         this.resetEmailToken = resetEmailToken;
     }
 
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 }
