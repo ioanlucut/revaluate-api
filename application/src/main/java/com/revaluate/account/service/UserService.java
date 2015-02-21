@@ -6,7 +6,7 @@ import com.revaluate.account.domain.UpdatePasswordDTO;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.exception.UserException;
 
-public interface UserService<T> {
+public interface UserService {
 
     boolean isUnique(String email);
 
