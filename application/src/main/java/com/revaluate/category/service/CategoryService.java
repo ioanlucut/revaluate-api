@@ -9,5 +9,7 @@ public interface CategoryService {
 
     CategoryDTO create(CategoryDTO categoryDTO, int userId) throws CategoryException;
 
+    CategoryDTO update(CategoryDTO categoryDTO, int userId) throws CategoryException;
+
     void remove(int categoryId, int userId) throws CategoryException;
 }

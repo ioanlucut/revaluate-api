@@ -165,6 +165,93 @@ public class CategoryServiceImplIT {
     }
 
     @Test
+    public void update_validDetails_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create category updated DTO with same ID as previous
+        //-----------------------------------------------------------------
+        CategoryDTO categoryToUpdateDTO = new CategoryDTOBuilder().withId(createdCategoryDTO.getId()).withColor("#fff").withName("noname").build();
+
+        //-----------------------------------------------------------------
+        // Update the category
+        //-----------------------------------------------------------------
+        CategoryDTO updatedCategoryDTO = categoryService.update(categoryToUpdateDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Assertions
+        //-----------------------------------------------------------------
+        assertThat(updatedCategoryDTO, is(notNullValue()));
+        assertThat(updatedCategoryDTO.getColor(), not(equalTo(createdCategoryDTO.getColor())));
+        assertThat(updatedCategoryDTO.getColor(), is(equalTo(categoryToUpdateDTO.getColor())));
+
+        assertThat(updatedCategoryDTO.getName(), not(equalTo(createdCategoryDTO.getName())));
+        assertThat(updatedCategoryDTO.getName(), is(equalTo(categoryToUpdateDTO.getName())));
+        assertThat(updatedCategoryDTO.getId(), not(equalTo(0)));
+        assertThat(updatedCategoryDTO.getId(), equalTo(createdCategoryDTO.getId()));
+    }
+
+    @Test(expected = CategoryException.class)
+    public void update_inValidCategoryId_throwsException() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category updated DTO with same ID as previous
+        //-----------------------------------------------------------------
+        CategoryDTO categoryToUpdateDTO = new CategoryDTOBuilder().withId(99999).withColor("#fff").withName("noname").build();
+
+        //-----------------------------------------------------------------
+        // Update the category
+        //-----------------------------------------------------------------
+        categoryService.update(categoryToUpdateDTO, createdUserDTO.getId());
+    }
+
+    @Test(expected = CategoryException.class)
+    public void update_otherUsersCategory_throwsException() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category updated DTO with same ID as previous
+        //-----------------------------------------------------------------
+        CategoryDTO categoryToCreateDTO = new CategoryDTOBuilder().withColor("#fff").withName("noname").build();
+
+        //-----------------------------------------------------------------
+        // Update the category
+        //-----------------------------------------------------------------
+        categoryService.create(categoryToCreateDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create the second first user
+        //-----------------------------------------------------------------
+        UserDTO secondCreatedUserDTO = createUserDTO("xx@xx.xxx");
+
+        //-----------------------------------------------------------------
+        // Create category updated DTO with same ID as previous
+        //-----------------------------------------------------------------
+        CategoryDTO categoryToUpdateDTO = new CategoryDTOBuilder().withId(categoryToCreateDTO.getId()).withColor("#fff").withName("noname").build();
+
+        //-----------------------------------------------------------------
+        // Update the category of a different user
+        //-----------------------------------------------------------------
+        categoryService.update(categoryToUpdateDTO, secondCreatedUserDTO.getId());
+    }
+
+    @Test
     public void remove_validDetails_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create user
@@ -266,11 +353,15 @@ public class CategoryServiceImplIT {
     // Common methods
     //-----------------------------------------------------------------
 
-    private UserDTO createUserDTO() throws com.revaluate.account.exception.UserException {
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+    private UserDTO createUserDTO(String email) throws com.revaluate.account.exception.UserException {
+        userDTO = new UserDTOBuilder().withEmail(email).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
         UserDTO createdCategoryDTO = userService.create(userDTO);
         userDTO.setId(createdCategoryDTO.getId());
 
         return createdCategoryDTO;
+    }
+
+    private UserDTO createUserDTO() throws com.revaluate.account.exception.UserException {
+        return createUserDTO("xx@xx.xx");
     }
 }
