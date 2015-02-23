@@ -40,30 +40,42 @@ public class CategoryServiceImpl implements CategoryService {
         category.setUser(foundUser);
 
         Category savedCategory = categoryRepository.save(category);
+        CategoryDTO savedCategoryDTO = new CategoryDTO();
+        BeanUtils.copyProperties(savedCategory, savedCategoryDTO);
 
-        if (savedCategory != null) {
-            CategoryDTO savedCategoryDTO = new CategoryDTO();
-            BeanUtils.copyProperties(savedCategory, savedCategoryDTO);
+        return savedCategoryDTO;
+    }
 
-            return savedCategoryDTO;
+    @Override
+    public CategoryDTO update(CategoryDTO categoryDTO, int userId) throws CategoryException {
+        if (!categoryRepository.exists(categoryDTO.getId())) {
+            throw new CategoryException("No category found with the given id");
         }
 
-        throw new CategoryException("Could not create category.");
+        Category foundCategory = categoryRepository.findOne(categoryDTO.getId());
+        if (foundCategory.getUser().getId() != userId) {
+            throw new CategoryException("Not authorized");
+        }
+
+        BeanUtils.copyProperties(categoryDTO, foundCategory);
+        Category savedCategory = categoryRepository.save(foundCategory);
+        CategoryDTO savedCategoryDTO = new CategoryDTO();
+        BeanUtils.copyProperties(savedCategory, savedCategoryDTO);
+
+        return savedCategoryDTO;
     }
 
     @Override
     public void remove(int categoryId, int userId) throws CategoryException {
-        if (categoryRepository.exists(categoryId)) {
-            Category foundCategory = categoryRepository.findOne(categoryId);
-
-            if (foundCategory.getUser().getId() != userId) {
-                throw new CategoryException("Not authorized");
-            }
-
-            categoryRepository.delete(categoryId);
-        } else {
+        if (!categoryRepository.exists(categoryId)) {
             throw new CategoryException("No category found with the given id");
         }
 
+        Category foundCategory = categoryRepository.findOne(categoryId);
+        if (foundCategory.getUser().getId() != userId) {
+            throw new CategoryException("Not authorized");
+        }
+
+        categoryRepository.delete(categoryId);
     }
 }

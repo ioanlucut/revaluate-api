@@ -29,6 +29,7 @@ public class CategoryResource extends Resource {
     //-----------------------------------------------------------------
     private static final String IS_UNIQUE_CATEGORY = "isUniqueCategory";
     private static final String CREATE_CATEGORY = "create";
+    private static final String UPDATE_CATEGORY = "update";
     private static final String REMOVE_CATEGORY = "remove/{categoryId}";
 
     //-----------------------------------------------------------------
@@ -58,6 +59,16 @@ public class CategoryResource extends Resource {
     @Path(CREATE_CATEGORY)
     public Response create(@Valid CategoryDTO categoryDTO) throws CategoryException {
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, createdCategoryDTO);
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(UPDATE_CATEGORY)
+    public Response update(@Valid CategoryDTO categoryDTO) throws CategoryException {
+        CategoryDTO createdCategoryDTO = categoryService.update(categoryDTO, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, createdCategoryDTO);
     }

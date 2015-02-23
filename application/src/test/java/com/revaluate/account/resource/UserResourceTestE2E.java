@@ -292,29 +292,4 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
         Answer answer = response.readEntity(Answer.class);
         assertThat(answer, is(notNullValue()));
     }
-
-    //-----------------------------------------------------------------
-    // Common methods used
-    //-----------------------------------------------------------------
-
-    private UserDTO createUserGetCreatedUserDTO() {
-        // First, create a valid user - and account
-        UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-
-        WebTarget target = target("/account/create");
-        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
-
-        return response.readEntity(UserDTO.class);
-    }
-
-    private void removeUser(int id) {
-        try {
-            String tokenForUserWithId = jwtService.createTokenForUserWithId(id);
-            Response response = target("/account/remove").request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
-            assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
-        } catch (JOSEException | ParseException e) {
-            e.printStackTrace();
-        }
-    }
 }
