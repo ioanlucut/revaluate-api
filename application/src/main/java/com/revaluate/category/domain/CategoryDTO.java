@@ -3,6 +3,7 @@ package com.revaluate.category.domain;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @GeneratePojoBuilder
@@ -13,6 +14,7 @@ public class CategoryDTO implements Serializable {
     private int id;
 
     @NotBlank
+    @Size(min = 2)
     private String name;
 
     @NotBlank

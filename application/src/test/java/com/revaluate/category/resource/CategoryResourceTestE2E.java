@@ -14,6 +14,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
+import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -84,9 +85,73 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         // remove user
         removeUser(createdUserDTO.getId());
+    }
+
+    //-----------------------------------------------------------------
+    // Create categories tests
+    //-----------------------------------------------------------------
+
+    @Test
+    public void create_withInvalidCategoryName_badResponseReceived() throws ParseException, JOSEException {
+        UserDTO createdUserDTO = createUserGetCreatedUserDTO();
+        String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
 
         //-----------------------------------------------------------------
-        // Create categories tests
+        // Create invalid category
         //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(1)).withColor("#eee").build();
+        WebTarget target = target("/categories/create");
+        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
+        Set<String> violationsMessageTemplates = getValidationMessageTemplates(response);
+        assertThat(violationsMessageTemplates.size(), is(1));
+    }
+
+    @Test
+    public void create_withInvalidCategoryColor_badResponseReceived() throws ParseException, JOSEException {
+        UserDTO createdUserDTO = createUserGetCreatedUserDTO();
+        String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create invalid category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(4)).withColor("").build();
+        WebTarget target = target("/categories/create");
+        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
+        Set<String> violationsMessageTemplates = getValidationMessageTemplates(response);
+        assertThat(violationsMessageTemplates.size(), is(1));
+    }
+
+    @Test
+    public void create_withInvalidCategory_badResponseReceived() throws ParseException, JOSEException {
+        UserDTO createdUserDTO = createUserGetCreatedUserDTO();
+        String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create invalid category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().build();
+        WebTarget target = target("/categories/create");
+        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
+        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
+        Set<String> violationsMessageTemplates = getValidationMessageTemplates(response);
+        assertThat(violationsMessageTemplates.size(), is(1));
+    }
+
+    @Test
+    public void create_validDetails_okResponseReceived() throws ParseException, JOSEException {
+        UserDTO createdUserDTO = createUserGetCreatedUserDTO();
+        String tokenForUserWithId = jwtService.createTokenForUserWithId(createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create valid category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("xxx").withName("name").build();
+        WebTarget target = target("/categories/create");
+        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
+        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+
+        removeUser(createdUserDTO.getId());
     }
 }
