@@ -1,22 +1,14 @@
 <FindBugsFilter>
     <Match>
         <Or>
-            <Class name="~.*ServiceImpl"/>
-            <Class name="~.*Controller"/>
-            <Class name="~.*Interceptor"/>
-            <Class name="~.*Validator"/>
+            <Class name="~.*DTOBuilder"/>
         </Or>
-        <Or>
-            <Field name="~.*Service"/>
-            <Field name="eventBus"/>
-            <Field name="configProperties"/>
-            <Field name="log4jDirectConfigurer"/>
-            <Field name="sessionMonitor"/>
-        </Or>
-        <Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR"/>
     </Match>
     <Match>
-        <Class name="at.willhaben.mweb.api.exception.RestApiException"/>
-        <Bug pattern="SE_BAD_FIELD"/>
+        <Or>
+            <Class name="*DTO"/>
+        </Or>
+        <Bug pattern="EI_EXPOSE_REP"/>
+        <Bug pattern="EI_EXPOSE_REP2"/>
     </Match>
 </FindBugsFilter>

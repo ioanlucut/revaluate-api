@@ -1,6 +1,7 @@
 package com.revaluate.account.domain;
 
 import com.revaluate.category.domain.CategoryDTO;
+import com.revaluate.expense.domain.ExpenseDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -34,6 +35,8 @@ public class UserDTO implements Serializable {
     private boolean initiated;
 
     private List<CategoryDTO> categories = new ArrayList<>();
+
+    private List<ExpenseDTO> expenses = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -89,5 +92,45 @@ public class UserDTO implements Serializable {
 
     public void setCategories(List<CategoryDTO> categories) {
         this.categories = categories;
+    }
+
+    public List<ExpenseDTO> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<ExpenseDTO> expenses) {
+        this.expenses = expenses;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserDTO userDTO = (UserDTO) o;
+
+        if (id != userDTO.id) return false;
+        if (initiated != userDTO.initiated) return false;
+        if (categories != null ? !categories.equals(userDTO.categories) : userDTO.categories != null) return false;
+        if (email != null ? !email.equals(userDTO.email) : userDTO.email != null) return false;
+        if (expenses != null ? !expenses.equals(userDTO.expenses) : userDTO.expenses != null) return false;
+        if (firstName != null ? !firstName.equals(userDTO.firstName) : userDTO.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(userDTO.lastName) : userDTO.lastName != null) return false;
+        if (password != null ? !password.equals(userDTO.password) : userDTO.password != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (initiated ? 1 : 0);
+        result = 31 * result + (categories != null ? categories.hashCode() : 0);
+        result = 31 * result + (expenses != null ? expenses.hashCode() : 0);
+        return result;
     }
 }

@@ -2,11 +2,9 @@ package com.revaluate.category.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
-    List<Category> findByColor(String color);
+    Category findOneByNameAndUserId(String name, int userId);
 
-    List<Category> findByName(String name);
+    Category findOneByIdAndUserId(int categoryId, int userId);
 }

@@ -43,4 +43,26 @@ public class CategoryDTO implements Serializable {
     public void setColor(String color) {
         this.color = color;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CategoryDTO that = (CategoryDTO) o;
+
+        if (id != that.id) return false;
+        if (color != null ? !color.equals(that.color) : that.color != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (color != null ? color.hashCode() : 0);
+        return result;
+    }
 }

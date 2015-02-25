@@ -10,6 +10,7 @@ import com.revaluate.category.domain.CategoryDTOBuilder;
 import com.revaluate.category.exception.CategoryException;
 import com.revaluate.category.persistence.CategoryRepository;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring-config.application/spring-context-application.xml")
-public class CategoryServiceImplIT {
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
+public class CategoryServiceImplTestIT {
 
     @Autowired
     private UserService userService;
@@ -41,6 +42,7 @@ public class CategoryServiceImplIT {
     private UserDTO userDTO;
     private CategoryDTO categoryDTO;
 
+    @Before
     @After
     public void tearDown() throws Exception {
         if (userDTO != null) {
@@ -57,11 +59,16 @@ public class CategoryServiceImplIT {
 
     @Test
     public void isUniqueName_validName_ok() throws Exception {
-        assertThat(categoryService.isUnique("name"), is(true));
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        assertThat(categoryService.isUnique("name", createdUserDTO.getId()), is(true));
     }
 
     @Test
-    public void isUniqueName_existingName_exceptionThrown() throws Exception {
+    public void isUniqueName_existingName_isFalse() throws Exception {
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
@@ -73,7 +80,36 @@ public class CategoryServiceImplIT {
         categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
         categoryService.create(categoryDTO, createdUserDTO.getId());
 
-        assertThat(categoryService.isUnique("name"), is(false));
+        assertThat(categoryService.isUnique(categoryDTO.getName(), createdUserDTO.getId()), is(false));
+    }
+
+    @Test
+    public void isUniqueName_existingNameForAnotherUser_exceptionThrown() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO("xx@xx.xxxA");
+
+        //-----------------------------------------------------------------
+        // Create category updated DTO with same ID as previous
+        //-----------------------------------------------------------------
+        CategoryDTO categoryToCreateDTO = new CategoryDTOBuilder().withColor("#fff").withName("noname").build();
+
+        //-----------------------------------------------------------------
+        // Update the category
+        //-----------------------------------------------------------------
+        categoryService.create(categoryToCreateDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create the second first user
+        //-----------------------------------------------------------------
+        UserDTO secondCreatedUserDTO = createUserDTO("xx@xx.xxxB");
+
+        //-----------------------------------------------------------------
+        // Check if the other user category name is unique
+        //-----------------------------------------------------------------
+        boolean unique = categoryService.isUnique(categoryToCreateDTO.getName(), secondCreatedUserDTO.getId());
+        assertThat(unique, is(true));
     }
 
     @Test
@@ -223,7 +259,7 @@ public class CategoryServiceImplIT {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO();
+        UserDTO createdUserDTO = createUserDTO("xx@xx.xxxC");
 
         //-----------------------------------------------------------------
         // Create category updated DTO with same ID as previous
@@ -238,7 +274,7 @@ public class CategoryServiceImplIT {
         //-----------------------------------------------------------------
         // Create the second first user
         //-----------------------------------------------------------------
-        UserDTO secondCreatedUserDTO = createUserDTO("xx@xx.xxx");
+        UserDTO secondCreatedUserDTO = createUserDTO("xx@xx.xxxD");
 
         //-----------------------------------------------------------------
         // Create category updated DTO with same ID as previous

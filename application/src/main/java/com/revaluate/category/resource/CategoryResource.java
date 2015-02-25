@@ -46,7 +46,7 @@ public class CategoryResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(IS_UNIQUE_CATEGORY)
     public Response isUnique(@QueryParam(NAME) @NotBlank @Size(min = 2) String name) throws CategoryException {
-        if (!categoryService.isUnique(name)) {
+        if (!categoryService.isUnique(name, getCurrentUserId())) {
             throw new CategoryException("Category name is not unique");
         }
 

@@ -5,7 +5,7 @@ import com.revaluate.category.exception.CategoryException;
 
 public interface CategoryService {
 
-    boolean isUnique(String name);
+    boolean isUnique(String name, int userId);
 
     CategoryDTO create(CategoryDTO categoryDTO, int userId) throws CategoryException;
 
