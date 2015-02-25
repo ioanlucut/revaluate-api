@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.ws.rs.container.ContainerRequestContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring-config.application/spring-context-application.xml")
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
 public class AuthorizationRequestFilterTestIT {
 
     @Autowired

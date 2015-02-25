@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring-config.application/spring-context-application.xml")
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
 public class UserServiceTestIT {
 
     @Autowired

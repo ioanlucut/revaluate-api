@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring-config.application/spring-context-application.xml")
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
 public class ConfigPropertiesDevTestIT {
 
     @Resource

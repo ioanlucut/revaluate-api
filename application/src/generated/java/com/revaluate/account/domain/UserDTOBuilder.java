@@ -1,6 +1,7 @@
 package com.revaluate.account.domain;
 
 import com.revaluate.category.domain.CategoryDTO;
+import com.revaluate.expense.domain.ExpenseDTO;
 import java.util.List;
 import javax.annotation.Generated;
 
@@ -22,6 +23,8 @@ public class UserDTOBuilder
   protected boolean isSet$initiated$boolean;
   protected List<CategoryDTO> value$categories$java$util$List;
   protected boolean isSet$categories$java$util$List;
+  protected List<ExpenseDTO> value$expenses$java$util$List;
+  protected boolean isSet$expenses$java$util$List;
 
   /**
    * Creates a new {@link UserDTOBuilder}.
@@ -115,6 +118,18 @@ public class UserDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link UserDTO#expenses} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public UserDTOBuilder withExpenses(List<ExpenseDTO> value) {
+    this.value$expenses$java$util$List = value;
+    this.isSet$expenses$java$util$List = true;
+    return self;
+  }
+
+  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -167,6 +182,9 @@ public class UserDTOBuilder
       }
       if (isSet$categories$java$util$List) {
         result.setCategories(value$categories$java$util$List);
+      }
+      if (isSet$expenses$java$util$List) {
+        result.setExpenses(value$expenses$java$util$List);
       }
       return result;
     } catch (RuntimeException ex) {

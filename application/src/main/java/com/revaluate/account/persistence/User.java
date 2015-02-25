@@ -1,6 +1,7 @@
 package com.revaluate.account.persistence;
 
 import com.revaluate.category.persistence.Category;
+import com.revaluate.expense.persistence.Expense;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -12,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@SequenceGenerator(name = User.SEQ_GENERATOR_NAME, sequenceName = User.SEQ_NAME, initialValue = User.SEQ_INITIAL_VALUE, allocationSize = User.ALLOCATION_SIZE)
 @Table(name = "users")
 public class User implements Serializable {
 
@@ -20,10 +20,14 @@ public class User implements Serializable {
 
     protected static final String SEQ_NAME = "users_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "users_seq_generator";
-    protected static final int SEQ_INITIAL_VALUE = 600000;
-    protected static final int ALLOCATION_SIZE = 1;
+    protected static final int SEQ_INITIAL_VALUE = 1;
+    public static final String USER = "user";
+    public static final String RESET_EMAIL_TOKEN_ID = "reset_email_token_id";
 
     @Id
+    @SequenceGenerator(name = User.SEQ_GENERATOR_NAME,
+            sequenceName = User.SEQ_NAME,
+            initialValue = User.SEQ_INITIAL_VALUE)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
     private Integer id;
 
@@ -58,11 +62,15 @@ public class User implements Serializable {
     private Date registeredDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "reset_email_token_id")
+    @JoinColumn(name = RESET_EMAIL_TOKEN_ID)
     private UserEmailToken resetEmailToken;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = USER, orphanRemoval = true)
+    private List<Expense> expenses = new ArrayList<>();
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = USER, orphanRemoval = true)
     private List<Category> categories = new ArrayList<>();
 
     @PrePersist
@@ -150,5 +158,13 @@ public class User implements Serializable {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
     }
 }
