@@ -335,6 +335,7 @@
                     <url>jdbc:postgresql://localhost/postgres</url>
                     <user>postgres</user>
                     <password>postgres</password>
+                    <skip>${skipDbMigration}</skip>
                 </configuration>
                 <executions>
                     <execution>

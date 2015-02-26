@@ -86,7 +86,7 @@ public class UserResource extends Resource {
         return Responses.respond(Response.Status.OK, updatedUserDTO);
     }
 
-    @POST
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path(DETAILS_USER)
     public Response getUserDetails() throws UserException {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -76,7 +77,7 @@ public class CategoryResource extends Resource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path(REMOVE_CATEGORY)
-    public Response remove(@PathParam(CATEGORY_ID) @NotBlank int categoryId) throws CategoryException {
+    public Response remove(@PathParam(CATEGORY_ID) @NotNull int categoryId) throws CategoryException {
         categoryService.remove(categoryId, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, "Category successfully removed");

@@ -11,23 +11,23 @@ import com.revaluate.account.persistence.UserEmailToken;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.jwt.JwtService;
 import com.revaluate.core.token.TokenGenerator;
+import org.dozer.DozerBeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
-
+    public static final String USER_DTO__UPDATE = "UserDTO__Update";
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     protected JwtService jwtService;
+
+    @Autowired
+    private DozerBeanMapper dozerBeanMapper;
 
     @Override
     public boolean isUnique(String email) {
@@ -40,18 +40,14 @@ public class UserServiceImpl implements UserService {
             throw new UserException("Email is not unique");
         }
 
-        User user = new User();
-        BeanUtils.copyProperties(userDTO, user);
-
+        User user = dozerBeanMapper.map(userDTO, User.class);
         // Hash the password
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
         User savedUser = userRepository.save(user);
         if (savedUser != null) {
-            UserDTO savedUserDTO = new UserDTO();
-            BeanUtils.copyProperties(savedUser, savedUserDTO, "password");
 
-            return savedUserDTO;
+            return dozerBeanMapper.map(savedUser, UserDTO.class);
         }
 
         throw new UserException("Could not create the user.");
@@ -68,10 +64,7 @@ public class UserServiceImpl implements UserService {
             throw new UserException("Invalid email or password");
         }
 
-        UserDTO foundUserDTO = new UserDTO();
-        BeanUtils.copyProperties(foundUser, foundUserDTO, "password");
-
-        return foundUserDTO;
+        return dozerBeanMapper.map(foundUser, UserDTO.class);
     }
 
     @Override
@@ -81,14 +74,15 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException();
         }
 
-        // Copy only selective properties
-        BeanUtils.copyProperties(userDTO, foundUser, "id", "email", "password");
+        //-----------------------------------------------------------------
+        // Update the user accordingly to DTO
+        //-----------------------------------------------------------------
+        dozerBeanMapper.map(userDTO, foundUser, USER_DTO__UPDATE);
 
         User updatedUser = userRepository.save(foundUser);
         if (updatedUser != null) {
-            UserDTO updatedUserDTO = new UserDTO();
-            BeanUtils.copyProperties(updatedUser, updatedUserDTO, "password");
-            return updatedUserDTO;
+
+            return dozerBeanMapper.map(updatedUser, UserDTO.class);
         }
 
         throw new UserException("Could not update the user.");
@@ -99,10 +93,8 @@ public class UserServiceImpl implements UserService {
         User foundUser = userRepository.findOne(userId);
 
         if (foundUser != null) {
-            UserDTO foundUserDTO = new UserDTO();
-            BeanUtils.copyProperties(foundUser, foundUserDTO, "password");
 
-            return foundUserDTO;
+            return dozerBeanMapper.map(foundUser, UserDTO.class);
         }
 
         throw new UserException("Could not retrieve user details.");
@@ -133,10 +125,7 @@ public class UserServiceImpl implements UserService {
         User updatedUser = userRepository.save(existingUser);
         if (updatedUser != null) {
 
-            UserDTO updatedUserDTO = new UserDTO();
-            BeanUtils.copyProperties(updatedUser, updatedUserDTO, "password");
-
-            return updatedUserDTO;
+            return dozerBeanMapper.map(updatedUser, UserDTO.class);
         }
 
         throw new UserException("Error while trying to update the password.");

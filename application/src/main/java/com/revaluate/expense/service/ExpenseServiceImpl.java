@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
 
-    public static final String EXPENSE_DTO__UPDATE = "ExpenseDTO__Update";
     @Autowired
     private ExpenseRepository expenseRepository;
 
@@ -57,7 +56,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         //-----------------------------------------------------------------
         // Update the expense with given expense DTO
         //-----------------------------------------------------------------
-        dozerBeanMapper.map(expenseDTO, foundExpense, EXPENSE_DTO__UPDATE);
+        dozerBeanMapper.map(expenseDTO, foundExpense);
 
         Expense savedExpense = expenseRepository.save(foundExpense);
         return dozerBeanMapper.map(savedExpense, ExpenseDTO.class);
