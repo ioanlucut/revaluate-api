@@ -19,7 +19,7 @@
         </field-exclude>
     </mapping>
 
-    <mapping map-null="false" map-id="ExpenseDTO__Update">
+    <mapping map-null="false">
         <class-a>com.revaluate.expense.domain.ExpenseDTO</class-a>
         <class-b>com.revaluate.expense.persistence.Expense</class-b>
         <field-exclude type="one-way">
@@ -35,8 +35,17 @@
             <a>id</a>
             <b>id</b>
         </field-exclude>
+        <field-exclude type="one-way">
+            <a>email</a>
+            <b>email</b>
+        </field-exclude>
+        <field-exclude type="one-way">
+            <a>password</a>
+            <b>password</b>
+        </field-exclude>
     </mapping>
 
+    <!--Generally, the password should not be sent back to the user-->
     <mapping>
         <class-a>com.revaluate.account.persistence.User</class-a>
         <class-b>com.revaluate.account.domain.UserDTO</class-b>
