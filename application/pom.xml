@@ -17,90 +17,111 @@
 
     <properties>
         <main.basedir>${project.parent.basedir}</main.basedir>
-        <skipCodeAnalysis>false</skipCodeAnalysis>
     </properties>
 
     <dependencies>
 
-        <!-- Spring 3 dependencies -->
+        <!-- Spring 4 dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>${version.spring}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${version.spring}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>${version.spring}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
         </dependency>
 
-        <!-- Dozer -->
+        <!--Spring jpa-->
         <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
-            <version>${dozer.version}</version>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+
+        <!--Spring AOP-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+
+        <!--Dropwizard-->
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jersey-server</artifactId>
+                    <groupId>com.sun.jersey</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer-spring</artifactId>
-            <version>${dozer.version}</version>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-testing</artifactId>
+        </dependency>
+
+        <!--Dropwizard SPRING integration-->
+        <dependency>
+            <groupId>com.hmsonline</groupId>
+            <artifactId>dropwizard-spring</artifactId>
+            <version>${dropwizard-spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.fallwizard</groupId>
+            <artifactId>Fallwizard</artifactId>
         </dependency>
 
         <!-- Jersey -->
         <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-server</artifactId>
-            <version>${version.jersey}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>${version.jersey}</version>
-        </dependency>
-        <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
             <artifactId>jersey-spring3</artifactId>
-            <version>${version.jersey}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
             <artifactId>jersey-bean-validation</artifactId>
-            <version>${version.jersey}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-moxy</artifactId>
-            <version>${version.jersey}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>javax.el-api</artifactId>
+                    <groupId>javax.el</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
             <artifactId>jersey-entity-filtering</artifactId>
-            <version>${version.jersey}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.test-framework</groupId>
             <artifactId>jersey-test-framework-core</artifactId>
-            <version>${version.jersey}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.test-framework.providers</groupId>
             <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
-            <version>${version.jersey}</version>
         </dependency>
 
-        <!--Jpa-->
+        <!--Jpa spec-->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <version>${hibernate-jpa-api.version}</version>
         </dependency>
-
         <!--Jpa hibernate impl-->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -112,13 +133,6 @@
                     <groupId>xml-apis</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!--Spring jpa-->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>${spring-data-jpa.version}</version>
         </dependency>
 
         <!-- JPA BoneCP -->
@@ -149,6 +163,19 @@
             <version>${joda-time.version}</version>
         </dependency>
 
+        <!-- Dozer -->
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>${dozer.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer-spring</artifactId>
+            <version>${dozer.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>net.karneim</groupId>
             <artifactId>pojobuilder</artifactId>
@@ -173,38 +200,27 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>${version.hibernate-validator}</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>${version.guava}</version>
         </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>${version.javax.servlet-api}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>${version.commons-lang}</version>
         </dependency>
 
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>${version.commons-codec}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mitre.dsmiley.httpproxy</groupId>
-            <artifactId>smiley-http-proxy-servlet</artifactId>
-            <version>${version.smiley-http-proxy-servlet}</version>
         </dependency>
 
         <!--Testing related-->
@@ -222,13 +238,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.tomakehurst</groupId>
-            <artifactId>wiremock</artifactId>
-            <version>${version.wiremock}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>${version.mockito}</version>
@@ -241,45 +250,6 @@
             <version>${version.spring}</version>
         </dependency>
 
-        <!-- dependencies for application monitoring with java simon -->
-        <dependency>
-            <groupId>org.javasimon</groupId>
-            <artifactId>javasimon-core</artifactId>
-            <version>${version.javasimon}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.javasimon</groupId>
-            <artifactId>javasimon-console-embed</artifactId>
-            <version>${version.javasimon}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.javasimon</groupId>
-            <artifactId>javasimon-javaee</artifactId>
-            <version>${version.javasimon}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.javasimon</groupId>
-            <artifactId>javasimon-spring</artifactId>
-            <version>${version.javasimon}</version>
-        </dependency>
-
-        <!--Spring AOP-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>${version.spring}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>${version.aspectj}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>${version.aspectj}</version>
-        </dependency>
-
         <!--ByCYPT - for password encryption-->
         <dependency>
             <groupId>org.mindrot</groupId>
@@ -287,30 +257,20 @@
             <version>0.3m</version>
         </dependency>
 
-        <!--Loggers-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${version.slf4j}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${version.slf4j}</version>
-        </dependency>
-        <!--Binding for log4j version 1.2.x You also need to
-        place log4j.jar on your class path. -->
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${version.log4j}</version>
-        </dependency>
+        <!-- Avoid Jakarta commons logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            <version>${version.slf4j}</version>
-            <scope>runtime</scope>
+        </dependency>
+        <!-- Use Logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+        <!-- Use Logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
 
         <!--Groovy dependencies-->
@@ -318,6 +278,11 @@
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
             <version>2.4.0</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>javax.el</artifactId>
+            <groupId>org.glassfish.web</groupId>
         </dependency>
 
     </dependencies>
@@ -343,6 +308,43 @@
                             <goal>migrate</goal>
                         </goals>
                         <phase>compile</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.6</version>
+                <configuration>
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.revaluate.RevaluateApplication</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
