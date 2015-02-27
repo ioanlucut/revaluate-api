@@ -5,11 +5,11 @@ import com.revaluate.core.resource.Responses;
 import com.revaluate.expense.domain.ExpenseDTO;
 import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.expense.service.ExpenseService;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -61,7 +61,7 @@ public class ExpenseResource extends Resource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path(REMOVE_EXPENSE)
-    public Response remove(@PathParam(EXPENSE_ID) @NotBlank int expenseId) throws ExpenseException {
+    public Response remove(@PathParam(EXPENSE_ID) @NotNull int expenseId) throws ExpenseException {
         expenseService.remove(expenseId, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, "Expense successfully removed");
