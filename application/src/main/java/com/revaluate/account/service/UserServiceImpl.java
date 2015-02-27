@@ -16,6 +16,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -31,12 +33,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUnique(String email) {
-        return userRepository.findByEmail(email).isEmpty();
+        return !userRepository.findOneByEmail(email).isPresent();
     }
 
     @Override
     public UserDTO create(UserDTO userDTO) throws UserException {
-        if (!userRepository.findByEmail(userDTO.getEmail()).isEmpty()) {
+        if (userRepository.findOneByEmail(userDTO.getEmail()).isPresent()) {
             throw new UserException("Email is not unique");
         }
 
@@ -55,10 +57,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO login(LoginDTO loginDTO) throws UserException {
-        User foundUser = userRepository.findFirstByEmail(loginDTO.getEmail());
-        if (foundUser == null) {
-            throw new UserException("Invalid email or password");
-        }
+        Optional<User> byEmail = userRepository.findOneByEmail(loginDTO.getEmail());
+        User foundUser = byEmail.orElseThrow(() -> new UserException("Invalid email or password"));
 
         if (!BCrypt.checkpw(loginDTO.getPassword(), foundUser.getPassword())) {
             throw new UserException("Invalid email or password");
@@ -80,12 +80,7 @@ public class UserServiceImpl implements UserService {
         dozerBeanMapper.map(userDTO, foundUser, USER_DTO__UPDATE);
 
         User updatedUser = userRepository.save(foundUser);
-        if (updatedUser != null) {
-
-            return dozerBeanMapper.map(updatedUser, UserDTO.class);
-        }
-
-        throw new UserException("Could not update the user.");
+        return dozerBeanMapper.map(updatedUser, UserDTO.class);
     }
 
     @Override
@@ -123,37 +118,25 @@ public class UserServiceImpl implements UserService {
         existingUser.setPassword(BCrypt.hashpw(updatePasswordDTO.getNewPassword(), BCrypt.gensalt()));
 
         User updatedUser = userRepository.save(existingUser);
-        if (updatedUser != null) {
-
-            return dozerBeanMapper.map(updatedUser, UserDTO.class);
-        }
-
-        throw new UserException("Error while trying to update the password.");
+        return dozerBeanMapper.map(updatedUser, UserDTO.class);
     }
 
     @Override
     public void requestResetPassword(String email) throws UserException {
-        User user = userRepository.findFirstByEmail(email);
-        if (user == null) {
-            throw new UserException("No matching of this email");
-        }
+        Optional<User> byEmail = userRepository.findOneByEmail(email);
+        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
+
         UserEmailToken resetEmailToken = new UserEmailToken();
         resetEmailToken.setToken(TokenGenerator.getGeneratedToken());
         user.setResetEmailToken(resetEmailToken);
 
-        User updatedUser = userRepository.save(user);
-
-        if (updatedUser == null) {
-            throw new UserException("Error while trying to reset password.");
-        }
+        userRepository.save(user);
     }
 
     @Override
     public void validateResetPasswordToken(String email, String token) throws UserException {
-        User user = userRepository.findFirstByEmail(email);
-        if (user == null) {
-            throw new UserException("No matching of this email");
-        }
+        Optional<User> byEmail = userRepository.findOneByEmail(email);
+        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
         if (user.getResetEmailToken() == null) {
             throw new UserException("Token is invalid.");
@@ -176,7 +159,8 @@ public class UserServiceImpl implements UserService {
             throw new UserException("New password should match new password confirmation");
         }
 
-        User existingUser = userRepository.findFirstByEmail(email);
+        Optional<User> byEmail = userRepository.findOneByEmail(email);
+        User existingUser = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
         existingUser.setResetEmailToken(null);
         existingUser.setPassword(BCrypt.hashpw(resetPasswordDTO.getPassword(), BCrypt.gensalt()));
         userRepository.save(existingUser);

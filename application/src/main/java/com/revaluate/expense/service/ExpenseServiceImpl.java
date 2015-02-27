@@ -12,6 +12,8 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
 
@@ -33,10 +35,8 @@ public class ExpenseServiceImpl implements ExpenseService {
         if (expense.getCategory() == null) {
             throw new ExpenseException("Category is missing");
         }
-        Category categoryFound = categoryRepository.findOneByIdAndUserId(expense.getCategory().getId(), userId);
-        if (categoryFound == null) {
-            throw new ExpenseException("Category is not proper");
-        }
+        Optional<Category> categoryByName = categoryRepository.findOneByIdAndUserId(expense.getCategory().getId(), userId);
+        Category categoryFound = categoryByName.orElseThrow(() -> new ExpenseException("Category is not proper"));
 
         User foundUser = userRepository.findOne(userId);
         expense.setUser(foundUser);
@@ -48,10 +48,8 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public ExpenseDTO update(ExpenseDTO expenseDTO, int userId) throws ExpenseException {
-        Expense foundExpense = expenseRepository.findOneByIdAndUserId(expenseDTO.getId(), userId);
-        if (foundExpense == null) {
-            throw new ExpenseException("Expense doesn't exist");
-        }
+        Optional<Expense> expenseById = expenseRepository.findOneByIdAndUserId(expenseDTO.getId(), userId);
+        Expense foundExpense = expenseById.orElseThrow(() -> new ExpenseException("Expense doesn't exist"));
 
         //-----------------------------------------------------------------
         // Update the expense with given expense DTO
@@ -64,10 +62,8 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public void remove(int expenseId, int userId) throws ExpenseException {
-        Expense foundExpense = expenseRepository.findOneByIdAndUserId(expenseId, userId);
-        if (foundExpense == null) {
-            throw new ExpenseException("Expense doesn't exist");
-        }
+        Optional<Expense> expenseById = expenseRepository.findOneByIdAndUserId(expenseId, userId);
+        expenseById.orElseThrow(() -> new ExpenseException("Expense doesn't exist"));
 
         expenseRepository.delete(expenseId);
     }
