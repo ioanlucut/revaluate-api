@@ -1,7 +1,6 @@
 package com.revaluate.core.bootstrap;
 
 import com.revaluate.core.filters.AuthorizationRequestFilter;
-import com.revaluate.core.filters.CORSResponseFilter;
 import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
@@ -17,15 +16,6 @@ public class ApplicationConfig extends ResourceConfig {
 
         // Entity Data Filtering feature.
         register(EntityFilteringFeature.class);
-
-        // Configure MOXy Json provider.
-        register(new JsonConfiguration());
-
-        // Validation.
-        register(ValidationConfigurationContextResolver.class);
-
-        // CORS filter
-        register(CORSResponseFilter.class);
 
         // Authorization filter
         register(AuthorizationRequestFilter.class);
