@@ -1,10 +1,14 @@
 package com.revaluate;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import io.dropwizard.setup.Environment;
 import io.github.fallwizard.FallwizardApplication;
 import io.github.fallwizard.configuration.FallwizardConfiguration;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
+import org.glassfish.jersey.server.ServerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,14 +28,32 @@ public class RevaluateApplication extends FallwizardApplication<FallwizardConfig
     @Override
     public void run(FallwizardConfiguration configuration, Environment environment) throws Exception {
         super.run(configuration, environment);
+        // The order is very important.
+        setUpOtherOptions(environment);
+
+        // Extra jackson configs.
+        configureJackson(environment);
 
         // Configure CORS
         configureCors(environment);
 
-        // Entity filtering
-        environment.jersey().getResourceConfig().register(EntityFilteringFeature.class);
-
+        // Register providers
         registerProviders(environment);
+    }
+
+    private void configureJackson(Environment environment) {
+        environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        environment.getObjectMapper().configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        environment.getObjectMapper().disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+    }
+
+    private void setUpOtherOptions(Environment environment) {
+        // Entity filtering
+        environment.jersey().register(EntityFilteringFeature.class);
+
+        // @ValidateOnExecution annotations on subclasses won't cause errors.
+        environment.jersey().property(ServerProperties.BV_DISABLE_VALIDATE_ON_EXECUTABLE_OVERRIDE_CHECK, true);
+        environment.jersey().property(ServerProperties.PROCESSING_RESPONSE_ERRORS_ENABLED, true);
     }
 
     private void configureCors(Environment environment) {

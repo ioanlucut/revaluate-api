@@ -1,5 +1,7 @@
 package com.revaluate.account.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.revaluate.account.entityfiltering.Views;
 import com.revaluate.category.domain.CategoryDTO;
 import com.revaluate.expense.domain.ExpenseDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
@@ -19,23 +21,30 @@ public class UserDTO implements Serializable {
     private int id;
 
     @NotBlank
+    @JsonView({Views.UserView.class})
     private String firstName;
 
     @NotBlank
+    @JsonView({Views.UserView.class})
     private String lastName;
 
     @Email
     @NotBlank
+    @JsonView({Views.UserView.class})
     private String email;
 
     @NotBlank
     @Size(min = 7)
+    @JsonView({Views.UserView.class})
     private String password;
 
+    @JsonView({Views.UserView.class})
     private boolean initiated;
 
+    @JsonView({Views.UserDetails.class})
     private List<CategoryDTO> categories = new ArrayList<>();
 
+    @JsonView({Views.UserDetails.class})
     private List<ExpenseDTO> expenses = new ArrayList<>();
 
     public int getId() {
