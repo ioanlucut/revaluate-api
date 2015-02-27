@@ -1,55 +1,70 @@
 package com.revaluate.account.resource;
 
+import com.google.common.collect.ImmutableList;
 import com.nimbusds.jose.JOSEException;
+import com.revaluate.RevaluateApplication;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
-import com.revaluate.core.bootstrap.ApplicationConfig;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.core.jwt.JwtService;
+import io.dropwizard.jersey.validation.ValidationErrorMessage;
+import io.dropwizard.testing.ResourceHelpers;
+import io.dropwizard.testing.junit.DropwizardAppRule;
+import io.github.fallwizard.configuration.FallwizardConfiguration;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.glassfish.jersey.server.validation.ValidationError;
-import org.glassfish.jersey.test.JerseyTest;
+import org.junit.ClassRule;
 import org.mockito.Mockito;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 // [UnitOfWork_StateUnderTest_ExpectedBehavior]
 // public void Sum_NegativeNumberAs1stParam_ExceptionThrown()
-public class AbstractResourceTestEndToEnd extends JerseyTest {
+public class AbstractResourceTestEndToEnd {
 
     protected static final String JWT_ISSUER_TEST = "http://revaluate.io";
     protected static final String JWT_SHARED_TEST = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
     protected static final String BEARER_TEST = "Bearer";
     protected JwtService jwtService = getMockedJwtService();
 
-    protected List<ValidationError> getValidationErrorList(final Response response) {
-        return response.readEntity(new GenericType<List<ValidationError>>() {
+    @ClassRule
+    public static final DropwizardAppRule<FallwizardConfiguration> RULE =
+            new DropwizardAppRule<FallwizardConfiguration>(RevaluateApplication.class, ResourceHelpers.resourceFilePath("config.yaml"));
+
+    protected Client client = ClientBuilder.newClient();
+
+    protected WebTarget target(String path) {
+        return client.target(String.format("http://localhost:%d", RULE.getLocalPort())).path(path);
+    }
+
+    protected List<ValidationErrorMessage> getValidationErrorMessageList(final Response response) {
+        return response.readEntity(new GenericType<List<ValidationErrorMessage>>() {
         });
     }
 
-    protected Set<String> getValidationMessageTemplates(final Response response) {
-        return getValidationMessageTemplates(getValidationErrorList(response));
+    protected List<String> getValidationMessageTemplates(final Response response) {
+        return getValidationMessageTemplates(getValidationErrorMessageList(response));
     }
 
-    protected Set<String> getValidationMessageTemplates(final List<ValidationError> errors) {
-        return errors.stream().map(ValidationError::getMessageTemplate).collect(Collectors.toSet());
-    }
+    protected List<String> getValidationMessageTemplates(final List<ValidationErrorMessage> errors) {
+        List<String> allErrors = new ArrayList<>();
+        for (ValidationErrorMessage validationErrorMessage : errors) {
+            ImmutableList<String> strings = validationErrorMessage.getErrors();
+            allErrors.addAll(strings);
+        }
 
-    @Override
-    protected Application configure() {
-        return new ApplicationConfig();
+        return allErrors;
     }
 
     protected JwtService getMockedJwtService() {
