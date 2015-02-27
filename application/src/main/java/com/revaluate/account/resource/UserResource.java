@@ -1,9 +1,11 @@
 package com.revaluate.account.resource;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.revaluate.account.domain.LoginDTO;
 import com.revaluate.account.domain.ResetPasswordDTO;
 import com.revaluate.account.domain.UpdatePasswordDTO;
 import com.revaluate.account.domain.UserDTO;
+import com.revaluate.account.entityfiltering.Views;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.service.UserService;
 import com.revaluate.core.annotations.Public;
@@ -58,6 +60,7 @@ public class UserResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(CREATE_USER)
+    @JsonView({Views.UserView.class})
     public Response create(@Valid UserDTO userDTO) throws UserException {
         UserDTO createdUserDTO = userService.create(userDTO);
 
@@ -69,6 +72,7 @@ public class UserResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(LOGIN_USER)
+    @JsonView({Views.UserView.class})
     public Response login(@Valid LoginDTO loginDTO) throws UserException {
         UserDTO foundUserDTO = userService.login(loginDTO);
         String jwtToken = jwtService.tryToGetUserToken(foundUserDTO.getId());
@@ -80,6 +84,7 @@ public class UserResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(UPDATE_USER)
+    @JsonView({Views.UserView.class})
     public Response update(@Valid UserDTO userDTO) throws UserException {
         UserDTO updatedUserDTO = userService.update(userDTO, getCurrentUserId());
 
@@ -89,6 +94,7 @@ public class UserResource extends Resource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path(DETAILS_USER)
+    @JsonView({Views.UserDetails.class})
     public Response getUserDetails() throws UserException {
         UserDTO userDetailsDTO = userService.getUserDetails(getCurrentUserId());
 

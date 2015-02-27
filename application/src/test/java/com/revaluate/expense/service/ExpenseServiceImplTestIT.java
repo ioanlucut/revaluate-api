@@ -1,7 +1,11 @@
 package com.revaluate.expense.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
+import com.revaluate.account.entityfiltering.Views;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.service.UserService;
 import com.revaluate.category.domain.CategoryDTO;
@@ -19,6 +23,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -148,7 +154,7 @@ public class ExpenseServiceImplTestIT {
     //-----------------------------------------------------------------
     // Common methods
     //-----------------------------------------------------------------
-    
+
     private UserDTO createUserDTO(String email) throws com.revaluate.account.exception.UserException {
         userDTO = new UserDTOBuilder().withEmail(email).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
         UserDTO createdExpenseDTO = userService.create(userDTO);
