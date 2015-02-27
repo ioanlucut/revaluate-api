@@ -10,6 +10,8 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -25,13 +27,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean isUnique(String name, int userId) {
-        return categoryRepository.findOneByNameAndUserId(name, userId) == null;
+        return !categoryRepository.findOneByNameAndUserId(name, userId).isPresent();
     }
 
     @Override
     public CategoryDTO create(CategoryDTO categoryDTO, int userId) throws CategoryException {
-        if (categoryRepository.findOneByNameAndUserId(categoryDTO.getName(), userId) != null) {
-            throw new CategoryException("Name is not unique");
+        Optional<Category> categoryByName = categoryRepository.findOneByNameAndUserId(categoryDTO.getName(), userId);
+        if (categoryByName.isPresent()) {
+            throw new CategoryException("Category name is not unique");
         }
 
         Category category = dozerBeanMapper.map(categoryDTO, Category.class);
@@ -44,26 +47,22 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO update(CategoryDTO categoryDTO, int userId) throws CategoryException {
-        Category foundCategory = categoryRepository.findOneByIdAndUserId(categoryDTO.getId(), userId);
-        if (foundCategory == null) {
-            throw new CategoryException("The given category does not exists");
-        }
+        Optional<Category> categoryById = categoryRepository.findOneByIdAndUserId(categoryDTO.getId(), userId);
+        Category category = categoryById.orElseThrow(() -> new CategoryException("The given category does not exists"));
 
         //-----------------------------------------------------------------
         // Update the category with given category DTO
         //-----------------------------------------------------------------
-        dozerBeanMapper.map(categoryDTO, foundCategory, CATEGORY_DTO__UPDATE);
+        dozerBeanMapper.map(categoryDTO, category, CATEGORY_DTO__UPDATE);
 
-        Category savedCategory = categoryRepository.save(foundCategory);
+        Category savedCategory = categoryRepository.save(category);
         return dozerBeanMapper.map(savedCategory, CategoryDTO.class);
     }
 
     @Override
     public void remove(int categoryId, int userId) throws CategoryException {
-        Category foundCategory = categoryRepository.findOneByIdAndUserId(categoryId, userId);
-        if (foundCategory == null) {
-            throw new CategoryException("The given category does not exists");
-        }
+        Optional<Category> categoryById = categoryRepository.findOneByIdAndUserId(categoryId, userId);
+        categoryById.orElseThrow(() -> new CategoryException("The given category does not exists"));
 
         categoryRepository.delete(categoryId);
     }
