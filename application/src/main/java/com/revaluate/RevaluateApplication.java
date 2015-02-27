@@ -1,6 +1,5 @@
 package com.revaluate;
 
-import com.revaluate.core.filters.AuthorizationRequestFilter;
 import io.dropwizard.setup.Environment;
 import io.github.fallwizard.FallwizardApplication;
 import io.github.fallwizard.configuration.FallwizardConfiguration;
@@ -12,17 +11,14 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.ws.rs.ext.Provider;
-import java.net.URL;
 import java.util.EnumSet;
 import java.util.Map;
-import java.util.Optional;
 
 public class RevaluateApplication extends FallwizardApplication<FallwizardConfiguration> {
 
     public static void main(String[] args) throws Exception {
-        Optional<URL> urlOptional = Optional.ofNullable(RevaluateApplication.class.getClassLoader().getResource("config.yaml"));
 
-        new RevaluateApplication().run("server", urlOptional.orElseThrow(Exception::new).getPath());
+        new RevaluateApplication().run(args);
     }
 
     @Override
@@ -31,10 +27,10 @@ public class RevaluateApplication extends FallwizardApplication<FallwizardConfig
 
         // Configure CORS
         configureCors(environment);
-        // Authorization filter
-        /*environment.jersey().getResourceConfig().register(AuthorizationRequestFilter.class)*/;
+
         // Entity filtering
         environment.jersey().getResourceConfig().register(EntityFilteringFeature.class);
+
         registerProviders(environment);
     }
 
