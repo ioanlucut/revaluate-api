@@ -7,3 +7,4 @@
 # Do `java -jar target/application-1.0-SNAPSHOT.jar`
 # Do `mvn clean install -PexecITs -DskipDbMigration=true`
 # Do `java -jar target/application-1.0-SNAPSHOT.jar server config.yaml`
+# Do `mvn clean install -PexecITs -DENVIRONMENT=prod`
