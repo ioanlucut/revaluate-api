@@ -1,5 +1,7 @@
 package com.revaluate.category.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.revaluate.core.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -11,13 +13,16 @@ public class CategoryDTO implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
+    @JsonView({Views.DetailsView.class})
     private int id;
 
     @NotBlank
     @Size(min = 2)
+    @JsonView({Views.DetailsView.class})
     private String name;
 
     @NotBlank
+    @JsonView({Views.DetailsView.class})
     private String color;
 
     public int getId() {

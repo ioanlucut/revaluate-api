@@ -1,8 +1,7 @@
-package com.revaluate.account.resource;
+package com.revaluate;
 
 import com.google.common.collect.ImmutableList;
 import com.nimbusds.jose.JOSEException;
-import com.revaluate.RevaluateApplication;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
 import com.revaluate.core.bootstrap.ConfigProperties;
@@ -12,6 +11,7 @@ import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import io.github.fallwizard.configuration.FallwizardConfiguration;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.mockito.Mockito;
 

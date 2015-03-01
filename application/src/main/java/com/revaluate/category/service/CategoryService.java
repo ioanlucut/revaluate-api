@@ -5,6 +5,7 @@ import com.revaluate.category.exception.CategoryException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public interface CategoryService {
 
@@ -15,6 +16,8 @@ public interface CategoryService {
 
     @NotNull
     CategoryDTO update(@Valid CategoryDTO categoryDTO, int userId) throws CategoryException;
+
+    List<CategoryDTO> findAllCategoriesFor(int userId) throws CategoryException;
 
     void remove(int categoryId, int userId) throws CategoryException;
 }

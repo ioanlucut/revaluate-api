@@ -1,29 +1,21 @@
 package com.revaluate.core.filters;
 
+import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
 import com.revaluate.account.persistence.User;
-import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.jwt.JwtService;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.ws.rs.container.ContainerRequestContext;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
-public class AuthorizationRequestFilterTestIT {
+public class AuthorizationRequestFilterTestIT extends AbstractIntegrationTests {
 
     @Autowired
     private JwtService jwtService;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Test
     public void publicMethod() throws Exception {

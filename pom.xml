@@ -403,7 +403,8 @@
                 <version>${maven-failsafe-plugin.version}</version>
                 <configuration>
                     <includes>
-                        <include>**/*E2E.java</include>
+                        <!--<include>**/*E2E.java</include>-->
+                        <include>**/*IT.java</include>
                     </includes>
                 </configuration>
                 <executions>

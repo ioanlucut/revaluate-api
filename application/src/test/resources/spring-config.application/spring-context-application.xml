@@ -15,37 +15,13 @@
 
     <context:component-scan base-package="com.revaluate"/>
 
+    <!--Profiles-->
+    <import resource="classpath:spring-config.application/spring-context-application__DEV.xml"/>
+    <import resource="classpath:spring-config.application/spring-context-application__IT.xml"/>
+
+    <!--SPRING 303 Method validation integration-->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
     <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
-
-    <bean id="prop" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>classpath*:application.properties</value>
-                <value>classpath*:installation.properties</value>
-                <value>classpath*:installation_${ENVIRONMENT}.properties</value>
-            </list>
-        </property>
-        <property name="ignoreResourceNotFound" value="true"/>
-        <property name="ignoreUnresolvablePlaceholders" value="true"/>
-        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
-    </bean>
-
-    <!--Postgresql-->
-
-    <!--
-        <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource">
-            <property name="driverClass" value="${db.driver}"/>
-            <property name="jdbcUrl" value="${db.url}"/>
-            <property name="username" value="${db.username}"/>
-            <property name="password" value="${db.password}"/>
-        </bean>
-    -->
-
-    <!--HSQL-->
-    <jdbc:embedded-database id="dataSource" type="HSQL"/>
-
-    <!--HSQL-->
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>

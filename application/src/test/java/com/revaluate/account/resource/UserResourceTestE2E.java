@@ -1,6 +1,7 @@
 package com.revaluate.account.resource;
 
 import com.nimbusds.jose.JOSEException;
+import com.revaluate.AbstractResourceTestEndToEnd;
 import com.revaluate.account.domain.UpdatePasswordDTO;
 import com.revaluate.account.domain.UpdatePasswordDTOBuilder;
 import com.revaluate.account.domain.UserDTO;
