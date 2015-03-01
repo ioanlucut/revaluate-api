@@ -6,6 +6,7 @@ import com.revaluate.expense.exception.ExpenseException;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public interface ExpenseService {
 
@@ -14,6 +15,8 @@ public interface ExpenseService {
 
     @NotNull
     ExpenseDTO update(@Valid ExpenseDTO expenseDTO, int userId) throws ExpenseException;
+
+    List<ExpenseDTO> findAllExpensesFor(int userId) throws ExpenseException;
 
     void remove(@Min(1) int expenseId, int userId) throws ExpenseException;
 }
