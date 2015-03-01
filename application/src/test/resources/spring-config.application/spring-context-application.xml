@@ -43,10 +43,7 @@
     -->
 
     <!--HSQL-->
-    <jdbc:embedded-database id="dataSource" type="HSQL">
-        <!--<jdbc:script location="classpath:db-schema.sql"/>
-        <jdbc:script location="classpath:db-test-data.sql"/>-->
-    </jdbc:embedded-database>
+    <jdbc:embedded-database id="dataSource" type="HSQL"/>
 
     <!--HSQL-->
 
@@ -58,15 +55,15 @@
         </property>
         <property name="jpaProperties">
             <props>
-                <prop key="hibernate.default_schema">public</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.id.new_generator_mappings">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>-->
-                <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
-                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+                <prop key="hibernate.default_schema">${hibernate.default_schema}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.id.new_generator_mappings">${hibernate.id.new_generator_mappings}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.ejb.naming_strategy">${hibernate.ejb.naming_strategy}</prop>
             </props>
+
         </property>
     </bean>
 
