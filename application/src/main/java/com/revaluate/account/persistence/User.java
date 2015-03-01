@@ -78,6 +78,13 @@ public class User implements Serializable {
         this.registeredDate = new Date();
     }
 
+    public void addEmailToken(EmailToken emailToken) {
+        if (this.emailTokens == null) {
+            this.emailTokens = new ArrayList<>();
+        }
+        this.emailTokens.add(emailToken);
+    }
+
     public Integer getId() {
         return id;
     }
