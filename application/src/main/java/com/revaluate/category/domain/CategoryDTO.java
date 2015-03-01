@@ -1,6 +1,7 @@
 package com.revaluate.category.domain;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.revaluate.core.validators.HexColor;
 import com.revaluate.core.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.NotBlank;
@@ -22,6 +23,7 @@ public class CategoryDTO implements Serializable {
     private String name;
 
     @NotBlank
+    @HexColor
     @JsonView({Views.DetailsView.class})
     private String color;
 

@@ -1,6 +1,7 @@
 package com.revaluate.category.persistence;
 
 import com.revaluate.account.persistence.User;
+import com.revaluate.core.validators.HexColor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,6 +33,7 @@ public class Category implements Serializable {
     private String name;
 
     @NotNull
+    @HexColor
     @Column(nullable = false)
     private String color;
 
