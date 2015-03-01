@@ -9,10 +9,12 @@ import com.revaluate.category.persistence.CategoryRepository;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
 
 @Service
+@Validated
 public class CategoryServiceImpl implements CategoryService {
 
     public static final String CATEGORY_DTO__UPDATE = "CategoryDTO__Update";

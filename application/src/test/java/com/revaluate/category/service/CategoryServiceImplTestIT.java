@@ -40,7 +40,6 @@ public class CategoryServiceImplTestIT {
     private CategoryRepository categoryRepository;
 
     private UserDTO userDTO;
-    private CategoryDTO categoryDTO;
 
     @Before
     @After
@@ -48,11 +47,6 @@ public class CategoryServiceImplTestIT {
         if (userDTO != null) {
             if (userRepository.exists(userDTO.getId())) {
                 userRepository.delete(userDTO.getId());
-            }
-        }
-        if (categoryDTO != null) {
-            if (categoryRepository.exists(categoryDTO.getId())) {
-                categoryRepository.delete(categoryDTO.getId());
             }
         }
     }
@@ -77,7 +71,7 @@ public class CategoryServiceImplTestIT {
         //-----------------------------------------------------------------
         // Create category
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
         categoryService.create(categoryDTO, createdUserDTO.getId());
 
         assertThat(categoryService.isUnique(categoryDTO.getName(), createdUserDTO.getId()), is(false));
@@ -122,7 +116,7 @@ public class CategoryServiceImplTestIT {
         //-----------------------------------------------------------------
         // Create category
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         assertThat(createdCategoryDTO, is(notNullValue()));
@@ -152,7 +146,7 @@ public class CategoryServiceImplTestIT {
         //-----------------------------------------------------------------
         // Create category - 1
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         assertThat(createdCategoryDTO, is(notNullValue()));
@@ -190,7 +184,7 @@ public class CategoryServiceImplTestIT {
         //-----------------------------------------------------------------
         // Create category - 1
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
         categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -210,7 +204,7 @@ public class CategoryServiceImplTestIT {
         //-----------------------------------------------------------------
         // Create category
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -297,7 +291,7 @@ public class CategoryServiceImplTestIT {
         //-----------------------------------------------------------------
         // Create category
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         assertThat(createdCategoryDTO, is(notNullValue()));
@@ -337,7 +331,7 @@ public class CategoryServiceImplTestIT {
         //-----------------------------------------------------------------
         // Create category 1
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
         categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -356,7 +350,7 @@ public class CategoryServiceImplTestIT {
         //-----------------------------------------------------------------
         // Create category 1
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------

@@ -5,7 +5,6 @@ import com.revaluate.category.persistence.Category;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -34,8 +33,6 @@ public class Expense implements Serializable {
     @Digits(integer = 9, fraction = 2)
     private BigDecimal value;
 
-    @NotNull
-    @Column(nullable = false)
     private String description;
 
     @ManyToOne(optional = false)
