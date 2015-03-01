@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,13 +51,14 @@ public class UserServiceImpl implements UserService {
         // Hash the password
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
+        //-----------------------------------------------------------------
+        // Generate a new create email token
+        //-----------------------------------------------------------------
+        EmailToken resetEmailToken = TokenGenerator.generateTokenFor(user, EmailType.CREATED_ACCOUNT);
+        user.addEmailToken(resetEmailToken);
+
         User savedUser = userRepository.save(user);
-        if (savedUser != null) {
-
-            return dozerBeanMapper.map(savedUser, UserDTO.class);
-        }
-
-        throw new UserException("Could not create the user.");
+        return dozerBeanMapper.map(savedUser, UserDTO.class);
     }
 
     @Override
@@ -132,24 +132,17 @@ public class UserServiceImpl implements UserService {
         Optional<User> byEmail = userRepository.findOneByEmail(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
+        List<EmailToken> emailTokens = user.getEmailTokens();
+        //-----------------------------------------------------------------
+        // Override all other reset email tokens
+        //-----------------------------------------------------------------
+        emailTokens.removeIf(e -> e.getEmailType() == EmailType.RESET_PASSWORD);
+
         //-----------------------------------------------------------------
         // Generate a new reset email token
         //-----------------------------------------------------------------
-        EmailToken resetEmailToken = new EmailToken();
-        resetEmailToken.setToken(TokenGenerator.getGeneratedToken());
-        resetEmailToken.setEmailType(EmailType.RESET_PASSWORD);
-        resetEmailToken.setUser(user);
-
-        List<EmailToken> emailTokens = user.getEmailTokens();
-        if (emailTokens != null) {
-            //-----------------------------------------------------------------
-            // Override all other reset email tokens
-            //-----------------------------------------------------------------
-            emailTokens.removeIf(e -> e.getEmailType() == EmailType.RESET_PASSWORD);
-            emailTokens.add(resetEmailToken);
-        } else {
-            user.setEmailTokens(Arrays.asList(resetEmailToken));
-        }
+        EmailToken resetEmailToken = TokenGenerator.generateTokenFor(user, EmailType.RESET_PASSWORD);
+        user.addEmailToken(resetEmailToken);
 
         userRepository.save(user);
     }

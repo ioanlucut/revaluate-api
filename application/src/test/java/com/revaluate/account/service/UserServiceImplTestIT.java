@@ -4,8 +4,13 @@ import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.domain.*;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.EmailToken;
+import com.revaluate.account.persistence.EmailType;
 import com.revaluate.account.persistence.User;
 import org.junit.Test;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -20,9 +25,10 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
 
     @Test
     public void create_validDetails_ok() throws Exception {
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         assertThat(createdUserDTO, is(notNullValue()));
         assertThat(userDTO.getEmail(), equalTo(createdUserDTO.getEmail()));
@@ -31,66 +37,75 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(userDTO.getPassword(), not(equalTo(createdUserDTO.getPassword())));
         assertThat(createdUserDTO.getId(), not(equalTo(0)));
         assertThat(createdUserDTO.getPassword(), is(nullValue()));
+
+        //-----------------------------------------------------------------
+        // Assert that email token is added
+        //-----------------------------------------------------------------
+        Optional<User> oneByEmail = userRepository.findOneByEmail(userDTO.getEmail());
+        assertThat(oneByEmail.isPresent(), is(true));
+        boolean anyMatch = oneByEmail.get().getEmailTokens().stream().anyMatch(e -> e.getEmailType() == EmailType.CREATED_ACCOUNT);
+        assertThat(anyMatch, is(true));
     }
 
     @Test
     public void login_validDetails_ok() throws Exception {
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
-        LoginDTO loginDTO = new LoginDTOBuilder().withEmail("xx@xx.xx").withPassword("1234567").build();
+        LoginDTO loginDTO = new LoginDTOBuilder().withEmail(FAKE_EMAIL).withPassword(OLD_PASSWORD).build();
 
         UserDTO loggedUserDTO = userService.login(loginDTO);
         assertThat(loggedUserDTO, is(notNullValue()));
-        assertThat(userDTO.getEmail(), equalTo(loggedUserDTO.getEmail()));
-        assertThat(userDTO.getFirstName(), equalTo(loggedUserDTO.getFirstName()));
-        assertThat(userDTO.getLastName(), equalTo(loggedUserDTO.getLastName()));
-        assertThat(userDTO.getPassword(), not(equalTo(loggedUserDTO.getPassword())));
+        assertThat(createdUserDTO.getEmail(), equalTo(loggedUserDTO.getEmail()));
+        assertThat(createdUserDTO.getFirstName(), equalTo(loggedUserDTO.getFirstName()));
+        assertThat(createdUserDTO.getLastName(), equalTo(loggedUserDTO.getLastName()));
+        assertThat(createdUserDTO.getPassword(), is(nullValue()));
         assertThat(loggedUserDTO.getId(), not(equalTo(0)));
         assertThat(loggedUserDTO.getPassword(), is(nullValue()));
     }
 
     @Test
     public void getDetails_validDetails_ok() throws Exception {
-        // Create a user
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
-        UserDTO userDetailsDTO = userService.getUserDetails(userDTO.getId());
+        UserDTO userDetailsDTO = userService.getUserDetails(createdUserDTO.getId());
 
         assertThat(userDetailsDTO, is(notNullValue()));
         // email excluded
-        assertThat(userDetailsDTO.getEmail(), equalTo(userDTO.getEmail()));
-        assertThat(userDetailsDTO.getFirstName(), equalTo(userDTO.getFirstName()));
-        assertThat(userDetailsDTO.getLastName(), equalTo(userDTO.getLastName()));
+        assertThat(userDetailsDTO.getEmail(), equalTo(createdUserDTO.getEmail()));
+        assertThat(userDetailsDTO.getFirstName(), equalTo(createdUserDTO.getFirstName()));
+        assertThat(userDetailsDTO.getLastName(), equalTo(createdUserDTO.getLastName()));
         assertThat(userDetailsDTO.getId(), not(equalTo(0)));
-        assertThat(userDetailsDTO.getId(), equalTo(userDTO.getId()));
-        assertThat(userDetailsDTO.getPassword(), not(equalTo(userDTO.getPassword())));
+        assertThat(userDetailsDTO.getId(), equalTo(createdUserDTO.getId()));
+        assertThat(userDetailsDTO.getPassword(), is(nullValue()));
     }
 
     @Test
     public void remove_validDetails_ok() throws Exception {
-        // Create a user
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         // Remove
-        userService.remove(userDTO.getId());
+        userService.remove(createdUserDTO.getId());
 
         // Assertions
-        boolean exists = userRepository.exists(userDTO.getId());
+        boolean exists = userRepository.exists(createdUserDTO.getId());
         assertThat(exists, not(true));
     }
 
     @Test
     public void update_validDetails_ok() throws Exception {
-        // Create a user
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         // Update a user
         UserDTO userDTOToUpdate = new UserDTOBuilder().withEmail("xx@xx.xx2").withFirstName("fn2").withLastName("ln2").withPassword("12345672").build();
@@ -102,120 +117,132 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(updatedUserDTO.getFirstName(), equalTo(userDTOToUpdate.getFirstName()));
         assertThat(updatedUserDTO.getLastName(), equalTo(userDTOToUpdate.getLastName()));
         assertThat(updatedUserDTO.getId(), not(equalTo(0)));
-        assertThat(updatedUserDTO.getId(), equalTo(userDTO.getId()));
+        assertThat(updatedUserDTO.getId(), equalTo(createdUserDTO.getId()));
         assertThat(updatedUserDTO.getPassword(), not(equalTo(userDTOToUpdate.getPassword())));
     }
 
     @Test
     public void updateAndLogin_validDetails_ok() throws Exception {
-        // Create a user
-        String oldPassword = "1234567";
-        String newPassword = "9999999";
-
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword(oldPassword).build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(newPassword).withNewPasswordConfirmation(newPassword).withOldPassword(oldPassword).build();
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(NEW_PASSWORD).withOldPassword(OLD_PASSWORD).build();
         userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
 
         // Try to login
-        LoginDTO loginDTO = new LoginDTOBuilder().withEmail("xx@xx.xx").withPassword(newPassword).build();
+        LoginDTO loginDTO = new LoginDTOBuilder().withEmail(FAKE_EMAIL).withPassword(NEW_PASSWORD).build();
         userService.login(loginDTO);
     }
 
     @Test(expected = UserException.class)
     public void updatePassword_oldPasswordDoesNotMatch_exceptionThrown() throws Exception {
-        // Create a user
-        String oldPassword = "1234567";
-        String newPassword = "9999999";
-
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword(oldPassword).build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(newPassword).withNewPasswordConfirmation(newPassword).withOldPassword(oldPassword + "2").build();
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(NEW_PASSWORD).withOldPassword(OLD_PASSWORD + "2").build();
         userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
     }
 
     @Test(expected = UserException.class)
     public void updatePassword_newPasswordDoesNotMatchPasswordConfirmation_exceptionThrown() throws Exception {
-        // Create a user
-        String oldPassword = "1234567";
-        String newPassword = "9999999";
-
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword(oldPassword).build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(newPassword).withNewPasswordConfirmation(newPassword + "2").withOldPassword(oldPassword).build();
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(NEW_PASSWORD + "2").withOldPassword(OLD_PASSWORD).build();
         userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
     }
 
     @Test(expected = UserException.class)
     public void updatePassword_currentUserNotLoggedIn_exceptionThrown() throws Exception {
-        String oldPassword = "1234567";
-        String newPassword = "9999999";
 
         // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(newPassword).withNewPasswordConfirmation(newPassword + "2").withOldPassword(oldPassword).build();
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(NEW_PASSWORD + "2").withOldPassword(OLD_PASSWORD).build();
         userService.updatePassword(updatePasswordDTO, 99999999);
     }
 
     @Test
     public void sendVerificationEmailToken_validDetails_ok() throws Exception {
-        // Create a user
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
-        userService.requestResetPassword(userDTO.getEmail());
+        userService.requestResetPassword(createdUserDTO.getEmail());
 
-        UserDTO userDTOWithResetPasswordRequest = userService.getUserDetails(userDTO.getId());
+        UserDTO userDTOWithResetPasswordRequest = userService.getUserDetails(createdUserDTO.getId());
 
         assertThat(userDTOWithResetPasswordRequest, is(notNullValue()));
         // email excluded
-        assertThat(userDTOWithResetPasswordRequest.getEmail(), equalTo(userDTO.getEmail()));
-        assertThat(userDTOWithResetPasswordRequest.getFirstName(), equalTo(userDTO.getFirstName()));
-        assertThat(userDTOWithResetPasswordRequest.getLastName(), equalTo(userDTO.getLastName()));
+        assertThat(userDTOWithResetPasswordRequest.getEmail(), equalTo(createdUserDTO.getEmail()));
+        assertThat(userDTOWithResetPasswordRequest.getFirstName(), equalTo(createdUserDTO.getFirstName()));
+        assertThat(userDTOWithResetPasswordRequest.getLastName(), equalTo(createdUserDTO.getLastName()));
         assertThat(userDTOWithResetPasswordRequest.getId(), not(equalTo(0)));
-        assertThat(userDTOWithResetPasswordRequest.getId(), equalTo(userDTO.getId()));
-        assertThat(userDTOWithResetPasswordRequest.getPassword(), not(equalTo(userDTO.getPassword())));
+        assertThat(userDTOWithResetPasswordRequest.getId(), equalTo(createdUserDTO.getId()));
+        assertThat(userDTOWithResetPasswordRequest.getPassword(), is(nullValue()));
     }
 
     @Test
     public void requestResetPassword_firstTokenIsOverridden_ok() throws Exception {
-        // Create a user
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         // First time
-        userService.requestResetPassword(userDTO.getEmail());
-        EmailToken firstEmailToken = userRepository.findOne(userDTO.getId()).getEmailTokens().get(0);
+        userService.requestResetPassword(createdUserDTO.getEmail());
+
+        //-----------------------------------------------------------------
+        // Assert that reset email token is added - FIRST ONE
+        //-----------------------------------------------------------------
+        User foundUser = userRepository.findOne(createdUserDTO.getId());
+        boolean onlyOneResetPassword = getTokenOfType(foundUser, EmailType.RESET_PASSWORD).size() == 1;
+        assertThat(onlyOneResetPassword, is(true));
+        EmailToken firstEmailResetToken = foundUser.getEmailTokens()
+                .stream()
+                .filter(e -> e.getEmailType() == EmailType.RESET_PASSWORD)
+                .findFirst().get();
 
         // Second time
-        userService.requestResetPassword(userDTO.getEmail());
-        EmailToken secondEmailToken = userRepository.findOne(userDTO.getId()).getEmailTokens().get(0);
+        userService.requestResetPassword(createdUserDTO.getEmail());
 
-        assertThat(secondEmailToken.getToken(), not(equalTo(firstEmailToken.getToken())));
+        //-----------------------------------------------------------------
+        // Assert that reset email token is added - SECOND ONE
+        //-----------------------------------------------------------------
+        foundUser = userRepository.findOne(createdUserDTO.getId());
+        onlyOneResetPassword = getTokenOfType(foundUser, EmailType.RESET_PASSWORD).size() == 1;
+        assertThat(onlyOneResetPassword, is(true));
+        boolean aDifferentResetToken = foundUser.getEmailTokens()
+                .stream()
+                .filter(e -> e.getEmailType() == EmailType.RESET_PASSWORD && !e.getToken().equals(firstEmailResetToken.getToken()))
+                .collect(Collectors.toList()).size() == 1;
+        assertThat(aDifferentResetToken, is(true));
     }
 
     @Test
     public void requestResetPassword_detailsValid_ok() throws Exception {
-        // Create a user
-        String oldPassword = "1234567";
-        String email = "xx@xx.xx";
-
-        userDTO = new UserDTOBuilder().withEmail(email).withFirstName("fn").withLastName("ln").withPassword(oldPassword).build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         // Reset password
-        userService.requestResetPassword(email);
+        userService.requestResetPassword(FAKE_EMAIL);
+
+        //-----------------------------------------------------------------
+        // Assert that reset email token is added
+        //-----------------------------------------------------------------
+        User foundUser = userRepository.findOne(createdUserDTO.getId());
+        List<EmailToken> emailTokens = getTokenOfType(foundUser, EmailType.RESET_PASSWORD);
+        assertThat(emailTokens.size(), is(1));
     }
 
     @Test(expected = UserException.class)
@@ -225,96 +252,111 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
 
     @Test
     public void validateResetPasswordToken_validDetails_ok() throws Exception {
-        // Create a user
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         // Reset password
-        userService.requestResetPassword("xx@xx.xx");
-        User user = userRepository.findOne(userDTO.getId());
+        userService.requestResetPassword(FAKE_EMAIL);
+        User user = userRepository.findOne(createdUserDTO.getId());
 
         // validate token
-        userService.validateResetPasswordToken("xx@xx.xx", user.getEmailTokens().get(0).getToken());
+        userService.validateResetPasswordToken(FAKE_EMAIL, user.getEmailTokens().get(0).getToken());
     }
 
     @Test(expected = UserException.class)
     public void validateResetPasswordToken_EmailDoesNotExist_exceptionThrown() throws Exception {
-        userService.validateResetPasswordToken("xx@xx.xx", null);
+        userService.validateResetPasswordToken(FAKE_EMAIL, null);
     }
 
     @Test(expected = UserException.class)
     public void validateResetPasswordToken_invalidToken_exceptionThrown() throws Exception {
-        // Create a user
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         // Reset password
-        userService.requestResetPassword("xx@xx.xx");
-        User user = userRepository.findOne(userDTO.getId());
+        userService.requestResetPassword(FAKE_EMAIL);
+        User user = userRepository.findOne(createdUserDTO.getId());
 
         // validate token
-        userService.validateResetPasswordToken("xx@xx.xx", user.getEmailTokens().get(0).getToken() + "x");
+        userService.validateResetPasswordToken(FAKE_EMAIL, user.getEmailTokens().get(0).getToken() + "x");
     }
 
     @Test(expected = UserException.class)
     public void validateResetPasswordToken_invalidFirstTimeAndSecondTimeValidOneIsInvalidatedToo_exceptionThrown() throws Exception {
-        // Create a user
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         // Reset password
-        userService.requestResetPassword("xx@xx.xx");
-        User user = userRepository.findOne(userDTO.getId());
+        userService.requestResetPassword(FAKE_EMAIL);
+        User user = userRepository.findOne(createdUserDTO.getId());
 
         // validate token
+        List<EmailToken> emailTokens = getTokenOfType(user, EmailType.RESET_PASSWORD);
+        assertThat(emailTokens.size(), is(1));
+        String realToken = emailTokens.get(0).getToken();
         try {
-            userService.validateResetPasswordToken("xx@xx.xx", user.getEmailTokens().get(0).getToken() + "x");
+            userService.validateResetPasswordToken(FAKE_EMAIL, realToken + "x");
         } catch (UserException ex) {
             // do nothing
         }
-
-        userService.validateResetPasswordToken("xx@xx.xx", user.getEmailTokens().get(0).getToken());
+        userService.validateResetPasswordToken(FAKE_EMAIL, realToken);
     }
 
     @Test
-    public void testResetPassword_detailsValid_ok() throws Exception {
-        // Create a user
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+    public void resetPassword_detailsValid_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
+        //-----------------------------------------------------------------
+        // Request reset password
+        //-----------------------------------------------------------------
+        userService.requestResetPassword(FAKE_EMAIL);
+
+        //-----------------------------------------------------------------
         // Reset password
-        userService.requestResetPassword("xx@xx.xx");
-        User user = userRepository.findOne(userDTO.getId());
-
-        // reset password
+        //-----------------------------------------------------------------
+        User user = userRepository.findOne(createdUserDTO.getId());
         ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword("2345678").withPasswordConfirmation("2345678").build();
-        userService.resetPassword(resetPasswordDTO, "xx@xx.xx", user.getEmailTokens().get(0).getToken());
+        List<EmailToken> emailTokens = getTokenOfType(user, EmailType.RESET_PASSWORD);
+        assertThat(emailTokens.size(), is(1));
+        String realToken = emailTokens.get(0).getToken();
+        userService.resetPassword(resetPasswordDTO, FAKE_EMAIL, realToken);
 
-        // Try to login
-        LoginDTO loginDTO = new LoginDTOBuilder().withEmail("xx@xx.xx").withPassword("2345678").build();
+        //-----------------------------------------------------------------
+        // Try to login with newest password
+        //-----------------------------------------------------------------
+        LoginDTO loginDTO = new LoginDTOBuilder().withEmail(FAKE_EMAIL).withPassword("2345678").build();
         userService.login(loginDTO);
 
-        User userWithUpdatedPassword = userRepository.findOne(userDTO.getId());
-        assertThat(userWithUpdatedPassword.getEmailTokens().size(), is(0));
+        //-----------------------------------------------------------------
+        // Token was removed
+        //-----------------------------------------------------------------
+        User userWithUpdatedPassword = userRepository.findOne(createdUserDTO.getId());
+        emailTokens = getTokenOfType(userWithUpdatedPassword, EmailType.RESET_PASSWORD);
+        assertThat(emailTokens.size(), is(0));
     }
 
     @Test(expected = UserException.class)
     public void resetPassword_invalidTokenSentBack_exceptionThrown() throws Exception {
-        // Create a user
-        userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdUserDTO = userService.create(userDTO);
-        userDTO.setId(createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
 
         // Reset password
-        userService.requestResetPassword("xx@xx.xx");
-        User user = userRepository.findOne(userDTO.getId());
+        userService.requestResetPassword(FAKE_EMAIL);
+        User user = userRepository.findOne(createdUserDTO.getId());
 
         // reset password
         ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword("2345678").withPasswordConfirmation("2345678").build();
-        userService.resetPassword(resetPasswordDTO, "xx@xx.xx", user.getEmailTokens().get(0).getToken() + "x");
+        userService.resetPassword(resetPasswordDTO, FAKE_EMAIL, user.getEmailTokens().get(0).getToken() + "x");
     }
 }
