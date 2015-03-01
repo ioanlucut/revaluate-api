@@ -9,3 +9,24 @@
 # Do `java -jar target/application-1.0-SNAPSHOT.jar server config.yaml`
 # Do `mvn clean install -PexecITs -DENVIRONMENT=prod`
 # Do `mvn clean install -DskipITs=false  -DskipDbMigration=true -Dspring.profiles.active="IT"`
+
+Existing endpoints:
+# `DELETE  /expenses/remove/{expenseId} (com.revaluate.expense.resource.ExpenseResource)`
+    `GET     /expenses/retrieve (com.revaluate.expense.resource.ExpenseResource)`
+    `POST    /expenses/create (com.revaluate.expense.resource.ExpenseResource)`
+    `POST    /expenses/update (com.revaluate.expense.resource.ExpenseResource)`
+    `DELETE  /account/remove (com.revaluate.account.resource.UserResource)`
+    `GET     /account/details (com.revaluate.account.resource.UserResource)`
+    `GET     /account/isUniqueEmail (com.revaluate.account.resource.UserResource)`
+    `POST    /account/create (com.revaluate.account.resource.UserResource)`
+    `POST    /account/login (com.revaluate.account.resource.UserResource)`
+    `POST    /account/requestResetPassword/{email} (com.revaluate.account.resource.UserResource)`
+    `POST    /account/resetPassword/{email}/{token} (com.revaluate.account.resource.UserResource)`
+    `POST    /account/update (com.revaluate.account.resource.UserResource)`
+    `POST    /account/updatePassword (com.revaluate.account.resource.UserResource)`
+    `POST    /account/validateResetPasswordToken/{email}/{token} (com.revaluate.account.resource.UserResource)`
+    `DELETE  /categories/remove/{categoryId} (com.revaluate.category.resource.CategoryResource)`
+    `GET     /categories/isUniqueCategory (com.revaluate.category.resource.CategoryResource)`
+    `GET     /categories/retrieve (com.revaluate.category.resource.CategoryResource)`
+    `POST    /categories/create (com.revaluate.category.resource.CategoryResource)`
+    `POST    /categories/update (com.revaluate.category.resource.CategoryResource)`
