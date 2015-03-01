@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDTO> findAllCategoriesFor(int userId) throws CategoryException {
+    public List<CategoryDTO> findAllCategoriesFor(int userId) {
         List<Category> categories = categoryRepository.findAllByUserId(userId);
 
         return categories.stream().map(category -> dozerBeanMapper.map(category, CategoryDTO.class)).collect(Collectors.toList());

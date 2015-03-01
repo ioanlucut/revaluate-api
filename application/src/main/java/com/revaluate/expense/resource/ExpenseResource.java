@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path(ExpenseResource.CATEGORIES)
 @Component
@@ -28,6 +29,7 @@ public class ExpenseResource extends Resource {
     //-----------------------------------------------------------------
     private static final String CREATE_EXPENSE = "create";
     private static final String UPDATE_EXPENSE = "update";
+    private static final String RETRIEVE_EXPENSES = "retrieve";
     private static final String REMOVE_EXPENSE = "remove/{expenseId}";
 
     //-----------------------------------------------------------------
@@ -56,6 +58,16 @@ public class ExpenseResource extends Resource {
         ExpenseDTO createdExpenseDTO = expenseService.update(expenseDTO, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, createdExpenseDTO);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(RETRIEVE_EXPENSES)
+    public Response retrieveAll() {
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, allExpensesFor);
     }
 
     @DELETE
