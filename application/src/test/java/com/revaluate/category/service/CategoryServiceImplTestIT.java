@@ -10,6 +10,7 @@ import com.revaluate.category.persistence.CategoryRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -145,6 +146,20 @@ public class CategoryServiceImplTestIT extends AbstractIntegrationTests {
 
         assertThat(user, is(notNullValue()));
         assertThat(user.getCategories().size(), is(equalTo(2)));
+    }
+
+    @Test(expected = ConstraintViolationException.class)
+    public void create_validDetailsButWrongColor_throwsException() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category - with wrong color hex format
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("12").withName("name1").build();
+        categoryService.create(categoryDTO, createdUserDTO.getId());
     }
 
     @Test(expected = CategoryException.class)
