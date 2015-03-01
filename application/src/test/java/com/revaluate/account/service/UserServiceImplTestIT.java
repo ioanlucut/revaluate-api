@@ -3,8 +3,8 @@ package com.revaluate.account.service;
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.domain.*;
 import com.revaluate.account.exception.UserException;
+import com.revaluate.account.persistence.EmailToken;
 import com.revaluate.account.persistence.User;
-import com.revaluate.account.persistence.UserEmailToken;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -195,11 +195,11 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
 
         // First time
         userService.requestResetPassword(userDTO.getEmail());
-        UserEmailToken firstEmailToken = userRepository.findOne(userDTO.getId()).getResetEmailToken();
+        EmailToken firstEmailToken = userRepository.findOne(userDTO.getId()).getEmailTokens().get(0);
 
         // Second time
         userService.requestResetPassword(userDTO.getEmail());
-        UserEmailToken secondEmailToken = userRepository.findOne(userDTO.getId()).getResetEmailToken();
+        EmailToken secondEmailToken = userRepository.findOne(userDTO.getId()).getEmailTokens().get(0);
 
         assertThat(secondEmailToken.getToken(), not(equalTo(firstEmailToken.getToken())));
     }
@@ -219,7 +219,7 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
     }
 
     @Test(expected = UserException.class)
-    public void testRequestResetPasswordInExistingUser() throws Exception {
+    public void requestResetPassword_userDoesNotExists_throwsException() throws Exception {
         userService.requestResetPassword("abcdefg@xx.com");
     }
 
@@ -235,11 +235,11 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
         User user = userRepository.findOne(userDTO.getId());
 
         // validate token
-        userService.validateResetPasswordToken("xx@xx.xx", user.getResetEmailToken().getToken());
+        userService.validateResetPasswordToken("xx@xx.xx", user.getEmailTokens().get(0).getToken());
     }
 
     @Test(expected = UserException.class)
-    public void testValidateResetPasswordTokenEmailDoesNotExist() throws Exception {
+    public void validateResetPasswordToken_EmailDoesNotExist_exceptionThrown() throws Exception {
         userService.validateResetPasswordToken("xx@xx.xx", null);
     }
 
@@ -255,7 +255,7 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
         User user = userRepository.findOne(userDTO.getId());
 
         // validate token
-        userService.validateResetPasswordToken("xx@xx.xx", user.getResetEmailToken().getToken() + "x");
+        userService.validateResetPasswordToken("xx@xx.xx", user.getEmailTokens().get(0).getToken() + "x");
     }
 
     @Test(expected = UserException.class)
@@ -271,12 +271,12 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
 
         // validate token
         try {
-            userService.validateResetPasswordToken("xx@xx.xx", user.getResetEmailToken().getToken() + "x");
+            userService.validateResetPasswordToken("xx@xx.xx", user.getEmailTokens().get(0).getToken() + "x");
         } catch (UserException ex) {
             // do nothing
         }
 
-        userService.validateResetPasswordToken("xx@xx.xx", user.getResetEmailToken().getToken());
+        userService.validateResetPasswordToken("xx@xx.xx", user.getEmailTokens().get(0).getToken());
     }
 
     @Test
@@ -292,18 +292,18 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
 
         // reset password
         ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword("2345678").withPasswordConfirmation("2345678").build();
-        userService.resetPassword(resetPasswordDTO, "xx@xx.xx", user.getResetEmailToken().getToken());
+        userService.resetPassword(resetPasswordDTO, "xx@xx.xx", user.getEmailTokens().get(0).getToken());
 
         // Try to login
         LoginDTO loginDTO = new LoginDTOBuilder().withEmail("xx@xx.xx").withPassword("2345678").build();
         userService.login(loginDTO);
 
         User userWithUpdatedPassword = userRepository.findOne(userDTO.getId());
-        assertThat(userWithUpdatedPassword.getResetEmailToken(), is(nullValue()));
+        assertThat(userWithUpdatedPassword.getEmailTokens().size(), is(0));
     }
 
     @Test(expected = UserException.class)
-    public void testResetPassword_invalidTokenSentBack_exceptionThrown() throws Exception {
+    public void resetPassword_invalidTokenSentBack_exceptionThrown() throws Exception {
         // Create a user
         userDTO = new UserDTOBuilder().withEmail("xx@xx.xx").withFirstName("fn").withLastName("ln").withPassword("1234567").build();
         UserDTO createdUserDTO = userService.create(userDTO);
@@ -315,6 +315,6 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
 
         // reset password
         ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword("2345678").withPasswordConfirmation("2345678").build();
-        userService.resetPassword(resetPasswordDTO, "xx@xx.xx", user.getResetEmailToken().getToken() + "x");
+        userService.resetPassword(resetPasswordDTO, "xx@xx.xx", user.getEmailTokens().get(0).getToken() + "x");
     }
 }

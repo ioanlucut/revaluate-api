@@ -5,16 +5,17 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@SequenceGenerator(name = UserEmailToken.SEQ_GENERATOR_NAME, sequenceName = UserEmailToken.SEQ_NAME, initialValue = UserEmailToken.SEQ_INITIAL_VALUE, allocationSize = UserEmailToken.ALLOCATION_SIZE)
-@Table(name = "user_email_token")
-public class UserEmailToken implements Serializable {
+@SequenceGenerator(name = EmailToken.SEQ_GENERATOR_NAME, sequenceName = EmailToken.SEQ_NAME, initialValue = EmailToken.SEQ_INITIAL_VALUE, allocationSize = EmailToken.ALLOCATION_SIZE)
+@Table(name = "email_token")
+public class EmailToken implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
-    protected static final String SEQ_NAME = "user_email_token_id_seq";
-    protected static final String SEQ_GENERATOR_NAME = "user_email_token_seq_generator";
+    protected static final String SEQ_NAME = "user_token_id_seq";
+    protected static final String SEQ_GENERATOR_NAME = "user_token_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 1;
     protected static final int ALLOCATION_SIZE = 1;
+    public static final String USER_ID = "user_id";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
@@ -23,6 +24,14 @@ public class UserEmailToken implements Serializable {
     @NotNull
     @Column(nullable = false)
     private String token;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EmailType emailType;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = USER_ID, nullable = false)
+    private User user;
 
     /**
      * The user can be enabled or disabled from administration platform.
@@ -43,6 +52,22 @@ public class UserEmailToken implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public EmailType getEmailType() {
+        return emailType;
+    }
+
+    public void setEmailType(EmailType emailType) {
+        this.emailType = emailType;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public boolean isValidated() {

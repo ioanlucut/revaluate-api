@@ -6,8 +6,9 @@ import com.revaluate.account.domain.UpdatePasswordDTO;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.exception.UserNotFoundException;
+import com.revaluate.account.persistence.EmailToken;
+import com.revaluate.account.persistence.EmailType;
 import com.revaluate.account.persistence.User;
-import com.revaluate.account.persistence.UserEmailToken;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.jwt.JwtService;
 import com.revaluate.core.token.TokenGenerator;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -129,9 +132,24 @@ public class UserServiceImpl implements UserService {
         Optional<User> byEmail = userRepository.findOneByEmail(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
-        UserEmailToken resetEmailToken = new UserEmailToken();
+        //-----------------------------------------------------------------
+        // Generate a new reset email token
+        //-----------------------------------------------------------------
+        EmailToken resetEmailToken = new EmailToken();
         resetEmailToken.setToken(TokenGenerator.getGeneratedToken());
-        user.setResetEmailToken(resetEmailToken);
+        resetEmailToken.setEmailType(EmailType.RESET_PASSWORD);
+        resetEmailToken.setUser(user);
+
+        List<EmailToken> emailTokens = user.getEmailTokens();
+        if (emailTokens != null) {
+            //-----------------------------------------------------------------
+            // Override all other reset email tokens
+            //-----------------------------------------------------------------
+            emailTokens.removeIf(e -> e.getEmailType() == EmailType.RESET_PASSWORD);
+            emailTokens.add(resetEmailToken);
+        } else {
+            user.setEmailTokens(Arrays.asList(resetEmailToken));
+        }
 
         userRepository.save(user);
     }
@@ -141,14 +159,13 @@ public class UserServiceImpl implements UserService {
         Optional<User> byEmail = userRepository.findOneByEmail(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
-        if (user.getResetEmailToken() == null) {
+        if (user.getEmailTokens() == null || user.getEmailTokens().isEmpty()) {
             throw new UserException("Token is invalid.");
         }
 
-        if (!user.getResetEmailToken().getToken().equals(token)) {
-            user.setResetEmailToken(null);
+        if (user.getEmailTokens().stream().noneMatch(e -> e.getToken().equals(token))) {
+            user.getEmailTokens().removeIf(e -> e.getEmailType() == EmailType.RESET_PASSWORD);
             userRepository.save(user);
-
             throw new UserException("Token is invalid.");
         }
     }
@@ -163,9 +180,10 @@ public class UserServiceImpl implements UserService {
         }
 
         Optional<User> byEmail = userRepository.findOneByEmail(email);
-        User existingUser = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
-        existingUser.setResetEmailToken(null);
-        existingUser.setPassword(BCrypt.hashpw(resetPasswordDTO.getPassword(), BCrypt.gensalt()));
-        userRepository.save(existingUser);
+        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
+
+        user.getEmailTokens().removeIf(e -> e.getEmailType() == EmailType.RESET_PASSWORD);
+        user.setPassword(BCrypt.hashpw(resetPasswordDTO.getPassword(), BCrypt.gensalt()));
+        userRepository.save(user);
     }
 }

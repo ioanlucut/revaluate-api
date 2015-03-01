@@ -61,9 +61,9 @@ public class User implements Serializable {
     @Column(nullable = false)
     private Date registeredDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = RESET_EMAIL_TOKEN_ID)
-    private UserEmailToken resetEmailToken;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = USER, orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<EmailToken> emailTokens;
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = USER, orphanRemoval = true)
@@ -144,12 +144,12 @@ public class User implements Serializable {
         }
     }
 
-    public UserEmailToken getResetEmailToken() {
-        return resetEmailToken;
+    public List<EmailToken> getEmailTokens() {
+        return emailTokens;
     }
 
-    public void setResetEmailToken(UserEmailToken resetEmailToken) {
-        this.resetEmailToken = resetEmailToken;
+    public void setEmailTokens(List<EmailToken> emailTokens) {
+        this.emailTokens = emailTokens;
     }
 
     public List<Category> getCategories() {
