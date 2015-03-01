@@ -16,7 +16,7 @@ public interface ExpenseService {
     @NotNull
     ExpenseDTO update(@Valid ExpenseDTO expenseDTO, int userId) throws ExpenseException;
 
-    List<ExpenseDTO> findAllExpensesFor(int userId) throws ExpenseException;
+    List<ExpenseDTO> findAllExpensesFor(int userId);
 
     void remove(@Min(1) int expenseId, int userId) throws ExpenseException;
 }

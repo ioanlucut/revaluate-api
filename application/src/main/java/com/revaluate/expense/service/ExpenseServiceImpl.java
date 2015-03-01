@@ -66,7 +66,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<ExpenseDTO> findAllExpensesFor(int userId) throws ExpenseException {
+    public List<ExpenseDTO> findAllExpensesFor(int userId) {
         List<Expense> expenses = expenseRepository.findAllByUserId(userId);
 
         return expenses.stream().map(category -> dozerBeanMapper.map(category, ExpenseDTO.class)).collect(Collectors.toList());

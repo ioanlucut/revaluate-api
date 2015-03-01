@@ -17,7 +17,7 @@ public interface CategoryService {
     @NotNull
     CategoryDTO update(@Valid CategoryDTO categoryDTO, int userId) throws CategoryException;
 
-    List<CategoryDTO> findAllCategoriesFor(int userId) throws CategoryException;
+    List<CategoryDTO> findAllCategoriesFor(int userId);
 
     void remove(int categoryId, int userId) throws CategoryException;
 }

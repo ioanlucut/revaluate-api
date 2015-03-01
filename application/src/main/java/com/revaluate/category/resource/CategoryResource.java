@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path(CategoryResource.CATEGORIES)
 @Component
@@ -31,6 +32,7 @@ public class CategoryResource extends Resource {
     private static final String IS_UNIQUE_CATEGORY = "isUniqueCategory";
     private static final String CREATE_CATEGORY = "create";
     private static final String UPDATE_CATEGORY = "update";
+    private static final String RETRIEVE_EXPENSES = "retrieve";
     private static final String REMOVE_CATEGORY = "remove/{categoryId}";
 
     //-----------------------------------------------------------------
@@ -72,6 +74,16 @@ public class CategoryResource extends Resource {
         CategoryDTO createdCategoryDTO = categoryService.update(categoryDTO, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, createdCategoryDTO);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(RETRIEVE_EXPENSES)
+    public Response retrieveAll() {
+        List<CategoryDTO> allCategoriesFor = categoryService.findAllCategoriesFor(getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, allCategoriesFor);
     }
 
     @DELETE
