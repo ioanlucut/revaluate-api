@@ -1,21 +1,14 @@
 package com.revaluate.category.service;
 
+import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.domain.UserDTO;
-import com.revaluate.account.domain.UserDTOBuilder;
 import com.revaluate.account.persistence.User;
-import com.revaluate.account.persistence.UserRepository;
-import com.revaluate.account.service.UserService;
 import com.revaluate.category.domain.CategoryDTO;
 import com.revaluate.category.domain.CategoryDTOBuilder;
 import com.revaluate.category.exception.CategoryException;
 import com.revaluate.category.persistence.CategoryRepository;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
@@ -23,33 +16,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
-public class CategoryServiceImplTestIT {
-
-    @Autowired
-    private UserService userService;
+public class CategoryServiceImplTestIT extends AbstractIntegrationTests {
 
     @Autowired
     private CategoryService categoryService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private CategoryRepository categoryRepository;
-
-    private UserDTO userDTO;
-
-    @Before
-    @After
-    public void tearDown() throws Exception {
-        if (userDTO != null) {
-            if (userRepository.exists(userDTO.getId())) {
-                userRepository.delete(userDTO.getId());
-            }
-        }
-    }
 
     @Test
     public void isUniqueName_validName_ok() throws Exception {
@@ -281,6 +254,32 @@ public class CategoryServiceImplTestIT {
         categoryService.update(categoryToUpdateDTO, secondCreatedUserDTO.getId());
     }
 
+    //-----------------------------------------------------------------
+    // Find all categories work
+    //-----------------------------------------------------------------
+    @Test
+    public void findAll_ofExistingUser_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create two categories
+        //-----------------------------------------------------------------
+        CategoryDTO categoryToCreateDTO = new CategoryDTOBuilder().withColor("#fff").withName("noname").build();
+        categoryService.create(categoryToCreateDTO, createdUserDTO.getId());
+        categoryToCreateDTO = new CategoryDTOBuilder().withColor("#fff").withName("noname2").build();
+        categoryService.create(categoryToCreateDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Find created categories + asserts
+        //-----------------------------------------------------------------
+        List<CategoryDTO> allCategoriesFor = categoryService.findAllCategoriesFor(createdUserDTO.getId());
+        assertThat(allCategoriesFor, is(notNullValue()));
+        assertThat(allCategoriesFor.size(), is(equalTo(2)));
+    }
+
     @Test
     public void remove_validDetails_ok() throws Exception {
         //-----------------------------------------------------------------
@@ -377,21 +376,5 @@ public class CategoryServiceImplTestIT {
         //-----------------------------------------------------------------
         List<User> all = userRepository.findAll();
         assertThat(all.size(), is(equalTo(0)));
-    }
-
-    //-----------------------------------------------------------------
-    // Common methods
-    //-----------------------------------------------------------------
-
-    private UserDTO createUserDTO(String email) throws com.revaluate.account.exception.UserException {
-        userDTO = new UserDTOBuilder().withEmail(email).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-        UserDTO createdCategoryDTO = userService.create(userDTO);
-        userDTO.setId(createdCategoryDTO.getId());
-
-        return createdCategoryDTO;
-    }
-
-    private UserDTO createUserDTO() throws com.revaluate.account.exception.UserException {
-        return createUserDTO("xx@xx.xx");
     }
 }

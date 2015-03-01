@@ -1,6 +1,8 @@
 package com.revaluate.expense.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.revaluate.category.domain.CategoryDTO;
+import com.revaluate.core.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
 import javax.validation.constraints.Digits;
@@ -13,14 +15,18 @@ public class ExpenseDTO implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
+    @JsonView({Views.DetailsView.class})
     private int id;
 
     @Digits(integer = 9, fraction = 2)
+    @JsonView({Views.DetailsView.class})
     private double value;
 
+    @JsonView({Views.DetailsView.class})
     private String description;
 
     @NotNull
+    @JsonView({Views.DetailsView.class})
     private CategoryDTO category;
 
     private Date addedDate;

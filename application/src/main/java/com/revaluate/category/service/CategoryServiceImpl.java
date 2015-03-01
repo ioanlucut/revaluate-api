@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Validated
@@ -59,6 +61,13 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category savedCategory = categoryRepository.save(category);
         return dozerBeanMapper.map(savedCategory, CategoryDTO.class);
+    }
+
+    @Override
+    public List<CategoryDTO> findAllCategoriesFor(int userId) throws CategoryException {
+        List<Category> categories = categoryRepository.findAllByUserId(userId);
+
+        return categories.stream().map(category -> dozerBeanMapper.map(category, CategoryDTO.class)).collect(Collectors.toList());
     }
 
     @Override

@@ -1,41 +1,17 @@
 package com.revaluate.account.service;
 
+import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.domain.*;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserEmailToken;
-import com.revaluate.account.persistence.UserRepository;
-import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
-public class UserServiceTestIT {
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    private UserDTO userDTO;
-
-    @After
-    public void tearDown() throws Exception {
-        if (userDTO != null) {
-            if (userRepository.exists(userDTO.getId())) {
-                userService.remove(userDTO.getId());
-            }
-        }
-    }
+public class UserServiceImplTestIT extends AbstractIntegrationTests {
 
     @Test
     public void isUniqueEmail_validEmail_ok() throws Exception {

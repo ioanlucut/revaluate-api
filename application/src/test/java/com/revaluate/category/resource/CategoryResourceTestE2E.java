@@ -2,7 +2,7 @@ package com.revaluate.category.resource;
 
 import com.nimbusds.jose.JOSEException;
 import com.revaluate.account.domain.UserDTO;
-import com.revaluate.account.resource.AbstractResourceTestEndToEnd;
+import com.revaluate.AbstractResourceTestEndToEnd;
 import com.revaluate.category.domain.CategoryDTO;
 import com.revaluate.category.domain.CategoryDTOBuilder;
 import com.revaluate.core.resource.Answer;
@@ -15,7 +15,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
