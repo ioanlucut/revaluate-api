@@ -3,13 +3,18 @@ package com.revaluate.category.service;
 import com.revaluate.category.domain.CategoryDTO;
 import com.revaluate.category.exception.CategoryException;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 public interface CategoryService {
 
     boolean isUnique(String name, int userId);
 
-    CategoryDTO create(CategoryDTO categoryDTO, int userId) throws CategoryException;
+    @NotNull
+    CategoryDTO create(@Valid CategoryDTO categoryDTO, int userId) throws CategoryException;
 
-    CategoryDTO update(CategoryDTO categoryDTO, int userId) throws CategoryException;
+    @NotNull
+    CategoryDTO update(@Valid CategoryDTO categoryDTO, int userId) throws CategoryException;
 
     void remove(int categoryId, int userId) throws CategoryException;
 }

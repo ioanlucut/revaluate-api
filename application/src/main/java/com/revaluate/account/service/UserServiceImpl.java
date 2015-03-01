@@ -15,10 +15,12 @@ import org.dozer.DozerBeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
 
 @Service
+@Validated
 public class UserServiceImpl implements UserService {
 
     public static final String USER_DTO__UPDATE = "UserDTO__Update";

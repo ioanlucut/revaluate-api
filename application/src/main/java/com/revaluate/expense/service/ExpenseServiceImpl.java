@@ -11,10 +11,12 @@ import com.revaluate.expense.persistence.ExpenseRepository;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
 
 @Service
+@Validated
 public class ExpenseServiceImpl implements ExpenseService {
 
     @Autowired
@@ -32,11 +34,8 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public ExpenseDTO create(ExpenseDTO expenseDTO, int userId) throws ExpenseException {
         Expense expense = dozerBeanMapper.map(expenseDTO, Expense.class);
-        if (expense.getCategory() == null) {
-            throw new ExpenseException("Category is missing");
-        }
         Optional<Category> categoryByName = categoryRepository.findOneByIdAndUserId(expense.getCategory().getId(), userId);
-        Category categoryFound = categoryByName.orElseThrow(() -> new ExpenseException("Category is not proper"));
+        Category categoryFound = categoryByName.orElseThrow(() -> new ExpenseException("Category doesn't exist"));
 
         User foundUser = userRepository.findOne(userId);
         expense.setUser(foundUser);
@@ -50,6 +49,10 @@ public class ExpenseServiceImpl implements ExpenseService {
     public ExpenseDTO update(ExpenseDTO expenseDTO, int userId) throws ExpenseException {
         Optional<Expense> expenseById = expenseRepository.findOneByIdAndUserId(expenseDTO.getId(), userId);
         Expense foundExpense = expenseById.orElseThrow(() -> new ExpenseException("Expense doesn't exist"));
+
+        if (!categoryRepository.findOneByIdAndUserId(expenseDTO.getCategory().getId(), userId).isPresent()) {
+            throw new ExpenseException("This category does not exist");
+        }
 
         //-----------------------------------------------------------------
         // Update the expense with given expense DTO

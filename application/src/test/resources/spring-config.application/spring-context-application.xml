@@ -3,6 +3,7 @@
        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
         http://www.springframework.org/schema/data/jpa
@@ -13,6 +14,9 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="com.revaluate"/>
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+    <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
 
     <bean id="prop" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -28,12 +32,21 @@
     </bean>
 
     <!--Postgresql-->
-    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource">
-        <property name="driverClass" value="${db.driver}"/>
-        <property name="jdbcUrl" value="${db.url}"/>
-        <property name="username" value="${db.username}"/>
-        <property name="password" value="${db.password}"/>
-    </bean>
+
+    <!--
+        <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource">
+            <property name="driverClass" value="${db.driver}"/>
+            <property name="jdbcUrl" value="${db.url}"/>
+            <property name="username" value="${db.username}"/>
+            <property name="password" value="${db.password}"/>
+        </bean>
+    -->
+
+    <!--HSQL-->
+    <jdbc:embedded-database id="dataSource" type="HSQL">
+        <!--<jdbc:script location="classpath:db-schema.sql"/>
+        <jdbc:script location="classpath:db-test-data.sql"/>-->
+    </jdbc:embedded-database>
 
     <!--HSQL-->
 
@@ -49,10 +62,9 @@
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.id.new_generator_mappings">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
-                <!--<prop key="hibernate.hbm2ddl.auto">create-drop</prop>-->
-                <!--<prop key="hibernate.hbm2ddl.auto">validate</prop>-->
-                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</prop>-->
+                <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
                 <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
             </props>
         </property>

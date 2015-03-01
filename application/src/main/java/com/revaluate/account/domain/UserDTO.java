@@ -18,6 +18,7 @@ public class UserDTO implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
+    @JsonView({Views.UserView.class})
     private int id;
 
     @NotBlank
@@ -35,7 +36,6 @@ public class UserDTO implements Serializable {
 
     @NotBlank
     @Size(min = 7)
-    @JsonView({Views.UserView.class})
     private String password;
 
     @JsonView({Views.UserView.class})
