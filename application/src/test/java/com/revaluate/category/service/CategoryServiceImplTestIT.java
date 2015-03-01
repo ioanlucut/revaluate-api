@@ -281,6 +281,21 @@ public class CategoryServiceImplTestIT extends AbstractIntegrationTests {
     }
 
     @Test
+    public void findAll_ofExistingUserIfNoPresent_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Find created categories + asserts
+        //-----------------------------------------------------------------
+        List<CategoryDTO> allCategoriesFor = categoryService.findAllCategoriesFor(createdUserDTO.getId());
+        assertThat(allCategoriesFor, is(notNullValue()));
+        assertThat(allCategoriesFor.size(), is(equalTo(0)));
+    }
+
+    @Test
     public void remove_validDetails_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create user

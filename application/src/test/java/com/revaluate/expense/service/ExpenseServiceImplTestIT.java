@@ -17,9 +17,11 @@ import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.Is.is;
 
 public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
 
@@ -345,5 +347,51 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         ExpenseDTO expenseDTOToUpdate = new ExpenseDTOBuilder().withValue(2.55).withId(expenseDTO.getId()).withDescription("my first expense").build();
         expenseService.update(expenseDTOToUpdate, createdUserDTO.getId());
+    }
+
+    //-----------------------------------------------------------------
+    // Find all expenses work
+    //-----------------------------------------------------------------
+    @Test
+    public void findAll_ofExistingUser_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create expense
+        //-----------------------------------------------------------------
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Find created epenses + asserts
+        //-----------------------------------------------------------------
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId());
+        assertThat(allExpensesFor, is(notNullValue()));
+        assertThat(allExpensesFor.size(), is(equalTo(2)));
+    }
+
+    @Test
+    public void findAll_ofExistingUserIfNoPresent_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Find created epenses + asserts
+        //-----------------------------------------------------------------
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId());
+        assertThat(allExpensesFor, is(notNullValue()));
+        assertThat(allExpensesFor.size(), is(equalTo(0)));
     }
 }

@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Validated
@@ -61,6 +63,13 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         Expense savedExpense = expenseRepository.save(foundExpense);
         return dozerBeanMapper.map(savedExpense, ExpenseDTO.class);
+    }
+
+    @Override
+    public List<ExpenseDTO> findAllExpensesFor(int userId) throws ExpenseException {
+        List<Expense> expenses = expenseRepository.findAllByUserId(userId);
+
+        return expenses.stream().map(category -> dozerBeanMapper.map(category, ExpenseDTO.class)).collect(Collectors.toList());
     }
 
     @Override
