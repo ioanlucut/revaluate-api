@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,7 +70,35 @@ public class ExpenseServiceImpl implements ExpenseService {
     public List<ExpenseDTO> findAllExpensesFor(int userId) {
         List<Expense> expenses = expenseRepository.findAllByUserId(userId);
 
-        return expenses.stream().map(category -> dozerBeanMapper.map(category, ExpenseDTO.class)).collect(Collectors.toList());
+        return collectAndGet(expenses);
+    }
+
+    @Override
+    public List<ExpenseDTO> findAllExpensesAfter(int userId, Date after) {
+        List<Expense> expenses = expenseRepository.findAllByUserIdAndAddedDateAfter(userId, after);
+
+        return collectAndGet(expenses);
+    }
+
+    @Override
+    public List<ExpenseDTO> findAllExpensesBefore(int userId, Date before) {
+        List<Expense> expenses = expenseRepository.findAllByUserIdAndAddedDateBefore(userId, before);
+
+        return collectAndGet(expenses);
+    }
+
+    @Override
+    public List<ExpenseDTO> findAllExpensesAfterBefore(int userId, Date after, Date before) {
+        List<Expense> expenses = expenseRepository.findAllByUserIdAndAddedDateAfterAndAddedDateBefore(userId, after, before);
+
+        return collectAndGet(expenses);
+    }
+
+    @Override
+    public List<ExpenseDTO> findAllExpensesWithCategoryIdFor(int userId, int categoryId) {
+        List<Expense> expenses = expenseRepository.findAllByUserIdAndCategoryId(userId, categoryId);
+
+        return collectAndGet(expenses);
     }
 
     @Override
@@ -78,5 +107,9 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenseById.orElseThrow(() -> new ExpenseException("Expense doesn't exist"));
 
         expenseRepository.delete(expenseId);
+    }
+
+    private List<ExpenseDTO> collectAndGet(List<Expense> expenses) {
+        return expenses.stream().map(category -> dozerBeanMapper.map(category, ExpenseDTO.class)).collect(Collectors.toList());
     }
 }

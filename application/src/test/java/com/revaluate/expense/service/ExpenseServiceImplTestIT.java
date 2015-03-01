@@ -17,6 +17,7 @@ import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolationException;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -381,7 +382,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
     }
 
     @Test
-    public void findAll_ofExistingUserIfNoPresent_ok() throws Exception {
+    public void findAll_ofExistingUserIfNoExpenseExist_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
@@ -393,5 +394,155 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId());
         assertThat(allExpensesFor, is(notNullValue()));
         assertThat(allExpensesFor.size(), is(equalTo(0)));
+    }
+
+    //-----------------------------------------------------------------
+    // Find all expenses work - AFTER - BEFORE
+    //-----------------------------------------------------------------
+    @Test
+    public void findAll_ofExistingUserBetweenTwoDates_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create expense
+        //-----------------------------------------------------------------
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        Date before = new Date();
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        Date after = new Date();
+
+        //-----------------------------------------------------------------
+        // Find created epenses + asserts
+        //-----------------------------------------------------------------
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesAfterBefore(createdUserDTO.getId(), before, after);
+        assertThat(allExpensesFor, is(notNullValue()));
+        assertThat(allExpensesFor.size(), is(equalTo(7)));
+    }
+
+    //-----------------------------------------------------------------
+    // Find all expenses work - AFTER a date
+    //-----------------------------------------------------------------
+    @Test
+    public void findAll_ofExistingUserBetweenAfterADate_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create expense
+        //-----------------------------------------------------------------
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        Date startDate = new Date();
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Find created epenses + asserts after a date
+        //-----------------------------------------------------------------
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesAfter(createdUserDTO.getId(), startDate);
+        assertThat(allExpensesFor, is(notNullValue()));
+        assertThat(allExpensesFor.size(), is(equalTo(7)));
+    }
+
+    //-----------------------------------------------------------------
+    // Find all expenses work - BEFORE a date
+    //-----------------------------------------------------------------
+    @Test
+    public void findAll_ofExistingUserBetweenBeforeADate_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create expense
+        //-----------------------------------------------------------------
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        Date endDate = new Date();
+
+        //-----------------------------------------------------------------
+        // Find created epenses + asserts after a date
+        //-----------------------------------------------------------------
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesBefore(createdUserDTO.getId(), endDate);
+        assertThat(allExpensesFor, is(notNullValue()));
+        assertThat(allExpensesFor.size(), is(equalTo(7)));
+    }
+
+    //-----------------------------------------------------------------
+    // Find all expenses work - With a category id
+    //-----------------------------------------------------------------
+    @Test
+    public void findAll_ofExistingUserWithCategoryId_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        CategoryDTO categoryDTOTwo = new CategoryDTOBuilder().withColor("#eee").withName("name2").build();
+        CategoryDTO createdCategoryDTOTwo = categoryService.create(categoryDTOTwo, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create expense
+        //-----------------------------------------------------------------
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTOTwo).build();
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        Date endDate = new Date();
+
+        //-----------------------------------------------------------------
+        // Find created epenses + asserts after a date
+        //-----------------------------------------------------------------
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesWithCategoryIdFor(createdUserDTO.getId(), createdCategoryDTOTwo.getId());
+        assertThat(allExpensesFor, is(notNullValue()));
+        assertThat(allExpensesFor.size(), is(equalTo(2)));
     }
 }
