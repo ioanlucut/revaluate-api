@@ -29,6 +29,7 @@ public class ExpenseDTO implements Serializable {
     @JsonView({Views.DetailsView.class})
     private CategoryDTO category;
 
+    @JsonView({Views.DetailsView.class})
     private Date addedDate;
 
     public int getId() {
