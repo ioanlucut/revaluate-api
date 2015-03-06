@@ -1,6 +1,7 @@
 package com.revaluate.account.domain;
 
 import com.revaluate.category.domain.CategoryDTO;
+import com.revaluate.currency.domain.CurrencyDTO;
 import com.revaluate.expense.domain.ExpenseDTO;
 import java.util.List;
 import javax.annotation.Generated;
@@ -19,6 +20,8 @@ public class UserDTOBuilder
   protected boolean isSet$email$java$lang$String;
   protected String value$password$java$lang$String;
   protected boolean isSet$password$java$lang$String;
+  protected CurrencyDTO value$currency$com$revaluate$currency$domain$CurrencyDTO;
+  protected boolean isSet$currency$com$revaluate$currency$domain$CurrencyDTO;
   protected boolean value$initiated$boolean;
   protected boolean isSet$initiated$boolean;
   protected List<CategoryDTO> value$categories$java$util$List;
@@ -90,6 +93,18 @@ public class UserDTOBuilder
   public UserDTOBuilder withPassword(String value) {
     this.value$password$java$lang$String = value;
     this.isSet$password$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link UserDTO#currency} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public UserDTOBuilder withCurrency(CurrencyDTO value) {
+    this.value$currency$com$revaluate$currency$domain$CurrencyDTO = value;
+    this.isSet$currency$com$revaluate$currency$domain$CurrencyDTO = true;
     return self;
   }
 
@@ -176,6 +191,9 @@ public class UserDTOBuilder
       }
       if (isSet$password$java$lang$String) {
         result.setPassword(value$password$java$lang$String);
+      }
+      if (isSet$currency$com$revaluate$currency$domain$CurrencyDTO) {
+        result.setCurrency(value$currency$com$revaluate$currency$domain$CurrencyDTO);
       }
       if (isSet$initiated$boolean) {
         result.setInitiated(value$initiated$boolean);

@@ -6,7 +6,7 @@ import com.revaluate.account.persistence.User;
 import com.revaluate.category.domain.CategoryDTO;
 import com.revaluate.category.domain.CategoryDTOBuilder;
 import com.revaluate.category.exception.CategoryException;
-import com.revaluate.category.persistence.CategoryRepository;
+import org.joda.money.CurrencyUnit;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,9 +21,6 @@ public class CategoryServiceImplTestIT extends AbstractIntegrationTests {
 
     @Autowired
     private CategoryService categoryService;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     @Test
     public void isUniqueName_validName_ok() throws Exception {
@@ -71,7 +68,7 @@ public class CategoryServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create the second first user
         //-----------------------------------------------------------------
-        UserDTO secondCreatedUserDTO = createUserDTO("xx@xx.xxxB");
+        UserDTO secondCreatedUserDTO = createUserDTO("xx@xx.xxxB", CurrencyUnit.AUD.getCode());
 
         //-----------------------------------------------------------------
         // Check if the other user category name is unique
@@ -256,7 +253,7 @@ public class CategoryServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create the second first user
         //-----------------------------------------------------------------
-        UserDTO secondCreatedUserDTO = createUserDTO("xx@xx.xxxD");
+        UserDTO secondCreatedUserDTO = createUserDTO("xx@xx.xxxD", CurrencyUnit.AUD.getCode());
 
         //-----------------------------------------------------------------
         // Create category updated DTO with same ID as previous

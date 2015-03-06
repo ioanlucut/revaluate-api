@@ -6,6 +6,8 @@ import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.EmailToken;
 import com.revaluate.account.persistence.EmailType;
 import com.revaluate.account.persistence.User;
+import com.revaluate.currency.domain.CurrencyDTO;
+import org.joda.money.CurrencyUnit;
 import org.junit.Test;
 
 import java.util.List;
@@ -107,8 +109,15 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
+        //-----------------------------------------------------------------
+        // Compute the currency to update
+        //-----------------------------------------------------------------
+        CurrencyDTO currency = new CurrencyDTO();
+        currency.setCurrencyCode(CurrencyUnit.GBP.getCurrencyCode());
+        CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
+
         // Update a user
-        UserDTO userDTOToUpdate = new UserDTOBuilder().withEmail("xx@xx.xx2").withFirstName("fn2").withLastName("ln2").withPassword("12345672").build();
+        UserDTO userDTOToUpdate = new UserDTOBuilder().withEmail("xx@xx.xx2").withFirstName("fn2").withLastName("ln2").withPassword("12345672").withCurrency(currencyDTOToUpdate).build();
         UserDTO updatedUserDTO = userService.update(userDTOToUpdate, createdUserDTO.getId());
 
         assertThat(updatedUserDTO, is(notNullValue()));
@@ -118,6 +127,8 @@ public class UserServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(updatedUserDTO.getLastName(), equalTo(userDTOToUpdate.getLastName()));
         assertThat(updatedUserDTO.getId(), not(equalTo(0)));
         assertThat(updatedUserDTO.getId(), equalTo(createdUserDTO.getId()));
+        assertThat(updatedUserDTO.getCurrency().getCurrencyCode(), not(equalTo(createdUserDTO.getCurrency().getCurrencyCode())));
+        assertThat(updatedUserDTO.getCurrency().getCurrencyCode(), equalTo(currency.getCurrencyCode()));
         assertThat(updatedUserDTO.getPassword(), not(equalTo(userDTOToUpdate.getPassword())));
     }
 

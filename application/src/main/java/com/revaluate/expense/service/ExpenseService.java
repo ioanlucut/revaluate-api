@@ -6,7 +6,7 @@ import com.revaluate.expense.exception.ExpenseException;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ExpenseService {
@@ -19,11 +19,11 @@ public interface ExpenseService {
 
     List<ExpenseDTO> findAllExpensesFor(int userId);
 
-    List<ExpenseDTO> findAllExpensesAfter(int userId, Date after);
+    List<ExpenseDTO> findAllExpensesAfter(int userId, LocalDateTime after);
 
-    List<ExpenseDTO> findAllExpensesBefore(int userId, Date before);
+    List<ExpenseDTO> findAllExpensesBefore(int userId, LocalDateTime before);
 
-    List<ExpenseDTO> findAllExpensesAfterBefore(int userId, Date after, Date before);
+    List<ExpenseDTO> findAllExpensesAfterBefore(int userId, LocalDateTime after, LocalDateTime before);
 
     List<ExpenseDTO> findAllExpensesWithCategoryIdFor(int userId, int categoryId);
 

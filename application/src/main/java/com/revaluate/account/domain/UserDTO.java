@@ -1,13 +1,15 @@
 package com.revaluate.account.domain;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.revaluate.core.views.Views;
 import com.revaluate.category.domain.CategoryDTO;
+import com.revaluate.core.views.Views;
+import com.revaluate.currency.domain.CurrencyDTO;
 import com.revaluate.expense.domain.ExpenseDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,6 +39,10 @@ public class UserDTO implements Serializable {
     @NotBlank
     @Size(min = 7)
     private String password;
+
+    @NotNull
+    @JsonView({Views.StrictView.class})
+    private CurrencyDTO currency;
 
     @JsonView({Views.StrictView.class})
     private boolean initiated;
@@ -85,6 +91,14 @@ public class UserDTO implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public CurrencyDTO getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(CurrencyDTO currency) {
+        this.currency = currency;
     }
 
     public boolean isInitiated() {

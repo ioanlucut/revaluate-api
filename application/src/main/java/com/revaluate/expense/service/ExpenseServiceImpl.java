@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -74,22 +74,22 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<ExpenseDTO> findAllExpensesAfter(int userId, Date after) {
-        List<Expense> expenses = expenseRepository.findAllByUserIdAndAddedDateAfter(userId, after);
+    public List<ExpenseDTO> findAllExpensesAfter(int userId, LocalDateTime after) {
+        List<Expense> expenses = expenseRepository.findAllByUserIdAndSpentDateAfter(userId, after);
 
         return collectAndGet(expenses);
     }
 
     @Override
-    public List<ExpenseDTO> findAllExpensesBefore(int userId, Date before) {
-        List<Expense> expenses = expenseRepository.findAllByUserIdAndAddedDateBefore(userId, before);
+    public List<ExpenseDTO> findAllExpensesBefore(int userId, LocalDateTime before) {
+        List<Expense> expenses = expenseRepository.findAllByUserIdAndSpentDateBefore(userId, before);
 
         return collectAndGet(expenses);
     }
 
     @Override
-    public List<ExpenseDTO> findAllExpensesAfterBefore(int userId, Date after, Date before) {
-        List<Expense> expenses = expenseRepository.findAllByUserIdAndAddedDateAfterAndAddedDateBefore(userId, after, before);
+    public List<ExpenseDTO> findAllExpensesAfterBefore(int userId, LocalDateTime after, LocalDateTime before) {
+        List<Expense> expenses = expenseRepository.findAllByUserIdAndSpentDateAfterAndSpentDateBefore(userId, after, before);
 
         return collectAndGet(expenses);
     }

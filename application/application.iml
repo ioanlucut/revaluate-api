@@ -25,6 +25,7 @@
       <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-status" />
       <excludeFolder url="file://$MODULE_DIR$/target/site" />
+      <excludeFolder url="file://$MODULE_DIR$/target/surefire-reports" />
       <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -45,6 +46,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:4.0.9.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.0.9.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.8.4" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.1.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.4" level="project" />
     <orderEntry type="library" name="Maven: io.dropwizard:dropwizard-core:0.8.0-rc3" level="project" />
     <orderEntry type="library" name="Maven: io.dropwizard:dropwizard-util:0.8.0-rc3" level="project" />
@@ -181,6 +183,7 @@
     <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.3m" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: javax.el:javax.el-api:2.2.5" level="project" />
+    <orderEntry type="library" name="Maven: org.joda:joda-money:0.10.0" level="project" />
   </component>
 </module>
 
