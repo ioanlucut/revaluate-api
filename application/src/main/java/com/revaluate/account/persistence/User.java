@@ -17,11 +17,12 @@ import java.util.List;
 @Table(name = "users")
 public class User implements Serializable {
 
+    private static final long serialVersionUID = -1799428438852023627L;
+
     public static final String USER = "user";
     protected static final String SEQ_NAME = "users_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "users_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 1;
-    private static final long serialVersionUID = -1799428438852023627L;
     private static final String CURRENCY_ID = "currency_id";
 
     @Id
