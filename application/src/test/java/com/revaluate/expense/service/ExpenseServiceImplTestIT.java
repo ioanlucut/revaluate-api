@@ -47,7 +47,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
         ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseDTO.setId(createdExpenseDTO.getId());
 
@@ -59,6 +59,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(createdExpenseDTO.getCategory(), equalTo(expenseDTO.getCategory()));
         assertThat(createdExpenseDTO.getDescription(), equalTo(expenseDTO.getDescription()));
         assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+        assertThat(createdExpenseDTO.getSpentDate().getYear(), equalTo(expenseDTO.getSpentDate().getYear()));
     }
 
     @Test
