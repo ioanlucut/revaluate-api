@@ -8,7 +8,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @GeneratePojoBuilder
 public class ExpenseDTO implements Serializable {
@@ -30,7 +30,10 @@ public class ExpenseDTO implements Serializable {
     private CategoryDTO category;
 
     @JsonView({Views.DetailsView.class})
-    private Date addedDate;
+    private LocalDateTime spentDate;
+
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
     public int getId() {
         return id;
@@ -64,12 +67,28 @@ public class ExpenseDTO implements Serializable {
         this.category = category;
     }
 
-    public Date getAddedDate() {
-        return addedDate;
+    public LocalDateTime getSpentDate() {
+        return spentDate;
     }
 
-    public void setAddedDate(Date addedDate) {
-        this.addedDate = addedDate;
+    public void setSpentDate(LocalDateTime spentDate) {
+        this.spentDate = spentDate;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 
     @Override
@@ -81,9 +100,11 @@ public class ExpenseDTO implements Serializable {
 
         if (id != that.id) return false;
         if (Double.compare(that.value, value) != 0) return false;
-        if (addedDate != null ? !addedDate.equals(that.addedDate) : that.addedDate != null) return false;
         if (category != null ? !category.equals(that.category) : that.category != null) return false;
+        if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (modifiedDate != null ? !modifiedDate.equals(that.modifiedDate) : that.modifiedDate != null) return false;
+        if (spentDate != null ? !spentDate.equals(that.spentDate) : that.spentDate != null) return false;
 
         return true;
     }
@@ -97,7 +118,9 @@ public class ExpenseDTO implements Serializable {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (addedDate != null ? addedDate.hashCode() : 0);
+        result = 31 * result + (spentDate != null ? spentDate.hashCode() : 0);
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        result = 31 * result + (modifiedDate != null ? modifiedDate.hashCode() : 0);
         return result;
     }
 }

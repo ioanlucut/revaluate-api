@@ -1,7 +1,7 @@
 package com.revaluate.expense.domain;
 
 import com.revaluate.category.domain.CategoryDTO;
-import java.util.Date;
+import java.time.LocalDateTime;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -16,8 +16,12 @@ public class ExpenseDTOBuilder
   protected boolean isSet$description$java$lang$String;
   protected CategoryDTO value$category$com$revaluate$category$domain$CategoryDTO;
   protected boolean isSet$category$com$revaluate$category$domain$CategoryDTO;
-  protected Date value$addedDate$java$util$Date;
-  protected boolean isSet$addedDate$java$util$Date;
+  protected LocalDateTime value$spentDate$java$time$LocalDateTime;
+  protected boolean isSet$spentDate$java$time$LocalDateTime;
+  protected LocalDateTime value$createdDate$java$time$LocalDateTime;
+  protected boolean isSet$createdDate$java$time$LocalDateTime;
+  protected LocalDateTime value$modifiedDate$java$time$LocalDateTime;
+  protected boolean isSet$modifiedDate$java$time$LocalDateTime;
 
   /**
    * Creates a new {@link ExpenseDTOBuilder}.
@@ -75,14 +79,38 @@ public class ExpenseDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link ExpenseDTO#addedDate} property.
+   * Sets the default value for the {@link ExpenseDTO#spentDate} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public ExpenseDTOBuilder withAddedDate(Date value) {
-    this.value$addedDate$java$util$Date = value;
-    this.isSet$addedDate$java$util$Date = true;
+  public ExpenseDTOBuilder withSpentDate(LocalDateTime value) {
+    this.value$spentDate$java$time$LocalDateTime = value;
+    this.isSet$spentDate$java$time$LocalDateTime = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link ExpenseDTO#createdDate} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public ExpenseDTOBuilder withCreatedDate(LocalDateTime value) {
+    this.value$createdDate$java$time$LocalDateTime = value;
+    this.isSet$createdDate$java$time$LocalDateTime = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link ExpenseDTO#modifiedDate} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public ExpenseDTOBuilder withModifiedDate(LocalDateTime value) {
+    this.value$modifiedDate$java$time$LocalDateTime = value;
+    this.isSet$modifiedDate$java$time$LocalDateTime = true;
     return self;
   }
 
@@ -131,8 +159,14 @@ public class ExpenseDTOBuilder
       if (isSet$category$com$revaluate$category$domain$CategoryDTO) {
         result.setCategory(value$category$com$revaluate$category$domain$CategoryDTO);
       }
-      if (isSet$addedDate$java$util$Date) {
-        result.setAddedDate(value$addedDate$java$util$Date);
+      if (isSet$spentDate$java$time$LocalDateTime) {
+        result.setSpentDate(value$spentDate$java$time$LocalDateTime);
+      }
+      if (isSet$createdDate$java$time$LocalDateTime) {
+        result.setCreatedDate(value$createdDate$java$time$LocalDateTime);
+      }
+      if (isSet$modifiedDate$java$time$LocalDateTime) {
+        result.setModifiedDate(value$modifiedDate$java$time$LocalDateTime);
       }
       return result;
     } catch (RuntimeException ex) {

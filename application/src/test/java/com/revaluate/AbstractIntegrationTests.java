@@ -2,11 +2,18 @@ package com.revaluate;
 
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
+import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.EmailToken;
 import com.revaluate.account.persistence.EmailType;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.service.UserService;
+import com.revaluate.currency.domain.CurrencyDTO;
+import com.revaluate.currency.domain.CurrencyDTOBuilder;
+import com.revaluate.currency.exception.CurrencyException;
+import com.revaluate.currency.persistence.CurrencyRepository;
+import com.revaluate.currency.service.CurrencyService;
+import org.joda.money.CurrencyUnit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -33,24 +40,44 @@ public class AbstractIntegrationTests {
     @Autowired
     protected UserService userService;
 
+    @Autowired
+    protected CurrencyService currencyService;
+
+    @Autowired
+    protected CurrencyRepository currencyRepository;
+
     protected UserDTO userDTO;
 
     @Before
     @After
     public void tearDown() throws Exception {
-        if (userDTO != null) {
-            if (userRepository.exists(userDTO.getId())) {
-                userRepository.delete(userDTO.getId());
-            }
-        }
+        userRepository.deleteAll();
+        currencyRepository.deleteAll();
     }
 
     //-----------------------------------------------------------------
     // Common methods
     //-----------------------------------------------------------------
 
-    protected UserDTO createUserDTO(String email) throws com.revaluate.account.exception.UserException {
-        userDTO = new UserDTOBuilder().withEmail(email).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+    protected UserDTO createUserDTO(String email, String currencyCode) throws UserException {
+        //-----------------------------------------------------------------
+        // Create currency
+        //-----------------------------------------------------------------
+        CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(currencyCode).build();
+        try {
+            currencyDTO = currencyService.create(currencyDTO);
+        } catch (CurrencyException e) {
+            throw new UserException((e));
+        }
+        return createUserDTO(email, currencyDTO);
+
+    }
+
+    public UserDTO createUserDTO(String email, CurrencyDTO currencyDTO) throws UserException {
+        //-----------------------------------------------------------------
+        // Compute the user
+        //-----------------------------------------------------------------
+        userDTO = new UserDTOBuilder().withEmail(email).withFirstName("fn").withLastName("ln").withPassword("1234567").withCurrency(currencyDTO).build();
         UserDTO createdCategoryDTO = userService.create(userDTO);
         userDTO.setId(createdCategoryDTO.getId());
 
@@ -58,7 +85,11 @@ public class AbstractIntegrationTests {
     }
 
     protected UserDTO createUserDTO() throws com.revaluate.account.exception.UserException {
-        return createUserDTO(FAKE_EMAIL);
+        return createUserDTO(FAKE_EMAIL, CurrencyUnit.EUR.getCurrencyCode());
+    }
+
+    protected UserDTO createUserDTO(String email) throws com.revaluate.account.exception.UserException {
+        return createUserDTO(email, CurrencyUnit.EUR.getCurrencyCode());
     }
 
     protected List<EmailToken> getTokenOfType(User foundUser, EmailType emailType) {

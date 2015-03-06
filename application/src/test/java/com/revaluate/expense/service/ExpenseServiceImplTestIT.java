@@ -4,20 +4,18 @@ import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.category.domain.CategoryDTO;
 import com.revaluate.category.domain.CategoryDTOBuilder;
-import com.revaluate.category.persistence.CategoryRepository;
 import com.revaluate.category.service.CategoryService;
 import com.revaluate.expense.domain.ExpenseDTO;
 import com.revaluate.expense.domain.ExpenseDTOBuilder;
 import com.revaluate.expense.exception.ExpenseException;
-import com.revaluate.expense.persistence.ExpenseRepository;
-import org.dozer.DozerBeanMapper;
+import org.joda.money.CurrencyUnit;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolationException;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -26,23 +24,12 @@ import static org.hamcrest.core.Is.is;
 
 public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
 
-    @Autowired
-    private ExpenseService expenseService;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private ExpenseRepository expenseRepository;
-
-    @Autowired
-    private DozerBeanMapper dozerBeanMapper;
-
     @Rule
     public ExpectedException exception = ExpectedException.none();
+    @Autowired
+    private ExpenseService expenseService;
+    @Autowired
+    private CategoryService categoryService;
 
     @Test
     public void create_validDetails_ok() throws Exception {
@@ -60,7 +47,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseDTO.setId(createdExpenseDTO.getId());
 
@@ -90,7 +77,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create two expenses
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(categoryDTO).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(categoryDTO).withSpentDate(LocalDateTime.now()).build();
         ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
         ExpenseDTO secondCreatedExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
 
@@ -154,12 +141,12 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
-        UserDTO firstUserDTO = createUserDTO("xxx@xxx.xxx1");
+        UserDTO firstUserDTO = createUserDTO(FAKE_EMAIL);
 
         //-----------------------------------------------------------------
         // Create second user
         //-----------------------------------------------------------------
-        UserDTO secondUserDTO = createUserDTO("xxx@xxx.xxx2");
+        UserDTO secondUserDTO = createUserDTO("xxx@xxx.xxx2", CurrencyUnit.AUD.getCurrencyCode());
 
         //-----------------------------------------------------------------
         // Create category
@@ -193,14 +180,14 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseDTO.setId(createdExpenseDTO.getId());
 
         //-----------------------------------------------------------------
         // Expense to update - ONLY VALUE
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTOToUpdate = new ExpenseDTOBuilder().withId(expenseDTO.getId()).withValue(2.56).withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTOToUpdate = new ExpenseDTOBuilder().withId(expenseDTO.getId()).withValue(2.56).withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         ExpenseDTO updatedExpenseDTO = expenseService.update(expenseDTOToUpdate, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -230,14 +217,14 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseDTO.setId(createdExpenseDTO.getId());
 
         //-----------------------------------------------------------------
         // Expense to update - ONLY description
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTOToUpdate = new ExpenseDTOBuilder().withId(expenseDTO.getId()).withValue(2.55).withDescription("DESC").withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTOToUpdate = new ExpenseDTOBuilder().withId(expenseDTO.getId()).withValue(2.55).withDescription("DESC").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         ExpenseDTO updatedExpenseDTO = expenseService.update(expenseDTOToUpdate, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -268,7 +255,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseDTO.setId(createdExpenseDTO.getId());
 
@@ -281,7 +268,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Expense to update - ONLY description
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTOToUpdate = new ExpenseDTOBuilder().withValue(2.55).withId(expenseDTO.getId()).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTOToUpdate = new ExpenseDTOBuilder().withValue(2.55).withId(expenseDTO.getId()).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         ExpenseDTO updatedExpenseDTO = expenseService.update(expenseDTOToUpdate, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -312,7 +299,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseDTO.setId(createdExpenseDTO.getId());
 
@@ -339,7 +326,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseDTO.setId(createdExpenseDTO.getId());
 
@@ -369,7 +356,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
 
@@ -415,8 +402,8 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
-        Date before = new Date();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        LocalDateTime before = LocalDateTime.now().minusSeconds(1);
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
@@ -424,7 +411,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
-        Date after = new Date();
+        LocalDateTime after = LocalDateTime.now();
 
         //-----------------------------------------------------------------
         // Find created epenses + asserts
@@ -453,8 +440,8 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
-        Date startDate = new Date();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        LocalDateTime startDate = LocalDateTime.now().minusSeconds(1);
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
@@ -490,7 +477,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
@@ -498,7 +485,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
-        Date endDate = new Date();
+        LocalDateTime endDate = LocalDateTime.now();
 
         //-----------------------------------------------------------------
         // Find created epenses + asserts after a date
@@ -530,18 +517,18 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
-        expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTOTwo).build();
+        LocalDateTime endDate = LocalDateTime.now();
+        expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTOTwo).withSpentDate(LocalDateTime.now()).build();
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseService.create(expenseDTO, createdUserDTO.getId());
-        Date endDate = new Date();
 
         //-----------------------------------------------------------------
         // Find created epenses + asserts after a date
         //-----------------------------------------------------------------
-        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesWithCategoryIdFor(createdUserDTO.getId(), createdCategoryDTOTwo.getId());
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesBefore(createdUserDTO.getId(), endDate);
         assertThat(allExpensesFor, is(notNullValue()));
         assertThat(allExpensesFor.size(), is(equalTo(2)));
     }

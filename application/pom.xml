@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -49,6 +49,10 @@
         <!--Spring AOP-->
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
         </dependency>
         <dependency>
@@ -87,28 +91,30 @@
         <dependency>
             <groupId>io.github.fallwizard</groupId>
             <artifactId>Fallwizard</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-web</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-beans</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-aop</artifactId>
-                </exclusion>
-            </exclusions>
+            <!--
+                        <exclusions>
+                            <exclusion>
+                                <groupId>org.springframework</groupId>
+                                <artifactId>spring-core</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>org.springframework</groupId>
+                                <artifactId>spring-context</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>org.springframework</groupId>
+                                <artifactId>spring-web</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>org.springframework</groupId>
+                                <artifactId>spring-beans</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>org.springframework</groupId>
+                                <artifactId>spring-aop</artifactId>
+                            </exclusion>
+                        </exclusions>
+            -->
         </dependency>
 
         <!-- Jersey -->
@@ -298,6 +304,12 @@
         <dependency>
             <artifactId>javax.el</artifactId>
             <groupId>org.glassfish.web</groupId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.joda</groupId>
+            <artifactId>joda-money</artifactId>
+            <version>${joda-money.version}</version>
         </dependency>
 
     </dependencies>

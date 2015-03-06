@@ -12,6 +12,8 @@ import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.jwt.JwtService;
 import com.revaluate.core.token.TokenGenerator;
+import com.revaluate.currency.persistence.Currency;
+import com.revaluate.currency.persistence.CurrencyRepository;
 import org.dozer.DozerBeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +28,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     public static final String USER_DTO__UPDATE = "UserDTO__Update";
-
-    @Autowired
-    private UserRepository userRepository;
-
     @Autowired
     protected JwtService jwtService;
-
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private CurrencyRepository currencyRepository;
     @Autowired
     private DozerBeanMapper dozerBeanMapper;
 
@@ -47,8 +48,21 @@ public class UserServiceImpl implements UserService {
             throw new UserException("Email is not unique");
         }
 
+        //-----------------------------------------------------------------
+        // Try to find the currency
+        //-----------------------------------------------------------------
+        Optional<Currency> byCurrencyCode = currencyRepository.findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode());
+        byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists"));
+
         User user = dozerBeanMapper.map(userDTO, User.class);
-        // Hash the password
+        //-----------------------------------------------------------------
+        // Set the found currency
+        //-----------------------------------------------------------------
+        user.setCurrency(byCurrencyCode.get());
+
+        //-----------------------------------------------------------------
+        // Hash the password and set
+        //-----------------------------------------------------------------
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
         //-----------------------------------------------------------------
@@ -79,6 +93,13 @@ public class UserServiceImpl implements UserService {
         if (foundUser == null) {
             throw new UserNotFoundException();
         }
+
+        //-----------------------------------------------------------------
+        // Try to find the currency
+        //-----------------------------------------------------------------
+        Optional<Currency> byCurrencyCode = currencyRepository.findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode());
+        byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists"));
+        foundUser.setCurrency(byCurrencyCode.get());
 
         //-----------------------------------------------------------------
         // Update the user accordingly to DTO

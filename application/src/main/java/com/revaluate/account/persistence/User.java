@@ -1,6 +1,7 @@
 package com.revaluate.account.persistence;
 
 import com.revaluate.category.persistence.Category;
+import com.revaluate.currency.persistence.Currency;
 import com.revaluate.expense.persistence.Expense;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -16,13 +17,12 @@ import java.util.List;
 @Table(name = "users")
 public class User implements Serializable {
 
-    private static final long serialVersionUID = -1799428438852023627L;
-
+    public static final String USER = "user";
     protected static final String SEQ_NAME = "users_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "users_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 1;
-    public static final String USER = "user";
-    public static final String RESET_EMAIL_TOKEN_ID = "reset_email_token_id";
+    private static final long serialVersionUID = -1799428438852023627L;
+    private static final String CURRENCY_ID = "currency_id";
 
     @Id
     @SequenceGenerator(name = User.SEQ_GENERATOR_NAME,
@@ -56,6 +56,11 @@ public class User implements Serializable {
     private boolean enabled;
 
     private boolean initiated;
+
+    @NotNull
+    @ManyToOne(optional = false)
+    @JoinColumn(name = CURRENCY_ID, nullable = false)
+    private Currency currency;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
@@ -173,5 +178,13 @@ public class User implements Serializable {
 
     public void setExpenses(List<Expense> expenses) {
         this.expenses = expenses;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 }
