@@ -38,6 +38,10 @@ public class AbstractResourceTestEndToEnd {
     protected static final String BEARER_TEST = "Bearer";
     protected JwtService jwtService = getMockedJwtService();
 
+    static{
+        System.setProperty(ConfigProperties.ENVIRONMENT, "dev");
+    }
+
     @ClassRule
     public static final DropwizardAppRule<FallwizardConfiguration> RULE =
             new DropwizardAppRule<FallwizardConfiguration>(RevaluateApplication.class, ResourceHelpers.resourceFilePath("config.yaml"));

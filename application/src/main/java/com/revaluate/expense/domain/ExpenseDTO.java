@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.revaluate.category.domain.CategoryDTO;
 import com.revaluate.core.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import org.joda.time.LocalDateTime;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @GeneratePojoBuilder
 public class ExpenseDTO implements Serializable {
@@ -29,6 +29,7 @@ public class ExpenseDTO implements Serializable {
     @JsonView({Views.DetailsView.class})
     private CategoryDTO category;
 
+    @NotNull
     @JsonView({Views.DetailsView.class})
     private LocalDateTime spentDate;
 

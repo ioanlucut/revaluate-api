@@ -6,7 +6,7 @@ import com.revaluate.expense.exception.ExpenseException;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import org.joda.time.LocalDateTime;
 import java.util.List;
 
 public interface ExpenseService {

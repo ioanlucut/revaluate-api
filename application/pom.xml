@@ -46,6 +46,18 @@
             <artifactId>spring-data-jpa</artifactId>
         </dependency>
 
+        <!--Hibernate Joda-->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time-hibernate</artifactId>
+        </dependency>
+
+        <!--JADIRA - usertypes for joda-->
+        <dependency>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.core</artifactId>
+        </dependency>
+
         <!--Spring AOP-->
         <dependency>
             <groupId>org.springframework</groupId>

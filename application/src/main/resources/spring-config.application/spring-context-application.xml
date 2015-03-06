@@ -54,6 +54,10 @@
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.ejb.naming_strategy">${hibernate.ejb.naming_strategy}</prop>
+                <prop key="jadira.usertype.autoRegisterUserTypes">${jadira.usertype.autoRegisterUserTypes}</prop>
+                <prop key="jadira.usertype.javaZone">${jadira.usertype.javaZone}</prop>
+                <prop key="jadira.usertype.databaseZone">${jadira.usertype.databaseZone}</prop>
+                <prop key="org.jadira.usertype.dateandtime.joda.PersistentDateTime">${org.jadira.usertype.dateandtime.joda.PersistentDateTime}</prop>
             </props>
         </property>
     </bean>
