@@ -109,6 +109,8 @@
         <javax.el.version>2.2.6</javax.el.version>
         <Fallwizard.version>0.7.1.2</Fallwizard.version>
         <joda-money.version>0.10.0</joda-money.version>
+        <joda-time-hibernate.version>1.3</joda-time-hibernate.version>
+        <usertype.core.version>3.2.0.GA</usertype.core.version>
     </properties>
 
     <dependencyManagement>
@@ -141,6 +143,20 @@
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-jpa</artifactId>
                 <version>${spring-data-jpa.version}</version>
+            </dependency>
+
+            <!--Hibernate Joda-->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time-hibernate</artifactId>
+                <version>${joda-time-hibernate.version}</version>
+            </dependency>
+
+            <!--JADIRA - usertypes for joda-->
+            <dependency>
+                <groupId>org.jadira.usertype</groupId>
+                <artifactId>usertype.core</artifactId>
+                <version>${usertype.core.version}</version>
             </dependency>
 
             <!--Spring AOP-->

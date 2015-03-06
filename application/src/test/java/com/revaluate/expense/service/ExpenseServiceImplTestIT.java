@@ -9,13 +9,13 @@ import com.revaluate.expense.domain.ExpenseDTO;
 import com.revaluate.expense.domain.ExpenseDTOBuilder;
 import com.revaluate.expense.exception.ExpenseException;
 import org.joda.money.CurrencyUnit;
+import org.joda.time.LocalDateTime;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolationException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -118,7 +118,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create an invalid expense
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withCategory(categoryDTO).withDescription("my first expense").build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withCategory(categoryDTO).withDescription("my first expense").withSpentDate(LocalDateTime.now()).build();
         expenseService.create(expenseDTO, createdUserDTO.getId() + 999999);
     }
 
@@ -157,7 +157,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create an expenses with category from another user
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(categoryDTO).build();
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withSpentDate(LocalDateTime.now()).withCategory(categoryDTO).build();
         expenseService.create(expenseDTO, firstUserDTO.getId());
     }
 
@@ -306,7 +306,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Expense to update - with category without ID
         //-----------------------------------------------------------------
-        ExpenseDTO expenseDTOToUpdate = new ExpenseDTOBuilder().withValue(2.55).withId(expenseDTO.getId()).withDescription("my first expense").withCategory(categoryDTO).build();
+        ExpenseDTO expenseDTOToUpdate = new ExpenseDTOBuilder().withValue(2.55).withId(expenseDTO.getId()).withDescription("my first expense").withSpentDate(LocalDateTime.now()).withCategory(categoryDTO).build();
         expenseService.update(expenseDTOToUpdate, createdUserDTO.getId());
     }
 

@@ -3,7 +3,6 @@
        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
         http://www.springframework.org/schema/data/jpa
@@ -38,8 +37,11 @@
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.ejb.naming_strategy">${hibernate.ejb.naming_strategy}</prop>
+                <prop key="jadira.usertype.autoRegisterUserTypes">${jadira.usertype.autoRegisterUserTypes}</prop>
+                <prop key="jadira.usertype.javaZone">${jadira.usertype.javaZone}</prop>
+                <prop key="jadira.usertype.databaseZone">${jadira.usertype.databaseZone}</prop>
+                <prop key="org.jadira.usertype.dateandtime.joda.PersistentDateTime">${org.jadira.usertype.dateandtime.joda.PersistentDateTime}</prop>
             </props>
-
         </property>
     </bean>
 

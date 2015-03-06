@@ -2,6 +2,8 @@ package com.revaluate.expense.persistence;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.category.persistence.Category;
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDateTime;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -9,7 +11,6 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "expenses")

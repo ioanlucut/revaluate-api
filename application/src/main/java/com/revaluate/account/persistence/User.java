@@ -5,12 +5,12 @@ import com.revaluate.currency.persistence.Currency;
 import com.revaluate.expense.persistence.Expense;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -63,10 +63,6 @@ public class User implements Serializable {
     @JoinColumn(name = CURRENCY_ID, nullable = false)
     private Currency currency;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date registeredDate;
-
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = USER, orphanRemoval = true, cascade = CascadeType.ALL)
     private List<EmailToken> emailTokens;
@@ -79,9 +75,22 @@ public class User implements Serializable {
     @OneToMany(mappedBy = USER, orphanRemoval = true)
     private List<Category> categories = new ArrayList<>();
 
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime createdDate;
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime modifiedDate;
+
     @PrePersist
     void createdAt() {
-        this.registeredDate = new Date();
+        this.createdDate = this.modifiedDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    void updatedAt() {
+        this.modifiedDate = LocalDateTime.now();
     }
 
     public void addEmailToken(EmailToken emailToken) {
@@ -147,14 +156,12 @@ public class User implements Serializable {
         this.initiated = initiated;
     }
 
-    public Date getRegisteredDate() {
-        return registeredDate != null ? new Date(registeredDate.getTime()) : null;
+    public Currency getCurrency() {
+        return currency;
     }
 
-    public void setRegisteredDate(Date registeredDate) {
-        if (registeredDate != null) {
-            this.registeredDate = new Date(registeredDate.getTime());
-        }
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
     public List<EmailToken> getEmailTokens() {
@@ -165,14 +172,6 @@ public class User implements Serializable {
         this.emailTokens = emailTokens;
     }
 
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
     public List<Expense> getExpenses() {
         return expenses;
     }
@@ -181,11 +180,27 @@ public class User implements Serializable {
         this.expenses = expenses;
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 }

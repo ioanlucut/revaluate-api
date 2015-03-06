@@ -1,8 +1,8 @@
 package com.revaluate.expense.domain;
 
 import com.revaluate.category.domain.CategoryDTO;
-import java.time.LocalDateTime;
 import javax.annotation.Generated;
+import org.joda.time.LocalDateTime;
 
 @Generated("PojoBuilder")
 public class ExpenseDTOBuilder
@@ -16,12 +16,12 @@ public class ExpenseDTOBuilder
   protected boolean isSet$description$java$lang$String;
   protected CategoryDTO value$category$com$revaluate$category$domain$CategoryDTO;
   protected boolean isSet$category$com$revaluate$category$domain$CategoryDTO;
-  protected LocalDateTime value$spentDate$java$time$LocalDateTime;
-  protected boolean isSet$spentDate$java$time$LocalDateTime;
-  protected LocalDateTime value$createdDate$java$time$LocalDateTime;
-  protected boolean isSet$createdDate$java$time$LocalDateTime;
-  protected LocalDateTime value$modifiedDate$java$time$LocalDateTime;
-  protected boolean isSet$modifiedDate$java$time$LocalDateTime;
+  protected LocalDateTime value$spentDate$org$joda$time$LocalDateTime;
+  protected boolean isSet$spentDate$org$joda$time$LocalDateTime;
+  protected LocalDateTime value$createdDate$org$joda$time$LocalDateTime;
+  protected boolean isSet$createdDate$org$joda$time$LocalDateTime;
+  protected LocalDateTime value$modifiedDate$org$joda$time$LocalDateTime;
+  protected boolean isSet$modifiedDate$org$joda$time$LocalDateTime;
 
   /**
    * Creates a new {@link ExpenseDTOBuilder}.
@@ -85,8 +85,8 @@ public class ExpenseDTOBuilder
    * @return this builder
    */
   public ExpenseDTOBuilder withSpentDate(LocalDateTime value) {
-    this.value$spentDate$java$time$LocalDateTime = value;
-    this.isSet$spentDate$java$time$LocalDateTime = true;
+    this.value$spentDate$org$joda$time$LocalDateTime = value;
+    this.isSet$spentDate$org$joda$time$LocalDateTime = true;
     return self;
   }
 
@@ -97,8 +97,8 @@ public class ExpenseDTOBuilder
    * @return this builder
    */
   public ExpenseDTOBuilder withCreatedDate(LocalDateTime value) {
-    this.value$createdDate$java$time$LocalDateTime = value;
-    this.isSet$createdDate$java$time$LocalDateTime = true;
+    this.value$createdDate$org$joda$time$LocalDateTime = value;
+    this.isSet$createdDate$org$joda$time$LocalDateTime = true;
     return self;
   }
 
@@ -109,8 +109,8 @@ public class ExpenseDTOBuilder
    * @return this builder
    */
   public ExpenseDTOBuilder withModifiedDate(LocalDateTime value) {
-    this.value$modifiedDate$java$time$LocalDateTime = value;
-    this.isSet$modifiedDate$java$time$LocalDateTime = true;
+    this.value$modifiedDate$org$joda$time$LocalDateTime = value;
+    this.isSet$modifiedDate$org$joda$time$LocalDateTime = true;
     return self;
   }
 
@@ -159,14 +159,14 @@ public class ExpenseDTOBuilder
       if (isSet$category$com$revaluate$category$domain$CategoryDTO) {
         result.setCategory(value$category$com$revaluate$category$domain$CategoryDTO);
       }
-      if (isSet$spentDate$java$time$LocalDateTime) {
-        result.setSpentDate(value$spentDate$java$time$LocalDateTime);
+      if (isSet$spentDate$org$joda$time$LocalDateTime) {
+        result.setSpentDate(value$spentDate$org$joda$time$LocalDateTime);
       }
-      if (isSet$createdDate$java$time$LocalDateTime) {
-        result.setCreatedDate(value$createdDate$java$time$LocalDateTime);
+      if (isSet$createdDate$org$joda$time$LocalDateTime) {
+        result.setCreatedDate(value$createdDate$org$joda$time$LocalDateTime);
       }
-      if (isSet$modifiedDate$java$time$LocalDateTime) {
-        result.setModifiedDate(value$modifiedDate$java$time$LocalDateTime);
+      if (isSet$modifiedDate$org$joda$time$LocalDateTime) {
+        result.setModifiedDate(value$modifiedDate$org$joda$time$LocalDateTime);
       }
       return result;
     } catch (RuntimeException ex) {
