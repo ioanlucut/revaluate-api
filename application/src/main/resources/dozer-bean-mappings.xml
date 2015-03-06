@@ -8,6 +8,11 @@
         <stop-on-errors>true</stop-on-errors>
         <date-format>MM/dd/yyyy HH:mm</date-format>
         <wildcard>true</wildcard>
+
+        <copy-by-references>
+            <copy-by-reference>org.joda.time.LocalDateTime</copy-by-reference>
+            <copy-by-reference>org.joda.time.LocalDateTime</copy-by-reference>
+        </copy-by-references>
     </configuration>
 
     <mapping map-null="false" map-id="CategoryDTO__Update">
