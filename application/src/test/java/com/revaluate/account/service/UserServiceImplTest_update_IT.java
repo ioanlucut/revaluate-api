@@ -18,9 +18,6 @@ import static org.hamcrest.core.Is.is;
 
 public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Test
     public void update_validDetails_ok() throws Exception {
         //-----------------------------------------------------------------
@@ -129,7 +126,5 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         currency.setCurrencyCode("INEXISTING");
         userDTOToUpdate = new UserDTOBuilder().withFirstName("fn2").withLastName("fn2").withCurrency(currency).build();
         userService.update(userDTOToUpdate, userDTO.getId());
-
-
     }
 }
