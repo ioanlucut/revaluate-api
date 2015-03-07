@@ -7,18 +7,6 @@ import org.junit.Test;
 
 public class UserServiceImplTest_updatePassword_IT extends AbstractIntegrationTests {
 
-    @Test(expected = UserException.class)
-    public void updatePassword_oldPasswordDoesNotMatch_exceptionThrown() throws Exception {
-        //-----------------------------------------------------------------
-        // Create first user
-        //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO();
-
-        // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(NEW_PASSWORD).withOldPassword(OLD_PASSWORD + "2").build();
-        userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
-    }
-
     @Test
     public void updatePassword_withValidDetailsAndThenLogin_ok() throws Exception {
         //-----------------------------------------------------------------
@@ -36,6 +24,18 @@ public class UserServiceImplTest_updatePassword_IT extends AbstractIntegrationTe
     }
 
     @Test(expected = UserException.class)
+    public void updatePassword_oldPasswordDoesNotMatch_exceptionThrown() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        // Update a user
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(NEW_PASSWORD).withOldPassword(PASSWORD_WRONG).build();
+        userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
+    }
+
+    @Test(expected = UserException.class)
     public void updatePassword_newPasswordDoesNotMatchPasswordConfirmation_exceptionThrown() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
@@ -43,7 +43,7 @@ public class UserServiceImplTest_updatePassword_IT extends AbstractIntegrationTe
         UserDTO createdUserDTO = createUserDTO();
 
         // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(NEW_PASSWORD + "2").withOldPassword(OLD_PASSWORD).build();
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(PASSWORD_WRONG).withOldPassword(OLD_PASSWORD).build();
         userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
     }
 
@@ -51,7 +51,7 @@ public class UserServiceImplTest_updatePassword_IT extends AbstractIntegrationTe
     public void updatePassword_currentUserNotLoggedIn_exceptionThrown() throws Exception {
 
         // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(NEW_PASSWORD + "2").withOldPassword(OLD_PASSWORD).build();
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(PASSWORD_WRONG).withOldPassword(OLD_PASSWORD).build();
         userService.updatePassword(updatePasswordDTO, 99999999);
     }
 
