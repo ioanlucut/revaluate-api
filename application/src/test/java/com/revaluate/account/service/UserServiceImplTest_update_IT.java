@@ -116,6 +116,12 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         userService.update(userDTOToUpdate, userDTO.getId());
 
         //-----------------------------------------------------------------
+        // Expect constraint violation if User DTO is null
+        //-----------------------------------------------------------------
+        exception.expect(ConstraintViolationException.class);
+        userService.update(null, userDTO.getId());
+
+        //-----------------------------------------------------------------
         // Expect constraint violation if updates with inexisting currency
         //-----------------------------------------------------------------
         exception.expect(UserException.class);

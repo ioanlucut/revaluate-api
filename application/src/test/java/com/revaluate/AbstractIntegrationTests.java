@@ -32,6 +32,7 @@ public class AbstractIntegrationTests {
 
     public static final String FAKE_EMAIL = "xx@xx.xx";
     public static final String OLD_PASSWORD = "1234567";
+    public static final String PASSWORD_WRONG = "YYYYYYY";
     public static final String NEW_PASSWORD = "9999999";
 
     @Autowired
