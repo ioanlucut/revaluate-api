@@ -23,6 +23,7 @@ import java.io.IOException;
 public class AuthorizationRequestFilter implements ContainerRequestFilter {
 
     public static final String BEARER_HEADER = "Bearer";
+    public static final String OPTIONS = "OPTIONS";
     @Context
     private ResourceInfo resourceInfo;
 
@@ -42,13 +43,23 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        if (!isPublicMethod()) {
-            String authorization = requestContext.getHeaderString("Authorization");
-
-            if (StringUtils.isBlank(authorization) || isInvalidToken(authorization)) {
-                abort(requestContext);
-            }
+        if (isOptionsHttpMethod(requestContext) || isPublicMethod()) {
+            return;
         }
+
+        if (isTokenMissingOrInvalid(requestContext)) {
+            abort(requestContext);
+        }
+    }
+
+    private boolean isTokenMissingOrInvalid(ContainerRequestContext requestContext) {
+        String authorization = requestContext.getHeaderString("Authorization");
+
+        return StringUtils.isBlank(authorization) || isInvalidToken(authorization);
+    }
+
+    private boolean isOptionsHttpMethod(ContainerRequestContext requestContext) {
+        return requestContext.getMethod().equals(OPTIONS);
     }
 
     public boolean isPublicMethod() {
