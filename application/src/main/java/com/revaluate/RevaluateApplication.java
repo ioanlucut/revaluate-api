@@ -1,6 +1,7 @@
 package com.revaluate;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.dropwizard.setup.Environment;
@@ -35,7 +36,7 @@ public class RevaluateApplication extends FallwizardApplication<FallwizardConfig
         configureJackson(environment);
 
         // Configure CORS
-        configureCors(environment);
+        configureCORS(environment);
 
         // Register providers
         registerProviders(environment);
@@ -45,6 +46,7 @@ public class RevaluateApplication extends FallwizardApplication<FallwizardConfig
         environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
         environment.getObjectMapper().configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         environment.getObjectMapper().disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+        environment.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     private void setUpOtherOptions(Environment environment) {
@@ -56,7 +58,7 @@ public class RevaluateApplication extends FallwizardApplication<FallwizardConfig
         environment.jersey().property(ServerProperties.PROCESSING_RESPONSE_ERRORS_ENABLED, true);
     }
 
-    private void configureCors(Environment environment) {
+    private void configureCORS(Environment environment) {
         FilterRegistration.Dynamic filter = environment.servlets().addFilter("CORS", CrossOriginFilter.class);
         filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
         filter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,PUT,POST,DELETE,OPTIONS");
