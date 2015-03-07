@@ -7,6 +7,7 @@ import com.revaluate.account.domain.UpdatePasswordDTO;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.service.UserService;
+import com.revaluate.account.validation.CreateUserGroup;
 import com.revaluate.core.annotations.Public;
 import com.revaluate.core.jwt.JwtException;
 import com.revaluate.core.resource.Resource;
@@ -16,6 +17,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -62,7 +64,7 @@ public class UserResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(CREATE_USER)
     @JsonView({Views.StrictView.class})
-    public Response create(@Valid UserDTO userDTO) throws UserException {
+    public Response create(@Validated(CreateUserGroup.class) UserDTO userDTO) throws UserException {
         UserDTO createdUserDTO = userService.create(userDTO);
 
         return Responses.respond(Response.Status.OK, createdUserDTO);
