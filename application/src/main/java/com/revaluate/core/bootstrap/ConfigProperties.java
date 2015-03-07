@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 public class ConfigProperties {
 
     public static final String ENVIRONMENT = "ENVIRONMENT";
+    public static final String SPRING_PROFILE_ACTIVE = "spring.profiles.active";
 
     private boolean isProduction;
 

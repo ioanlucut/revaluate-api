@@ -8,7 +8,6 @@ import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
 import com.revaluate.core.resource.Answer;
 import com.revaluate.core.status.ExtraStatus;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 import javax.ws.rs.client.Entity;
@@ -49,18 +48,11 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
     @Test
     public void isUniqueEmail_validEmailButNotUnique_badResponseReceived() {
-        UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
-
-        WebTarget target = target("/account/create");
-        Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
-
-        UserDTO createdUserDTO = response.readEntity(UserDTO.class);
-        assertThat(createdUserDTO.getId(), notNullValue());
+        UserDTO createdUserDTO = createUserGetCreatedUserDTO();
 
         // check if is unique email
-        target = target("/account/isUniqueEmail");
-        response = target.queryParam("email", userDTO.getEmail()).request().get();
+        WebTarget target = target("/account/isUniqueEmail");
+        Response response = target.queryParam("email", createdUserDTO.getEmail()).request().get();
         assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);

@@ -6,12 +6,14 @@ import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.core.jwt.JwtService;
+import com.revaluate.currency.domain.CurrencyDTO;
+import com.revaluate.currency.domain.CurrencyDTOBuilder;
 import io.dropwizard.jersey.validation.ValidationErrorMessage;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import io.github.fallwizard.configuration.FallwizardConfiguration;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.BeforeClass;
+import org.joda.money.CurrencyUnit;
 import org.junit.ClassRule;
 import org.mockito.Mockito;
 
@@ -38,8 +40,8 @@ public class AbstractResourceTestEndToEnd {
     protected static final String BEARER_TEST = "Bearer";
     protected JwtService jwtService = getMockedJwtService();
 
-    static{
-        System.setProperty(ConfigProperties.ENVIRONMENT, "dev");
+    static {
+        System.setProperty(ConfigProperties.SPRING_PROFILE_ACTIVE, "IT");
     }
 
     @ClassRule
@@ -87,7 +89,8 @@ public class AbstractResourceTestEndToEnd {
 
     protected UserDTO createUserGetCreatedUserDTO() {
         // First, create a valid user - and account
-        UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").build();
+        CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.EUR.getCurrencyCode()).build();
+        UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").withCurrency(currencyDTO).build();
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
