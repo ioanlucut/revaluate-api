@@ -16,7 +16,7 @@ import static org.hamcrest.core.Is.is;
 public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTests {
 
     @Test
-    public void resetPassword_detailsValid_ok() throws Exception {
+    public void resetPassword_happyFlow_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
@@ -25,22 +25,22 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Request reset password
         //-----------------------------------------------------------------
-        userService.requestResetPassword(FAKE_EMAIL);
+        userService.requestResetPassword(TEST_EMAIL);
 
         //-----------------------------------------------------------------
         // Reset password
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
-        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword("2345678").withPasswordConfirmation("2345678").build();
+        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword(TEST_NEW_PASSWORD).withPasswordConfirmation(TEST_NEW_PASSWORD).build();
         List<EmailToken> emailTokens = getTokenOfType(user, EmailType.RESET_PASSWORD);
         assertThat(emailTokens.size(), is(1));
         String realToken = emailTokens.get(0).getToken();
-        userService.resetPassword(resetPasswordDTO, FAKE_EMAIL, realToken);
+        userService.resetPassword(resetPasswordDTO, TEST_EMAIL, realToken);
 
         //-----------------------------------------------------------------
         // Try to login with newest password
         //-----------------------------------------------------------------
-        LoginDTO loginDTO = new LoginDTOBuilder().withEmail(FAKE_EMAIL).withPassword("2345678").build();
+        LoginDTO loginDTO = new LoginDTOBuilder().withEmail(TEST_EMAIL).withPassword(TEST_NEW_PASSWORD).build();
         userService.login(loginDTO);
 
         //-----------------------------------------------------------------
@@ -59,11 +59,11 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         UserDTO createdUserDTO = createUserDTO();
 
         // Reset password
-        userService.requestResetPassword(FAKE_EMAIL);
+        userService.requestResetPassword(TEST_EMAIL);
         User user = userRepository.findOne(createdUserDTO.getId());
 
         // reset password
-        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword("2345678").withPasswordConfirmation("2345678").build();
-        userService.resetPassword(resetPasswordDTO, FAKE_EMAIL, user.getEmailTokens().get(0).getToken() + "x");
+        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword(TEST_NEW_PASSWORD).withPasswordConfirmation(TEST_NEW_PASSWORD).build();
+        userService.resetPassword(resetPasswordDTO, TEST_EMAIL, user.getEmailTokens().get(0).getToken() + "x");
     }
 }

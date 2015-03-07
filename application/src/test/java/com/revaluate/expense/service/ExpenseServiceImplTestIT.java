@@ -142,7 +142,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
-        UserDTO firstUserDTO = createUserDTO(FAKE_EMAIL);
+        UserDTO firstUserDTO = createUserDTO(TEST_EMAIL);
 
         //-----------------------------------------------------------------
         // Create second user

@@ -77,14 +77,14 @@ public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegra
     }
 
     @Test
-    public void requestResetPassword_detailsValid_ok() throws Exception {
+    public void requestResetPassword_happyFlow_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
         // Reset password
-        userService.requestResetPassword(FAKE_EMAIL);
+        userService.requestResetPassword(TEST_EMAIL);
 
         //-----------------------------------------------------------------
         // Assert that reset email token is added
