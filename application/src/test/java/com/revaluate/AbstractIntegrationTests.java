@@ -30,10 +30,10 @@ import java.util.stream.Collectors;
 @ActiveProfiles("IT")
 public class AbstractIntegrationTests {
 
-    public static final String FAKE_EMAIL = "xx@xx.xx";
-    public static final String OLD_PASSWORD = "1234567";
-    public static final String PASSWORD_WRONG = "YYYYYYY";
-    public static final String NEW_PASSWORD = "9999999";
+    public static final String TEST_EMAIL = "xx@xx.xx";
+    public static final String TEST_PASSWORD = "1234567";
+    public static final String TEST_NEW_PASSWORD = "9999999";
+    public static final String TEST_PASSWORD_WRONG = "YYYYYYY";
 
     @Autowired
     protected UserRepository userRepository;
@@ -78,7 +78,7 @@ public class AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Compute the user
         //-----------------------------------------------------------------
-        userDTO = new UserDTOBuilder().withEmail(email).withFirstName("fn").withLastName("ln").withPassword("1234567").withCurrency(currencyDTO).build();
+        userDTO = new UserDTOBuilder().withEmail(email).withFirstName("fn").withLastName("ln").withPassword(TEST_PASSWORD).withCurrency(currencyDTO).build();
         UserDTO createdCategoryDTO = userService.create(userDTO);
         userDTO.setId(createdCategoryDTO.getId());
 
@@ -86,7 +86,7 @@ public class AbstractIntegrationTests {
     }
 
     protected UserDTO createUserDTO() throws com.revaluate.account.exception.UserException {
-        return createUserDTO(FAKE_EMAIL, CurrencyUnit.EUR.getCurrencyCode());
+        return createUserDTO(TEST_EMAIL, CurrencyUnit.EUR.getCurrencyCode());
     }
 
     protected UserDTO createUserDTO(String email) throws com.revaluate.account.exception.UserException {

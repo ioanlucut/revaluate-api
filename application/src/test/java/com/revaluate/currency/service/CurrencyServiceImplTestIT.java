@@ -47,7 +47,7 @@ public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO(FAKE_EMAIL, createdCurrencyDTO);
+        UserDTO createdUserDTO = createUserDTO(TEST_EMAIL, createdCurrencyDTO);
 
         //-----------------------------------------------------------------
         // Check user with currency added

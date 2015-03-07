@@ -15,11 +15,11 @@ public class UserServiceImplTest_updatePassword_IT extends AbstractIntegrationTe
         UserDTO createdUserDTO = createUserDTO();
 
         // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(NEW_PASSWORD).withOldPassword(OLD_PASSWORD).build();
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(TEST_NEW_PASSWORD).withNewPasswordConfirmation(TEST_NEW_PASSWORD).withOldPassword(TEST_PASSWORD).build();
         userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
 
         // Try to login
-        LoginDTO loginDTO = new LoginDTOBuilder().withEmail(FAKE_EMAIL).withPassword(NEW_PASSWORD).build();
+        LoginDTO loginDTO = new LoginDTOBuilder().withEmail(TEST_EMAIL).withPassword(TEST_NEW_PASSWORD).build();
         userService.login(loginDTO);
     }
 
@@ -31,7 +31,7 @@ public class UserServiceImplTest_updatePassword_IT extends AbstractIntegrationTe
         UserDTO createdUserDTO = createUserDTO();
 
         // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(NEW_PASSWORD).withOldPassword(PASSWORD_WRONG).build();
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(TEST_NEW_PASSWORD).withNewPasswordConfirmation(TEST_NEW_PASSWORD).withOldPassword(TEST_PASSWORD_WRONG).build();
         userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
     }
 
@@ -43,7 +43,7 @@ public class UserServiceImplTest_updatePassword_IT extends AbstractIntegrationTe
         UserDTO createdUserDTO = createUserDTO();
 
         // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(PASSWORD_WRONG).withOldPassword(OLD_PASSWORD).build();
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(TEST_NEW_PASSWORD).withNewPasswordConfirmation(TEST_PASSWORD_WRONG).withOldPassword(TEST_PASSWORD).build();
         userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
     }
 
@@ -51,7 +51,7 @@ public class UserServiceImplTest_updatePassword_IT extends AbstractIntegrationTe
     public void updatePassword_currentUserNotLoggedIn_exceptionThrown() throws Exception {
 
         // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(PASSWORD_WRONG).withOldPassword(OLD_PASSWORD).build();
+        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(TEST_NEW_PASSWORD).withNewPasswordConfirmation(TEST_PASSWORD_WRONG).withOldPassword(TEST_PASSWORD).build();
         userService.updatePassword(updatePasswordDTO, 99999999);
     }
 
