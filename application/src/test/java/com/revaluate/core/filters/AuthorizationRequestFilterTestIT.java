@@ -61,7 +61,6 @@ public class AuthorizationRequestFilterTestIT extends AbstractIntegrationTests {
     public void nonPublicMethodWithIncompleteAndInvalidToken() throws Exception {
         AuthorizationRequestFilter authorizationRequestFilter = spy(new AuthorizationRequestFilter());
         authorizationRequestFilter.setJwtService(jwtService);
-        authorizationRequestFilter.setUserRepository(userRepository);
         doReturn(false).when(authorizationRequestFilter).isPublicMethod();
 
         ContainerRequestContext containerRequestContext = mock(ContainerRequestContext.class);
@@ -77,7 +76,6 @@ public class AuthorizationRequestFilterTestIT extends AbstractIntegrationTests {
     public void nonPublicMethodWithInvalidToken() throws Exception {
         AuthorizationRequestFilter authorizationRequestFilter = spy(new AuthorizationRequestFilter());
         authorizationRequestFilter.setJwtService(jwtService);
-        authorizationRequestFilter.setUserRepository(userRepository);
         doReturn(false).when(authorizationRequestFilter).isPublicMethod();
 
         ContainerRequestContext containerRequestContext = mock(ContainerRequestContext.class);
@@ -94,7 +92,6 @@ public class AuthorizationRequestFilterTestIT extends AbstractIntegrationTests {
     public void nonPublicMethodWithValidToken() throws Exception {
         AuthorizationRequestFilter authorizationRequestFilter = spy(new AuthorizationRequestFilter());
         authorizationRequestFilter.setJwtService(jwtService);
-        authorizationRequestFilter.setUserRepository(userRepository);
         doReturn(false).when(authorizationRequestFilter).isPublicMethod();
 
         UserDTO newUser = createUserDTO();
@@ -113,7 +110,6 @@ public class AuthorizationRequestFilterTestIT extends AbstractIntegrationTests {
     public void nonPublicMethodWithValidTokenButInvalidUser() throws Exception {
         AuthorizationRequestFilter authorizationRequestFilter = spy(new AuthorizationRequestFilter());
         authorizationRequestFilter.setJwtService(jwtService);
-        authorizationRequestFilter.setUserRepository(userRepository);
         doReturn(false).when(authorizationRequestFilter).isPublicMethod();
 
         String generatedToken = jwtService.createTokenForUserWithId(99999999);
@@ -124,14 +120,13 @@ public class AuthorizationRequestFilterTestIT extends AbstractIntegrationTests {
 
         authorizationRequestFilter.filter(containerRequestContext);
 
-        verify(authorizationRequestFilter, times(1)).abort(any());
+        verify(authorizationRequestFilter, never()).abort(any());
     }
 
     @Test
     public void optionsWorksForNonPublicMethodWithInvalidToken() throws Exception {
         AuthorizationRequestFilter authorizationRequestFilter = spy(new AuthorizationRequestFilter());
         authorizationRequestFilter.setJwtService(jwtService);
-        authorizationRequestFilter.setUserRepository(userRepository);
         doReturn(false).when(authorizationRequestFilter).isPublicMethod();
 
         ContainerRequestContext containerRequestContext = mock(ContainerRequestContext.class);

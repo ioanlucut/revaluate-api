@@ -1,13 +1,13 @@
-package com.revaluate.account.resource;
+package com.revaluate.e2e.account;
 
 import com.nimbusds.jose.JOSEException;
-import com.revaluate.AbstractResourceTestEndToEnd;
 import com.revaluate.account.domain.UpdatePasswordDTO;
 import com.revaluate.account.domain.UpdatePasswordDTOBuilder;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
 import com.revaluate.core.resource.Answer;
 import com.revaluate.core.status.ExtraStatus;
+import com.revaluate.e2e.AbstractResourceTestEndToEnd;
 import org.junit.Test;
 
 import javax.ws.rs.client.Entity;
@@ -130,18 +130,6 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     public void remove_nonAuthenticatedUser_unauthorizedResponseReceived() {
         Response response = target("/account/remove").request().delete();
         assertThat(Response.Status.UNAUTHORIZED.getStatusCode(), is(equalTo(response.getStatus())));
-    }
-
-    @Test
-    public void remove_nonExistingUserWithValidToken_unauthorizedResponseReceived() {
-        int id = 999999;
-        try {
-            String tokenForUserWithId = jwtService.createTokenForUserWithId(id);
-            Response response = target("/account/remove").request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
-            assertThat(Response.Status.UNAUTHORIZED.getStatusCode(), is(equalTo(response.getStatus())));
-        } catch (JOSEException | ParseException e) {
-            e.printStackTrace();
-        }
     }
 
     //-----------------------------------------------------------------

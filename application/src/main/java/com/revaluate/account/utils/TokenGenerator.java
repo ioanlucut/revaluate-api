@@ -1,4 +1,4 @@
-package com.revaluate.core.token;
+package com.revaluate.account.utils;
 
 import com.revaluate.account.persistence.EmailToken;
 import com.revaluate.account.persistence.EmailType;

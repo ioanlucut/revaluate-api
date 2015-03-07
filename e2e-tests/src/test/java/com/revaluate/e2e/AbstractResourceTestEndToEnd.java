@@ -1,7 +1,9 @@
-package com.revaluate;
+package com.revaluate.e2e;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.Resources;
 import com.nimbusds.jose.JOSEException;
+import com.revaluate.RevaluateApplication;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
 import com.revaluate.core.bootstrap.ConfigProperties;
@@ -24,6 +26,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
