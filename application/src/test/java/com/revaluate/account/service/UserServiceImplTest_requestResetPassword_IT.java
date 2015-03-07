@@ -12,31 +12,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
 public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegrationTests {
 
     @Test
-    public void requestResetPassword_validDetails_ok() throws Exception {
+    public void requestResetPassword_happyFlow_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
-        userService.requestResetPassword(createdUserDTO.getEmail());
+
+        // Reset password
+        userService.requestResetPassword(TEST_EMAIL);
 
         //-----------------------------------------------------------------
-        // Assertions
+        // Assert that reset email token is added
         //-----------------------------------------------------------------
-        UserDTO userDTOWithResetPasswordRequest = userService.getUserDetails(createdUserDTO.getId());
-        assertThat(userDTOWithResetPasswordRequest, is(notNullValue()));
-        // email excluded
-        assertThat(userDTOWithResetPasswordRequest.getEmail(), equalTo(createdUserDTO.getEmail()));
-        assertThat(userDTOWithResetPasswordRequest.getFirstName(), equalTo(createdUserDTO.getFirstName()));
-        assertThat(userDTOWithResetPasswordRequest.getLastName(), equalTo(createdUserDTO.getLastName()));
-        assertThat(userDTOWithResetPasswordRequest.getId(), not(equalTo(0)));
-        assertThat(userDTOWithResetPasswordRequest.getId(), equalTo(createdUserDTO.getId()));
-        assertThat(userDTOWithResetPasswordRequest.getPassword(), is(nullValue()));
+        User foundUser = userRepository.findOne(createdUserDTO.getId());
+        List<EmailToken> emailTokens = getTokenOfType(foundUser, EmailType.RESET_PASSWORD);
+        assertThat(emailTokens.size(), is(1));
     }
 
     @Test
@@ -76,27 +71,8 @@ public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegra
         assertThat(aDifferentResetToken, is(true));
     }
 
-    @Test
-    public void requestResetPassword_happyFlow_ok() throws Exception {
-        //-----------------------------------------------------------------
-        // Create first user
-        //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO();
-
-        // Reset password
-        userService.requestResetPassword(TEST_EMAIL);
-
-        //-----------------------------------------------------------------
-        // Assert that reset email token is added
-        //-----------------------------------------------------------------
-        User foundUser = userRepository.findOne(createdUserDTO.getId());
-        List<EmailToken> emailTokens = getTokenOfType(foundUser, EmailType.RESET_PASSWORD);
-        assertThat(emailTokens.size(), is(1));
-    }
-
     @Test(expected = UserException.class)
     public void requestResetPassword_userDoesNotExists_throwsException() throws Exception {
         userService.requestResetPassword("abcdefg@xx.com");
     }
-
 }
