@@ -1,11 +1,16 @@
 package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
-import com.revaluate.account.domain.*;
+import com.revaluate.account.domain.UserDTO;
+import com.revaluate.account.domain.UserDTOBuilder;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.currency.domain.CurrencyDTO;
 import org.joda.money.CurrencyUnit;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import javax.validation.ConstraintViolationException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -13,8 +18,56 @@ import static org.hamcrest.core.Is.is;
 
 public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
 
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
     @Test
     public void update_validDetails_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO userDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Compute the currency to update
+        //-----------------------------------------------------------------
+        CurrencyDTO currency = new CurrencyDTO();
+        currency.setCurrencyCode(CurrencyUnit.GBP.getCurrencyCode());
+        CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
+
+        // Update a user
+        UserDTO userDTOToUpdate = new UserDTOBuilder().withId(9999).withEmail("xx@xx.xx2").withFirstName("fn2").withLastName("ln2").withPassword("12345672").withCurrency(currencyDTOToUpdate).build();
+        UserDTO updatedUserDTO = userService.update(userDTOToUpdate, userDTO.getId());
+
+        assertThat(updatedUserDTO, is(notNullValue()));
+        assertThat(updatedUserDTO.getFirstName(), equalTo(userDTOToUpdate.getFirstName()));
+        assertThat(updatedUserDTO.getLastName(), equalTo(userDTOToUpdate.getLastName()));
+
+        //-----------------------------------------------------------------
+        // Given email is ignored
+        //-----------------------------------------------------------------
+        assertThat(updatedUserDTO.getEmail(), not(equalTo(userDTOToUpdate.getEmail())));
+
+        //-----------------------------------------------------------------
+        // Given ID is ignored
+        //-----------------------------------------------------------------
+        assertThat(updatedUserDTO.getId(), not(equalTo(0)));
+        assertThat(updatedUserDTO.getId(), equalTo(userDTO.getId()));
+
+        //-----------------------------------------------------------------
+        // Currency is updated
+        //-----------------------------------------------------------------
+        assertThat(updatedUserDTO.getCurrency().getCurrencyCode(), not(equalTo(userDTO.getCurrency().getCurrencyCode())));
+        assertThat(updatedUserDTO.getCurrency().getCurrencyCode(), equalTo(currency.getCurrencyCode()));
+
+        //-----------------------------------------------------------------
+        // New password if provided is ignored
+        //-----------------------------------------------------------------
+        assertThat(updatedUserDTO.getPassword(), is(nullValue()));
+    }
+
+    @Test
+    public void update_withValidDetailsWithoutPasswordAndEmail_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
@@ -27,35 +80,50 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         currency.setCurrencyCode(CurrencyUnit.GBP.getCurrencyCode());
         CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
 
-        // Update a user
-        UserDTO userDTOToUpdate = new UserDTOBuilder().withEmail("xx@xx.xx2").withFirstName("fn2").withLastName("ln2").withPassword("12345672").withCurrency(currencyDTOToUpdate).build();
-        UserDTO updatedUserDTO = userService.update(userDTOToUpdate, createdUserDTO.getId());
-
-        assertThat(updatedUserDTO, is(notNullValue()));
-        // email excluded
-        assertThat(updatedUserDTO.getEmail(), not(equalTo(userDTOToUpdate.getEmail())));
-        assertThat(updatedUserDTO.getFirstName(), equalTo(userDTOToUpdate.getFirstName()));
-        assertThat(updatedUserDTO.getLastName(), equalTo(userDTOToUpdate.getLastName()));
-        assertThat(updatedUserDTO.getId(), not(equalTo(0)));
-        assertThat(updatedUserDTO.getId(), equalTo(createdUserDTO.getId()));
-        assertThat(updatedUserDTO.getCurrency().getCurrencyCode(), not(equalTo(createdUserDTO.getCurrency().getCurrencyCode())));
-        assertThat(updatedUserDTO.getCurrency().getCurrencyCode(), equalTo(currency.getCurrencyCode()));
-        assertThat(updatedUserDTO.getPassword(), not(equalTo(userDTOToUpdate.getPassword())));
+        //-----------------------------------------------------------------
+        // Update a user without id, email and password - works
+        //-----------------------------------------------------------------
+        UserDTO userDTOToUpdate = new UserDTOBuilder().withFirstName("fn2").withLastName("ln2").withCurrency(currencyDTOToUpdate).build();
+        userService.update(userDTOToUpdate, createdUserDTO.getId());
     }
 
     @Test
-    public void update_withValidDetailsAndThenLogin_ok() throws Exception {
+    public void update_invalidDetails_handledCorrectly() throws Exception {
         //-----------------------------------------------------------------
-        // Create first user
+        // Create user
         //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO();
+        UserDTO userDTO = createUserDTO();
 
-        // Update a user
-        UpdatePasswordDTO updatePasswordDTO = new UpdatePasswordDTOBuilder().withNewPassword(NEW_PASSWORD).withNewPasswordConfirmation(NEW_PASSWORD).withOldPassword(OLD_PASSWORD).build();
-        userService.updatePassword(updatePasswordDTO, createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Expect constraint violation if updates with an invalid user DTO
+        //-----------------------------------------------------------------
+        exception.expect(ConstraintViolationException.class);
+        UserDTO userDTOToUpdate = new UserDTOBuilder().build();
+        userService.update(userDTOToUpdate, userDTO.getId());
 
-        // Try to login
-        LoginDTO loginDTO = new LoginDTOBuilder().withEmail(FAKE_EMAIL).withPassword(NEW_PASSWORD).build();
-        userService.login(loginDTO);
+        //-----------------------------------------------------------------
+        // Expect constraint violation if updates only with first name
+        //-----------------------------------------------------------------
+        exception.expect(ConstraintViolationException.class);
+        userDTOToUpdate = new UserDTOBuilder().withFirstName("fn2").build();
+        userService.update(userDTOToUpdate, userDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Expect constraint violation if updates only with last name
+        //-----------------------------------------------------------------
+        exception.expect(ConstraintViolationException.class);
+        userDTOToUpdate = new UserDTOBuilder().withLastName("fn2").build();
+        userService.update(userDTOToUpdate, userDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Expect constraint violation if updates with inexisting currency
+        //-----------------------------------------------------------------
+        exception.expect(UserException.class);
+        CurrencyDTO currency = new CurrencyDTO();
+        currency.setCurrencyCode("INEXISTING");
+        userDTOToUpdate = new UserDTOBuilder().withFirstName("fn2").withLastName("fn2").withCurrency(currency).build();
+        userService.update(userDTOToUpdate, userDTO.getId());
+
+
     }
 }
