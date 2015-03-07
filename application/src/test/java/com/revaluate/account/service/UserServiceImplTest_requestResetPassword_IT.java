@@ -23,11 +23,12 @@ public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegra
         // Create first user
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
-
         userService.requestResetPassword(createdUserDTO.getEmail());
 
+        //-----------------------------------------------------------------
+        // Assertions
+        //-----------------------------------------------------------------
         UserDTO userDTOWithResetPasswordRequest = userService.getUserDetails(createdUserDTO.getId());
-
         assertThat(userDTOWithResetPasswordRequest, is(notNullValue()));
         // email excluded
         assertThat(userDTOWithResetPasswordRequest.getEmail(), equalTo(createdUserDTO.getEmail()));
@@ -41,7 +42,7 @@ public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegra
     @Test
     public void requestResetPassword_firstTokenIsOverridden_ok() throws Exception {
         //-----------------------------------------------------------------
-        // Create first user
+        // Create user
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
