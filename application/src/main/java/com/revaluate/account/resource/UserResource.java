@@ -8,6 +8,7 @@ import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.service.UserService;
 import com.revaluate.core.annotations.Public;
+import com.revaluate.core.jwt.JwtException;
 import com.revaluate.core.resource.Resource;
 import com.revaluate.core.resource.Responses;
 import com.revaluate.core.views.Views;
@@ -75,9 +76,13 @@ public class UserResource extends Resource {
     @JsonView({Views.StrictView.class})
     public Response login(@Valid LoginDTO loginDTO) throws UserException {
         UserDTO foundUserDTO = userService.login(loginDTO);
-        String jwtToken = jwtService.tryToGetUserToken(foundUserDTO.getId());
+        try {
+            String jwtToken = jwtService.tryToGetUserToken(foundUserDTO.getId());
 
-        return Response.status(Response.Status.OK).entity(foundUserDTO).header(configProperties.getAuthTokenHeaderKey(), jwtToken).build();
+            return Response.status(Response.Status.OK).entity(foundUserDTO).header(configProperties.getAuthTokenHeaderKey(), jwtToken).build();
+        } catch (JwtException ex) {
+            throw new UserException(ex.getMessage(), ex);
+        }
     }
 
     @POST

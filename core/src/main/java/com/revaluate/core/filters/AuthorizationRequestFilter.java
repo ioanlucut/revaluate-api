@@ -1,6 +1,5 @@
 package com.revaluate.core.filters;
 
-import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.annotations.Public;
 import com.revaluate.core.jwt.JwtException;
 import com.revaluate.core.jwt.JwtService;
@@ -24,21 +23,15 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
 
     public static final String BEARER_HEADER = "Bearer";
     public static final String OPTIONS = "OPTIONS";
+
     @Context
     private ResourceInfo resourceInfo;
 
     @Autowired
     private JwtService jwtService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     public void setJwtService(JwtService jwtService) {
         this.jwtService = jwtService;
-    }
-
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -77,11 +70,10 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
         }
 
         try {
-            int userId = jwtService.parseToken(jwtToken);
-            boolean userExists = userRepository.exists(userId);
-            if (!userExists) {
-                return true;
-            }
+            //-----------------------------------------------------------------
+            // If token can be parsed, then it is ok.
+            //-----------------------------------------------------------------
+            jwtService.parseToken(jwtToken);
         } catch (JwtException | EntityNotFoundException e) {
             return true;
         }

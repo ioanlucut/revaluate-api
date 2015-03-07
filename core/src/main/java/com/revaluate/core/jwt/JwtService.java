@@ -5,7 +5,6 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import com.revaluate.account.exception.UserException;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,11 +95,11 @@ public class JwtService {
         }
     }
 
-    public String tryToGetUserToken(Integer id) throws UserException {
+    public String tryToGetUserToken(Integer id) throws JwtException {
         try {
             return createTokenForUserWithId(id);
         } catch (JOSEException | ParseException ex) {
-            throw new UserException("Invalid email or password", ex);
+            throw new JwtException("Invalid email or password", ex);
         }
     }
 }

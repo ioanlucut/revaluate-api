@@ -11,7 +11,7 @@ import com.revaluate.account.persistence.EmailType;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.jwt.JwtService;
-import com.revaluate.core.token.TokenGenerator;
+import com.revaluate.account.utils.TokenGenerator;
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;
 import org.dozer.DozerBeanMapper;

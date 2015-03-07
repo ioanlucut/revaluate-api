@@ -1,11 +1,8 @@
 package com.revaluate.core.resource;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
-
 /**
  * Created by ilucut
  */
-@GeneratePojoBuilder
 public class Answer {
 
     private String answer;
