@@ -1,6 +1,7 @@
 package com.revaluate.account.domain;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.revaluate.account.validation.CreateUserGroup;
 import com.revaluate.category.domain.CategoryDTO;
 import com.revaluate.core.views.Views;
 import com.revaluate.currency.domain.CurrencyDTO;
@@ -31,13 +32,13 @@ public class UserDTO implements Serializable {
     @JsonView({Views.StrictView.class})
     private String lastName;
 
-    @Email
-    @NotBlank
+    @Email(groups = CreateUserGroup.class)
+    @NotBlank(groups = CreateUserGroup.class)
     @JsonView({Views.StrictView.class})
     private String email;
 
-    @NotBlank
-    @Size(min = 7)
+    @NotBlank(groups = CreateUserGroup.class)
+    @Size(min = 7, groups = CreateUserGroup.class)
     private String password;
 
     @NotNull
