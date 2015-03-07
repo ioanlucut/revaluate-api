@@ -147,7 +147,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         //-----------------------------------------------------------------
         // Create valid category
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("xxx").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#fff").withName("name").build();
         WebTarget target = target("/categories/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));

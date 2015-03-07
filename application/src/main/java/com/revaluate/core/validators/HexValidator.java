@@ -1,5 +1,7 @@
 package com.revaluate.core.validators;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
@@ -14,6 +16,10 @@ public class HexValidator implements ConstraintValidator<HexColor, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (StringUtils.isBlank(value)) {
+            return false;
+        }
+
         Pattern pattern = Pattern.compile(HEX_PATTERN);
 
         return pattern.matcher(value).matches();

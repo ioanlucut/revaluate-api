@@ -10,6 +10,12 @@ public class HexColorValidatorTest {
     private HexValidator hexValidator = new HexValidator();
 
     @Test
+    public void validate_nullOrBlank_isNotOk() {
+        assertThat(hexValidator.isValid(null, null), is(false));
+        assertThat(hexValidator.isValid("", null), is(false));
+    }
+
+    @Test
     public void validate_validHexColors_isOk() {
         assertThat(hexValidator.isValid("#1f1f1F", null), is(true));
         assertThat(hexValidator.isValid("#AFAFAF", null), is(true));

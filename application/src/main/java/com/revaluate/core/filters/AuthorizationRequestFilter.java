@@ -59,7 +59,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
     }
 
     private boolean isOptionsHttpMethod(ContainerRequestContext requestContext) {
-        return requestContext.getMethod().equals(OPTIONS);
+        return OPTIONS.equals(requestContext.getMethod());
     }
 
     public boolean isPublicMethod() {
