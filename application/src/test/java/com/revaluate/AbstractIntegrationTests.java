@@ -16,6 +16,8 @@ import com.revaluate.currency.service.CurrencyService;
 import org.joda.money.CurrencyUnit;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -34,6 +36,9 @@ public class AbstractIntegrationTests {
     public static final String TEST_PASSWORD = "1234567";
     public static final String TEST_NEW_PASSWORD = "9999999";
     public static final String TEST_PASSWORD_WRONG = "YYYYYYY";
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @Autowired
     protected UserRepository userRepository;
