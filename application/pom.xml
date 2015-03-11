@@ -40,6 +40,7 @@
     </dependencies>
 
     <build>
+
         <plugins>
 
             <!--Migration flyway DB scripts-->
@@ -48,11 +49,8 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <driver>org.postgresql.Driver</driver>
-                    <url>jdbc:postgresql://localhost/postgres</url>
-                    <user>postgres</user>
-                    <password>postgres</password>
                     <skip>${skipDbMigration}</skip>
+                    <configFile>src/main/resources/installation_${ENVIRONMENT}}.properties</configFile>
                 </configuration>
                 <executions>
                     <execution>
