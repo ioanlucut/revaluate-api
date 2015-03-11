@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Ddw.server.connector.port=$PORT -jar target/application-1.0-SNAPSHOT.jar server config.yaml
+web: java $JAVA_OPTS -Ddw.server.connector.port=$PORT -DENVIRONMENT=prod -jar target/application-1.0-SNAPSHOT.jar server config.yaml
