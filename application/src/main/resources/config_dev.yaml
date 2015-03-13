@@ -18,3 +18,8 @@ database:
 
   # the JDBC URL
   url: jdbc:postgresql://localhost/postgres
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 8085
