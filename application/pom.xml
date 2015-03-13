@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.revaluate</groupId>
         <artifactId>revaluate-api</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -26,7 +26,7 @@
         <dependency>
             <groupId>com.revaluate</groupId>
             <artifactId>core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
 
         <!--POJOBUILDER-->
@@ -42,25 +42,6 @@
     <build>
 
         <plugins>
-
-            <!--Migration flyway DB scripts-->
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <skip>${skipDbMigration}</skip>
-                    <configFile>src/main/resources/installation_${ENVIRONMENT}}.properties</configFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>migrate</goal>
-                        </goals>
-                        <phase>compile</phase>
-                    </execution>
-                </executions>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

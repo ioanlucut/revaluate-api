@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.dropwizard.setup.Environment;
 import io.github.fallwizard.FallwizardApplication;
-import io.github.fallwizard.configuration.FallwizardConfiguration;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.flywaydb.core.Flyway;
 import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
 import org.glassfish.jersey.server.ServerProperties;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ import javax.ws.rs.ext.Provider;
 import java.util.EnumSet;
 import java.util.Map;
 
-public class RevaluateApplication extends FallwizardApplication<FallwizardConfiguration> {
+public class RevaluateApplication extends FallwizardApplication<RevaluateConfiguration> {
 
     public static void main(String[] args) throws Exception {
 
@@ -27,7 +27,9 @@ public class RevaluateApplication extends FallwizardApplication<FallwizardConfig
     }
 
     @Override
-    public void run(FallwizardConfiguration configuration, Environment environment) throws Exception {
+    public void run(RevaluateConfiguration configuration, Environment environment) throws Exception {
+        runMigrationScripts(configuration);
+
         super.run(configuration, environment);
         // The order is very important.
         setUpOtherOptions(environment);
@@ -40,6 +42,14 @@ public class RevaluateApplication extends FallwizardApplication<FallwizardConfig
 
         // Register providers
         registerProviders(environment);
+    }
+
+    private void runMigrationScripts(RevaluateConfiguration configuration) {
+        Flyway flyway = new Flyway();
+        flyway.setDataSource(configuration.getDataSourceFactory().getUrl(),
+                configuration.getDataSourceFactory().getUser(),
+                configuration.getDataSourceFactory().getPassword());
+        flyway.migrate();
     }
 
     private void configureJackson(Environment environment) {

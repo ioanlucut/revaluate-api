@@ -1,9 +1,9 @@
 package com.revaluate.e2e;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.io.Resources;
 import com.nimbusds.jose.JOSEException;
 import com.revaluate.RevaluateApplication;
+import com.revaluate.RevaluateConfiguration;
 import com.revaluate.account.domain.UserDTO;
 import com.revaluate.account.domain.UserDTOBuilder;
 import com.revaluate.core.bootstrap.ConfigProperties;
@@ -13,7 +13,6 @@ import com.revaluate.currency.domain.CurrencyDTOBuilder;
 import io.dropwizard.jersey.validation.ValidationErrorMessage;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import io.github.fallwizard.configuration.FallwizardConfiguration;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.money.CurrencyUnit;
 import org.junit.ClassRule;
@@ -26,7 +25,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +46,8 @@ public class AbstractResourceTestEndToEnd {
     }
 
     @ClassRule
-    public static final DropwizardAppRule<FallwizardConfiguration> RULE =
-            new DropwizardAppRule<FallwizardConfiguration>(RevaluateApplication.class, ResourceHelpers.resourceFilePath("config.yaml"));
+    public static final DropwizardAppRule<RevaluateConfiguration> RULE =
+            new DropwizardAppRule<RevaluateConfiguration>(RevaluateApplication.class, ResourceHelpers.resourceFilePath("config.yaml"));
 
     protected Client client = ClientBuilder.newClient();
 

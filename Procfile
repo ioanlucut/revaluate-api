@@ -1,0 +1,1 @@
+web: mvn flyway:migrate -DENVIRONMENT=prod && java $JAVA_OPTS -Ddw.server.connector.port=$PORT -DENVIRONMENT=prod -jar target/application-1.0-SNAPSHOT.jar server "application/config_prod.yaml"
