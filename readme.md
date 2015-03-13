@@ -2,15 +2,29 @@
 * UT tests are automatically started using `mvn clean install`
 * IT tests are automatically disabled. Can be enabled using `mvn clean install -DskipITs=false or  mvn clean install -PexecITs`
 
-# Default command to be used before commits: `mvn clean install -DskipITs=false`.
-* Do `mvn clean install -DskipDbMigration=true`
-* Do `java -jar target/application-1.0-SNAPSHOT.jar`
-* Do `mvn clean install -PexecITs -DskipDbMigration=true`
-* Do `java -jar target/application-1.0-SNAPSHOT.jar server config.yaml`
-* Do `mvn clean install -PexecITs -DENVIRONMENT=prod`
+# Default command to be used before commits: 
 * Do `mvn clean install -DskipITs=false  -DskipDbMigration=true -Dspring.profiles.active="IT"`
 
-Existing endpoints:
+# IT tests:
+* For IT tests we use an embedded H2 database, so therefore we need a different configuration.
+* Do `mvn clean install -DskipITs=false  -Dspring.profiles.active="IT"` in order to activate the IT spring profile.
+
+# Flyway.
+* Migrations are done automatically on deploy app (run) using Flyway API.
+* However, for dev, there is a possibility to run flyway commands through maven.
+    * E.g. `cd application`
+    * E.g. `mvn flyway:migrate -DENVIRONMENT=dev`
+    
+# Localhost.
+* In order to run the app in localhost, you have to have a Postgres instance running at localhost and call `./start_dev.sh`.
+    
+# Heroku.
+* There is a small `Procfile` where all the configrations are defined (how to start the app).
+* However, for dev, there is a possibility to run flyway commands through maven.
+    * E.g. `cd application`
+    * E.g. `mvn flyway:migrate -DENVIRONMENT=dev`
+    
+# Existing endpoints:
     `DELETE  /expenses/remove/{expenseId} (com.revaluate.expense.resource.ExpenseResource)`
     `GET     /expenses/retrieve (com.revaluate.expense.resource.ExpenseResource)`
     `POST    /expenses/create (com.revaluate.expense.resource.ExpenseResource)`

@@ -39,7 +39,6 @@
         <!--By default IT tests are disabled-->
         <skipITs>true</skipITs>
         <skipCodeAnalysis>true</skipCodeAnalysis>
-        <skipDbMigration>false</skipDbMigration>
 
         <!-- multi project config -->
         <main.basedir>${project.basedir}</main.basedir>
