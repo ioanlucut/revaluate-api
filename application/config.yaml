@@ -1,7 +1,0 @@
-# Spring Specific Configuration
-spring:
-    # Application Contexts to Load.
-    applicationContext: ['classpath:applicationContext.xml']
-
-    # Should Spring Security be used?
-    useSpringSecurity: false

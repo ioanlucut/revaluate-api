@@ -6,7 +6,7 @@
 
     <groupId>com.revaluate</groupId>
     <artifactId>revaluate-api</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -39,7 +39,7 @@
         <!--By default IT tests are disabled-->
         <skipITs>true</skipITs>
         <skipCodeAnalysis>true</skipCodeAnalysis>
-        <skipDbMigration>true</skipDbMigration>
+        <skipDbMigration>false</skipDbMigration>
 
         <!-- multi project config -->
         <main.basedir>${project.basedir}</main.basedir>
@@ -113,6 +113,7 @@
         <joda-money.version>0.10.0</joda-money.version>
         <joda-time-hibernate.version>1.3</joda-time-hibernate.version>
         <usertype.core.version>3.2.0.GA</usertype.core.version>
+        <dropwizard-flyway.version>0.8.0-1</dropwizard-flyway.version>
     </properties>
 
     <dependencyManagement>
@@ -295,6 +296,12 @@
                 <groupId>io.github.fallwizard</groupId>
                 <artifactId>Fallwizard</artifactId>
                 <version>${Fallwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard.modules</groupId>
+                <artifactId>dropwizard-flyway</artifactId>
+                <version>${dropwizard-flyway.version}</version>
             </dependency>
 
         </dependencies>
