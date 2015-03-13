@@ -37,6 +37,16 @@
         <property name="jdbcUrl" value="${db.url}"/>
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}"/>
+        <property name="idleConnectionTestPeriodInMinutes" value="1"/>
+        <property name="idleMaxAgeInMinutes" value="4"/>
+        <property name="maxConnectionsPerPartition" value="30"/>
+        <property name="minConnectionsPerPartition" value="1"/>
+        <property name="poolAvailabilityThreshold" value="5"/>
+        <property name="partitionCount" value="1"/>
+        <property name="acquireIncrement" value="3"/>
+        <property name="statementsCacheSize" value="50"/>
+        <property name="connectionTestStatement" value="SELECT 1"/>
+        <property name="lazyInit" value="true"/>
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
