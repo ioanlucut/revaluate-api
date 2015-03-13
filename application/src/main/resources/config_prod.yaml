@@ -18,3 +18,7 @@ database:
 
   # the JDBC URL
   url: jdbc:postgresql://db.example.com:5432/revaluate
+
+server:
+  applicationConnectors:
+      port: 8085
