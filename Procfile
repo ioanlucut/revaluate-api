@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -DENVIRONMENT=prod -jar application/target/application-1.0.jar server "application/src/main/resources/config_prod.yaml"
+web: java $JAVA_OPTS -Ddw.server.connector.port=$PORT -DENVIRONMENT=prod -jar application/target/application-1.0.jar server "application/src/main/resources/config_prod.yaml"
