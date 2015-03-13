@@ -1,12 +1,12 @@
 package com.revaluate.expense.service;
 
 import com.revaluate.AbstractIntegrationTests;
-import com.revaluate.account.domain.UserDTO;
-import com.revaluate.category.domain.CategoryDTO;
-import com.revaluate.category.domain.CategoryDTOBuilder;
+import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.category.CategoryDTO;
+import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.category.service.CategoryService;
-import com.revaluate.expense.domain.ExpenseDTO;
-import com.revaluate.expense.domain.ExpenseDTOBuilder;
+import com.revaluate.domain.expense.ExpenseDTO;
+import com.revaluate.domain.expense.ExpenseDTOBuilder;
 import com.revaluate.expense.exception.ExpenseException;
 import org.joda.money.CurrencyUnit;
 import org.joda.time.LocalDateTime;

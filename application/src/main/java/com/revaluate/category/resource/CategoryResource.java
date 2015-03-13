@@ -1,6 +1,6 @@
 package com.revaluate.category.resource;
 
-import com.revaluate.category.domain.CategoryDTO;
+import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.category.exception.CategoryException;
 import com.revaluate.category.service.CategoryService;
 import com.revaluate.core.resource.Resource;

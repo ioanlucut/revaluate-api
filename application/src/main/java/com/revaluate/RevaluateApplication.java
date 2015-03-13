@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.revaluate.core.bootstrap.ConfigProperties;
 import io.dropwizard.setup.Environment;
 import io.github.fallwizard.FallwizardApplication;
 import org.eclipse.jetty.servlets.CrossOriginFilter;

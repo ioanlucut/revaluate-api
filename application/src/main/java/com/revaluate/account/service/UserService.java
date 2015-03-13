@@ -1,9 +1,9 @@
 package com.revaluate.account.service;
 
-import com.revaluate.account.domain.LoginDTO;
-import com.revaluate.account.domain.ResetPasswordDTO;
-import com.revaluate.account.domain.UpdatePasswordDTO;
-import com.revaluate.account.domain.UserDTO;
+import com.revaluate.domain.account.LoginDTO;
+import com.revaluate.domain.account.ResetPasswordDTO;
+import com.revaluate.domain.account.UpdatePasswordDTO;
+import com.revaluate.domain.account.UserDTO;
 import com.revaluate.account.exception.UserException;
 import org.hibernate.validator.constraints.Email;
 

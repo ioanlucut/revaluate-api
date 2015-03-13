@@ -1,6 +1,6 @@
 package com.revaluate.category.service;
 
-import com.revaluate.category.domain.CategoryDTO;
+import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.category.exception.CategoryException;
 
 import javax.validation.Valid;

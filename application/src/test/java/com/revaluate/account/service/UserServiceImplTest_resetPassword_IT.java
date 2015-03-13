@@ -1,7 +1,7 @@
 package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
-import com.revaluate.account.domain.*;
+import com.revaluate.domain.account.*;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.EmailToken;
 import com.revaluate.account.persistence.EmailType;

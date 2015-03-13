@@ -1,10 +1,10 @@
 package com.revaluate.category.service;
 
 import com.revaluate.AbstractIntegrationTests;
-import com.revaluate.account.domain.UserDTO;
+import com.revaluate.domain.account.UserDTO;
 import com.revaluate.account.persistence.User;
-import com.revaluate.category.domain.CategoryDTO;
-import com.revaluate.category.domain.CategoryDTOBuilder;
+import com.revaluate.domain.category.CategoryDTO;
+import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.category.exception.CategoryException;
 import org.joda.money.CurrencyUnit;
 import org.junit.Test;

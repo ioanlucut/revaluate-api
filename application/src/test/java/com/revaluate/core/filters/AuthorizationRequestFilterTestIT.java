@@ -1,7 +1,7 @@
 package com.revaluate.core.filters;
 
 import com.revaluate.AbstractIntegrationTests;
-import com.revaluate.account.domain.UserDTO;
+import com.revaluate.domain.account.UserDTO;
 import com.revaluate.core.jwt.JwtService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

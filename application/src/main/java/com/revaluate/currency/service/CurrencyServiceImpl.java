@@ -1,6 +1,6 @@
 package com.revaluate.currency.service;
 
-import com.revaluate.currency.domain.CurrencyDTO;
+import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.currency.exception.CurrencyException;
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;
