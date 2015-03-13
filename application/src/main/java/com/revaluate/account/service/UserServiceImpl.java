@@ -1,19 +1,19 @@
 package com.revaluate.account.service;
 
-import com.revaluate.domain.account.LoginDTO;
-import com.revaluate.domain.account.ResetPasswordDTO;
-import com.revaluate.domain.account.UpdatePasswordDTO;
-import com.revaluate.domain.account.UserDTO;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.exception.UserNotFoundException;
 import com.revaluate.account.persistence.EmailToken;
 import com.revaluate.account.persistence.EmailType;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
-import com.revaluate.core.jwt.JwtService;
 import com.revaluate.account.utils.TokenGenerator;
+import com.revaluate.core.jwt.JwtService;
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;
+import com.revaluate.domain.account.LoginDTO;
+import com.revaluate.domain.account.ResetPasswordDTO;
+import com.revaluate.domain.account.UpdatePasswordDTO;
+import com.revaluate.domain.account.UserDTO;
 import org.dozer.DozerBeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +28,16 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     public static final String USER_DTO__UPDATE = "UserDTO__Update";
+
     @Autowired
     protected JwtService jwtService;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private CurrencyRepository currencyRepository;
+
     @Autowired
     private DozerBeanMapper dozerBeanMapper;
 
