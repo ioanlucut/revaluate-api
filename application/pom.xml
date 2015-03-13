@@ -43,6 +43,16 @@
 
         <plugins>
 
+            <!--Migration flyway DB scripts-->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <configFile>src/main/resources/installation_${ENVIRONMENT}.properties</configFile>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
