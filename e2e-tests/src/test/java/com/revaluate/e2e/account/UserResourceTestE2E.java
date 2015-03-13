@@ -1,12 +1,12 @@
 package com.revaluate.e2e.account;
 
 import com.nimbusds.jose.JOSEException;
-import com.revaluate.account.domain.UpdatePasswordDTO;
-import com.revaluate.account.domain.UpdatePasswordDTOBuilder;
-import com.revaluate.account.domain.UserDTO;
-import com.revaluate.account.domain.UserDTOBuilder;
 import com.revaluate.core.resource.Answer;
 import com.revaluate.core.status.ExtraStatus;
+import com.revaluate.domain.account.UpdatePasswordDTO;
+import com.revaluate.domain.account.UpdatePasswordDTOBuilder;
+import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.account.UserDTOBuilder;
 import com.revaluate.e2e.AbstractResourceTestEndToEnd;
 import org.junit.Test;
 

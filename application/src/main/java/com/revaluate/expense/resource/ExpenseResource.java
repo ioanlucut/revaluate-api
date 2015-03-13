@@ -2,7 +2,7 @@ package com.revaluate.expense.resource;
 
 import com.revaluate.core.resource.Resource;
 import com.revaluate.core.resource.Responses;
-import com.revaluate.expense.domain.ExpenseDTO;
+import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.expense.service.ExpenseService;
 import org.joda.time.LocalDateTime;

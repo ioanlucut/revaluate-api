@@ -1,6 +1,6 @@
 package com.revaluate.expense.service;
 
-import com.revaluate.expense.domain.ExpenseDTO;
+import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.expense.exception.ExpenseException;
 
 import javax.validation.Valid;

@@ -16,7 +16,7 @@
     </configuration>
 
     <mapping map-null="false" map-id="CategoryDTO__Update">
-        <class-a>com.revaluate.category.domain.CategoryDTO</class-a>
+        <class-a>com.revaluate.domain.category.CategoryDTO</class-a>
         <class-b>com.revaluate.category.persistence.Category</class-b>
         <field-exclude type="one-way">
             <a>id</a>
@@ -25,7 +25,7 @@
     </mapping>
 
     <mapping map-null="false">
-        <class-a>com.revaluate.expense.domain.ExpenseDTO</class-a>
+        <class-a>com.revaluate.domain.expense.ExpenseDTO</class-a>
         <class-b>com.revaluate.expense.persistence.Expense</class-b>
         <field-exclude type="one-way">
             <a>id</a>
@@ -34,7 +34,7 @@
     </mapping>
 
     <mapping map-null="false" map-id="UserDTO__Update">
-        <class-a>com.revaluate.account.domain.UserDTO</class-a>
+        <class-a>com.revaluate.domain.account.UserDTO</class-a>
         <class-b>com.revaluate.account.persistence.User</class-b>
         <field-exclude type="one-way">
             <a>id</a>
@@ -53,7 +53,7 @@
     <!--Generally, the password should not be sent back to the user-->
     <mapping>
         <class-a>com.revaluate.account.persistence.User</class-a>
-        <class-b>com.revaluate.account.domain.UserDTO</class-b>
+        <class-b>com.revaluate.domain.account.UserDTO</class-b>
         <field-exclude type="one-way">
             <a>password</a>
             <b>password</b>

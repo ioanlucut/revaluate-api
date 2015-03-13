@@ -1,11 +1,11 @@
 package com.revaluate.e2e.category;
 
 import com.nimbusds.jose.JOSEException;
-import com.revaluate.account.domain.UserDTO;
-import com.revaluate.category.domain.CategoryDTO;
-import com.revaluate.category.domain.CategoryDTOBuilder;
 import com.revaluate.core.resource.Answer;
 import com.revaluate.core.status.ExtraStatus;
+import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.category.CategoryDTO;
+import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.e2e.AbstractResourceTestEndToEnd;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;

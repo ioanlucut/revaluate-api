@@ -2,7 +2,6 @@ package com.revaluate.expense.persistence;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.category.persistence.Category;
-import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

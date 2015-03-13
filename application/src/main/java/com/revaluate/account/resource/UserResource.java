@@ -1,18 +1,18 @@
 package com.revaluate.account.resource;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.revaluate.account.domain.LoginDTO;
-import com.revaluate.account.domain.ResetPasswordDTO;
-import com.revaluate.account.domain.UpdatePasswordDTO;
-import com.revaluate.account.domain.UserDTO;
+import com.revaluate.domain.account.ResetPasswordDTO;
+import com.revaluate.domain.account.UpdatePasswordDTO;
+import com.revaluate.domain.account.UserDTO;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.service.UserService;
-import com.revaluate.account.validation.CreateUserGroup;
+import com.revaluate.groups.CreateUserGroup;
 import com.revaluate.core.annotations.Public;
 import com.revaluate.core.jwt.JwtException;
 import com.revaluate.core.resource.Resource;
 import com.revaluate.core.resource.Responses;
-import com.revaluate.core.views.Views;
+import com.revaluate.domain.account.LoginDTO;
+import com.revaluate.views.Views;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;

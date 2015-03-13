@@ -2,7 +2,7 @@ package com.revaluate.category.service;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
-import com.revaluate.category.domain.CategoryDTO;
+import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.category.exception.CategoryException;
 import com.revaluate.category.persistence.Category;
 import com.revaluate.category.persistence.CategoryRepository;

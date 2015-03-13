@@ -1,15 +1,15 @@
 package com.revaluate;
 
-import com.revaluate.account.domain.UserDTO;
-import com.revaluate.account.domain.UserDTOBuilder;
+import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.account.UserDTOBuilder;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.EmailToken;
 import com.revaluate.account.persistence.EmailType;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.service.UserService;
-import com.revaluate.currency.domain.CurrencyDTO;
-import com.revaluate.currency.domain.CurrencyDTOBuilder;
+import com.revaluate.domain.currency.CurrencyDTO;
+import com.revaluate.domain.currency.CurrencyDTOBuilder;
 import com.revaluate.currency.exception.CurrencyException;
 import com.revaluate.currency.persistence.CurrencyRepository;
 import com.revaluate.currency.service.CurrencyService;

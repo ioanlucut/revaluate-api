@@ -1,7 +1,7 @@
 package com.revaluate.category.persistence;
 
 import com.revaluate.account.persistence.User;
-import com.revaluate.core.validators.HexColor;
+import com.revaluate.validators.HexColor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

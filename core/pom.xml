@@ -168,11 +168,10 @@
             <version>${hsqldb.version}</version>
         </dependency>
 
-        <!-- OTHERS -->
+        <!-- JODA -->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>${joda-time.version}</version>
         </dependency>
 
         <!-- Dozer -->
@@ -232,7 +231,7 @@
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
+            <version>${hamcrest-all.version}</version>
         </dependency>
 
         <dependency>
