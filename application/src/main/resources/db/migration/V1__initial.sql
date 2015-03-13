@@ -12,8 +12,6 @@ CREATE TABLE categories (
 );
 
 
-ALTER TABLE categories OWNER TO postgres;
-
 --
 -- TOC entry 168 (class 1259 OID 43065)
 -- Dependencies: 7
@@ -28,8 +26,6 @@ CREATE SEQUENCE categories_id_seq
     CACHE 1;
 
 
-ALTER TABLE categories_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 164 (class 1259 OID 43008)
 -- Dependencies: 7
@@ -41,8 +37,6 @@ CREATE TABLE currencies (
     currency_code character varying(255) NOT NULL
 );
 
-
-ALTER TABLE currencies OWNER TO postgres;
 
 --
 -- TOC entry 169 (class 1259 OID 43067)
@@ -58,8 +52,6 @@ CREATE SEQUENCE currencies_id_seq
     CACHE 1;
 
 
-ALTER TABLE currencies_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 165 (class 1259 OID 43013)
 -- Dependencies: 7
@@ -74,8 +66,6 @@ CREATE TABLE email_token (
     user_id integer NOT NULL
 );
 
-
-ALTER TABLE email_token OWNER TO postgres;
 
 --
 -- TOC entry 166 (class 1259 OID 43021)
@@ -95,8 +85,6 @@ CREATE TABLE expenses (
 );
 
 
-ALTER TABLE expenses OWNER TO postgres;
-
 --
 -- TOC entry 170 (class 1259 OID 43069)
 -- Dependencies: 7
@@ -110,8 +98,6 @@ CREATE SEQUENCE expenses_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
-ALTER TABLE expenses_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 162 (class 1259 OID 37709)
@@ -127,8 +113,6 @@ CREATE SEQUENCE user_email_token_id_seq
     CACHE 1;
 
 
-ALTER TABLE user_email_token_id_seq OWNER TO postgres;
-
 --
 -- TOC entry 171 (class 1259 OID 43071)
 -- Dependencies: 7
@@ -142,8 +126,6 @@ CREATE SEQUENCE user_token_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
-ALTER TABLE user_token_id_seq OWNER TO postgres;
 
 --
 -- TOC entry 167 (class 1259 OID 43026)
@@ -165,8 +147,6 @@ CREATE TABLE users (
 );
 
 
-ALTER TABLE users OWNER TO postgres;
-
 --
 -- TOC entry 172 (class 1259 OID 43073)
 -- Dependencies: 7
@@ -180,8 +160,6 @@ CREATE SEQUENCE users_id_seq
     NO MAXVALUE
     CACHE 1;
 
-
-ALTER TABLE users_id_seq OWNER TO postgres;
 
 ALTER TABLE ONLY categories
     ADD CONSTRAINT categories_pkey PRIMARY KEY (category_id);
