@@ -2,10 +2,10 @@ package com.revaluate.category.service;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
-import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.category.exception.CategoryException;
 import com.revaluate.category.persistence.Category;
 import com.revaluate.category.persistence.CategoryRepository;
+import com.revaluate.domain.category.CategoryDTO;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
 
     public static final String CATEGORY_DTO__UPDATE = "CategoryDTO__Update";
+
     @Autowired
     private CategoryRepository categoryRepository;
 

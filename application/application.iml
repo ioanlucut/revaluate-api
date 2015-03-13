@@ -194,6 +194,7 @@
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.51" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.7" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-all:1.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-test:4.1.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.3m" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.4.0" level="project" />
@@ -201,7 +202,6 @@
     <orderEntry type="library" name="Maven: org.joda:joda-money:0.10.0" level="project" />
     <orderEntry type="module" module-name="dtos" />
     <orderEntry type="module" module-name="validation" />
-    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-all:1.3" level="project" />
   </component>
 </module>
 
