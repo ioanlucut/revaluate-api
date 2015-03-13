@@ -46,9 +46,11 @@ public class RevaluateApplication extends FallwizardApplication<RevaluateConfigu
 
     private void runMigrationScripts(RevaluateConfiguration configuration) {
         Flyway flyway = new Flyway();
+        flyway.setValidateOnMigrate(false);
         flyway.setDataSource(configuration.getDataSourceFactory().getUrl(),
                 configuration.getDataSourceFactory().getUser(),
                 configuration.getDataSourceFactory().getPassword());
+
         flyway.migrate();
     }
 
