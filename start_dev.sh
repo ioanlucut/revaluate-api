@@ -1,2 +1,2 @@
 #!/bin/sh
-java -DENVIRONMENT=dev -jar application/target/application-1.0.jar server "application/src/main/resources/config_dev.yaml"
+java -DENVIRONMENT=dev -jar resources/target/resources-1.0.jar server "resources/src/main/resources/config_dev.yaml"

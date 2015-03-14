@@ -1,4 +1,4 @@
-package com.revaluate.expense.resource;
+package com.revaluate.resource.expense;
 
 import com.revaluate.core.resource.Resource;
 import com.revaluate.core.resource.Responses;

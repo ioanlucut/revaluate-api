@@ -1,4 +1,4 @@
-package com.revaluate.category.resource;
+package com.revaluate.resource.category;
 
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.category.exception.CategoryException;

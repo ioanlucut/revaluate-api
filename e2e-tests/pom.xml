@@ -23,7 +23,7 @@
         <!--Depends on APPLICATION-->
         <dependency>
             <groupId>com.revaluate</groupId>
-            <artifactId>application</artifactId>
+            <artifactId>resources</artifactId>
             <version>1.0</version>
         </dependency>
 
