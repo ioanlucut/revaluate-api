@@ -14,6 +14,7 @@
         <module>dtos</module>
         <module>core</module>
         <module>application</module>
+        <module>resources</module>
         <module>e2e-tests</module>
     </modules>
 

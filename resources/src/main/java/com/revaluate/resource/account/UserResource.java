@@ -1,4 +1,4 @@
-package com.revaluate.account.resource;
+package com.revaluate.resource.account;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.revaluate.domain.account.ResetPasswordDTO;
