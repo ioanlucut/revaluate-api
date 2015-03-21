@@ -1,1 +1,2 @@
 web: java $JAVA_OPTS -Ddw.server.applicationConnectors[0].port=$PORT -DENVIRONMENT=dev -jar resources/target/resources-1.0.jar server "resources/src/main/resources/config_dev.yaml"
+worker: java $JAVA_OPTS -DENVIRONMENT=dev -jar email-job/target/email-job-1.0.jar
