@@ -77,4 +77,15 @@ public class EmailToken implements Serializable {
     public void setValidated(boolean validated) {
         this.validated = validated;
     }
+
+    @Override
+    public String toString() {
+        return "EmailToken{" +
+                "id=" + id +
+                ", token='" + token + '\'' +
+                ", emailType=" + emailType +
+                ", user=" + user +
+                ", validated=" + validated +
+                '}';
+    }
 }
