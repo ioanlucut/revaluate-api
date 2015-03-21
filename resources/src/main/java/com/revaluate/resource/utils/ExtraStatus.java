@@ -1,4 +1,4 @@
-package com.revaluate.core.status;
+package com.revaluate.resource.utils;
 
 import javax.ws.rs.core.Response;
 

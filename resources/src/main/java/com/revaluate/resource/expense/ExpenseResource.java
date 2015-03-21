@@ -1,7 +1,7 @@
 package com.revaluate.resource.expense;
 
-import com.revaluate.core.resource.Resource;
-import com.revaluate.core.resource.Responses;
+import com.revaluate.resource.utils.Resource;
+import com.revaluate.resource.utils.Responses;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.expense.service.ExpenseService;

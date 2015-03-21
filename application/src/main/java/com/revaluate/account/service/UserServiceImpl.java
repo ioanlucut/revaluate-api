@@ -1,7 +1,6 @@
 package com.revaluate.account.service;
 
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.exception.UserNotFoundException;
 import com.revaluate.account.persistence.EmailToken;
 import com.revaluate.account.persistence.EmailType;
 import com.revaluate.account.persistence.User;
@@ -95,7 +94,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO update(UserDTO userDTO, int userId) throws UserException {
         User foundUser = userRepository.findOne(userId);
         if (foundUser == null) {
-            throw new UserNotFoundException();
+            throw new UserException();
         }
 
         //-----------------------------------------------------------------

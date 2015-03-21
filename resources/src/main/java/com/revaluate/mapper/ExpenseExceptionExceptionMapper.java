@@ -1,7 +1,7 @@
-package com.revaluate.expense.entityprovider;
+package com.revaluate.mapper;
 
-import com.revaluate.core.resource.Responses;
 import com.revaluate.expense.exception.ExpenseException;
+import com.revaluate.resource.utils.Responses;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.Response;

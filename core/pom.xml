@@ -38,24 +38,6 @@
             <artifactId>spring-beans</artifactId>
         </dependency>
 
-        <!--Spring jpa-->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-        </dependency>
-
-        <!--Hibernate Joda-->
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time-hibernate</artifactId>
-        </dependency>
-
-        <!--JADIRA - usertypes for joda-->
-        <dependency>
-            <groupId>org.jadira.usertype</groupId>
-            <artifactId>usertype.core</artifactId>
-        </dependency>
-
         <!--Spring AOP-->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -74,24 +56,22 @@
             <artifactId>aspectjweaver</artifactId>
         </dependency>
 
-        <!-- Jersey -->
+        <!--Spring jpa-->
         <dependency>
-            <groupId>org.glassfish.jersey.ext</groupId>
-            <artifactId>jersey-spring3</artifactId>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
         </dependency>
+
+        <!--Hibernate Joda-->
         <dependency>
-            <groupId>org.glassfish.jersey.ext</groupId>
-            <artifactId>jersey-bean-validation</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>javax.el-api</artifactId>
-                    <groupId>javax.el</groupId>
-                </exclusion>
-            </exclusions>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time-hibernate</artifactId>
         </dependency>
+
+        <!--JADIRA - usertypes for joda-->
         <dependency>
-            <groupId>org.glassfish.jersey.ext</groupId>
-            <artifactId>jersey-entity-filtering</artifactId>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.core</artifactId>
         </dependency>
 
         <!--Jpa spec-->
@@ -220,13 +200,6 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-        </dependency>
-
-        <!--Groovy dependencies-->
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>2.4.0</version>
         </dependency>
 
         <dependency>

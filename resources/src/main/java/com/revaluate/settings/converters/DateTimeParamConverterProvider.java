@@ -1,4 +1,4 @@
-package com.revaluate.core.converters;
+package com.revaluate.settings.converters;
 
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.ISODateTimeFormat;

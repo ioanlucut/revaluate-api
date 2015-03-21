@@ -1,8 +1,8 @@
 package com.revaluate.e2e.category;
 
 import com.nimbusds.jose.JOSEException;
-import com.revaluate.core.resource.Answer;
-import com.revaluate.core.status.ExtraStatus;
+import com.revaluate.resource.utils.Answer;
+import com.revaluate.resource.utils.ExtraStatus;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;

@@ -3,15 +3,12 @@
        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
         http://www.springframework.org/schema/data/jpa
         http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="com.revaluate"/>
 
@@ -37,16 +34,6 @@
         <property name="jdbcUrl" value="${db.url}"/>
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}"/>
-        <property name="idleConnectionTestPeriodInMinutes" value="1"/>
-        <property name="idleMaxAgeInMinutes" value="4"/>
-        <property name="maxConnectionsPerPartition" value="30"/>
-        <property name="minConnectionsPerPartition" value="1"/>
-        <property name="poolAvailabilityThreshold" value="5"/>
-        <property name="partitionCount" value="1"/>
-        <property name="acquireIncrement" value="3"/>
-        <property name="statementsCacheSize" value="50"/>
-        <property name="connectionTestStatement" value="SELECT 1"/>
-        <property name="lazyInit" value="true"/>
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -67,7 +54,9 @@
                 <prop key="jadira.usertype.autoRegisterUserTypes">${jadira.usertype.autoRegisterUserTypes}</prop>
                 <prop key="jadira.usertype.javaZone">${jadira.usertype.javaZone}</prop>
                 <prop key="jadira.usertype.databaseZone">${jadira.usertype.databaseZone}</prop>
-                <prop key="org.jadira.usertype.dateandtime.joda.PersistentDateTime">${org.jadira.usertype.dateandtime.joda.PersistentDateTime}</prop>
+                <prop key="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+                    ${org.jadira.usertype.dateandtime.joda.PersistentDateTime}
+                </prop>
             </props>
         </property>
     </bean>

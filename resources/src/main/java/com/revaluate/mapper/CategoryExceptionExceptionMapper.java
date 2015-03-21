@@ -1,7 +1,7 @@
-package com.revaluate.category.entityprovider;
+package com.revaluate.mapper;
 
 import com.revaluate.category.exception.CategoryException;
-import com.revaluate.core.resource.Responses;
+import com.revaluate.resource.utils.Responses;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.Response;
