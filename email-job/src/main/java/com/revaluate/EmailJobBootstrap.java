@@ -1,4 +1,4 @@
-package com.revaluate.route;
+package com.revaluate;
 
 import org.apache.camel.spring.Main;
 
