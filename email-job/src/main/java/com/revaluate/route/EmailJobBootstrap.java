@@ -2,7 +2,7 @@ package com.revaluate.route;
 
 import org.apache.camel.spring.Main;
 
-public class EmailJobBootstraper {
+public class EmailJobBootstrap {
 
     public static final String APPLICATION_CONTEXT_URI = "applicationContext__emailJob.xml";
 
