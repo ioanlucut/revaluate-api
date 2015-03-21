@@ -1,9 +1,11 @@
 package com.revaluate.route;
 
 import com.revaluate.domain.SendTo;
+import com.revaluate.exceptions.SendEmailException;
 import com.revaluate.processor.EmailTokenValidateProcessor;
 import com.revaluate.processor.EmailTokensRetrieverProcessor;
 import com.revaluate.processor.SendToProcessor;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,6 +31,15 @@ public class EmailJobRouter extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+
+        //-----------------------------------------------------------------
+        // Error handling
+        //-----------------------------------------------------------------
+        onException(SendEmailException.class)
+                .maximumRedeliveries(1)
+                .handled(true)
+                .log(LoggingLevel.ERROR, "Error: ${exception.message}")
+                .end();
 
         //-----------------------------------------------------------------
         // Timer router - initial bootstrap
