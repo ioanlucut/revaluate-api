@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailJobRouter extends RouteBuilder {
 
-    public static final String DIRECT_FETCH_ALL = "direct:fetchAll";
+    public static final String DIRECT_ROUTE_FETCH_ALL_EMAIL_TOKENS = "direct:fetchAllEmailTokens";
 
     @Autowired
-    private EmailProcessor emailProcessor;
+    private EmailTokensProcessor emailTokensProcessor;
 
     @Override
     public void configure() throws Exception {
@@ -19,14 +19,13 @@ public class EmailJobRouter extends RouteBuilder {
         // Timer router - initial bootstrap
         //-----------------------------------------------------------------
         from("timer://runOnce?repeatCount=1&delay=5000")
-                .bean(emailProcessor)
-                .to(DIRECT_FETCH_ALL);
+                .bean(emailTokensProcessor)
+                .to(DIRECT_ROUTE_FETCH_ALL_EMAIL_TOKENS);
 
         //-----------------------------------------------------------------
         // Fetch all directly
         //-----------------------------------------------------------------
-        from(DIRECT_FETCH_ALL)
-                .routeId(DIRECT_FETCH_ALL)
+        from(DIRECT_ROUTE_FETCH_ALL_EMAIL_TOKENS)
                 .process(System.out::println);
     }
 
