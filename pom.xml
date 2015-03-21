@@ -118,7 +118,6 @@
         <dropwizard-flyway.version>0.8.0-1</dropwizard-flyway.version>
         <jackson-annotations.version>2.5.1</jackson-annotations.version>
         <hamcrest-all.version>1.3</hamcrest-all.version>
-        <camel.version>2.15.0</camel.version>
     </properties>
 
     <dependencyManagement>

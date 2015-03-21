@@ -1,8 +1,8 @@
 package com.revaluate.e2e.account;
 
 import com.nimbusds.jose.JOSEException;
-import com.revaluate.core.resource.Answer;
-import com.revaluate.core.status.ExtraStatus;
+import com.revaluate.resource.utils.Answer;
+import com.revaluate.resource.utils.ExtraStatus;
 import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UpdatePasswordDTOBuilder;
 import com.revaluate.domain.account.UserDTO;

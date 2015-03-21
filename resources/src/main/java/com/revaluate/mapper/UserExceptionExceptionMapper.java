@@ -1,7 +1,7 @@
-package com.revaluate.account.entityprovider;
+package com.revaluate.mapper;
 
 import com.revaluate.account.exception.UserException;
-import com.revaluate.core.resource.Responses;
+import com.revaluate.resource.utils.Responses;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.Response;

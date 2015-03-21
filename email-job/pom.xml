@@ -4,15 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.revaluate</groupId>
-        <artifactId>revaluate-api</artifactId>
-        <version>1.0</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-
     <artifactId>email-job</artifactId>
     <name>email-job</name>
+    <packaging>jar</packaging>
+    <groupId>sss</groupId>
+    <version>1</version>
+
+    <properties>
+        <camel.version>2.15.0</camel.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.jdk>1.8</version.jdk>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
     <dependencies>
 
@@ -25,12 +29,6 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
-            <version>${camel.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-sql</artifactId>
             <version>${camel.version}</version>
         </dependency>
 
@@ -53,160 +51,32 @@
         </dependency>
 
         <dependency>
-            <groupId>net.sf.log4jdbc</groupId>
-            <artifactId>log4jdbc</artifactId>
-            <version>1.1-jconn3</version>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-test-spring</artifactId>
+            <version>${camel.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>1.7</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity-tools</artifactId>
-            <version>2.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-cli</groupId>
-            <artifactId>commons-cli</artifactId>
-            <version>1.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.10.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>dumbster</groupId>
-            <artifactId>dumbster</artifactId>
-            <version>1.6</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.activation</groupId>
-                    <artifactId>activation</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.mail</groupId>
-                    <artifactId>mail</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jpa</artifactId>
+            <version>${camel.version}</version>
         </dependency>
 
     </dependencies>
 
     <build>
         <plugins>
+            <!--Configure the compiler plugin-->
             <plugin>
-                <!-- generate the stand-alone application -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>appassembler-maven-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>assemble</goal>
-                        </goals>
-                        <configuration>
-                            <!-- The directory that will be used to assemble the artifacts in and place the bin scripts -->
-                            <assembleDirectory>${project.basedir}/target/${project.artifactId}</assembleDirectory>
-                            <!-- Set the target configuration directory to be used in the bin scripts -->
-                            <configurationDirectory>config</configurationDirectory>
-                            <!-- The name of the source directory for configuration files -->
-                            <configurationSourceDirectory>${project.basedir}/src/main/resources
-                            </configurationSourceDirectory>
-                            <!-- Copy the contents from "/src/main/config" to the target configuration directory in the assembled application -->
-                            <copyConfigurationDirectory>true</copyConfigurationDirectory>
-                            <!-- Include the target configuration directory in the beginning of the classpath declaration in the bin scripts -->
-                            <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
-                            <!-- Extra JVM arguments that will be included in the bin scripts -->
-                            <extraJvmArguments>-Xmx512m</extraJvmArguments>
-                            <!-- Avoid "classpath too long" -->
-                            <useWildcardClassPath>true</useWildcardClassPath>
-                            <repositoryLayout>flat</repositoryLayout>
-                            <!-- Generate bin scripts for windows and unix per default -->
-                            <platforms>
-                                <platform>windows</platform>
-                                <platform>unix</platform>
-                            </platforms>
-                            <binFileExtensions>
-                                <unix>.sh</unix>
-                            </binFileExtensions>
-                            <repositoryLayout>flat</repositoryLayout>
-                            <repositoryName>lib</repositoryName>
-                            <programs>
-                                <program>
-                                    <mainClass>at.willhaben.commons.batch.statistic.cli.BatchCli</mainClass>
-                                    <name>${project.artifactId}</name>
-                                    <platforms>
-                                        <platform>windows</platform>
-                                        <platform>unix</platform>
-                                    </platforms>
-                                </program>
-                            </programs>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${version.jdk}</source>
+                    <target>${version.jdk}</target>
+                </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <!-- copy helper scripts around -->
-                                <copy todir="${project.basedir}/target/${project.artifactId}/bin">
-                                    <fileset dir="${project.basedir}/src/main/bin"/>
-                                </copy>
-                                <!-- ensure that the scripts are executable -->
-                                <chmod dir="${project.basedir}/target/${project.artifactId}/bin" perm="ug+rx"
-                                       includes="**/*.sh"/>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version>
-                <executions>
-                    <execution>
-                        <!-- create the distribution zip file -->
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <finalName>${project.artifactId}-${project.version}</finalName>
-                            <descriptors>
-                                <descriptor>${basedir}/assembly/src.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+
         </plugins>
     </build>
 

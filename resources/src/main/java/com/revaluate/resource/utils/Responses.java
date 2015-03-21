@@ -1,4 +1,4 @@
-package com.revaluate.core.resource;
+package com.revaluate.resource.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
