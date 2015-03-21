@@ -23,6 +23,12 @@ public class ConfigProperties {
     @Value("${bearerHeaderKey}")
     private String bearerHeaderKey;
 
+    @Value("${mandrillAppKey}")
+    private String mandrillAppKey;
+
+    @Value("${supportEmailRecipient}")
+    private String supportEmailRecipient;
+
     public boolean isProduction() {
         return isProduction;
     }
@@ -62,5 +68,34 @@ public class ConfigProperties {
 
     public void setBearerHeaderKey(String bearerHeaderKey) {
         this.bearerHeaderKey = bearerHeaderKey;
+    }
+
+    public String getMandrillAppKey() {
+        return mandrillAppKey;
+    }
+
+    public void setMandrillAppKey(String mandrillAppKey) {
+        this.mandrillAppKey = mandrillAppKey;
+    }
+
+    public String getSupportEmailRecipient() {
+        return supportEmailRecipient;
+    }
+
+    public void setSupportEmailRecipient(String supportEmailRecipient) {
+        this.supportEmailRecipient = supportEmailRecipient;
+    }
+
+    @Override
+    public String toString() {
+        return "ConfigProperties{" +
+                "isProduction=" + isProduction +
+                ", shared='" + shared + '\'' +
+                ", issuer='" + issuer + '\'' +
+                ", authTokenHeaderKey='" + authTokenHeaderKey + '\'' +
+                ", bearerHeaderKey='" + bearerHeaderKey + '\'' +
+                ", mandrillAppKey='" + mandrillAppKey + '\'' +
+                ", supportEmailRecipient='" + supportEmailRecipient + '\'' +
+                '}';
     }
 }

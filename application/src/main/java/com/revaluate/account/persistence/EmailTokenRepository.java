@@ -27,4 +27,11 @@ public interface EmailTokenRepository extends JpaRepository<EmailToken, Integer>
     List<EmailToken> findOneByUserIdAndValidatedTrue(int userId);
 
     List<EmailToken> findOneByUserIdAndValidatedFalse(int userId);
+
+    //-----------------------------------------------------------------
+    // All validated/non validated
+    //-----------------------------------------------------------------
+    List<EmailToken> findAllByValidatedTrue();
+
+    List<EmailToken> findAllByValidatedFalse();
 }
