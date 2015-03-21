@@ -1,4 +1,4 @@
-package com.revaluate;
+package com.revaluate.domain;
 
 import com.revaluate.account.persistence.EmailType;
 
@@ -73,5 +73,18 @@ public class SendTo {
 
     public void setEmailType(EmailType emailType) {
         this.emailType = emailType;
+    }
+
+    @Override
+    public String toString() {
+        return "SendTo{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", emailTokenId=" + emailTokenId +
+                ", emailToken='" + emailToken + '\'' +
+                ", emailType=" + emailType +
+                '}';
     }
 }

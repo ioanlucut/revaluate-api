@@ -8,7 +8,7 @@
     <import resource="classpath:applicationContext.xml"/>
 
     <!-- enable Spring @Component scan -->
-    <camelContext xmlns="http://camel.apache.org/schema/spring">
+    <camelContext xmlns="http://camel.apache.org/schema/spring" typeConverterStatisticsEnabled="true">
         <contextScan/>
     </camelContext>
 
