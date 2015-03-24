@@ -21,6 +21,7 @@
         <module>application</module>
         <module>resources</module>
         <module>e2e-tests</module>
+        <module>email-job</module>
     </modules>
 
 </project>

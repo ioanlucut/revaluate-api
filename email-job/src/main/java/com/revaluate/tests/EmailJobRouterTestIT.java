@@ -5,6 +5,7 @@ import com.revaluate.domain.SendTo;
 import org.apache.camel.*;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.spring.MockEndpoints;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,6 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 
+@Ignore
 @MockEndpoints("direct:*")
 public class EmailJobRouterTestIT extends AbstractIntegrationTests {
 
