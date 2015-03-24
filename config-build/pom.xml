@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.revaluate</groupId>
+    <artifactId>revaluate-common</artifactId>
+    <version>${global.version}</version>
+    <packaging>pom</packaging>
+
+    <repositories>
+        <repository>
+            <id>maven-central</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <global.version>1.0</global.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.jdk>1.8</version.jdk>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!-- config -->
+        <!--By default UT tests are enabled-->
+        <skipTests>false</skipTests>
+
+        <!--By default IT tests are disabled-->
+        <skipITs>true</skipITs>
+        <skipCodeAnalysis>true</skipCodeAnalysis>
+
+        <!-- multi project config -->
+        <main.basedir>${project.basedir}</main.basedir>
+        <skipDependencyPlugin>false</skipDependencyPlugin>
+
+        <version.iad>WH-5.15-SNAPSHOT</version.iad>
+        <version.spring>4.1.5.RELEASE</version.spring>
+        <version.jersey>2.16</version.jersey>
+        <version.aspectj>1.8.4</version.aspectj>
+        <version.validation-api>1.1.0.Final</version.validation-api>
+        <version.javax.servlet-api>3.1.0</version.javax.servlet-api>
+        <version.hibernate-validator>5.1.2.Final</version.hibernate-validator>
+
+        <!-- common tool libs -->
+        <version.guava>18.0</version.guava>
+        <version.commons-lang>3.3.2</version.commons-lang>
+        <version.commons-codec>1.7</version.commons-codec>
+
+        <!-- logging and monitoring -->
+        <version.log4j>1.2.17</version.log4j>
+        <version.slf4j>1.7.5</version.slf4j>
+        <version.javasimon>3.3.0</version.javasimon>
+        <javamelody-core.version>1.54.0</javamelody-core.version>
+        <slf4j.version>1.6.1</slf4j.version>
+        <logback.version>1.0.6</logback.version>
+
+        <!-- tests -->
+        <version.mockito>1.9.5</version.mockito>
+        <version.junit>4.12</version.junit>
+        <version.springMock>2.0.8</version.springMock>
+        <version.wiremock>1.45</version.wiremock>
+        <checkstyle.version>6.1.1</checkstyle.version>
+
+        <!-- developer -->
+        <version.smiley-http-proxy-servlet>1.6</version.smiley-http-proxy-servlet>
+
+        <!-- static source code analysis tools -->
+        <version.findbugs>3.0.0</version.findbugs>
+
+        <!-- maven plugin dependencies -->
+        <maven.surefire.plugin.version>2.18.1</maven.surefire.plugin.version>
+        <maven-surefire-report-plugin.version>2.18.1</maven-surefire-report-plugin.version>
+        <maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
+        <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
+        <maven-javadoc-plugin.version>2.10.1</maven-javadoc-plugin.version>
+        <taglist-maven-plugin.version>2.4</taglist-maven-plugin.version>
+        <maven-project-info-reports-plugin.version>2.7</maven-project-info-reports-plugin.version>
+        <doxia-module-markdown.version>1.6</doxia-module-markdown.version>
+        <maven.checkstyle.plugin.version>2.13</maven.checkstyle.plugin.version>
+
+        <spring-data-jpa.version>1.7.2.RELEASE</spring-data-jpa.version>
+        <!--<spring-data-jpa.version>1.8.0.BUILD-SNAPSHOT</spring-data-jpa.version>-->
+        <hibernate-jpa-api.version>1.0.0.Final</hibernate-jpa-api.version>
+        <hibernate-entitymanager.version>4.3.8.Final</hibernate-entitymanager.version>
+        <bonecp.version>0.8.0.RELEASE</bonecp.version>
+        <h2.version>1.3.160</h2.version>
+        <postgresql.version>9.1-901.jdbc4</postgresql.version>
+        <joda-time.version>2.7</joda-time.version>
+        <nimbus-jose-jwt.version>3.8</nimbus-jose-jwt.version>
+        <pojobuilder.version>3.3.2</pojobuilder.version>
+        <hsqldb.version>2.3.2</hsqldb.version>
+        <dozer.version>5.5.1</dozer.version>
+        <maven-failsafe-plugin.version>2.18.1</maven-failsafe-plugin.version>
+        <dropwizard-core.version>0.8.0-rc3</dropwizard-core.version>
+        <dropwizard-spring.version>0.6.0</dropwizard-spring.version>
+        <javax.el.version>2.2.6</javax.el.version>
+        <Fallwizard.version>0.7.1.2</Fallwizard.version>
+        <joda-money.version>0.10.0</joda-money.version>
+        <joda-time-hibernate.version>1.3</joda-time-hibernate.version>
+        <usertype.core.version>3.2.0.GA</usertype.core.version>
+        <dropwizard-flyway.version>0.8.0-1</dropwizard-flyway.version>
+        <jackson-annotations.version>2.5.1</jackson-annotations.version>
+        <hamcrest-all.version>1.3</hamcrest-all.version>
+        <camel.version>2.15.0</camel.version>
+        <lutung.version>0.0.5</lutung.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Spring dependencies -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${version.spring}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${version.spring}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${version.spring}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${version.spring}</version>
+            </dependency>
+
+            <!--Spring jpa-->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>${spring-data-jpa.version}</version>
+            </dependency>
+
+            <!--Hibernate Joda-->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time-hibernate</artifactId>
+                <version>${joda-time-hibernate.version}</version>
+            </dependency>
+
+            <!--JADIRA - usertypes for joda-->
+            <dependency>
+                <groupId>org.jadira.usertype</groupId>
+                <artifactId>usertype.core</artifactId>
+                <version>${usertype.core.version}</version>
+            </dependency>
+
+            <!--Spring AOP-->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${version.spring}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aspects</artifactId>
+                <version>${version.spring}</version>
+            </dependency>
+<!--
+            <dependency>
+                <artifactId>spring-security-core</artifactId>
+                <groupId>org.springframework.security</groupId>
+                <version>3.2.6.RELEASE</version>
+            </dependency>
+-->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${version.aspectj}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${version.aspectj}</version>
+            </dependency>
+
+            <!--JSR-303-->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${version.validation-api}</version>
+            </dependency>
+
+            <!--Hibernate validator implementation-->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${version.hibernate-validator}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.version}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>javax.el</artifactId>
+                <groupId>org.glassfish.web</groupId>
+                <version>${javax.el.version}</version>
+            </dependency>
+
+            <!--Google guava-->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${version.guava}</version>
+            </dependency>
+
+            <!--Dropwizard-->
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-core</artifactId>
+                <version>${dropwizard-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-testing</artifactId>
+                <version>${dropwizard-core.version}</version>
+            </dependency>
+
+            <!-- SLF4J for logging API -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <!-- Jakarta (Apache) Commons Logging through SLF4J -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <!-- Logback for implementation -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <!-- Logback for implementation -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <!--Jersey-->
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-server</artifactId>
+                <version>${version.jersey}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>${version.jersey}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.ext</groupId>
+                <artifactId>jersey-spring3</artifactId>
+                <version>${version.jersey}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.ext</groupId>
+                <artifactId>jersey-bean-validation</artifactId>
+                <version>${version.jersey}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.ext</groupId>
+                <artifactId>jersey-entity-filtering</artifactId>
+                <version>${version.jersey}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.test-framework</groupId>
+                <artifactId>jersey-test-framework-core</artifactId>
+                <version>${version.jersey}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+                <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+                <version>${version.jersey}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${version.javax.servlet-api}</version>
+            </dependency>
+
+            <!--Commons-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${version.commons-lang}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.fallwizard</groupId>
+                <artifactId>Fallwizard</artifactId>
+                <version>${Fallwizard.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.dropwizard.modules</groupId>
+                <artifactId>dropwizard-flyway</artifactId>
+                <version>${dropwizard-flyway.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson-annotations.version}</version>
+            </dependency>
+
+            <!--Testing related-->
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-all</artifactId>
+                <version>${hamcrest-all.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${version.mockito}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <!--Configure the compiler plugin-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <source>${version.jdk}</source>
+                        <target>${version.jdk}</target>
+                        <generatedSourcesDirectory>${basedir}/src/generated/java</generatedSourcesDirectory>
+                    </configuration>
+                </plugin>
+
+                <!--Findbugs plugin-->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>${version.findbugs}</version>
+                    <configuration>
+                        <effort>Max</effort>
+                        <threshold>Low</threshold>
+                        <excludeFilterFile>${main.basedir}/config-build/findbugs-exclude.xml</excludeFilterFile>
+                        <skip>${skipCodeAnalysis}</skip>
+                    </configuration>
+                </plugin>
+
+                <!--Checkstyle plugin-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${maven.checkstyle.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>${checkstyle.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <failOnViolation>false</failOnViolation>
+                        <logViolationsToConsole>true</logViolationsToConsole>
+                        <configLocation>${main.basedir}/config-build/checkstyle.xml</configLocation>
+                        <skip>${skipCodeAnalysis}</skip>
+                    </configuration>
+                </plugin>
+
+                <!--Maven surefire plugin - for unit tests-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.plugin.version}</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+
+            <!-- Generate source code JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--Copy resources plugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!--Executes unit tests-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <workingDirectory>${basedir}</workingDirectory>
+                    <parallel>classes</parallel>
+                    <threadCount>8</threadCount>
+                    <!-- Sets the VM argument line used when unit tests are run. -->
+                    <argLine>${surefireArgLine}</argLine>
+                </configuration>
+            </plugin>
+
+            <!--IT tests-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <configuration>
+                    <includes>
+                        <include>**/*IT.java</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--Checkstyle plugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven.checkstyle.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <failOnViolation>false</failOnViolation>
+                    <logViolationsToConsole>true</logViolationsToConsole>
+                    <configLocation>${main.basedir}/config-build/checkstyle.xml</configLocation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--PROFILES-->
+    <profiles>
+        <profile>
+            <id>codeAnalysis</id>
+            <activation>
+                <property>
+                    <name>!skipCodeAnalysis</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>findbugs-maven-plugin</artifactId>
+                        <version>${version.findbugs}</version>
+                        <executions>
+                            <execution>
+                                <id>analyze-findbugs</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>${maven.checkstyle.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>analyze-checkstyle</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>execITs</id>
+            <activation>
+                <property>
+                    <name>execITs</name>
+                </property>
+            </activation>
+            <properties>
+                <skipITs>false</skipITs>
+                <spring.profiles.active>IT</spring.profiles.active>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>skipTests</id>
+            <activation>
+                <property>
+                    <name>skipTests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+        </profile>
+
+    </profiles>
+
+</project>

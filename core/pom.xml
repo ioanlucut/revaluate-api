@@ -6,17 +6,13 @@
 
     <parent>
         <groupId>com.revaluate</groupId>
-        <artifactId>revaluate-api</artifactId>
-        <version>1.0</version>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>revaluate-common</artifactId>
+        <version>${global.version}</version>
+        <relativePath>../config-build/pom.xml</relativePath>
     </parent>
 
     <artifactId>core</artifactId>
     <name>core</name>
-
-    <properties>
-        <main.basedir>${project.parent.basedir}</main.basedir>
-    </properties>
 
     <dependencies>
 
@@ -28,10 +24,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -72,6 +64,12 @@
         <dependency>
             <groupId>org.jadira.usertype</groupId>
             <artifactId>usertype.core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hibernate-entitymanager</artifactId>
+                    <groupId>org.hibernate</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--Jpa spec-->
@@ -98,6 +96,12 @@
             <groupId>com.jolbox</groupId>
             <artifactId>bonecp</artifactId>
             <version>${bonecp.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- PostgreSQL JDBC 4 -->

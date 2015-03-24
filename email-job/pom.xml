@@ -4,26 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>email-job</name>
-    <groupId>com.revaluate</groupId>
-    <version>1.0</version>
-    <artifactId>email-job</artifactId>
-    <packaging>jar</packaging>
+    <parent>
+        <groupId>com.revaluate</groupId>
+        <artifactId>revaluate-common</artifactId>
+        <version>${global.version}</version>
+        <relativePath>../config-build/pom.xml</relativePath>
+    </parent>
 
-    <properties>
-        <camel.version>2.15.0</camel.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.jdk>1.8</version.jdk>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+    <artifactId>email-job</artifactId>
+    <name>email-job</name>
 
     <dependencies>
 
         <dependency>
             <groupId>com.revaluate</groupId>
             <artifactId>application</artifactId>
-            <version>1.0</version>
+            <version>${global.version}</version>
         </dependency>
 
         <dependency>
@@ -47,23 +43,13 @@
         <dependency>
             <groupId>com.mandrillapp.wrapper.lutung</groupId>
             <artifactId>lutung</artifactId>
-            <version>0.0.5</version>
+            <version>${lutung.version}</version>
         </dependency>
 
     </dependencies>
 
     <build>
         <plugins>
-            <!--Configure the compiler plugin-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>${version.jdk}</source>
-                    <target>${version.jdk}</target>
-                </configuration>
-            </plugin>
 
             <!--Shaded plugin-->
             <plugin>
@@ -111,7 +97,6 @@
                     </execution>
                 </executions>
             </plugin>
-
 
         </plugins>
     </build>
