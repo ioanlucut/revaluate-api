@@ -168,13 +168,6 @@
                 <artifactId>spring-aspects</artifactId>
                 <version>${version.spring}</version>
             </dependency>
-<!--
-            <dependency>
-                <artifactId>spring-security-core</artifactId>
-                <groupId>org.springframework.security</groupId>
-                <version>3.2.6.RELEASE</version>
-            </dependency>
--->
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
