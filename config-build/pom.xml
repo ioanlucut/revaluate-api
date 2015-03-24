@@ -110,6 +110,7 @@
         <camel.version>2.15.0</camel.version>
         <lutung.version>0.0.5</lutung.version>
         <commons-io.version>2.4</commons-io.version>
+        <commons-codec.version>1.7</commons-codec.version>
     </properties>
 
     <dependencyManagement>
@@ -324,6 +325,12 @@
                 <artifactId>commons-io</artifactId>
                 <groupId>commons-io</groupId>
                 <version>${commons-io.version}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>commons-codec</artifactId>
+                <groupId>commons-codec</groupId>
+                <version>${commons-codec.version}</version>
             </dependency>
 
             <!--Testing related-->
