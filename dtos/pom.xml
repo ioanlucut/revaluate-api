@@ -6,24 +6,20 @@
 
     <parent>
         <groupId>com.revaluate</groupId>
-        <artifactId>revaluate-api</artifactId>
-        <version>1.0</version>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>revaluate-common</artifactId>
+        <version>${global.version}</version>
+        <relativePath>../config-build/pom.xml</relativePath>
     </parent>
 
     <artifactId>dtos</artifactId>
     <name>dtos</name>
-
-    <properties>
-        <main.basedir>${project.parent.basedir}</main.basedir>
-    </properties>
 
     <dependencies>
 
         <dependency>
             <groupId>com.revaluate</groupId>
             <artifactId>validation</artifactId>
-            <version>1.0</version>
+            <version>${global.version}</version>
         </dependency>
 
         <!--POJOBUILDER-->

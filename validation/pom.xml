@@ -6,17 +6,13 @@
 
     <parent>
         <groupId>com.revaluate</groupId>
-        <artifactId>revaluate-api</artifactId>
-        <version>1.0</version>
-        <relativePath>../pom.xml</relativePath>
+        <artifactId>revaluate-common</artifactId>
+        <version>${global.version}</version>
+        <relativePath>../config-build/pom.xml</relativePath>
     </parent>
 
     <artifactId>validation</artifactId>
     <name>validation</name>
-
-    <properties>
-        <main.basedir>${project.parent.basedir}</main.basedir>
-    </properties>
 
     <dependencies>
 
