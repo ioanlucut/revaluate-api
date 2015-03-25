@@ -2,7 +2,19 @@ package com.revaluate.account.persistence;
 
 public enum EmailType {
 
-    RESET_PASSWORD,
-    CREATED_ACCOUNT,
-    DELETED_ACCOUNT
+    CREATED_ACCOUNT("welcome-to-revaluate"),
+    RESET_PASSWORD("reset-password");
+
+    /**
+     * Mandrill email template
+     */
+    private String emailTemplateName;
+
+    private EmailType(String emailTemplateName) {
+        this.emailTemplateName = emailTemplateName;
+    }
+
+    public String getEmailTemplateName() {
+        return emailTemplateName;
+    }
 }
