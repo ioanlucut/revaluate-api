@@ -4,6 +4,7 @@ import com.microtripit.mandrillapp.lutung.MandrillApi;
 import com.microtripit.mandrillapp.lutung.model.MandrillApiError;
 import com.microtripit.mandrillapp.lutung.view.MandrillMessage;
 import com.microtripit.mandrillapp.lutung.view.MandrillMessageStatus;
+import com.revaluate.account.persistence.EmailType;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.domain.SendTo;
 import com.revaluate.exceptions.SendEmailException;
@@ -14,16 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class SendToProcessor {
 
-    public static final boolean NO_ASYNC_EMAIL = false;
     private static final Logger LOGGER = LoggerFactory.getLogger(SendToProcessor.class);
-    public static final String EMAIL_SENT = "sent";
+    private static final boolean NO_ASYNC_EMAIL = false;
+    private static final String EMAIL_SENT = "sent";
+    private static final String RESET_PASSWORD_LINK = "RESET_PASSWORD_LINK";
 
     @Autowired
     private ConfigProperties configProperties;
@@ -47,7 +47,6 @@ public class SendToProcessor {
         //-----------------------------------------------------------------
         MandrillMessage message = new MandrillMessage();
         message.setSubject("Hello");
-        message.setHtml("<h1>Hi pal!</h1><br />Really, I'm just saying hi!");
         message.setFromEmail("info@revaluate.io");
         message.setFromName("Revaluate team");
 
@@ -69,7 +68,11 @@ public class SendToProcessor {
 
     private void tryToSendEmail(SendTo sendTo, MandrillApi mandrillApi, MandrillMessage message) throws SendEmailException {
         try {
-            MandrillMessageStatus[] messageStatusReports = mandrillApi.messages().send(message, NO_ASYNC_EMAIL);
+            Map<String, String> templateContent = new HashMap<>();
+            if (sendTo.getEmailType() == EmailType.RESET_PASSWORD) {
+                templateContent.put(RESET_PASSWORD_LINK, "http://dev.revaluate.io/reset_password/" + sendTo.getEmailToken());
+            }
+            MandrillMessageStatus[] messageStatusReports = mandrillApi.messages().sendTemplate(sendTo.getEmailType().getEmailTemplateName(), templateContent, message, NO_ASYNC_EMAIL);
             MandrillMessageStatus messageStatusReport = messageStatusReports[0];
             if (!EMAIL_SENT.equals(messageStatusReport.getStatus())) {
                 throw new SendEmailException(String.format("Email not sent %s. Cause %s", sendTo, messageStatusReport));

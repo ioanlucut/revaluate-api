@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class EmailJobRouter extends RouteBuilder {
 
     public static final String TIME_ROUTE_RUN_ONCE = "timer://runOnce?repeatCount=1&delay=100";
-    public static final String TIME_ROUTE_MANY = "timer://runOnce?fixedRate=true&period=60000";
+    public static final String TIME_ROUTE_MANY = "timer://runOnce?fixedRate=true&period=30000";
     public static final String DIRECT_ROUTE_FETCH_ALL_EMAIL_TOKENS = "direct:fetchAllEmailTokens";
 
     public static final String DIRECT_SEND_TO_PROCESSOR = "direct:sendToProcessor";
