@@ -367,7 +367,6 @@
                     <configuration>
                         <source>${version.jdk}</source>
                         <target>${version.jdk}</target>
-                        <generatedSourcesDirectory>${basedir}/src/generated/java</generatedSourcesDirectory>
                     </configuration>
                 </plugin>
 
