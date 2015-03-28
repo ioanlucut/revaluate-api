@@ -1,24 +1,20 @@
 package com.revaluate.core;
 
 import com.revaluate.core.bootstrap.ConfigProperties;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
-@ActiveProfiles("DEV")
+@ContextConfiguration(locations = "classpath:applicationContext__core.xml")
 public class ConfigPropertiesDevTestIT {
 
     @Resource
@@ -37,11 +33,11 @@ public class ConfigPropertiesDevTestIT {
     @Test
     @DirtiesContext(hierarchyMode = DirtiesContext.HierarchyMode.CURRENT_LEVEL)
     public void configPropertiesWorks() {
-        assertThat(configProperties, is(notNullValue()));
-        assertThat(configProperties.isProduction(), is(false));
+        MatcherAssert.assertThat(configProperties, Matchers.is(Matchers.notNullValue()));
+        MatcherAssert.assertThat(configProperties.isProduction(), Matchers.is(false));
 
-        assertThat(configProperties.getAuthTokenHeaderKey(), is(notNullValue()));
-        assertThat(configProperties.getIssuer(), is(notNullValue()));
-        assertThat(configProperties.getShared(), is(notNullValue()));
+        MatcherAssert.assertThat(configProperties.getAuthTokenHeaderKey(), Matchers.is(Matchers.notNullValue()));
+        MatcherAssert.assertThat(configProperties.getIssuer(), Matchers.is(Matchers.notNullValue()));
+        MatcherAssert.assertThat(configProperties.getShared(), Matchers.is(Matchers.notNullValue()));
     }
 }
