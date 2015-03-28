@@ -245,6 +245,8 @@
                 <includes>
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
+                    <include>**/*.sql</include>
+                    <include>**/*.yaml</include>
                 </includes>
             </resource>
             <resource>
@@ -252,6 +254,8 @@
                 <includes>
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
+                    <include>**/*.sql</include>
+                    <include>**/*.yaml</include>
                 </includes>
             </resource>
         </resources>
