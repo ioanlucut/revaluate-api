@@ -1,4 +1,4 @@
-package com.revaluate.exceptions;
+package com.revaluate.email;
 
 public class SendEmailException extends Exception {
 
