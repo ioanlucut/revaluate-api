@@ -2,10 +2,10 @@ package com.revaluate.account.service;
 
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.EmailToken;
+import com.revaluate.account.persistence.EmailTokenRepository;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.utils.TokenGenerator;
-import com.revaluate.core.jwt.JwtService;
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;
 import com.revaluate.domain.account.LoginDTO;
@@ -13,13 +13,17 @@ import com.revaluate.domain.account.ResetPasswordDTO;
 import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.email.EmailType;
+import com.revaluate.domain.email.SendTo;
+import com.revaluate.email.SendEmailException;
+import com.revaluate.email.SendEmailService;
 import org.dozer.DozerBeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,8 +32,7 @@ public class UserServiceImpl implements UserService {
 
     public static final String USER_DTO__UPDATE = "UserDTO__Update";
 
-    @Autowired
-    protected JwtService jwtService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -39,6 +42,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private DozerBeanMapper dozerBeanMapper;
+
+    @Autowired
+    private EmailTokenRepository emailTokenRepository;
+
+    @Autowired
+    private SendEmailService sendEmailService;
 
     @Override
     public boolean isUnique(String email) {
@@ -69,12 +78,32 @@ public class UserServiceImpl implements UserService {
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
         //-----------------------------------------------------------------
+        // Save the user
+        //-----------------------------------------------------------------
+        User savedUser = userRepository.save(user);
+
+        //-----------------------------------------------------------------
         // Generate a new create email token
         //-----------------------------------------------------------------
-        EmailToken resetEmailToken = TokenGenerator.generateTokenFor(user, EmailType.CREATED_ACCOUNT);
-        user.addEmailToken(resetEmailToken);
+        EmailToken createEmailToken = TokenGenerator.generateTokenFor(savedUser, EmailType.CREATED_ACCOUNT);
+        EmailToken savedCreateEmailToken = emailTokenRepository.save(createEmailToken);
 
-        User savedUser = userRepository.save(user);
+        //-----------------------------------------------------------------
+        // Try to send email async
+        //-----------------------------------------------------------------
+        SendTo sendTo = dozerBeanMapper.map(createEmailToken, SendTo.class);
+        try {
+            sendEmailService.sendAsyncEmailTo(sendTo);
+
+            //-----------------------------------------------------------------
+            // Mark as validated - or sent
+            //-----------------------------------------------------------------
+            savedCreateEmailToken.setValidated(Boolean.TRUE);
+            emailTokenRepository.save(savedCreateEmailToken);
+        } catch (SendEmailException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
+
         return dozerBeanMapper.map(savedUser, UserDTO.class);
     }
 
@@ -127,6 +156,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void remove(int userId) {
+        //-----------------------------------------------------------------
+        // First, remove all its email tokens, then the user
+        //-----------------------------------------------------------------
+        emailTokenRepository.removeByUserId(userId);
         userRepository.delete(userId);
     }
 
@@ -156,19 +189,16 @@ public class UserServiceImpl implements UserService {
         Optional<User> byEmail = userRepository.findOneByEmail(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
-        List<EmailToken> emailTokens = user.getEmailTokens();
-        //-----------------------------------------------------------------
-        // Override all other reset email tokens
-        //-----------------------------------------------------------------
-        emailTokens.removeIf(e -> e.getEmailType() == EmailType.RESET_PASSWORD);
+        Optional<EmailToken> oneByUserIdAndValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndValidatedFalse(EmailType.RESET_PASSWORD, user.getId());
 
+        if (oneByUserIdAndValidatedFalse.isPresent()) {
+            emailTokenRepository.delete(oneByUserIdAndValidatedFalse.get());
+        }
         //-----------------------------------------------------------------
-        // Generate a new reset email token
+        // Generate a new reset email token and save it
         //-----------------------------------------------------------------
         EmailToken resetEmailToken = TokenGenerator.generateTokenFor(user, EmailType.RESET_PASSWORD);
-        user.addEmailToken(resetEmailToken);
-
-        userRepository.save(user);
+        emailTokenRepository.save(resetEmailToken);
     }
 
     @Override
@@ -176,13 +206,18 @@ public class UserServiceImpl implements UserService {
         Optional<User> byEmail = userRepository.findOneByEmail(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
-        if (user.getEmailTokens() == null || user.getEmailTokens().isEmpty()) {
-            throw new UserException("Token is invalid.");
-        }
+        //-----------------------------------------------------------------
+        // Try to find a matching email token
+        //-----------------------------------------------------------------
+        Optional<EmailToken> oneByUserIdAndValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndValidatedFalse(EmailType.RESET_PASSWORD, user.getId());
+        EmailToken emailToken = oneByUserIdAndValidatedFalse.orElseThrow(() -> new UserException("Token is invalid."));
 
-        if (user.getEmailTokens().stream().noneMatch(e -> e.getToken().equals(token))) {
-            user.getEmailTokens().removeIf(e -> e.getEmailType() == EmailType.RESET_PASSWORD);
-            userRepository.save(user);
+        //-----------------------------------------------------------------
+        // If invalid, delete and throw exception
+        //-----------------------------------------------------------------
+        if (!emailToken.getToken().equals(token)) {
+            emailTokenRepository.delete(emailToken);
+
             throw new UserException("Token is invalid.");
         }
     }
@@ -199,7 +234,14 @@ public class UserServiceImpl implements UserService {
         Optional<User> byEmail = userRepository.findOneByEmail(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
-        user.getEmailTokens().removeIf(e -> e.getEmailType() == EmailType.RESET_PASSWORD);
+        //-----------------------------------------------------------------
+        // Try to find a matching email token and delete otherwise
+        //-----------------------------------------------------------------
+        Optional<EmailToken> oneByUserIdAndValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndValidatedFalse(EmailType.RESET_PASSWORD, user.getId());
+        if (oneByUserIdAndValidatedFalse.isPresent()) {
+            emailTokenRepository.delete(oneByUserIdAndValidatedFalse.get());
+        }
+
         user.setPassword(BCrypt.hashpw(resetPasswordDTO.getPassword(), BCrypt.gensalt()));
         userRepository.save(user);
     }

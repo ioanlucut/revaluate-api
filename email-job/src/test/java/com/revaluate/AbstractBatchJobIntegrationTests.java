@@ -106,8 +106,4 @@ public class AbstractBatchJobIntegrationTests {
     protected UserDTO createUserDTO(String email) throws UserException {
         return createUserDTO(email, CurrencyUnit.EUR.getCurrencyCode());
     }
-
-    protected List<EmailToken> getTokenOfType(User foundUser, EmailType emailType) {
-        return foundUser.getEmailTokens().stream().filter(e -> e.getEmailType() == emailType).collect(Collectors.toList());
-    }
 }

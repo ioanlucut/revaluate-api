@@ -1,11 +1,12 @@
 package com.revaluate.account.service;
 
+import com.revaluate.account.exception.UserException;
 import com.revaluate.domain.account.LoginDTO;
 import com.revaluate.domain.account.ResetPasswordDTO;
 import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UserDTO;
-import com.revaluate.account.exception.UserException;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -33,7 +34,7 @@ public interface UserService {
 
     void requestResetPassword(@Email String email) throws UserException;
 
-    void validateResetPasswordToken(@Email String email, String token) throws UserException;
+    void validateResetPasswordToken(@Email String email, @NotBlank String token) throws UserException;
 
-    void resetPassword(@Valid ResetPasswordDTO resetPasswordDTO, String email, String token) throws UserException;
+    void resetPassword(@Valid ResetPasswordDTO resetPasswordDTO, @Email String email, @NotBlank String token) throws UserException;
 }

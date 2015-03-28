@@ -64,10 +64,6 @@ public class User implements Serializable {
     private Currency currency;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = USER, orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<EmailToken> emailTokens;
-
-    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = USER, orphanRemoval = true)
     private List<Expense> expenses = new ArrayList<>();
 
@@ -91,13 +87,6 @@ public class User implements Serializable {
     @PreUpdate
     void updatedAt() {
         this.modifiedDate = LocalDateTime.now();
-    }
-
-    public void addEmailToken(EmailToken emailToken) {
-        if (this.emailTokens == null) {
-            this.emailTokens = new ArrayList<>();
-        }
-        this.emailTokens.add(emailToken);
     }
 
     public Integer getId() {
@@ -162,14 +151,6 @@ public class User implements Serializable {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
-    }
-
-    public List<EmailToken> getEmailTokens() {
-        return emailTokens;
-    }
-
-    public void setEmailTokens(List<EmailToken> emailTokens) {
-        this.emailTokens = emailTokens;
     }
 
     public List<Expense> getExpenses() {
