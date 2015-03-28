@@ -1,14 +1,14 @@
 package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
-import com.revaluate.domain.account.*;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.EmailToken;
-import com.revaluate.domain.email.EmailType;
 import com.revaluate.account.persistence.User;
+import com.revaluate.domain.account.*;
+import com.revaluate.domain.email.EmailType;
 import org.junit.Test;
 
-import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -31,11 +31,15 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         // Reset password
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
+        Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
+
+        //-----------------------------------------------------------------
+        // Reset password with this token
+        //-----------------------------------------------------------------
+        String token = oneByEmailTypeAndUserId.get().getToken();
         ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword(TEST_NEW_PASSWORD).withPasswordConfirmation(TEST_NEW_PASSWORD).build();
-        List<EmailToken> emailTokens = getTokenOfType(user, EmailType.RESET_PASSWORD);
-        assertThat(emailTokens.size(), is(1));
-        String realToken = emailTokens.get(0).getToken();
-        userService.resetPassword(resetPasswordDTO, TEST_EMAIL, realToken);
+        userService.resetPassword(resetPasswordDTO, TEST_EMAIL, token);
 
         //-----------------------------------------------------------------
         // Try to login with newest password
@@ -46,9 +50,8 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Token was removed
         //-----------------------------------------------------------------
-        User userWithUpdatedPassword = userRepository.findOne(createdUserDTO.getId());
-        emailTokens = getTokenOfType(userWithUpdatedPassword, EmailType.RESET_PASSWORD);
-        assertThat(emailTokens.size(), is(0));
+        oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        assertThat(oneByEmailTypeAndUserId.isPresent(), is(false));
     }
 
     @Test(expected = UserException.class)
@@ -62,8 +65,18 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         userService.requestResetPassword(TEST_EMAIL);
         User user = userRepository.findOne(createdUserDTO.getId());
 
-        // reset password
+        //-----------------------------------------------------------------
+        // Reset password but return the bad token back
+        //-----------------------------------------------------------------
+        Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
         ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword(TEST_NEW_PASSWORD).withPasswordConfirmation(TEST_NEW_PASSWORD).build();
-        userService.resetPassword(resetPasswordDTO, TEST_EMAIL, user.getEmailTokens().get(0).getToken() + "x");
+        userService.resetPassword(resetPasswordDTO, TEST_EMAIL, oneByEmailTypeAndUserId.get().getToken() + "x");
+
+        //-----------------------------------------------------------------
+        // Token was already invalidated
+        //-----------------------------------------------------------------
+        oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        assertThat(oneByEmailTypeAndUserId.isPresent(), is(false));
     }
 }

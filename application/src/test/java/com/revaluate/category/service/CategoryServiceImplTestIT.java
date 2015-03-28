@@ -396,7 +396,7 @@ public class CategoryServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Remove the category
         //-----------------------------------------------------------------
-        userRepository.deleteAll();
+        userService.remove(user.getId());
 
         //-----------------------------------------------------------------
         // Check user with category removed

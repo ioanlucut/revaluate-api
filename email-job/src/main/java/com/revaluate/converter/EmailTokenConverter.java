@@ -5,12 +5,16 @@ import com.revaluate.account.persistence.EmailTokenRepository;
 import com.revaluate.domain.email.SendTo;
 import org.apache.camel.Converter;
 import org.apache.camel.Exchange;
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 @Converter
 public final class EmailTokenConverter {
+
+    @Autowired
+    private DozerBeanMapper dozerBeanMapper;
 
     @Autowired
     private EmailTokenRepository emailTokenRepository;
@@ -23,20 +27,10 @@ public final class EmailTokenConverter {
         return emailToken;
     }
 
-
     @Converter
     public SendTo toSendTo(EmailToken emailToken, Exchange exchange) throws Exception {
-        SendTo sendTo = new SendTo();
-        sendTo.setId(emailToken.getUser().getId());
-        sendTo.setFirstName(emailToken.getUser().getFirstName());
-        sendTo.setLastName(emailToken.getUser().getLastName());
-        sendTo.setEmail(emailToken.getUser().getEmail());
-        sendTo.setEmailToken(emailToken.getToken());
-        sendTo.setEmailTokenId(emailToken.getId());
-        sendTo.setEmailType(emailToken.getEmailType());
 
-        return sendTo;
+        return dozerBeanMapper.map(emailToken, SendTo.class);
     }
-
 
 }

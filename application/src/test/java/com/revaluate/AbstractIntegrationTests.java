@@ -1,8 +1,7 @@
 package com.revaluate;
 
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.EmailToken;
-import com.revaluate.account.persistence.User;
+import com.revaluate.account.persistence.EmailTokenRepository;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.service.UserService;
 import com.revaluate.core.bootstrap.ConfigProperties;
@@ -13,7 +12,6 @@ import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.currency.CurrencyDTOBuilder;
-import com.revaluate.domain.email.EmailType;
 import org.joda.money.CurrencyUnit;
 import org.junit.After;
 import org.junit.Before;
@@ -26,15 +24,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext__application__test.xml")
 @ActiveProfiles("IT")
 public class AbstractIntegrationTests {
 
-    public static final String TEST_EMAIL = "xx@xx.xx";
+    public static final String TEST_EMAIL = "ioan.lucut88@gmail.com";
     public static final String TEST_PASSWORD = "1234567";
     public static final String TEST_NEW_PASSWORD = "9999999";
     public static final String TEST_PASSWORD_WRONG = "YYYYYYY";
@@ -57,6 +52,9 @@ public class AbstractIntegrationTests {
     @Autowired
     protected ConfigProperties configProperties;
 
+    @Autowired
+    protected EmailTokenRepository emailTokenRepository;
+
     protected UserDTO userDTO;
 
     @BeforeClass
@@ -67,6 +65,7 @@ public class AbstractIntegrationTests {
     @Before
     @After
     public void tearDown() throws Exception {
+        emailTokenRepository.deleteAll();
         userRepository.deleteAll();
         currencyRepository.deleteAll();
     }
@@ -106,9 +105,5 @@ public class AbstractIntegrationTests {
 
     protected UserDTO createUserDTO(String email) throws com.revaluate.account.exception.UserException {
         return createUserDTO(email, CurrencyUnit.EUR.getCurrencyCode());
-    }
-
-    protected List<EmailToken> getTokenOfType(User foundUser, EmailType emailType) {
-        return foundUser.getEmailTokens().stream().filter(e -> e.getEmailType() == emailType).collect(Collectors.toList());
     }
 }

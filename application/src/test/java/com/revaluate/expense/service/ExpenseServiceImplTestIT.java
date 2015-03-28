@@ -1,18 +1,16 @@
 package com.revaluate.expense.service;
 
 import com.revaluate.AbstractIntegrationTests;
+import com.revaluate.category.service.CategoryService;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
-import com.revaluate.category.service.CategoryService;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
 import com.revaluate.expense.exception.ExpenseException;
 import org.joda.money.CurrencyUnit;
 import org.joda.time.LocalDateTime;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolationException;
@@ -24,10 +22,9 @@ import static org.hamcrest.core.Is.is;
 
 public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
     @Autowired
     private ExpenseService expenseService;
+
     @Autowired
     private CategoryService categoryService;
 
