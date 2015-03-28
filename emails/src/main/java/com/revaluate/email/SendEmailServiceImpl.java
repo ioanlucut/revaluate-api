@@ -29,13 +29,6 @@ public class SendEmailServiceImpl implements SendEmailService {
     private MandrillService mandrillService;
 
     @Override
-    public EmailStatus sendAsyncEmailTo(SendTo sendTo) throws SendEmailException {
-        LOGGER.info(String.format("Send async email with details: %s", sendTo));
-
-        return sendEmailTo(sendTo, Boolean.TRUE);
-    }
-
-    @Override
     public EmailStatus sendNonAsyncEmailTo(SendTo sendTo) throws SendEmailException {
         LOGGER.info(String.format("Send non async email with details: %s", sendTo));
 
