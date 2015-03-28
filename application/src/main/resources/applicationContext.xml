@@ -4,6 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <import resource="classpath*:applicationContext__core__test.xml"/>
+    <import resource="classpath*:applicationContext__core.xml"/>
     <import resource="classpath*:spring-config.application/spring-context-application__application.xml"/>
 </beans>
