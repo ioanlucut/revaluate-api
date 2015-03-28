@@ -11,6 +11,9 @@ public class ConfigProperties {
 
     private boolean isProduction;
 
+    @Value("${skipSendEmail}")
+    private boolean skipSendEmail;
+
     @Value("${shared}")
     private String shared;
 
@@ -86,10 +89,19 @@ public class ConfigProperties {
         this.supportEmailRecipient = supportEmailRecipient;
     }
 
+    public boolean isSkipSendEmail() {
+        return skipSendEmail;
+    }
+
+    public void setSkipSendEmail(boolean skipSendEmail) {
+        this.skipSendEmail = skipSendEmail;
+    }
+
     @Override
     public String toString() {
         return "ConfigProperties{" +
                 "isProduction=" + isProduction +
+                ", skipSendEmail=" + skipSendEmail +
                 ", shared='" + shared + '\'' +
                 ", issuer='" + issuer + '\'' +
                 ", authTokenHeaderKey='" + authTokenHeaderKey + '\'' +

@@ -3,6 +3,7 @@ package com.revaluate.account.service;
 import com.google.common.util.concurrent.Futures;
 import com.revaluate.account.persistence.EmailToken;
 import com.revaluate.account.persistence.EmailTokenRepository;
+import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.domain.email.EmailStatus;
 import com.revaluate.domain.email.SendTo;
 import com.revaluate.email.SendEmailException;
@@ -33,8 +34,21 @@ public class EmailAsyncSenderImpl implements EmailAsyncSender {
     @Autowired
     private SendEmailService sendEmailService;
 
+    @Autowired
+    private ConfigProperties configProperties;
+
     @Async
     public Future<EmailStatus> tryToSendEmail(EmailToken emailToken) {
+
+        //-----------------------------------------------------------------
+        // Do not send email for some environments
+        //-----------------------------------------------------------------
+        if (configProperties.isSkipSendEmail()) {
+            LOGGER.info("Email not sent - skipped.");
+
+            return Futures.immediateCancelledFuture();
+        }
+
         //-----------------------------------------------------------------
         // Try to send email async
         //-----------------------------------------------------------------
