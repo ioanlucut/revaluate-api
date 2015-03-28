@@ -1,7 +1,8 @@
-package com.revaluate.domain;
+package com.revaluate.domain.email;
 
-import com.revaluate.account.persistence.EmailType;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 
+@GeneratePojoBuilder
 public class SendTo {
 
     //-----------------------------------------------------------------

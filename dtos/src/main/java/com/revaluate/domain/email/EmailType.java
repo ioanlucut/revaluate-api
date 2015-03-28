@@ -1,4 +1,4 @@
-package com.revaluate.account.persistence;
+package com.revaluate.domain.email;
 
 public enum EmailType {
 
