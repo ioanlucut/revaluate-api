@@ -60,4 +60,37 @@
         </field-exclude>
     </mapping>
 
+    <mapping map-null="false">
+        <class-a>com.revaluate.account.persistence.EmailToken</class-a>
+        <class-b>com.revaluate.domain.email.SendTo</class-b>
+        <field>
+            <a>user.id</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>user.firstName</a>
+            <b>firstName</b>
+        </field>
+        <field>
+            <a>user.lastName</a>
+            <b>lastName</b>
+        </field>
+        <field>
+            <a>user.email</a>
+            <b>email</b>
+        </field>
+        <field>
+            <a>id</a>
+            <b>emailTokenId</b>
+        </field>
+        <field>
+            <a>token</a>
+            <b>emailToken</b>
+        </field>
+        <field>
+            <a>emailType</a>
+            <b>emailType</b>
+        </field>
+    </mapping>
+
 </mappings>
