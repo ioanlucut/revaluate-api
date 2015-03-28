@@ -10,7 +10,7 @@
     <bean id="dozerBeanMapper" class="org.dozer.DozerBeanMapper">
         <property name="mappingFiles">
             <list>
-                <value>dozer-bean-mappings.xml</value>
+                <value>dozer-bean-mappings__test.xml</value>
             </list>
         </property>
     </bean>
