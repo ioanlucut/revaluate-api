@@ -1,7 +1,7 @@
 package com.revaluate.account.utils;
 
 import com.revaluate.account.persistence.EmailToken;
-import com.revaluate.account.persistence.EmailType;
+import com.revaluate.domain.email.EmailType;
 import com.revaluate.account.persistence.User;
 import org.apache.commons.lang3.RandomStringUtils;
 

@@ -1,5 +1,6 @@
 package com.revaluate.account.persistence;
 
+import com.revaluate.domain.email.EmailType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

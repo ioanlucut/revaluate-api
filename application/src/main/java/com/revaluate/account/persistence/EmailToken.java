@@ -1,5 +1,7 @@
 package com.revaluate.account.persistence;
 
+import com.revaluate.domain.email.EmailType;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
