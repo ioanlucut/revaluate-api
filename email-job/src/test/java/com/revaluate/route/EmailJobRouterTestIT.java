@@ -2,7 +2,7 @@ package com.revaluate.route;
 
 import com.revaluate.AbstractBatchJobIntegrationTests;
 import com.revaluate.account.persistence.EmailToken;
-import com.revaluate.domain.SendTo;
+import com.revaluate.domain.email.SendTo;
 import org.apache.camel.*;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.test.spring.MockEndpoints;

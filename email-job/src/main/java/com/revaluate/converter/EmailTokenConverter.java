@@ -2,7 +2,7 @@ package com.revaluate.converter;
 
 import com.revaluate.account.persistence.EmailToken;
 import com.revaluate.account.persistence.EmailTokenRepository;
-import com.revaluate.domain.SendTo;
+import com.revaluate.domain.email.SendTo;
 import org.apache.camel.Converter;
 import org.apache.camel.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
