@@ -44,3 +44,4 @@
     `GET     /categories/retrieve (com.revaluate.resource.category.CategoryResource)`
     `POST    /categories/create (com.revaluate.resource.category.CategoryResource)`
     `POST    /categories/update (com.revaluate.resource.category.CategoryResource)`
+ 
