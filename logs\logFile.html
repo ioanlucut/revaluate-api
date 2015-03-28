@@ -3461,3 +3461,2912 @@ TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
 <td class="LineOfCaller">462</td>
 <td class="Message">Closing JPA EntityManagerFactory for persistence unit 'default'</td>
 </tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:03:56 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+
+<tr class="info even">
+<td class="Date">13:03:57.136</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.test.context.support.DefaultTestContextBootstrapper</td>
+<td class="LineOfCaller">256</td>
+<td class="Message">Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:03:57.173</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.test.context.support.DefaultTestContextBootstrapper</td>
+<td class="LineOfCaller">204</td>
+<td class="Message">Could not instantiate TestExecutionListener [org.springframework.test.context.web.ServletTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/web/context/request/RequestAttributes]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:03:57.179</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.test.context.support.DefaultTestContextBootstrapper</td>
+<td class="LineOfCaller">182</td>
+<td class="Message">Using TestExecutionListeners: [org.springframework.test.context.support.DependencyInjectionTestExecutionListener@150c158, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4524411f, org.springframework.test.context.transaction.TransactionalTestExecutionListener@401e7803, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@10dba097]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:03:57.345</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__application__test.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:03:57.536</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__core__test.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:03:57.592</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__core__test.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:03:57.884</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [dozer-global-configuration.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:03:57.933</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__application__test.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:03:58.035</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__application__test__DEV.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:03:58.058</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__application__test__IT.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:03:58.375</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.GenericApplicationContext</td>
+<td class="LineOfCaller">510</td>
+<td class="Message">Refreshing org.springframework.context.support.GenericApplicationContext@17695df3: startup date [Sat Mar 28 13:03:58 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:03:58.519</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/core/target/classes/installation.properties]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:03:58.653</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.validator.internal.util.Version</td>
+<td class="LineOfCaller">27</td>
+<td class="Message">HV000001: Hibernate Validator 5.1.2.Final</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:03:58.849</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory</td>
+<td class="LineOfCaller">147</td>
+<td class="Message">Creating embedded database 'dataSource'</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:03:58.938</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">334</td>
+<td class="Message">Building JPA container EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:03:58.979</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.jpa.internal.util.LogHelper</td>
+<td class="LineOfCaller">46</td>
+<td class="Message">HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:03:59.112</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.Version</td>
+<td class="LineOfCaller">54</td>
+<td class="Message">HHH000412: Hibernate Core {4.3.8.Final}</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:03:59.115</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">239</td>
+<td class="Message">HHH000206: hibernate.properties not found</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:03:59.117</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">346</td>
+<td class="Message">HHH000021: Bytecode provider name : javassist</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:03:59.474</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.annotations.common.Version</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HCANN000001: Hibernate Commons Annotations {4.0.5.Final}</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:04:00.034</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.dialect.Dialect</td>
+<td class="LineOfCaller">145</td>
+<td class="Message">HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL82Dialect</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:04:00.300</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</td>
+<td class="LineOfCaller">47</td>
+<td class="Message">HHH000397: Using ASTQueryTranslatorFactory</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:04:00.670</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.type.BasicTypeRegistry</td>
+<td class="LineOfCaller">148</td>
+<td class="Message">HHH000270: Type registration [java.util.Currency] overrides previous : org.hibernate.type.CurrencyType@3cd59ef5</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:04:01.066</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">157</td>
+<td class="Message">HHH000229: Running schema validator</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:04:01.067</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">165</td>
+<td class="Message">HHH000102: Fetching database metadata</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:04:01.076</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">171</td>
+<td class="Message">HHH000319: Could not get database metadata</td>
+</tr>
+<tr><td class="Exception" colspan="6">java.sql.SQLSyntaxErrorException: user lacks privilege or object not found: PG_CLASS
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCUtil.sqlException(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCUtil.sqlException(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCStatement.fetchResult(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCStatement.executeQuery(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.DatabaseMetadata.initSequences(DatabaseMetadata.java:178)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.DatabaseMetadata.&lt;init&gt;(DatabaseMetadata.java:92)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.SchemaValidator.validate(SchemaValidator.java:168)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.internal.SessionFactoryImpl.&lt;init&gt;(SessionFactoryImpl.java:525)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1859)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$4.perform(EntityManagerFactoryBuilderImpl.java:852)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$4.perform(EntityManagerFactoryBuilderImpl.java:845)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.boot.registry.classloading.internal.ClassLoaderServiceImpl.withTccl(ClassLoaderServiceImpl.java:398)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:844)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.HibernatePersistenceProvider.createContainerEntityManagerFactory(HibernatePersistenceProvider.java:152)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:338)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:318)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1625)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1562)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:539)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:476)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:303)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:299)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:956)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:747)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:480)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:125)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:109)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:261)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:68)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:86)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultTestContext.getApplicationContext(DefaultTestContext.java:72)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:117)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:212)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:200)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:259)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:261)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:219)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:74)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:211)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:67)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.lang.reflect.Method.invoke(Method.java:497)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)
+<br />Caused by: org.hsqldb.HsqlException: user lacks privilege or object not found: PG_CLASS
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.error.Error.error(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.error.Error.error(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.SchemaManager.getTable(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.readTableName(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.readTableOrSubquery(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadTableReference(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadFromClause(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadTableExpression(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQuerySpecification(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadSimpleTable(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryPrimary(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryTerm(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryExpressionBody(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryExpression(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.compileCursorSpecification(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserCommand.compilePart(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserCommand.compileStatements(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.Session.executeDirectStatement(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.Session.execute(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;	... 60 common frames omitted
+</td></tr>
+<tr class="error even">
+<td class="Date">13:04:01.094</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">179</td>
+<td class="Message">HHH000300: Could not complete schema validation</td>
+</tr>
+<tr><td class="Exception" colspan="6">java.sql.SQLSyntaxErrorException: user lacks privilege or object not found: PG_CLASS
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCUtil.sqlException(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCUtil.sqlException(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCStatement.fetchResult(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCStatement.executeQuery(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.DatabaseMetadata.initSequences(DatabaseMetadata.java:178)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.DatabaseMetadata.&lt;init&gt;(DatabaseMetadata.java:92)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.SchemaValidator.validate(SchemaValidator.java:168)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.internal.SessionFactoryImpl.&lt;init&gt;(SessionFactoryImpl.java:525)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1859)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$4.perform(EntityManagerFactoryBuilderImpl.java:852)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$4.perform(EntityManagerFactoryBuilderImpl.java:845)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.boot.registry.classloading.internal.ClassLoaderServiceImpl.withTccl(ClassLoaderServiceImpl.java:398)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:844)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.HibernatePersistenceProvider.createContainerEntityManagerFactory(HibernatePersistenceProvider.java:152)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:338)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:318)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1625)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1562)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:539)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:476)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:303)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:299)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:956)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:747)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:480)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:125)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:109)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:261)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:68)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:86)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultTestContext.getApplicationContext(DefaultTestContext.java:72)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:117)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:212)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:200)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:259)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:261)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:219)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:74)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:211)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:67)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.lang.reflect.Method.invoke(Method.java:497)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)
+<br />Caused by: org.hsqldb.HsqlException: user lacks privilege or object not found: PG_CLASS
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.error.Error.error(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.error.Error.error(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.SchemaManager.getTable(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.readTableName(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.readTableOrSubquery(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadTableReference(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadFromClause(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadTableExpression(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQuerySpecification(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadSimpleTable(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryPrimary(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryTerm(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryExpressionBody(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryExpression(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.compileCursorSpecification(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserCommand.compilePart(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserCommand.compileStatements(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.Session.executeDirectStatement(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.Session.execute(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;	... 60 common frames omitted
+</td></tr>
+<tr class="info odd">
+<td class="Date">13:04:01.875</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">113</td>
+<td class="Message">Trying to find Dozer configuration file: dozer.properties</td>
+</tr>
+
+<tr class="warn even">
+<td class="Date">13:04:01.884</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">118</td>
+<td class="Message">Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:04:01.887</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerInitializer</td>
+<td class="LineOfCaller">75</td>
+<td class="Message">Initializing Dozer. Version: 5.5.0, Thread Name: main</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:04:01.936</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerStatisticsController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:04:01.938</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerAdminController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:04:01.939</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">175</td>
+<td class="Message">Initializing a new instance of dozer bean mapper.</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:04:02.746</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:04:02.750</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:04:02.766</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:04:02.766</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:04:02.818</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:04:02.825</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:04:02.830</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:04:02.831</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:04:02.846</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:04:02.853</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:04:02.855</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:04:02.857</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:04:02.884</td>
+<td class="Thread">Thread-1</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.GenericApplicationContext</td>
+<td class="LineOfCaller">862</td>
+<td class="Message">Closing org.springframework.context.support.GenericApplicationContext@17695df3: startup date [Sat Mar 28 13:03:58 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:04:02.896</td>
+<td class="Thread">Thread-1</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">462</td>
+<td class="Message">Closing JPA EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:05:13 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+
+<tr class="info even">
+<td class="Date">13:05:13.851</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.test.context.support.DefaultTestContextBootstrapper</td>
+<td class="LineOfCaller">256</td>
+<td class="Message">Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:13.883</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.test.context.support.DefaultTestContextBootstrapper</td>
+<td class="LineOfCaller">204</td>
+<td class="Message">Could not instantiate TestExecutionListener [org.springframework.test.context.web.ServletTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/web/context/request/RequestAttributes]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:13.893</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.test.context.support.DefaultTestContextBootstrapper</td>
+<td class="LineOfCaller">182</td>
+<td class="Message">Using TestExecutionListeners: [org.springframework.test.context.support.DependencyInjectionTestExecutionListener@150c158, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4524411f, org.springframework.test.context.transaction.TransactionalTestExecutionListener@401e7803, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@10dba097]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:14.008</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__application__test.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:14.154</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__core__test.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:14.227</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__core__test.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:14.616</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [dozer-global-configuration.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:14.677</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__application__test.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:14.817</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__application__test__DEV.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:14.857</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__application__test__IT.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:15.171</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.GenericApplicationContext</td>
+<td class="LineOfCaller">510</td>
+<td class="Message">Refreshing org.springframework.context.support.GenericApplicationContext@17695df3: startup date [Sat Mar 28 13:05:15 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:15.375</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/core/target/classes/installation.properties]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:15.376</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/core/target/classes/installation_it.properties]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:15.529</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.validator.internal.util.Version</td>
+<td class="LineOfCaller">27</td>
+<td class="Message">HV000001: Hibernate Validator 5.1.2.Final</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:15.744</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory</td>
+<td class="LineOfCaller">147</td>
+<td class="Message">Creating embedded database 'dataSource'</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:15.851</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">334</td>
+<td class="Message">Building JPA container EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:15.921</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.jpa.internal.util.LogHelper</td>
+<td class="LineOfCaller">46</td>
+<td class="Message">HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:16.216</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.Version</td>
+<td class="LineOfCaller">54</td>
+<td class="Message">HHH000412: Hibernate Core {4.3.8.Final}</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:16.224</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">239</td>
+<td class="Message">HHH000206: hibernate.properties not found</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:16.231</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">346</td>
+<td class="Message">HHH000021: Bytecode provider name : javassist</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:16.831</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.annotations.common.Version</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HCANN000001: Hibernate Commons Annotations {4.0.5.Final}</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:17.723</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.dialect.Dialect</td>
+<td class="LineOfCaller">145</td>
+<td class="Message">HHH000400: Using dialect: org.hibernate.dialect.HSQLDialect</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:17.976</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</td>
+<td class="LineOfCaller">47</td>
+<td class="Message">HHH000397: Using ASTQueryTranslatorFactory</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:18.269</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.type.BasicTypeRegistry</td>
+<td class="LineOfCaller">148</td>
+<td class="Message">HHH000270: Type registration [java.util.Currency] overrides previous : org.hibernate.type.CurrencyType@14bf57b2</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:18.607</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">344</td>
+<td class="Message">HHH000227: Running hbm2ddl schema export</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.615</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">426</td>
+<td class="Message">HHH000389: Unsuccessful: alter table public.categories drop constraint FK_f5hobmotrjyyffipi045ga93k</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.615</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">427</td>
+<td class="Message">user lacks privilege or object not found: PUBLIC.CATEGORIES</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.616</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">426</td>
+<td class="Message">HHH000389: Unsuccessful: alter table public.email_token drop constraint FK_668u0bx7e9egiitqc9qb81f2m</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.617</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">427</td>
+<td class="Message">user lacks privilege or object not found: PUBLIC.EMAIL_TOKEN</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.617</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">426</td>
+<td class="Message">HHH000389: Unsuccessful: alter table public.expenses drop constraint FK_qo1eu6mr1jckbf5u08jgouyqr</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.641</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">427</td>
+<td class="Message">user lacks privilege or object not found: PUBLIC.EXPENSES</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.642</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">426</td>
+<td class="Message">HHH000389: Unsuccessful: alter table public.expenses drop constraint FK_a40ypqkuegvyjf68r0sthyqr6</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.643</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">427</td>
+<td class="Message">user lacks privilege or object not found: PUBLIC.EXPENSES</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.643</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">426</td>
+<td class="Message">HHH000389: Unsuccessful: alter table public.users drop constraint FK_t5ca9hp1hytxlo0balie5o2i2</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.644</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">427</td>
+<td class="Message">user lacks privilege or object not found: PUBLIC.USERS</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.647</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">426</td>
+<td class="Message">HHH000389: Unsuccessful: drop sequence public.categories_id_seq</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.648</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">427</td>
+<td class="Message">user lacks privilege or object not found: CATEGORIES_ID_SEQ in statement [
+    drop sequence public.categories_id_seq]</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.648</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">426</td>
+<td class="Message">HHH000389: Unsuccessful: drop sequence public.currencies_id_seq</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.649</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">427</td>
+<td class="Message">user lacks privilege or object not found: CURRENCIES_ID_SEQ in statement [
+    drop sequence public.currencies_id_seq]</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.656</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">426</td>
+<td class="Message">HHH000389: Unsuccessful: drop sequence public.expenses_id_seq</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.657</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">427</td>
+<td class="Message">user lacks privilege or object not found: EXPENSES_ID_SEQ in statement [
+    drop sequence public.expenses_id_seq]</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.658</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">426</td>
+<td class="Message">HHH000389: Unsuccessful: drop sequence public.user_token_id_seq</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.658</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">427</td>
+<td class="Message">user lacks privilege or object not found: USER_TOKEN_ID_SEQ in statement [
+    drop sequence public.user_token_id_seq]</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.671</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">426</td>
+<td class="Message">HHH000389: Unsuccessful: drop sequence public.users_id_seq</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.672</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">427</td>
+<td class="Message">user lacks privilege or object not found: USERS_ID_SEQ in statement [
+    drop sequence public.users_id_seq]</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.710</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">457</td>
+<td class="Message">HHH000388: Unsuccessful: INSERT INTO users(</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.711</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">458</td>
+<td class="Message">unexpected end of statement</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.711</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">457</td>
+<td class="Message">HHH000388: Unsuccessful: id, created_date, email, enabled, first_name, initiated, last_name,</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.718</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">458</td>
+<td class="Message">unexpected token: ID</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.719</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">457</td>
+<td class="Message">HHH000388: Unsuccessful: modified_date, password, currency_id)</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.719</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">458</td>
+<td class="Message">unexpected token: MODIFIED_DATE</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.720</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">457</td>
+<td class="Message">HHH000388: Unsuccessful: VALUES (1, now(), 'x@x.x', true, 'fn', true, 'ln',</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.720</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">458</td>
+<td class="Message">unexpected end of statement</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.720</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">457</td>
+<td class="Message">HHH000388: Unsuccessful: now(), 'pw', 1)</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.721</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">458</td>
+<td class="Message">unexpected token: NOW</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.721</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">457</td>
+<td class="Message">HHH000388: Unsuccessful: INSERT INTO email_token(</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.721</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">458</td>
+<td class="Message">unexpected end of statement</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.729</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">457</td>
+<td class="Message">HHH000388: Unsuccessful: id, email_type, token, validated, user_id)</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.730</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">458</td>
+<td class="Message">unexpected token: ID</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.732</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">457</td>
+<td class="Message">HHH000388: Unsuccessful: VALUES (1, 'CREATED_ACCOUNT', 'xxx', false, 1)</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.732</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">458</td>
+<td class="Message">statement does not generate a row count</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.733</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">457</td>
+<td class="Message">HHH000388: Unsuccessful: INSERT INTO email_token(</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.733</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">458</td>
+<td class="Message">unexpected end of statement</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.733</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">457</td>
+<td class="Message">HHH000388: Unsuccessful: id, email_type, token, validated, user_id)</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.734</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">458</td>
+<td class="Message">unexpected token: ID</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:18.734</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">457</td>
+<td class="Message">HHH000388: Unsuccessful: VALUES (2, 'CREATED_ACCOUNT', 'xxx', false, 1)</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:05:18.735</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">458</td>
+<td class="Message">statement does not generate a row count</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:18.735</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">406</td>
+<td class="Message">HHH000230: Schema export complete</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:19.411</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">113</td>
+<td class="Message">Trying to find Dozer configuration file: dozer.properties</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:05:19.435</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">118</td>
+<td class="Message">Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:19.440</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerInitializer</td>
+<td class="LineOfCaller">75</td>
+<td class="Message">Initializing Dozer. Version: 5.5.0, Thread Name: main</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:19.560</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerStatisticsController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:19.564</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerAdminController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:19.566</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">175</td>
+<td class="Message">Initializing a new instance of dozer bean mapper.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:20.595</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">222</td>
+<td class="Message">Using the following xml files to load custom mappings for the bean mapper instance: [dozer-bean-mappings.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:20.595</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">224</td>
+<td class="Message">Trying to find xml mapping file: dozer-bean-mappings.xml</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:20.596</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">226</td>
+<td class="Message">Using URL [file:/home/ilucut/REPOS/revaluate-api/core/target/classes/dozer-bean-mappings.xml] to load custom xml mappings</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:20.640</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">228</td>
+<td class="Message">Successfully loaded custom xml mappings from URL: [file:/home/ilucut/REPOS/revaluate-api/core/target/classes/dozer-bean-mappings.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:21.121</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.email.SendEmailServiceImpl</td>
+<td class="LineOfCaller">33</td>
+<td class="Message">Send async email with details: SendTo{id=1, firstName='null', lastName='null', email='null', emailTokenId=0, emailToken='null', emailType=CREATED_ACCOUNT}</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:22.861</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">com.revaluate.account.service.UserServiceImpl</td>
+<td class="LineOfCaller">104</td>
+<td class="Message">com.microtripit.mandrillapp.lutung.model.MandrillApiError: Unexpected http status in response: 500 (Internal Server Error)</td>
+</tr>
+<tr><td class="Exception" colspan="6">com.revaluate.email.SendEmailException: com.microtripit.mandrillapp.lutung.model.MandrillApiError: Unexpected http status in response: 500 (Internal Server Error)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.email.SendEmailServiceImpl.tryToSendEmail(SendEmailServiceImpl.java:109)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.email.SendEmailServiceImpl.sendEmailTo(SendEmailServiceImpl.java:64)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.email.SendEmailServiceImpl.sendAsyncEmailTo(SendEmailServiceImpl.java:35)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.account.service.UserServiceImpl.create(UserServiceImpl.java:96)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.lang.reflect.Method.invoke(Method.java:497)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:317)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.validation.beanvalidation.MethodValidationInterceptor.invoke(MethodValidationInterceptor.java:122)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:207)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.sun.proxy.$Proxy66.create(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.AbstractIntegrationTests.createUserDTO(AbstractIntegrationTests.java:96)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.AbstractIntegrationTests.createUserDTO(AbstractIntegrationTests.java:87)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.AbstractIntegrationTests.createUserDTO(AbstractIntegrationTests.java:103)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.account.service.UserServiceImplTest_create_IT.create_sameEmailTwice_throwsException(UserServiceImplTest_create_IT.java:51)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.lang.reflect.Method.invoke(Method.java:497)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:73)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:82)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.rules.ExpectedException$ExpectedExceptionStatement.evaluate(ExpectedException.java:239)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:73)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:224)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:74)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:211)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:67)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.lang.reflect.Method.invoke(Method.java:497)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)
+<br />Caused by: com.microtripit.mandrillapp.lutung.model.MandrillApiError: Unexpected http status in response: 500 (Internal Server Error)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.microtripit.mandrillapp.lutung.model.MandrillRequestDispatcher.execute(MandrillRequestDispatcher.java:92)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.microtripit.mandrillapp.lutung.controller.MandrillUtil.query(MandrillUtil.java:46)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.microtripit.mandrillapp.lutung.controller.MandrillMessagesApi.sendTemplate(MandrillMessagesApi.java:206)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.microtripit.mandrillapp.lutung.controller.MandrillMessagesApi.sendTemplate(MandrillMessagesApi.java:133)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.email.SendEmailServiceImpl.tryToSendEmail(SendEmailServiceImpl.java:73)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;	... 55 common frames omitted
+</td></tr>
+<tr class="info even">
+<td class="Date">13:05:23.116</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.email.SendEmailServiceImpl</td>
+<td class="LineOfCaller">33</td>
+<td class="Message">Send async email with details: SendTo{id=2, firstName='null', lastName='null', email='null', emailTokenId=0, emailToken='null', emailType=CREATED_ACCOUNT}</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:05:23.897</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">com.revaluate.account.service.UserServiceImpl</td>
+<td class="LineOfCaller">104</td>
+<td class="Message">com.microtripit.mandrillapp.lutung.model.MandrillApiError: Unexpected http status in response: 500 (Internal Server Error)</td>
+</tr>
+<tr><td class="Exception" colspan="6">com.revaluate.email.SendEmailException: com.microtripit.mandrillapp.lutung.model.MandrillApiError: Unexpected http status in response: 500 (Internal Server Error)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.email.SendEmailServiceImpl.tryToSendEmail(SendEmailServiceImpl.java:109)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.email.SendEmailServiceImpl.sendEmailTo(SendEmailServiceImpl.java:64)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.email.SendEmailServiceImpl.sendAsyncEmailTo(SendEmailServiceImpl.java:35)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.account.service.UserServiceImpl.create(UserServiceImpl.java:96)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.lang.reflect.Method.invoke(Method.java:497)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:317)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.validation.beanvalidation.MethodValidationInterceptor.invoke(MethodValidationInterceptor.java:122)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:207)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.sun.proxy.$Proxy66.create(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.AbstractIntegrationTests.createUserDTO(AbstractIntegrationTests.java:96)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.AbstractIntegrationTests.createUserDTO(AbstractIntegrationTests.java:87)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.AbstractIntegrationTests.createUserDTO(AbstractIntegrationTests.java:103)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.account.service.UserServiceImplTest_create_IT.create_validDetails_ok(UserServiceImplTest_create_IT.java:27)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.lang.reflect.Method.invoke(Method.java:497)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:73)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:82)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.rules.ExpectedException$ExpectedExceptionStatement.evaluate(ExpectedException.java:239)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:73)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:224)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:74)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:211)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:67)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.lang.reflect.Method.invoke(Method.java:497)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)
+<br />Caused by: com.microtripit.mandrillapp.lutung.model.MandrillApiError: Unexpected http status in response: 500 (Internal Server Error)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.microtripit.mandrillapp.lutung.model.MandrillRequestDispatcher.execute(MandrillRequestDispatcher.java:92)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.microtripit.mandrillapp.lutung.controller.MandrillUtil.query(MandrillUtil.java:46)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.microtripit.mandrillapp.lutung.controller.MandrillMessagesApi.sendTemplate(MandrillMessagesApi.java:206)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.microtripit.mandrillapp.lutung.controller.MandrillMessagesApi.sendTemplate(MandrillMessagesApi.java:133)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.revaluate.email.SendEmailServiceImpl.tryToSendEmail(SendEmailServiceImpl.java:73)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;	... 55 common frames omitted
+</td></tr>
+<tr class="info even">
+<td class="Date">13:05:24.017</td>
+<td class="Thread">Thread-1</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.GenericApplicationContext</td>
+<td class="LineOfCaller">862</td>
+<td class="Message">Closing org.springframework.context.support.GenericApplicationContext@17695df3: startup date [Sat Mar 28 13:05:15 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:24.022</td>
+<td class="Thread">Thread-1</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">462</td>
+<td class="Message">Closing JPA EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:05:24.032</td>
+<td class="Thread">Thread-1</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">344</td>
+<td class="Message">HHH000227: Running hbm2ddl schema export</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:05:24.065</td>
+<td class="Thread">Thread-1</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaExport</td>
+<td class="LineOfCaller">406</td>
+<td class="Message">HHH000230: Schema export complete</td>
+</tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:07:06 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+
+<tr class="info even">
+<td class="Date">13:07:06.465</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.test.context.support.DefaultTestContextBootstrapper</td>
+<td class="LineOfCaller">256</td>
+<td class="Message">Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:06.491</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.test.context.support.DefaultTestContextBootstrapper</td>
+<td class="LineOfCaller">204</td>
+<td class="Message">Could not instantiate TestExecutionListener [org.springframework.test.context.web.ServletTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/web/context/request/RequestAttributes]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:06.494</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.test.context.support.DefaultTestContextBootstrapper</td>
+<td class="LineOfCaller">182</td>
+<td class="Message">Using TestExecutionListeners: [org.springframework.test.context.support.DependencyInjectionTestExecutionListener@150c158, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4524411f, org.springframework.test.context.transaction.TransactionalTestExecutionListener@401e7803, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@10dba097]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:06.617</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__application__test.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:06.742</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__core__test.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:06.807</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__core__test.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:07.174</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [dozer-global-configuration.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:07.222</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__application__test.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:07.326</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__application__test__DEV.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:07.349</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [spring-config.application/spring-context-application__application__test__IT.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:07.664</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.GenericApplicationContext</td>
+<td class="LineOfCaller">510</td>
+<td class="Message">Refreshing org.springframework.context.support.GenericApplicationContext@17695df3: startup date [Sat Mar 28 13:07:07 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:07.865</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/core/target/classes/installation.properties]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:08.003</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.validator.internal.util.Version</td>
+<td class="LineOfCaller">27</td>
+<td class="Message">HV000001: Hibernate Validator 5.1.2.Final</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:08.250</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory</td>
+<td class="LineOfCaller">147</td>
+<td class="Message">Creating embedded database 'dataSource'</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:08.340</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">334</td>
+<td class="Message">Building JPA container EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:08.375</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.jpa.internal.util.LogHelper</td>
+<td class="LineOfCaller">46</td>
+<td class="Message">HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:08.512</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.Version</td>
+<td class="LineOfCaller">54</td>
+<td class="Message">HHH000412: Hibernate Core {4.3.8.Final}</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:08.515</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">239</td>
+<td class="Message">HHH000206: hibernate.properties not found</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:08.518</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">346</td>
+<td class="Message">HHH000021: Bytecode provider name : javassist</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:08.925</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.annotations.common.Version</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HCANN000001: Hibernate Commons Annotations {4.0.5.Final}</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:09.525</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.dialect.Dialect</td>
+<td class="LineOfCaller">145</td>
+<td class="Message">HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL82Dialect</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:09.884</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</td>
+<td class="LineOfCaller">47</td>
+<td class="Message">HHH000397: Using ASTQueryTranslatorFactory</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:10.229</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.type.BasicTypeRegistry</td>
+<td class="LineOfCaller">148</td>
+<td class="Message">HHH000270: Type registration [java.util.Currency] overrides previous : org.hibernate.type.CurrencyType@3cd59ef5</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:10.629</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">157</td>
+<td class="Message">HHH000229: Running schema validator</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:10.630</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">165</td>
+<td class="Message">HHH000102: Fetching database metadata</td>
+</tr>
+
+<tr class="error odd">
+<td class="Date">13:07:10.639</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">171</td>
+<td class="Message">HHH000319: Could not get database metadata</td>
+</tr>
+<tr><td class="Exception" colspan="6">java.sql.SQLSyntaxErrorException: user lacks privilege or object not found: PG_CLASS
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCUtil.sqlException(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCUtil.sqlException(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCStatement.fetchResult(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCStatement.executeQuery(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.DatabaseMetadata.initSequences(DatabaseMetadata.java:178)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.DatabaseMetadata.&lt;init&gt;(DatabaseMetadata.java:92)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.SchemaValidator.validate(SchemaValidator.java:168)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.internal.SessionFactoryImpl.&lt;init&gt;(SessionFactoryImpl.java:525)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1859)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$4.perform(EntityManagerFactoryBuilderImpl.java:852)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$4.perform(EntityManagerFactoryBuilderImpl.java:845)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.boot.registry.classloading.internal.ClassLoaderServiceImpl.withTccl(ClassLoaderServiceImpl.java:398)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:844)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.HibernatePersistenceProvider.createContainerEntityManagerFactory(HibernatePersistenceProvider.java:152)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:338)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:318)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1625)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1562)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:539)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:476)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:303)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:299)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:956)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:747)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:480)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:125)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:109)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:261)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:68)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:86)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultTestContext.getApplicationContext(DefaultTestContext.java:72)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:117)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:212)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:200)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:259)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:261)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:219)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:74)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:211)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:67)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.lang.reflect.Method.invoke(Method.java:497)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)
+<br />Caused by: org.hsqldb.HsqlException: user lacks privilege or object not found: PG_CLASS
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.error.Error.error(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.error.Error.error(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.SchemaManager.getTable(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.readTableName(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.readTableOrSubquery(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadTableReference(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadFromClause(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadTableExpression(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQuerySpecification(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadSimpleTable(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryPrimary(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryTerm(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryExpressionBody(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryExpression(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.compileCursorSpecification(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserCommand.compilePart(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserCommand.compileStatements(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.Session.executeDirectStatement(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.Session.execute(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;	... 60 common frames omitted
+</td></tr>
+<tr class="error even">
+<td class="Date">13:07:10.652</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">179</td>
+<td class="Message">HHH000300: Could not complete schema validation</td>
+</tr>
+<tr><td class="Exception" colspan="6">java.sql.SQLSyntaxErrorException: user lacks privilege or object not found: PG_CLASS
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCUtil.sqlException(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCUtil.sqlException(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCStatement.fetchResult(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.jdbc.JDBCStatement.executeQuery(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.DatabaseMetadata.initSequences(DatabaseMetadata.java:178)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.DatabaseMetadata.&lt;init&gt;(DatabaseMetadata.java:92)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.tool.hbm2ddl.SchemaValidator.validate(SchemaValidator.java:168)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.internal.SessionFactoryImpl.&lt;init&gt;(SessionFactoryImpl.java:525)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1859)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$4.perform(EntityManagerFactoryBuilderImpl.java:852)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl$4.perform(EntityManagerFactoryBuilderImpl.java:845)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.boot.registry.classloading.internal.ClassLoaderServiceImpl.withTccl(ClassLoaderServiceImpl.java:398)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:844)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hibernate.jpa.HibernatePersistenceProvider.createContainerEntityManagerFactory(HibernatePersistenceProvider.java:152)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:338)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:318)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1625)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1562)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:539)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:476)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:303)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:299)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:956)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:747)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:480)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:125)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:109)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:261)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:68)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:86)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.DefaultTestContext.getApplicationContext(DefaultTestContext.java:72)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:117)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:212)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:200)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:259)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:261)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:219)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:83)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:68)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:163)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:74)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:211)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:67)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at java.lang.reflect.Method.invoke(Method.java:497)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)
+<br />Caused by: org.hsqldb.HsqlException: user lacks privilege or object not found: PG_CLASS
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.error.Error.error(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.error.Error.error(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.SchemaManager.getTable(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.readTableName(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.readTableOrSubquery(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadTableReference(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadFromClause(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadTableExpression(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQuerySpecification(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadSimpleTable(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryPrimary(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryTerm(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryExpressionBody(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.XreadQueryExpression(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserDQL.compileCursorSpecification(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserCommand.compilePart(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.ParserCommand.compileStatements(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.Session.executeDirectStatement(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;at org.hsqldb.Session.execute(Unknown Source)
+<br />&nbsp;&nbsp;&nbsp;&nbsp;	... 60 common frames omitted
+</td></tr>
+<tr class="info odd">
+<td class="Date">13:07:11.158</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">113</td>
+<td class="Message">Trying to find Dozer configuration file: dozer.properties</td>
+</tr>
+
+<tr class="warn even">
+<td class="Date">13:07:11.172</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">118</td>
+<td class="Message">Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:11.177</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerInitializer</td>
+<td class="LineOfCaller">75</td>
+<td class="Message">Initializing Dozer. Version: 5.5.0, Thread Name: main</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:11.237</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerStatisticsController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:11.240</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerAdminController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:11.242</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">175</td>
+<td class="Message">Initializing a new instance of dozer bean mapper.</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:07:11.980</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:07:11.983</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:07:11.993</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:07:11.993</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:07:12.014</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:07:12.023</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:07:12.031</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:07:12.032</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:07:12.052</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:07:12.054</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">13:07:12.059</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">144</td>
+<td class="Message">SQL Error: -5501, SQLState: 42501</td>
+</tr>
+
+<tr class="error even">
+<td class="Date">13:07:12.059</td>
+<td class="Thread">main</td>
+<td class="Level">ERROR</td>
+<td class="Logger">org.hibernate.engine.jdbc.spi.SqlExceptionHelper</td>
+<td class="LineOfCaller">146</td>
+<td class="Message">user lacks privilege or object not found: EMAIL_TOKEN</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">13:07:12.081</td>
+<td class="Thread">Thread-1</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.GenericApplicationContext</td>
+<td class="LineOfCaller">862</td>
+<td class="Message">Closing org.springframework.context.support.GenericApplicationContext@17695df3: startup date [Sat Mar 28 13:07:07 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">13:07:12.092</td>
+<td class="Thread">Thread-1</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">462</td>
+<td class="Message">Closing JPA EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:14:44 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:15:17 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:15:50 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:17:06 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:17:38 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:18:10 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:19:47 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:20:06 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:20:22 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:20:51 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:22:30 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:22:39 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:25:09 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:28:07 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:33:01 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:42:00 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:43:28 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:48:42 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:54:51 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 13:58:26 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 14:07:49 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html>

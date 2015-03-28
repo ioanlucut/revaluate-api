@@ -13,8 +13,6 @@ import com.revaluate.domain.account.ResetPasswordDTO;
 import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.email.EmailType;
-import com.revaluate.domain.email.SendTo;
-import com.revaluate.email.SendEmailException;
 import com.revaluate.email.SendEmailService;
 import org.dozer.DozerBeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
@@ -48,6 +46,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private SendEmailService sendEmailService;
+
+    @Autowired
+    private EmailAsyncSender emailAsyncSender;
 
     @Override
     public boolean isUnique(String email) {
@@ -89,20 +90,11 @@ public class UserServiceImpl implements UserService {
         EmailToken savedCreateEmailToken = emailTokenRepository.save(createEmailToken);
 
         //-----------------------------------------------------------------
-        // Try to send email async
+        // Try to send email asyncronous
         //-----------------------------------------------------------------
-        SendTo sendTo = dozerBeanMapper.map(createEmailToken, SendTo.class);
-        try {
-            sendEmailService.sendAsyncEmailTo(sendTo);
+        LOGGER.info("11111111111111111111111" + Thread.currentThread().getName());
 
-            //-----------------------------------------------------------------
-            // Mark as validated - or sent
-            //-----------------------------------------------------------------
-            savedCreateEmailToken.setValidated(Boolean.TRUE);
-            emailTokenRepository.save(savedCreateEmailToken);
-        } catch (SendEmailException ex) {
-            LOGGER.error(ex.getMessage(), ex);
-        }
+        emailAsyncSender.tryToSendEmail(savedCreateEmailToken);
 
         return dozerBeanMapper.map(savedUser, UserDTO.class);
     }
