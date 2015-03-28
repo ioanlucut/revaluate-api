@@ -90,10 +90,8 @@ public class UserServiceImpl implements UserService {
         EmailToken savedCreateEmailToken = emailTokenRepository.save(createEmailToken);
 
         //-----------------------------------------------------------------
-        // Try to send email asyncronous
+        // Try to send email async
         //-----------------------------------------------------------------
-        LOGGER.info("11111111111111111111111" + Thread.currentThread().getName());
-
         emailAsyncSender.tryToSendEmail(savedCreateEmailToken);
 
         return dozerBeanMapper.map(savedUser, UserDTO.class);
@@ -190,6 +188,12 @@ public class UserServiceImpl implements UserService {
         // Generate a new reset email token and save it
         //-----------------------------------------------------------------
         EmailToken resetEmailToken = TokenGenerator.generateTokenFor(user, EmailType.RESET_PASSWORD);
+
+        //-----------------------------------------------------------------
+        // Try to send email async
+        //-----------------------------------------------------------------
+        emailAsyncSender.tryToSendEmail(resetEmailToken);
+
         emailTokenRepository.save(resetEmailToken);
     }
 
