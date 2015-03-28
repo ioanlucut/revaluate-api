@@ -47,9 +47,6 @@ public class SendEmailServiceImpl implements SendEmailService {
         // Build the mandrill message
         //-----------------------------------------------------------------
         MandrillMessage message = new MandrillMessage();
-        message.setSubject("Hello");
-        message.setFromEmail("info@revaluate.io");
-        message.setFromName("Revaluate team");
 
         //-----------------------------------------------------------------
         // Build mandrill recipients
