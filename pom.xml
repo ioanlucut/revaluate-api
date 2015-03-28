@@ -18,6 +18,7 @@
         <module>validation</module>
         <module>dtos</module>
         <module>core</module>
+        <module>emails</module>
         <module>application</module>
         <module>resources</module>
         <module>e2e-tests</module>
