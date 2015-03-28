@@ -1,7 +1,7 @@
 package com.revaluate.route;
 
-import com.revaluate.domain.SendTo;
-import com.revaluate.exceptions.SendEmailException;
+import com.revaluate.domain.email.SendTo;
+import com.revaluate.email.SendEmailException;
 import com.revaluate.processor.EmailTokenValidateProcessor;
 import com.revaluate.processor.EmailTokensRetrieverProcessor;
 import com.revaluate.processor.SendToProcessor;

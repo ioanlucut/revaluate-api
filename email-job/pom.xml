@@ -40,12 +40,6 @@
             <version>${camel.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.mandrillapp.wrapper.lutung</groupId>
-            <artifactId>lutung</artifactId>
-            <version>${lutung.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>
