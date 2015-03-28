@@ -1,0 +1,4005 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Wed Mar 25 21:55:11 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+
+<tr class="info even">
+<td class="Date">21:55:11.489</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport</td>
+<td class="LineOfCaller">329</td>
+<td class="Message">Apache Camel 2.15.0 starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:11.608</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.ClassPathXmlApplicationContext</td>
+<td class="LineOfCaller">510</td>
+<td class="Message">Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@65e2dbf3: startup date [Wed Mar 25 21:55:11 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:11.675</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__emailJob.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:12.196</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:12.217</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/spring-config.application/spring-context-application.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:12.919</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/dozer-global-configuration.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:14.369</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/installation.properties]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:14.370</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/installation_local.properties]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:14.403</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor</td>
+<td class="LineOfCaller">153</td>
+<td class="Message">JSR-330 'javax.inject.Inject' annotation found and supported for autowiring</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:14.719</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">334</td>
+<td class="Message">Building JPA container EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:14.771</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.jpa.internal.util.LogHelper</td>
+<td class="LineOfCaller">46</td>
+<td class="Message">HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:15.102</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.Version</td>
+<td class="LineOfCaller">54</td>
+<td class="Message">HHH000412: Hibernate Core {4.3.8.Final}</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:15.106</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">239</td>
+<td class="Message">HHH000206: hibernate.properties not found</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:15.111</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">346</td>
+<td class="Message">HHH000021: Bytecode provider name : javassist</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:15.522</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.annotations.common.Version</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HCANN000001: Hibernate Commons Annotations {4.0.5.Final}</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:16.298</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.dialect.Dialect</td>
+<td class="LineOfCaller">145</td>
+<td class="Message">HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL82Dialect</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:16.315</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.engine.jdbc.internal.LobCreatorBuilder</td>
+<td class="LineOfCaller">123</td>
+<td class="Message">HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:16.585</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</td>
+<td class="LineOfCaller">47</td>
+<td class="Message">HHH000397: Using ASTQueryTranslatorFactory</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:16.661</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.validator.internal.util.Version</td>
+<td class="LineOfCaller">27</td>
+<td class="Message">HV000001: Hibernate Validator 5.1.2.Final</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:17.123</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.type.BasicTypeRegistry</td>
+<td class="LineOfCaller">148</td>
+<td class="Message">HHH000270: Type registration [java.util.Currency] overrides previous : org.hibernate.type.CurrencyType@15b642b9</td>
+</tr>
+
+<tr class="warn even">
+<td class="Date">21:55:18.189</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">21:55:18.200</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:18.220</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">157</td>
+<td class="Message">HHH000229: Running schema validator</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:18.221</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">165</td>
+<td class="Message">HHH000102: Fetching database metadata</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:18.253</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.categories</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:18.254</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [category_id, color, user_id, name]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:18.259</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.currencies</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:18.260</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [id, currency_code]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:18.265</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.email_token</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:18.266</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [email_type, validated, user_id, id, token]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:18.271</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.expenses</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:18.272</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [spent_date, category_id, user_id, description, created_date, modified_date, expense_id, value]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:18.277</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.users</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:18.277</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [password, initiated, last_name, id, created_date, modified_date, first_name, email, enabled, currency_id]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:19.396</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">113</td>
+<td class="Message">Trying to find Dozer configuration file: dozer.properties</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">21:55:19.420</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">118</td>
+<td class="Message">Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:19.423</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerInitializer</td>
+<td class="LineOfCaller">75</td>
+<td class="Message">Initializing Dozer. Version: 5.5.0, Thread Name: main</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:19.427</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerStatisticsController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:19.429</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerAdminController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:19.430</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">175</td>
+<td class="Message">Initializing a new instance of dozer bean mapper.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:20.115</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2418</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:20.119</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.management.ManagedManagementStrategy</td>
+<td class="LineOfCaller">187</td>
+<td class="Message">JMX is enabled</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:20.294</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.converter.DefaultTypeConverter</td>
+<td class="LineOfCaller">56</td>
+<td class="Message">Loaded 185 type converters</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:20.570</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2633</td>
+<td class="Message">AllowUseOriginalMessage is enabled. If access to the original message is not needed, then its recommended to turn this option off as it may improve performance.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:20.572</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2643</td>
+<td class="Message">StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:20.688</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: route1 started and consuming from: Endpoint[timer://runOnce?fixedRate=true&period=30000]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:20.690</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:fetchAllEmailTokens started and consuming from: Endpoint[direct://fetchAllEmailTokens]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:20.692</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:sendToProcessor started and consuming from: Endpoint[direct://sendToProcessor]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:20.693</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:validSentEmailToken started and consuming from: Endpoint[direct://validSentEmailToken]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:20.696</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2453</td>
+<td class="Message">Total 4 routes, of which 4 is started.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:20.697</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2454</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) started in 0.581 seconds</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:55:21.981</td>
+<td class="Thread">Camel (camel-1) thread #0 - timer://runOnce</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.processor.EmailTokensRetrieverProcessor</td>
+<td class="LineOfCaller">30</td>
+<td class="Message">Fetched [] email tokens</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:55:51.703</td>
+<td class="Thread">Camel (camel-1) thread #0 - timer://runOnce</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.processor.EmailTokensRetrieverProcessor</td>
+<td class="LineOfCaller">30</td>
+<td class="Message">Fetched [] email tokens</td>
+</tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Wed Mar 25 21:56:17 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+
+<tr class="info even">
+<td class="Date">21:56:17.540</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport</td>
+<td class="LineOfCaller">329</td>
+<td class="Message">Apache Camel 2.15.0 starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:17.661</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.ClassPathXmlApplicationContext</td>
+<td class="LineOfCaller">510</td>
+<td class="Message">Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@2b9627bc: startup date [Wed Mar 25 21:56:17 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:17.710</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__emailJob.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:18.074</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:18.122</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/spring-config.application/spring-context-application.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:18.733</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/dozer-global-configuration.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:20.111</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/installation.properties]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:20.112</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/installation_local.properties]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:20.134</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor</td>
+<td class="LineOfCaller">153</td>
+<td class="Message">JSR-330 'javax.inject.Inject' annotation found and supported for autowiring</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:20.463</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">334</td>
+<td class="Message">Building JPA container EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:20.522</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.jpa.internal.util.LogHelper</td>
+<td class="LineOfCaller">46</td>
+<td class="Message">HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:20.803</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.Version</td>
+<td class="LineOfCaller">54</td>
+<td class="Message">HHH000412: Hibernate Core {4.3.8.Final}</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:20.806</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">239</td>
+<td class="Message">HHH000206: hibernate.properties not found</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:20.809</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">346</td>
+<td class="Message">HHH000021: Bytecode provider name : javassist</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:21.130</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.annotations.common.Version</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HCANN000001: Hibernate Commons Annotations {4.0.5.Final}</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:21.970</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.dialect.Dialect</td>
+<td class="LineOfCaller">145</td>
+<td class="Message">HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL82Dialect</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:22.005</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.engine.jdbc.internal.LobCreatorBuilder</td>
+<td class="LineOfCaller">123</td>
+<td class="Message">HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:22.396</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</td>
+<td class="LineOfCaller">47</td>
+<td class="Message">HHH000397: Using ASTQueryTranslatorFactory</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:22.466</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.validator.internal.util.Version</td>
+<td class="LineOfCaller">27</td>
+<td class="Message">HV000001: Hibernate Validator 5.1.2.Final</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:22.816</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.type.BasicTypeRegistry</td>
+<td class="LineOfCaller">148</td>
+<td class="Message">HHH000270: Type registration [java.util.Currency] overrides previous : org.hibernate.type.CurrencyType@437486cd</td>
+</tr>
+
+<tr class="warn even">
+<td class="Date">21:56:23.172</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">21:56:23.175</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:23.206</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">157</td>
+<td class="Message">HHH000229: Running schema validator</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:23.206</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">165</td>
+<td class="Message">HHH000102: Fetching database metadata</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:23.236</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.categories</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:23.237</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [category_id, color, user_id, name]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:23.242</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.currencies</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:23.244</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [id, currency_code]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:23.250</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.email_token</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:23.251</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [email_type, validated, user_id, id, token]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:23.256</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.expenses</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:23.257</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [spent_date, category_id, user_id, description, created_date, modified_date, expense_id, value]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:23.262</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.users</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:23.262</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [password, initiated, last_name, id, created_date, modified_date, first_name, email, enabled, currency_id]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:24.296</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">113</td>
+<td class="Message">Trying to find Dozer configuration file: dozer.properties</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">21:56:24.303</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">118</td>
+<td class="Message">Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:24.306</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerInitializer</td>
+<td class="LineOfCaller">75</td>
+<td class="Message">Initializing Dozer. Version: 5.5.0, Thread Name: main</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:24.309</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerStatisticsController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:24.310</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerAdminController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:24.311</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">175</td>
+<td class="Message">Initializing a new instance of dozer bean mapper.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:25.021</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2418</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:25.022</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.management.ManagedManagementStrategy</td>
+<td class="LineOfCaller">187</td>
+<td class="Message">JMX is enabled</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:25.176</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.converter.DefaultTypeConverter</td>
+<td class="LineOfCaller">56</td>
+<td class="Message">Loaded 185 type converters</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:25.448</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2633</td>
+<td class="Message">AllowUseOriginalMessage is enabled. If access to the original message is not needed, then its recommended to turn this option off as it may improve performance.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:25.448</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2643</td>
+<td class="Message">StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:25.574</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: route1 started and consuming from: Endpoint[timer://runOnce?fixedRate=true&period=30000]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:25.576</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:fetchAllEmailTokens started and consuming from: Endpoint[direct://fetchAllEmailTokens]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:25.578</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:sendToProcessor started and consuming from: Endpoint[direct://sendToProcessor]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:25.585</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:validSentEmailToken started and consuming from: Endpoint[direct://validSentEmailToken]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:25.588</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2453</td>
+<td class="Message">Total 4 routes, of which 4 is started.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:25.589</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2454</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) started in 0.567 seconds</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:56:27.171</td>
+<td class="Thread">Camel (camel-1) thread #0 - timer://runOnce</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.processor.EmailTokensRetrieverProcessor</td>
+<td class="LineOfCaller">30</td>
+<td class="Message">Fetched [] email tokens</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:56:56.596</td>
+<td class="Thread">Camel (camel-1) thread #0 - timer://runOnce</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.processor.EmailTokensRetrieverProcessor</td>
+<td class="LineOfCaller">30</td>
+<td class="Message">Fetched [] email tokens</td>
+</tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Wed Mar 25 21:57:35 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+
+<tr class="info even">
+<td class="Date">21:57:35.626</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport</td>
+<td class="LineOfCaller">329</td>
+<td class="Message">Apache Camel 2.15.0 starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:35.733</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.ClassPathXmlApplicationContext</td>
+<td class="LineOfCaller">510</td>
+<td class="Message">Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@2b9627bc: startup date [Wed Mar 25 21:57:35 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:35.818</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__emailJob.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:36.243</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:36.282</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/spring-config.application/spring-context-application.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:37.012</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/dozer-global-configuration.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:38.373</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/installation.properties]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:38.374</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/installation_local.properties]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:38.412</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor</td>
+<td class="LineOfCaller">153</td>
+<td class="Message">JSR-330 'javax.inject.Inject' annotation found and supported for autowiring</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:38.658</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">334</td>
+<td class="Message">Building JPA container EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:38.704</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.jpa.internal.util.LogHelper</td>
+<td class="LineOfCaller">46</td>
+<td class="Message">HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:38.983</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.Version</td>
+<td class="LineOfCaller">54</td>
+<td class="Message">HHH000412: Hibernate Core {4.3.8.Final}</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:38.986</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">239</td>
+<td class="Message">HHH000206: hibernate.properties not found</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:38.991</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">346</td>
+<td class="Message">HHH000021: Bytecode provider name : javassist</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:39.341</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.annotations.common.Version</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HCANN000001: Hibernate Commons Annotations {4.0.5.Final}</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:39.985</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.dialect.Dialect</td>
+<td class="LineOfCaller">145</td>
+<td class="Message">HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL82Dialect</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:40.014</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.engine.jdbc.internal.LobCreatorBuilder</td>
+<td class="LineOfCaller">123</td>
+<td class="Message">HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:40.295</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</td>
+<td class="LineOfCaller">47</td>
+<td class="Message">HHH000397: Using ASTQueryTranslatorFactory</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:40.363</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.validator.internal.util.Version</td>
+<td class="LineOfCaller">27</td>
+<td class="Message">HV000001: Hibernate Validator 5.1.2.Final</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:40.763</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.type.BasicTypeRegistry</td>
+<td class="LineOfCaller">148</td>
+<td class="Message">HHH000270: Type registration [java.util.Currency] overrides previous : org.hibernate.type.CurrencyType@437486cd</td>
+</tr>
+
+<tr class="warn even">
+<td class="Date">21:57:41.126</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">21:57:41.134</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:41.166</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">157</td>
+<td class="Message">HHH000229: Running schema validator</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:41.167</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">165</td>
+<td class="Message">HHH000102: Fetching database metadata</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:41.198</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.categories</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:41.199</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [category_id, color, user_id, name]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:41.205</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.currencies</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:41.206</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [id, currency_code]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:41.222</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.email_token</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:41.222</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [email_type, validated, user_id, id, token]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:41.233</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.expenses</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:41.233</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [spent_date, category_id, user_id, description, created_date, modified_date, expense_id, value]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:41.242</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.users</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:41.243</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [password, initiated, last_name, id, created_date, modified_date, first_name, email, enabled, currency_id]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:42.281</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">113</td>
+<td class="Message">Trying to find Dozer configuration file: dozer.properties</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">21:57:42.288</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">118</td>
+<td class="Message">Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:42.290</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerInitializer</td>
+<td class="LineOfCaller">75</td>
+<td class="Message">Initializing Dozer. Version: 5.5.0, Thread Name: main</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:42.293</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerStatisticsController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:42.294</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerAdminController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:42.295</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">175</td>
+<td class="Message">Initializing a new instance of dozer bean mapper.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:42.791</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2418</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:42.791</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.management.ManagedManagementStrategy</td>
+<td class="LineOfCaller">187</td>
+<td class="Message">JMX is enabled</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:42.992</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.converter.DefaultTypeConverter</td>
+<td class="LineOfCaller">56</td>
+<td class="Message">Loaded 185 type converters</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:43.407</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2633</td>
+<td class="Message">AllowUseOriginalMessage is enabled. If access to the original message is not needed, then its recommended to turn this option off as it may improve performance.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:43.407</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2643</td>
+<td class="Message">StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:43.529</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: route1 started and consuming from: Endpoint[timer://runOnce?fixedRate=true&period=30000]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:43.531</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:fetchAllEmailTokens started and consuming from: Endpoint[direct://fetchAllEmailTokens]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:43.535</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:sendToProcessor started and consuming from: Endpoint[direct://sendToProcessor]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:43.537</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:validSentEmailToken started and consuming from: Endpoint[direct://validSentEmailToken]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:43.539</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2453</td>
+<td class="Message">Total 4 routes, of which 4 is started.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:57:43.540</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2454</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) started in 0.749 seconds</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:57:44.767</td>
+<td class="Thread">Camel (camel-1) thread #0 - timer://runOnce</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.processor.EmailTokensRetrieverProcessor</td>
+<td class="LineOfCaller">30</td>
+<td class="Message">Fetched [] email tokens</td>
+</tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Wed Mar 25 21:58:01 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+
+<tr class="info even">
+<td class="Date">21:58:01.183</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport</td>
+<td class="LineOfCaller">329</td>
+<td class="Message">Apache Camel 2.15.0 starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:01.309</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.ClassPathXmlApplicationContext</td>
+<td class="LineOfCaller">510</td>
+<td class="Message">Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@2b9627bc: startup date [Wed Mar 25 21:58:01 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:01.389</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__emailJob.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:01.798</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:01.853</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/spring-config.application/spring-context-application.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:02.691</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/dozer-global-configuration.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:04.093</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/installation.properties]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:04.096</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [file:/home/ilucut/REPOS/revaluate-api/application/target/classes/installation_local.properties]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:04.139</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor</td>
+<td class="LineOfCaller">153</td>
+<td class="Message">JSR-330 'javax.inject.Inject' annotation found and supported for autowiring</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:04.524</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">334</td>
+<td class="Message">Building JPA container EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:04.577</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.jpa.internal.util.LogHelper</td>
+<td class="LineOfCaller">46</td>
+<td class="Message">HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:04.911</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.Version</td>
+<td class="LineOfCaller">54</td>
+<td class="Message">HHH000412: Hibernate Core {4.3.8.Final}</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:04.916</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">239</td>
+<td class="Message">HHH000206: hibernate.properties not found</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:04.920</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">346</td>
+<td class="Message">HHH000021: Bytecode provider name : javassist</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:05.261</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.annotations.common.Version</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HCANN000001: Hibernate Commons Annotations {4.0.5.Final}</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:05.827</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.dialect.Dialect</td>
+<td class="LineOfCaller">145</td>
+<td class="Message">HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL82Dialect</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:05.852</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.engine.jdbc.internal.LobCreatorBuilder</td>
+<td class="LineOfCaller">123</td>
+<td class="Message">HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:06.206</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</td>
+<td class="LineOfCaller">47</td>
+<td class="Message">HHH000397: Using ASTQueryTranslatorFactory</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:06.276</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.validator.internal.util.Version</td>
+<td class="LineOfCaller">27</td>
+<td class="Message">HV000001: Hibernate Validator 5.1.2.Final</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:06.653</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.type.BasicTypeRegistry</td>
+<td class="LineOfCaller">148</td>
+<td class="Message">HHH000270: Type registration [java.util.Currency] overrides previous : org.hibernate.type.CurrencyType@437486cd</td>
+</tr>
+
+<tr class="warn even">
+<td class="Date">21:58:06.979</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">21:58:06.984</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:07.056</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">157</td>
+<td class="Message">HHH000229: Running schema validator</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:07.057</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">165</td>
+<td class="Message">HHH000102: Fetching database metadata</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:07.410</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.categories</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:07.411</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [category_id, color, user_id, name]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:07.422</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.currencies</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:07.425</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [id, currency_code]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:07.439</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.email_token</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:07.440</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [email_type, validated, user_id, id, token]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:07.450</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.expenses</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:07.453</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [spent_date, category_id, user_id, description, created_date, modified_date, expense_id, value]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:07.462</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.users</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:07.466</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [password, initiated, last_name, id, created_date, modified_date, first_name, email, enabled, currency_id]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:08.429</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">113</td>
+<td class="Message">Trying to find Dozer configuration file: dozer.properties</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">21:58:08.439</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">118</td>
+<td class="Message">Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:08.441</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerInitializer</td>
+<td class="LineOfCaller">75</td>
+<td class="Message">Initializing Dozer. Version: 5.5.0, Thread Name: main</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:08.445</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerStatisticsController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:08.446</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerAdminController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:08.447</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">175</td>
+<td class="Message">Initializing a new instance of dozer bean mapper.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:09.006</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2418</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:09.007</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.management.ManagedManagementStrategy</td>
+<td class="LineOfCaller">187</td>
+<td class="Message">JMX is enabled</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:09.170</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.converter.DefaultTypeConverter</td>
+<td class="LineOfCaller">56</td>
+<td class="Message">Loaded 185 type converters</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:09.459</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2633</td>
+<td class="Message">AllowUseOriginalMessage is enabled. If access to the original message is not needed, then its recommended to turn this option off as it may improve performance.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:09.463</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2643</td>
+<td class="Message">StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:09.577</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: route1 started and consuming from: Endpoint[timer://runOnce?fixedRate=true&period=30000]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:09.579</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:fetchAllEmailTokens started and consuming from: Endpoint[direct://fetchAllEmailTokens]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:09.583</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:sendToProcessor started and consuming from: Endpoint[direct://sendToProcessor]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:09.584</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:validSentEmailToken started and consuming from: Endpoint[direct://validSentEmailToken]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">21:58:09.586</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2453</td>
+<td class="Message">Total 4 routes, of which 4 is started.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">21:58:09.588</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2454</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) started in 0.581 seconds</td>
+</tr>
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Wed Mar 25 21:58:46 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Wed Mar 25 22:12:27 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+
+<tr class="info even">
+<td class="Date">22:12:27.978</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport</td>
+<td class="LineOfCaller">329</td>
+<td class="Message">Apache Camel 2.15.0 starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:28.104</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.ClassPathXmlApplicationContext</td>
+<td class="LineOfCaller">510</td>
+<td class="Message">Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@1554909b: startup date [Wed Mar 25 22:12:28 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:28.176</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__emailJob.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:28.667</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:28.713</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/spring-config.application/spring-context-application.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:29.889</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/dozer-global-configuration.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:31.130</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/installation.properties]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:31.132</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/installation_local.properties]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:31.567</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">334</td>
+<td class="Message">Building JPA container EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:31.604</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.jpa.internal.util.LogHelper</td>
+<td class="LineOfCaller">46</td>
+<td class="Message">HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:31.833</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.Version</td>
+<td class="LineOfCaller">54</td>
+<td class="Message">HHH000412: Hibernate Core {4.3.8.Final}</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:31.834</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">239</td>
+<td class="Message">HHH000206: hibernate.properties not found</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:31.836</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">346</td>
+<td class="Message">HHH000021: Bytecode provider name : javassist</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:37.365</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.annotations.common.Version</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HCANN000001: Hibernate Commons Annotations {4.0.5.Final}</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:37.928</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.dialect.Dialect</td>
+<td class="LineOfCaller">145</td>
+<td class="Message">HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL82Dialect</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:37.939</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.engine.jdbc.internal.LobCreatorBuilder</td>
+<td class="LineOfCaller">123</td>
+<td class="Message">HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:38.115</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</td>
+<td class="LineOfCaller">47</td>
+<td class="Message">HHH000397: Using ASTQueryTranslatorFactory</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:38.162</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.validator.internal.util.Version</td>
+<td class="LineOfCaller">27</td>
+<td class="Message">HV000001: Hibernate Validator 5.1.2.Final</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:38.405</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.type.BasicTypeRegistry</td>
+<td class="LineOfCaller">148</td>
+<td class="Message">HHH000270: Type registration [java.util.Currency] overrides previous : org.hibernate.type.CurrencyType@72154fa4</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:38.687</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">157</td>
+<td class="Message">HHH000229: Running schema validator</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:38.688</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">165</td>
+<td class="Message">HHH000102: Fetching database metadata</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:38.730</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.categories</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:38.730</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [category_id, color, user_id, name]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:38.735</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.currencies</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:38.736</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [id, currency_code]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:38.741</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.email_token</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:38.742</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [email_type, validated, user_id, id, token]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:38.747</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.expenses</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:38.748</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [spent_date, category_id, user_id, description, created_date, modified_date, expense_id, value]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:38.761</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.users</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:38.761</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [password, initiated, last_name, id, created_date, modified_date, first_name, email, enabled, currency_id]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:39.532</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">113</td>
+<td class="Message">Trying to find Dozer configuration file: dozer.properties</td>
+</tr>
+
+<tr class="warn even">
+<td class="Date">22:12:39.538</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">118</td>
+<td class="Message">Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:39.902</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerInitializer</td>
+<td class="LineOfCaller">75</td>
+<td class="Message">Initializing Dozer. Version: 5.5.0, Thread Name: main</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:39.908</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerStatisticsController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:39.910</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerAdminController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:39.921</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">175</td>
+<td class="Message">Initializing a new instance of dozer bean mapper.</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">22:12:39.923</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="warn even">
+<td class="Date">22:12:39.928</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:40.116</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2418</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is starting</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:40.117</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.management.ManagedManagementStrategy</td>
+<td class="LineOfCaller">187</td>
+<td class="Message">JMX is enabled</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:40.254</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.converter.DefaultTypeConverter</td>
+<td class="LineOfCaller">56</td>
+<td class="Message">Loaded 185 type converters</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:40.496</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2633</td>
+<td class="Message">AllowUseOriginalMessage is enabled. If access to the original message is not needed, then its recommended to turn this option off as it may improve performance.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:40.497</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2643</td>
+<td class="Message">StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:40.622</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: route1 started and consuming from: Endpoint[timer://runOnce?fixedRate=true&period=30000]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:40.624</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:fetchAllEmailTokens started and consuming from: Endpoint[direct://fetchAllEmailTokens]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:40.630</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:sendToProcessor started and consuming from: Endpoint[direct://sendToProcessor]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:40.632</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:validSentEmailToken started and consuming from: Endpoint[direct://validSentEmailToken]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:40.639</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2453</td>
+<td class="Message">Total 4 routes, of which 4 is started.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:12:40.641</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2454</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) started in 0.524 seconds</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:12:41.841</td>
+<td class="Thread">Camel (camel-1) thread #0 - timer://runOnce</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.processor.EmailTokensRetrieverProcessor</td>
+<td class="LineOfCaller">30</td>
+<td class="Message">Fetched [] email tokens</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:13:11.657</td>
+<td class="Thread">Camel (camel-1) thread #0 - timer://runOnce</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.processor.EmailTokensRetrieverProcessor</td>
+<td class="LineOfCaller">30</td>
+<td class="Message">Fetched [] email tokens</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:13:41.657</td>
+<td class="Thread">Camel (camel-1) thread #0 - timer://runOnce</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.processor.EmailTokensRetrieverProcessor</td>
+<td class="LineOfCaller">30</td>
+<td class="Message">Fetched [] email tokens</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:11.647</td>
+<td class="Thread">Camel (camel-1) thread #0 - timer://runOnce</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.processor.EmailTokensRetrieverProcessor</td>
+<td class="LineOfCaller">30</td>
+<td class="Message">Fetched [] email tokens</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:14.976</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport$HangupInterceptor</td>
+<td class="LineOfCaller">82</td>
+<td class="Message">Received hang up - stopping the main instance.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:14.977</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport</td>
+<td class="LineOfCaller">323</td>
+<td class="Message">Apache Camel 2.15.0 stopping</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:14.978</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.ClassPathXmlApplicationContext</td>
+<td class="LineOfCaller">862</td>
+<td class="Message">Closing org.springframework.context.support.ClassPathXmlApplicationContext@1554909b: startup date [Wed Mar 25 22:12:28 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:14.979</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2660</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is shutting down</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:14.981</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">184</td>
+<td class="Message">Starting to graceful shutdown 4 routes (timeout 300 seconds)</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:14.986</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: direct:validSentEmailToken shutdown complete, was consuming from: Endpoint[direct://validSentEmailToken]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:14.987</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: direct:sendToProcessor shutdown complete, was consuming from: Endpoint[direct://sendToProcessor]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:14.991</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: direct:fetchAllEmailTokens shutdown complete, was consuming from: Endpoint[direct://fetchAllEmailTokens]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:14.992</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: route1 shutdown complete, was consuming from: Endpoint[timer://runOnce?fixedRate=true&period=30000]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:14.993</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">247</td>
+<td class="Message">Graceful shutdown of 4 routes completed in 0 seconds</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:15.005</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.converter.DefaultTypeConverter</td>
+<td class="LineOfCaller">595</td>
+<td class="Message">TypeConverterRegistry utilization[noop=0, attempts=16, hits=9, misses=7, failures=0] mappings[total=186, misses=3]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:15.008</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2745</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) uptime 1 minute</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:15.009</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2746</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is shutdown in 0.029 seconds</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:15.018</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">462</td>
+<td class="Message">Closing JPA EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:15.035</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.jolbox.bonecp.BoneCP</td>
+<td class="LineOfCaller">159</td>
+<td class="Message">Shutting down connection pool...</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:15.048</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.jolbox.bonecp.BoneCP</td>
+<td class="LineOfCaller">188</td>
+<td class="Message">Connection pool has been shutdown.</td>
+</tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Wed Mar 25 22:14:41 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+
+<tr class="info even">
+<td class="Date">22:14:41.688</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport</td>
+<td class="LineOfCaller">329</td>
+<td class="Message">Apache Camel 2.15.0 starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:41.845</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.ClassPathXmlApplicationContext</td>
+<td class="LineOfCaller">510</td>
+<td class="Message">Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@1554909b: startup date [Wed Mar 25 22:14:41 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:41.916</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__emailJob.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:42.285</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:42.310</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/spring-config.application/spring-context-application.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:43.186</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/dozer-global-configuration.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:44.206</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/installation.properties]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:44.207</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/installation_local.properties]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:44.461</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">334</td>
+<td class="Message">Building JPA container EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:44.484</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.jpa.internal.util.LogHelper</td>
+<td class="LineOfCaller">46</td>
+<td class="Message">HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:44.743</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.Version</td>
+<td class="LineOfCaller">54</td>
+<td class="Message">HHH000412: Hibernate Core {4.3.8.Final}</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:44.744</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">239</td>
+<td class="Message">HHH000206: hibernate.properties not found</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:44.747</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">346</td>
+<td class="Message">HHH000021: Bytecode provider name : javassist</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:49.035</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.annotations.common.Version</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HCANN000001: Hibernate Commons Annotations {4.0.5.Final}</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:49.544</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.dialect.Dialect</td>
+<td class="LineOfCaller">145</td>
+<td class="Message">HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL82Dialect</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:49.555</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.engine.jdbc.internal.LobCreatorBuilder</td>
+<td class="LineOfCaller">123</td>
+<td class="Message">HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:49.727</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</td>
+<td class="LineOfCaller">47</td>
+<td class="Message">HHH000397: Using ASTQueryTranslatorFactory</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:49.772</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.validator.internal.util.Version</td>
+<td class="LineOfCaller">27</td>
+<td class="Message">HV000001: Hibernate Validator 5.1.2.Final</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:50.028</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.type.BasicTypeRegistry</td>
+<td class="LineOfCaller">148</td>
+<td class="Message">HHH000270: Type registration [java.util.Currency] overrides previous : org.hibernate.type.CurrencyType@72154fa4</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:50.315</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">157</td>
+<td class="Message">HHH000229: Running schema validator</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:50.316</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">165</td>
+<td class="Message">HHH000102: Fetching database metadata</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:50.343</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.categories</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:50.344</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [category_id, color, user_id, name]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:50.349</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.currencies</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:50.352</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [id, currency_code]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:50.362</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.email_token</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:50.363</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [email_type, validated, user_id, id, token]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:50.369</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.expenses</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:50.376</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [spent_date, category_id, user_id, description, created_date, modified_date, expense_id, value]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:50.382</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.users</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:50.385</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [password, initiated, last_name, id, created_date, modified_date, first_name, email, enabled, currency_id]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:51.158</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">113</td>
+<td class="Message">Trying to find Dozer configuration file: dozer.properties</td>
+</tr>
+
+<tr class="warn even">
+<td class="Date">22:14:51.164</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">118</td>
+<td class="Message">Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:51.167</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerInitializer</td>
+<td class="LineOfCaller">75</td>
+<td class="Message">Initializing Dozer. Version: 5.5.0, Thread Name: main</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:51.170</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerStatisticsController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:51.171</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerAdminController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:51.171</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">175</td>
+<td class="Message">Initializing a new instance of dozer bean mapper.</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">22:14:51.414</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="warn even">
+<td class="Date">22:14:51.433</td>
+<td class="Thread">com.google.common.base.internal.Finalizer</td>
+<td class="Level">WARN</td>
+<td class="Logger">com.jolbox.bonecp.ConnectionPartition</td>
+<td class="LineOfCaller">162</td>
+<td class="Message">BoneCP detected an unclosed connection and will now attempt to close it for you. You should be closing this connection in your application - enable connectionWatch for additional debugging assistance or set disableConnectionTracking to true to disable this feature entirely.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:51.595</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2418</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is starting</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:51.596</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.management.ManagedManagementStrategy</td>
+<td class="LineOfCaller">187</td>
+<td class="Message">JMX is enabled</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:51.720</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.converter.DefaultTypeConverter</td>
+<td class="LineOfCaller">56</td>
+<td class="Message">Loaded 185 type converters</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:51.895</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2633</td>
+<td class="Message">AllowUseOriginalMessage is enabled. If access to the original message is not needed, then its recommended to turn this option off as it may improve performance.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:51.895</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2643</td>
+<td class="Message">StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:52.019</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: route1 started and consuming from: Endpoint[timer://runOnce?fixedRate=true&period=30000]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:52.021</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:fetchAllEmailTokens started and consuming from: Endpoint[direct://fetchAllEmailTokens]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:52.028</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:sendToProcessor started and consuming from: Endpoint[direct://sendToProcessor]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:52.032</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:validSentEmailToken started and consuming from: Endpoint[direct://validSentEmailToken]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:52.034</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2453</td>
+<td class="Message">Total 4 routes, of which 4 is started.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:52.035</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2454</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) started in 0.439 seconds</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:53.231</td>
+<td class="Thread">Camel (camel-1) thread #0 - timer://runOnce</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.processor.EmailTokensRetrieverProcessor</td>
+<td class="LineOfCaller">30</td>
+<td class="Message">Fetched [] email tokens</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:54.377</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport$HangupInterceptor</td>
+<td class="LineOfCaller">82</td>
+<td class="Message">Received hang up - stopping the main instance.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:54.378</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport</td>
+<td class="LineOfCaller">323</td>
+<td class="Message">Apache Camel 2.15.0 stopping</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:54.379</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.ClassPathXmlApplicationContext</td>
+<td class="LineOfCaller">862</td>
+<td class="Message">Closing org.springframework.context.support.ClassPathXmlApplicationContext@1554909b: startup date [Wed Mar 25 22:14:41 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:54.380</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2660</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is shutting down</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:54.381</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">184</td>
+<td class="Message">Starting to graceful shutdown 4 routes (timeout 300 seconds)</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:54.387</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: direct:validSentEmailToken shutdown complete, was consuming from: Endpoint[direct://validSentEmailToken]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:54.388</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: direct:sendToProcessor shutdown complete, was consuming from: Endpoint[direct://sendToProcessor]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:54.388</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: direct:fetchAllEmailTokens shutdown complete, was consuming from: Endpoint[direct://fetchAllEmailTokens]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:54.389</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: route1 shutdown complete, was consuming from: Endpoint[timer://runOnce?fixedRate=true&period=30000]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:54.390</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">247</td>
+<td class="Message">Graceful shutdown of 4 routes completed in 0 seconds</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:54.397</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.converter.DefaultTypeConverter</td>
+<td class="LineOfCaller">595</td>
+<td class="Message">TypeConverterRegistry utilization[noop=0, attempts=13, hits=9, misses=4, failures=0] mappings[total=186, misses=3]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:54.399</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2745</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) uptime 2.804 seconds</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:54.400</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2746</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is shutdown in 0.019 seconds</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:54.403</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">462</td>
+<td class="Message">Closing JPA EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:14:54.405</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.jolbox.bonecp.BoneCP</td>
+<td class="LineOfCaller">159</td>
+<td class="Message">Shutting down connection pool...</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:14:54.420</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.jolbox.bonecp.BoneCP</td>
+<td class="LineOfCaller">188</td>
+<td class="Message">Connection pool has been shutdown.</td>
+</tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Wed Mar 25 22:29:37 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+
+<tr class="info even">
+<td class="Date">22:29:37.637</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport</td>
+<td class="LineOfCaller">329</td>
+<td class="Message">Apache Camel 2.15.0 starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:37.760</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.ClassPathXmlApplicationContext</td>
+<td class="LineOfCaller">510</td>
+<td class="Message">Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@1554909b: startup date [Wed Mar 25 22:29:37 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:37.820</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext__emailJob.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:38.212</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from class path resource [applicationContext.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:38.284</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/spring-config.application/spring-context-application.xml]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:39.253</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</td>
+<td class="LineOfCaller">317</td>
+<td class="Message">Loading XML bean definitions from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/dozer-global-configuration.xml]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:40.825</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/installation.properties]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:40.826</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.beans.factory.config.PropertyPlaceholderConfigurer</td>
+<td class="LineOfCaller">172</td>
+<td class="Message">Loading properties file from URL [jar:file:/home/ilucut/REPOS/revaluate-api/email-job/target/email-job-1.0.jar!/installation_local.properties]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:40.971</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.jdbc.datasource.DriverManagerDataSource</td>
+<td class="LineOfCaller">133</td>
+<td class="Message">Loaded JDBC driver: org.postgresql.Driver</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:41.104</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">334</td>
+<td class="Message">Building JPA container EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:41.129</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.jpa.internal.util.LogHelper</td>
+<td class="LineOfCaller">46</td>
+<td class="Message">HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:41.374</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.Version</td>
+<td class="LineOfCaller">54</td>
+<td class="Message">HHH000412: Hibernate Core {4.3.8.Final}</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:41.376</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">239</td>
+<td class="Message">HHH000206: hibernate.properties not found</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:41.378</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.cfg.Environment</td>
+<td class="LineOfCaller">346</td>
+<td class="Message">HHH000021: Bytecode provider name : javassist</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:44.932</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.annotations.common.Version</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HCANN000001: Hibernate Commons Annotations {4.0.5.Final}</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:45.337</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.dialect.Dialect</td>
+<td class="LineOfCaller">145</td>
+<td class="Message">HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL82Dialect</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:45.347</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.engine.jdbc.internal.LobCreatorBuilder</td>
+<td class="LineOfCaller">123</td>
+<td class="Message">HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:45.558</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</td>
+<td class="LineOfCaller">47</td>
+<td class="Message">HHH000397: Using ASTQueryTranslatorFactory</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:45.625</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.validator.internal.util.Version</td>
+<td class="LineOfCaller">27</td>
+<td class="Message">HV000001: Hibernate Validator 5.1.2.Final</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:45.882</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.type.BasicTypeRegistry</td>
+<td class="LineOfCaller">148</td>
+<td class="Message">HHH000270: Type registration [java.util.Currency] overrides previous : org.hibernate.type.CurrencyType@3d9e2b59</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:46.183</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">157</td>
+<td class="Message">HHH000229: Running schema validator</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:46.184</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.SchemaValidator</td>
+<td class="LineOfCaller">165</td>
+<td class="Message">HHH000102: Fetching database metadata</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:46.205</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.categories</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:46.205</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [category_id, color, user_id, name]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:46.210</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.currencies</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:46.213</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [id, currency_code]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:46.219</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.email_token</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:46.227</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [email_type, validated, user_id, id, token]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:46.241</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.expenses</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:46.249</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [spent_date, category_id, user_id, description, created_date, modified_date, expense_id, value]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:46.258</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">HHH000261: Table found: public.users</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:46.259</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.hibernate.tool.hbm2ddl.TableMetadata</td>
+<td class="LineOfCaller">67</td>
+<td class="Message">HHH000037: Columns: [password, initiated, last_name, id, created_date, modified_date, first_name, email, enabled, currency_id]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:46.952</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">113</td>
+<td class="Message">Trying to find Dozer configuration file: dozer.properties</td>
+</tr>
+
+<tr class="warn odd">
+<td class="Date">22:29:46.958</td>
+<td class="Thread">main</td>
+<td class="Level">WARN</td>
+<td class="Logger">org.dozer.config.GlobalSettings</td>
+<td class="LineOfCaller">118</td>
+<td class="Message">Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:46.960</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerInitializer</td>
+<td class="LineOfCaller">75</td>
+<td class="Message">Initializing Dozer. Version: 5.5.0, Thread Name: main</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:47.034</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerStatisticsController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:47.035</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.jmx.JMXPlatformImpl</td>
+<td class="LineOfCaller">66</td>
+<td class="Message">Dozer JMX MBean [org.dozer.jmx:type=DozerAdminController] auto registered with the Platform MBean Server</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:47.036</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.dozer.DozerBeanMapper</td>
+<td class="LineOfCaller">175</td>
+<td class="Message">Initializing a new instance of dozer bean mapper.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:47.499</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2418</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is starting</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:47.499</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.management.ManagedManagementStrategy</td>
+<td class="LineOfCaller">187</td>
+<td class="Message">JMX is enabled</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:47.642</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.converter.DefaultTypeConverter</td>
+<td class="LineOfCaller">56</td>
+<td class="Message">Loaded 185 type converters</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:47.857</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2633</td>
+<td class="Message">AllowUseOriginalMessage is enabled. If access to the original message is not needed, then its recommended to turn this option off as it may improve performance.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:47.859</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2643</td>
+<td class="Message">StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:47.963</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: route1 started and consuming from: Endpoint[timer://runOnce?fixedRate=true&period=30000]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:47.965</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:fetchAllEmailTokens started and consuming from: Endpoint[direct://fetchAllEmailTokens]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:47.967</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:sendToProcessor started and consuming from: Endpoint[direct://sendToProcessor]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:47.975</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">3164</td>
+<td class="Message">Route: direct:validSentEmailToken started and consuming from: Endpoint[direct://validSentEmailToken]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:47.977</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2453</td>
+<td class="Message">Total 4 routes, of which 4 is started.</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:29:47.978</td>
+<td class="Thread">main</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2454</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) started in 0.479 seconds</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:29:49.176</td>
+<td class="Thread">Camel (camel-1) thread #0 - timer://runOnce</td>
+<td class="Level">INFO</td>
+<td class="Logger">com.revaluate.processor.EmailTokensRetrieverProcessor</td>
+<td class="LineOfCaller">30</td>
+<td class="Message">Fetched [] email tokens</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:30:03.310</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport$HangupInterceptor</td>
+<td class="LineOfCaller">82</td>
+<td class="Message">Received hang up - stopping the main instance.</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:30:03.311</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.main.MainSupport</td>
+<td class="LineOfCaller">323</td>
+<td class="Message">Apache Camel 2.15.0 stopping</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:30:03.312</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.context.support.ClassPathXmlApplicationContext</td>
+<td class="LineOfCaller">862</td>
+<td class="Message">Closing org.springframework.context.support.ClassPathXmlApplicationContext@1554909b: startup date [Wed Mar 25 22:29:37 CET 2015]; root of context hierarchy</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:30:03.313</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2660</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is shutting down</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:30:03.314</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">184</td>
+<td class="Message">Starting to graceful shutdown 4 routes (timeout 300 seconds)</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:30:03.326</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: direct:validSentEmailToken shutdown complete, was consuming from: Endpoint[direct://validSentEmailToken]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:30:03.327</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: direct:sendToProcessor shutdown complete, was consuming from: Endpoint[direct://sendToProcessor]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:30:03.328</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: direct:fetchAllEmailTokens shutdown complete, was consuming from: Endpoint[direct://fetchAllEmailTokens]</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:30:03.329</td>
+<td class="Thread">Camel (camel-1) thread #1 - ShutdownTask</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">647</td>
+<td class="Message">Route: route1 shutdown complete, was consuming from: Endpoint[timer://runOnce?fixedRate=true&period=30000]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:30:03.330</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.DefaultShutdownStrategy</td>
+<td class="LineOfCaller">247</td>
+<td class="Message">Graceful shutdown of 4 routes completed in 0 seconds</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:30:03.337</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.impl.converter.DefaultTypeConverter</td>
+<td class="LineOfCaller">595</td>
+<td class="Message">TypeConverterRegistry utilization[noop=0, attempts=13, hits=9, misses=4, failures=0] mappings[total=186, misses=3]</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:30:03.340</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2745</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) uptime 15.841 seconds</td>
+</tr>
+
+<tr class="info even">
+<td class="Date">22:30:03.340</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.apache.camel.spring.SpringCamelContext</td>
+<td class="LineOfCaller">2746</td>
+<td class="Message">Apache Camel 2.15.0 (CamelContext: camel-1) is shutdown in 0.026 seconds</td>
+</tr>
+
+<tr class="info odd">
+<td class="Date">22:30:03.343</td>
+<td class="Thread">Thread-0</td>
+<td class="Level">INFO</td>
+<td class="Logger">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</td>
+<td class="LineOfCaller">462</td>
+<td class="Message">Closing JPA EntityManagerFactory for persistence unit 'default'</td>
+</tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>Logback Log Messages</title>
+<style  type="text/css">
+table { margin-left: 2em; margin-right: 2em; border-left: 2px solid #AAA; }
+TR.even { background: #FFFFFF; }
+TR.odd { background: #EAEAEA; }
+TR.warn TD.Level, TR.error TD.Level, TR.fatal TD.Level {font-weight: bold; color: #FF4040 }
+TD { padding-right: 1ex; padding-left: 1ex; border-right: 2px solid #AAA; }
+TD.Time, TD.Date { text-align: right; font-family: courier, monospace; font-size: smaller; }
+TD.Thread { text-align: left; }
+TD.Level { text-align: right; }
+TD.Logger { text-align: left; }
+TR.header { background: #596ED5; color: #FFF; font-weight: bold; font-size: larger; }
+TD.Exception { background: #A2AEE8; font-family: courier, monospace;}
+</style>
+
+  </head>
+<body>
+<hr/>
+<p>Log session start time Sat Mar 28 09:28:07 CET 2015</p><p></p>
+
+<table cellspacing="0">
+<tr class="header">
+<td class="Date">Date</td>
+<td class="Thread">Thread</td>
+<td class="Level">Level</td>
+<td class="Logger">Logger</td>
+<td class="LineOfCaller">LineOfCaller</td>
+<td class="Message">Message</td>
+</tr>
+
+</table>
+</body></html>
