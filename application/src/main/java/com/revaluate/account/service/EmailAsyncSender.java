@@ -1,10 +1,12 @@
 package com.revaluate.account.service;
 
 import com.revaluate.account.persistence.EmailToken;
+import com.revaluate.domain.email.EmailStatus;
 
 import javax.validation.constraints.NotNull;
+import java.util.concurrent.Future;
 
 public interface EmailAsyncSender {
 
-    public void tryToSendEmail(@NotNull EmailToken savedCreateEmailToken);
+    public Future<EmailStatus> tryToSendEmail(@NotNull EmailToken emailToken);
 }

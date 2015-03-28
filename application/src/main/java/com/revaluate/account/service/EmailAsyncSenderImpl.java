@@ -1,7 +1,9 @@
 package com.revaluate.account.service;
 
+import com.google.common.util.concurrent.Futures;
 import com.revaluate.account.persistence.EmailToken;
 import com.revaluate.account.persistence.EmailTokenRepository;
+import com.revaluate.domain.email.EmailStatus;
 import com.revaluate.domain.email.SendTo;
 import com.revaluate.email.SendEmailException;
 import com.revaluate.email.SendEmailService;
@@ -10,8 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.concurrent.Future;
 
 @Service
 @Validated
@@ -29,21 +34,25 @@ public class EmailAsyncSenderImpl implements EmailAsyncSender {
     private SendEmailService sendEmailService;
 
     @Async
-    public void tryToSendEmail(EmailToken savedCreateEmailToken) {
+    public Future<EmailStatus> tryToSendEmail(EmailToken emailToken) {
         //-----------------------------------------------------------------
         // Try to send email async
         //-----------------------------------------------------------------
-        SendTo sendTo = dozerBeanMapper.map(savedCreateEmailToken, SendTo.class);
+        SendTo sendTo = dozerBeanMapper.map(emailToken, SendTo.class);
         try {
-            sendEmailService.sendAsyncEmailTo(sendTo);
+            EmailStatus emailStatus = sendEmailService.sendNonAsyncEmailTo(sendTo);
 
             //-----------------------------------------------------------------
-            // Mark as validated - or sent
+            // Mark email token as validated
             //-----------------------------------------------------------------
-            savedCreateEmailToken.setValidated(Boolean.TRUE);
-            emailTokenRepository.save(savedCreateEmailToken);
+            emailToken.setValidated(Boolean.TRUE);
+            emailTokenRepository.save(emailToken);
+
+            return new AsyncResult<>(emailStatus);
         } catch (SendEmailException ex) {
             LOGGER.error(ex.getMessage(), ex);
+
+            return Futures.immediateFailedFuture(ex);
         }
     }
 }
