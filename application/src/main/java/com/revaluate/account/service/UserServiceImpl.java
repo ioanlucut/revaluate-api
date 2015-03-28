@@ -2,7 +2,6 @@ package com.revaluate.account.service;
 
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.EmailToken;
-import com.revaluate.account.persistence.EmailType;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.utils.TokenGenerator;
@@ -13,6 +12,7 @@ import com.revaluate.domain.account.LoginDTO;
 import com.revaluate.domain.account.ResetPasswordDTO;
 import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.email.EmailType;
 import org.dozer.DozerBeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;

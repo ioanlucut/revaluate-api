@@ -4,7 +4,7 @@ import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.domain.account.*;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.EmailToken;
-import com.revaluate.account.persistence.EmailType;
+import com.revaluate.domain.email.EmailType;
 import com.revaluate.account.persistence.User;
 import org.junit.Test;
 

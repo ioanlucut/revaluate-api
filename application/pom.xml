@@ -28,25 +28,34 @@
             <version>${global.version}</version>
         </dependency>
 
-        <!--Testing related-->
         <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
+            <groupId>com.revaluate</groupId>
+            <artifactId>emails</artifactId>
+            <version>${global.version}</version>
         </dependency>
 
     </dependencies>
 
     <build>
+
+        <!--Resources filtering-->
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
 
         <plugins>
 
