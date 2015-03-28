@@ -14,7 +14,6 @@
             <list>
                 <value>classpath*:installation.properties</value>
                 <value>classpath*:installation_${ENVIRONMENT}.properties</value>
-                <value>classpath*:installation_${spring.profiles.active}.properties</value>
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
