@@ -37,6 +37,7 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         assertThat(updatedUserDTO, is(notNullValue()));
         assertThat(updatedUserDTO.getFirstName(), equalTo(userDTOToUpdate.getFirstName()));
         assertThat(updatedUserDTO.getLastName(), equalTo(userDTOToUpdate.getLastName()));
+        assertThat(updatedUserDTO.isInitiated(), is(false));
 
         //-----------------------------------------------------------------
         // Given email is ignored
