@@ -1,13 +1,13 @@
 package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
+import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.Email;
+import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
-import com.revaluate.account.exception.UserException;
-import com.revaluate.domain.email.EmailType;
-import com.revaluate.account.persistence.User;
 import com.revaluate.domain.currency.CurrencyDTO;
+import com.revaluate.domain.email.EmailType;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolationException;

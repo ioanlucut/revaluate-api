@@ -1,17 +1,17 @@
 package com.revaluate.resource.account;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.revaluate.account.exception.UserException;
+import com.revaluate.account.service.UserService;
+import com.revaluate.core.annotations.Public;
+import com.revaluate.core.jwt.JwtException;
+import com.revaluate.domain.account.LoginDTO;
 import com.revaluate.domain.account.ResetPasswordDTO;
 import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UserDTO;
-import com.revaluate.account.exception.UserException;
-import com.revaluate.account.service.UserService;
 import com.revaluate.groups.CreateUserGroup;
-import com.revaluate.core.annotations.Public;
-import com.revaluate.core.jwt.JwtException;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
-import com.revaluate.domain.account.LoginDTO;
 import com.revaluate.views.Views;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -38,6 +38,7 @@ public class UserResource extends Resource {
     private static final String UPDATE_USER = "update";
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
     private static final String REQUEST_RESET_PASSWORD = "requestResetPassword/{email}";
+    private static final String REQUEST_CONFIRMATION_EMAIL = "requestConfirmationEmail/{email}";
     private static final String VALIDATE_RESET_PASSWORD_TOKEN = "validateResetPasswordToken/{email}/{token}";
     private static final String VALIDATE_CONFIRMATION_EMAIL_TOKEN = "validateConfirmationEmailToken/{email}/{token}";
     private static final String RESET_PASSWORD = "resetPassword/{email}/{token}";
@@ -116,6 +117,17 @@ public class UserResource extends Resource {
         userService.remove(getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, "User successfully removed");
+    }
+
+    @POST
+    @Public
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(REQUEST_CONFIRMATION_EMAIL)
+    public Response requestConfirmationEmail(@PathParam(EMAIL) @NotBlank @Email String email) throws UserException {
+        userService.requestConfirmationEmail(email);
+
+        return Responses.respond(Response.Status.OK, "Email confirmation sent per email successful.");
     }
 
     @POST

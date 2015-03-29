@@ -54,6 +54,34 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
     }
 
     @Test
+    public void resetPassword_secondRequestRemovesAllPrevious_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Request reset password
+        //-----------------------------------------------------------------
+        userService.requestResetPassword(createdUserDTO.getEmail());
+
+        //-----------------------------------------------------------------
+        // Reset password is generated
+        //-----------------------------------------------------------------
+        User user = userRepository.findOne(createdUserDTO.getId());
+        Optional<Email> oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
+
+        //-----------------------------------------------------------------
+        // Request reset password - second time
+        //-----------------------------------------------------------------
+        userService.requestResetPassword(createdUserDTO.getEmail());
+
+        oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
+    }
+
+    @Test
     public void resetPassword_invalidTokenSentBack_exceptionThrown() throws Exception {
         //-----------------------------------------------------------------
         // Create first user

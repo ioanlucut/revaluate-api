@@ -1,9 +1,9 @@
 package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
+import com.revaluate.account.exception.UserException;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
-import com.revaluate.account.exception.UserException;
 import com.revaluate.domain.currency.CurrencyDTO;
 import org.joda.money.CurrencyUnit;
 import org.junit.Test;

@@ -1,8 +1,8 @@
 package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
-import com.revaluate.domain.account.*;
 import com.revaluate.account.exception.UserException;
+import com.revaluate.domain.account.*;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolationException;
