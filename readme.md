@@ -25,23 +25,26 @@
     * E.g. `mvn flyway:migrate -DENVIRONMENT=dev`
     
 # Existing endpoints:
-    `DELETE  /expenses/remove/{expenseId} (com.revaluate.resource.expense.ExpenseResource)`
-    `GET     /expenses/retrieve (com.revaluate.resource.expense.ExpenseResource)`
-    `POST    /expenses/create (com.revaluate.resource.expense.ExpenseResource)`
-    `POST    /expenses/update (com.revaluate.resource.expense.ExpenseResource)`
-    `DELETE  /account/remove (com.revaluate.resource.account.UserResource)`
-    `GET     /account/details (com.revaluate.resource.account.UserResource)`
-    `GET     /account/isUniqueEmail (com.revaluate.resource.account.UserResource)`
-    `POST    /account/create (com.revaluate.resource.account.UserResource)`
-    `POST    /account/login (com.revaluate.resource.account.UserResource)`
-    `POST    /account/requestResetPassword/{email} (com.revaluate.resource.account.UserResource)`
-    `POST    /account/resetPassword/{email}/{token} (com.revaluate.resource.account.UserResource)`
-    `POST    /account/update (com.revaluate.resource.account.UserResource)`
-    `POST    /account/updatePassword (com.revaluate.resource.account.UserResource)`
-    `POST    /account/validateResetPasswordToken/{email}/{token} (com.revaluate.resource.account.UserResource)`
-    `DELETE  /categories/remove/{categoryId} (com.revaluate.resource.category.CategoryResource)`
-    `GET     /categories/isUniqueCategory (com.revaluate.resource.category.CategoryResource)`
-    `GET     /categories/retrieve (com.revaluate.resource.category.CategoryResource)`
-    `POST    /categories/create (com.revaluate.resource.category.CategoryResource)`
-    `POST    /categories/update (com.revaluate.resource.category.CategoryResource)`
+        DELETE  /categories/remove/{categoryId} (com.revaluate.resource.category.CategoryResource)
+        GET     /categories/isUniqueCategory (com.revaluate.resource.category.CategoryResource)
+        GET     /categories/retrieve (com.revaluate.resource.category.CategoryResource)
+        POST    /categories/create (com.revaluate.resource.category.CategoryResource)
+        POST    /categories/update (com.revaluate.resource.category.CategoryResource)
+        DELETE  /account/remove (com.revaluate.resource.account.UserResource)
+        GET     /account/details (com.revaluate.resource.account.UserResource)
+        GET     /account/isUniqueEmail (com.revaluate.resource.account.UserResource)
+        POST    /account/create (com.revaluate.resource.account.UserResource)
+        POST    /account/login (com.revaluate.resource.account.UserResource)
+        POST    /account/requestConfirmationEmail/{email} (com.revaluate.resource.account.UserResource)
+        POST    /account/requestResetPassword/{email} (com.revaluate.resource.account.UserResource)
+        POST    /account/resetPassword/{email}/{token} (com.revaluate.resource.account.UserResource)
+        POST    /account/update (com.revaluate.resource.account.UserResource)
+        POST    /account/updatePassword (com.revaluate.resource.account.UserResource)
+        POST    /account/validateConfirmationEmailToken/{email}/{token} (com.revaluate.resource.account.UserResource)
+        POST    /account/validateResetPasswordToken/{email}/{token} (com.revaluate.resource.account.UserResource)
+        DELETE  /expenses/remove/{expenseId} (com.revaluate.resource.expense.ExpenseResource)
+        GET     /expenses/retrieve (com.revaluate.resource.expense.ExpenseResource)
+        GET     /expenses/retrieve_from_to (com.revaluate.resource.expense.ExpenseResource)
+        POST    /expenses/create (com.revaluate.resource.expense.ExpenseResource)
+        POST    /expenses/update (com.revaluate.resource.expense.ExpenseResource)
  
