@@ -12,6 +12,7 @@
     <bean id="prop" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
+                <value>classpath*:installation__test.properties</value>
                 <value>classpath*:installation__test_${ENVIRONMENT}.properties</value>
             </list>
         </property>
