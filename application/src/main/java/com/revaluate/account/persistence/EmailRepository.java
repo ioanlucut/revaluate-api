@@ -30,6 +30,15 @@ public interface EmailRepository extends JpaRepository<Email, Integer> {
 
 
     //-----------------------------------------------------------------
+    // Check if there's a token validated.
+    //-----------------------------------------------------------------
+    Optional<Email> findOneByEmailTypeAndUserIdAndTokenAndTokenValidatedTrue(EmailType emailType, int userId, String token);
+
+    Optional<Email> findOneByEmailTypeAndUserIdAndTokenAndTokenValidatedFalse(EmailType emailType, String token, int userId);
+
+    Optional<Email> findOneByEmailTypeAndUserIdAndToken(EmailType emailType, int userId, String token);
+
+    //-----------------------------------------------------------------
     // Find all by type and user id
     //-----------------------------------------------------------------
     List<Email> findAllByEmailTypeAndUserId(EmailType emailType, int userId);
@@ -52,4 +61,9 @@ public interface EmailRepository extends JpaRepository<Email, Integer> {
     @Transactional
     @Query("delete from Email u where u.user.id = ?1")
     void removeByUserId(int userId);
+
+    @Modifying
+    @Transactional
+    @Query("delete from Email u where u.emailType = ?1 and u.user.id = ?2")
+    void deleteAllByEmailTypeAndUserId(EmailType emailType, int userId);
 }

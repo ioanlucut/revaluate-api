@@ -3,7 +3,7 @@ package com.revaluate.account.service;
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.Email;
-import com.revaluate.domain.account.*;
+import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.email.EmailType;
 import org.junit.Test;
 
@@ -47,6 +47,39 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
     }
 
     @Test
+    public void confirmEmail_manyTimes_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        Optional<Email> oneEmail = emailRepository.findOneByEmailTypeAndUserIdAndTokenValidatedFalse(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
+        assertThat(oneEmail.isPresent(), is(true));
+        Email email = oneEmail.get();
+        assertThat(email.isTokenValidated(), is(false));
+        assertThat(email.isSent(), is(false));
+        assertThat(email.getSentDate(), is(nullValue()));
+
+        //-----------------------------------------------------------------
+        // Confirm email with this token three times.
+        //-----------------------------------------------------------------
+        String token = email.getToken();
+        userService.validateConfirmationEmailToken(createdUserDTO.getEmail(), token);
+        userService.validateConfirmationEmailToken(createdUserDTO.getEmail(), token);
+        userService.validateConfirmationEmailToken(createdUserDTO.getEmail(), token);
+
+        //-----------------------------------------------------------------
+        // Token was validated
+        //-----------------------------------------------------------------
+        oneEmail = emailRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
+        email = oneEmail.get();
+        assertThat(oneEmail.isPresent(), is(true));
+        assertThat(email.isTokenValidated(), is(true));
+        assertThat(email.isSent(), is(false));
+        assertThat(email.getSentDate(), is(nullValue()));
+    }
+
+    @Test
     public void confirmEmail_invalidTokenSentBack_exceptionThrown() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
@@ -64,7 +97,37 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         // Confirm email with this token
         //-----------------------------------------------------------------
         exception.expect(UserException.class);
-        String token = email.getToken();
+        userService.validateConfirmationEmailToken(createdUserDTO.getEmail(), INVALID_TOKEN);
+
+        //-----------------------------------------------------------------
+        // Token was not validated
+        //-----------------------------------------------------------------
+        oneEmail = emailRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
+        email = oneEmail.get();
+        assertThat(oneEmail.isPresent(), is(true));
+        assertThat(email.isTokenValidated(), is(false));
+        assertThat(email.isSent(), is(false));
+        assertThat(email.getSentDate(), is(nullValue()));
+    }
+
+    @Test
+    public void confirmEmail_firstTimeInvalidSecondTimeOk_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        Optional<Email> oneEmail = emailRepository.findOneByEmailTypeAndUserIdAndTokenValidatedFalse(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
+        assertThat(oneEmail.isPresent(), is(true));
+        Email email = oneEmail.get();
+        assertThat(email.isTokenValidated(), is(false));
+        assertThat(email.isSent(), is(false));
+        assertThat(email.getSentDate(), is(nullValue()));
+
+        //-----------------------------------------------------------------
+        // Confirm email with this token
+        //-----------------------------------------------------------------
+        exception.expect(UserException.class);
         userService.validateConfirmationEmailToken(createdUserDTO.getEmail(), INVALID_TOKEN);
 
         //-----------------------------------------------------------------
@@ -74,6 +137,22 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         email = oneEmail.get();
         assertThat(oneEmail.isPresent(), is(true));
         assertThat(email.isTokenValidated(), is(false));
+        assertThat(email.isSent(), is(false));
+        assertThat(email.getSentDate(), is(nullValue()));
+
+        //-----------------------------------------------------------------
+        // After that, email is confirmed - is ok.
+        //-----------------------------------------------------------------
+        String token = email.getToken();
+        userService.validateConfirmationEmailToken(createdUserDTO.getEmail(), token);
+
+        //-----------------------------------------------------------------
+        // Token was validated
+        //-----------------------------------------------------------------
+        oneEmail = emailRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
+        email = oneEmail.get();
+        assertThat(oneEmail.isPresent(), is(true));
+        assertThat(email.isTokenValidated(), is(true));
         assertThat(email.isSent(), is(false));
         assertThat(email.getSentDate(), is(nullValue()));
     }
