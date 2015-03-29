@@ -1,8 +1,8 @@
 package com.revaluate.account.service;
 
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.EmailToken;
-import com.revaluate.account.persistence.EmailTokenRepository;
+import com.revaluate.account.persistence.Email;
+import com.revaluate.account.persistence.EmailRepository;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.utils.TokenGenerator;
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     private DozerBeanMapper dozerBeanMapper;
 
     @Autowired
-    private EmailTokenRepository emailTokenRepository;
+    private EmailRepository emailRepository;
 
     @Autowired
     private SendEmailService sendEmailService;
@@ -86,13 +86,13 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Generate a new create email token
         //-----------------------------------------------------------------
-        EmailToken createEmailToken = TokenGenerator.generateTokenFor(savedUser, EmailType.CREATED_ACCOUNT);
-        EmailToken savedCreateEmailToken = emailTokenRepository.save(createEmailToken);
+        Email createEmail = TokenGenerator.buildEmail(savedUser, EmailType.CREATED_ACCOUNT);
+        Email savedCreateEmail = emailRepository.save(createEmail);
 
         //-----------------------------------------------------------------
         // Try to send email async
         //-----------------------------------------------------------------
-        emailAsyncSender.tryToSendEmail(savedCreateEmailToken);
+        emailAsyncSender.tryToSendEmail(savedCreateEmail);
 
         return dozerBeanMapper.map(savedUser, UserDTO.class);
     }
@@ -149,8 +149,34 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // First, remove all its email tokens, then the user
         //-----------------------------------------------------------------
-        emailTokenRepository.removeByUserId(userId);
+        emailRepository.removeByUserId(userId);
         userRepository.delete(userId);
+    }
+
+    @Override
+    public void validateConfirmationEmailToken(String email, String token) throws UserException {
+        Optional<User> byEmail = userRepository.findOneByEmail(email);
+        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
+
+        //-----------------------------------------------------------------
+        // Try to find a matching email token
+        //-----------------------------------------------------------------
+        Optional<Email> oneByUserIdAndTokenValidatedFalse = emailRepository.findOneByEmailTypeAndUserIdAndTokenValidatedFalse(EmailType.CREATED_ACCOUNT, user.getId());
+        Email emailToken = oneByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Confirmation email token is invalid."));
+
+        //-----------------------------------------------------------------
+        // If invalid, just throw exception - retries are allowed
+        //-----------------------------------------------------------------
+        if (!emailToken.getToken().equals(token)) {
+
+            throw new UserException("Confirmation email token is invalid.");
+        }
+
+        //-----------------------------------------------------------------
+        // Otherwise, set token as validated
+        //-----------------------------------------------------------------
+        emailToken.setTokenValidated(Boolean.TRUE);
+        emailRepository.save(emailToken);
     }
 
     @Override
@@ -179,22 +205,22 @@ public class UserServiceImpl implements UserService {
         Optional<User> byEmail = userRepository.findOneByEmail(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
-        Optional<EmailToken> oneByUserIdAndValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndValidatedFalse(EmailType.RESET_PASSWORD, user.getId());
+        Optional<Email> oneByUserIdAndTokenValidatedFalse = emailRepository.findOneByEmailTypeAndUserIdAndTokenValidatedFalse(EmailType.RESET_PASSWORD, user.getId());
 
-        if (oneByUserIdAndValidatedFalse.isPresent()) {
-            emailTokenRepository.delete(oneByUserIdAndValidatedFalse.get());
+        if (oneByUserIdAndTokenValidatedFalse.isPresent()) {
+            emailRepository.delete(oneByUserIdAndTokenValidatedFalse.get());
         }
         //-----------------------------------------------------------------
         // Generate a new reset email token and save it
         //-----------------------------------------------------------------
-        EmailToken resetEmailToken = TokenGenerator.generateTokenFor(user, EmailType.RESET_PASSWORD);
+        Email resetEmail = TokenGenerator.buildEmail(user, EmailType.RESET_PASSWORD);
 
         //-----------------------------------------------------------------
         // Try to send email async
         //-----------------------------------------------------------------
-        emailAsyncSender.tryToSendEmail(resetEmailToken);
+        emailAsyncSender.tryToSendEmail(resetEmail);
 
-        emailTokenRepository.save(resetEmailToken);
+        emailRepository.save(resetEmail);
     }
 
     @Override
@@ -205,24 +231,27 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Try to find a matching email token
         //-----------------------------------------------------------------
-        Optional<EmailToken> oneByUserIdAndValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndValidatedFalse(EmailType.RESET_PASSWORD, user.getId());
-        EmailToken emailToken = oneByUserIdAndValidatedFalse.orElseThrow(() -> new UserException("Token is invalid."));
+        Optional<Email> oneByUserIdAndTokenValidatedFalse = emailRepository.findOneByEmailTypeAndUserIdAndTokenValidatedFalse(EmailType.RESET_PASSWORD, user.getId());
+        Email emailToken = oneByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Token is invalid."));
 
         //-----------------------------------------------------------------
         // If invalid, delete and throw exception
         //-----------------------------------------------------------------
         if (!emailToken.getToken().equals(token)) {
-            emailTokenRepository.delete(emailToken);
+            emailRepository.delete(emailToken);
 
             throw new UserException("Token is invalid.");
         }
+
+        //-----------------------------------------------------------------
+        // Otherwise, set token as validated
+        //-----------------------------------------------------------------
+        emailToken.setTokenValidated(Boolean.TRUE);
+        emailRepository.save(emailToken);
     }
 
     @Override
     public void resetPassword(ResetPasswordDTO resetPasswordDTO, String email, String token) throws UserException {
-        // Perform again the token validation
-        this.validateResetPasswordToken(email, token);
-
         if (!resetPasswordDTO.getPassword().equals(resetPasswordDTO.getPasswordConfirmation())) {
             throw new UserException("New password should match new password confirmation");
         }
@@ -231,13 +260,21 @@ public class UserServiceImpl implements UserService {
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
-        // Try to find a matching email token and delete otherwise
+        // Try to find a matching email token which is validated
         //-----------------------------------------------------------------
-        Optional<EmailToken> oneByUserIdAndValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndValidatedFalse(EmailType.RESET_PASSWORD, user.getId());
-        if (oneByUserIdAndValidatedFalse.isPresent()) {
-            emailTokenRepository.delete(oneByUserIdAndValidatedFalse.get());
+        Optional<Email> oneByUserIdAndTokenValidatedFalse = emailRepository.findOneByEmailTypeAndUserIdAndTokenValidatedTrue(EmailType.RESET_PASSWORD, user.getId());
+        Email emailToken = oneByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Token is invalid."));
+
+        //-----------------------------------------------------------------
+        // Throw exception is token does not match
+        //-----------------------------------------------------------------
+        if (!token.equals(emailToken.getToken())) {
+            throw new UserException("Confirmation email token is invalid");
         }
 
+        //-----------------------------------------------------------------
+        // Finally, reset password and save user
+        //-----------------------------------------------------------------
         user.setPassword(BCrypt.hashpw(resetPasswordDTO.getPassword(), BCrypt.gensalt()));
         userRepository.save(user);
     }

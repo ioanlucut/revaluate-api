@@ -10,46 +10,46 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
-public interface EmailTokenRepository extends JpaRepository<EmailToken, Integer> {
+public interface EmailRepository extends JpaRepository<Email, Integer> {
 
     //-----------------------------------------------------------------
     // By USER ID validated/non validated
     //-----------------------------------------------------------------
-    Optional<EmailToken> findOneByTokenAndUserIdAndValidatedTrue(String token, int userId);
+    Optional<Email> findOneByTokenAndUserIdAndTokenValidatedTrue(String token, int userId);
 
-    Optional<EmailToken> findOneByTokenAndUserIdAndValidatedFalse(String token, int userId);
+    Optional<Email> findOneByTokenAndUserIdAndTokenValidatedFalse(String token, int userId);
 
     //-----------------------------------------------------------------
     // By email type validated/non validated
     //-----------------------------------------------------------------
-    Optional<EmailToken> findOneByEmailTypeAndUserIdAndValidatedTrue(EmailType emailType, int userId);
+    Optional<Email> findOneByEmailTypeAndUserIdAndTokenValidatedTrue(EmailType emailType, int userId);
 
-    Optional<EmailToken> findOneByEmailTypeAndUserIdAndValidatedFalse(EmailType emailType, int userId);
+    Optional<Email> findOneByEmailTypeAndUserIdAndTokenValidatedFalse(EmailType emailType, int userId);
 
-    Optional<EmailToken> findOneByEmailTypeAndUserId(EmailType emailType, int userId);
+    Optional<Email> findOneByEmailTypeAndUserId(EmailType emailType, int userId);
 
 
     //-----------------------------------------------------------------
     // Find all by type and user id
     //-----------------------------------------------------------------
-    List<EmailToken> findAllByEmailTypeAndUserId(EmailType emailType, int userId);
+    List<Email> findAllByEmailTypeAndUserId(EmailType emailType, int userId);
 
     //-----------------------------------------------------------------
     // By USER ID validated/non validated
     //-----------------------------------------------------------------
-    Optional<EmailToken> findOneByUserIdAndValidatedTrue(int userId);
+    Optional<Email> findOneByUserIdAndTokenValidatedTrue(int userId);
 
-    Optional<EmailToken> findOneByUserIdAndValidatedFalse(int userId);
+    Optional<Email> findOneByUserIdAndTokenValidatedFalse(int userId);
 
     //-----------------------------------------------------------------
     // All validated/non validated
     //-----------------------------------------------------------------
-    List<EmailToken> findAllByValidatedTrue();
+    List<Email> findAllByTokenValidatedTrue();
 
-    List<EmailToken> findAllByValidatedFalse();
+    List<Email> findAllByTokenValidatedFalse();
 
     @Modifying
     @Transactional
-    @Query("delete from EmailToken u where u.user.id = ?1")
+    @Query("delete from Email u where u.user.id = ?1")
     void removeByUserId(int userId);
 }

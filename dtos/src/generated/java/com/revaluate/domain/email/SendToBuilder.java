@@ -14,8 +14,8 @@ public class SendToBuilder
   protected boolean isSet$lastName$java$lang$String;
   protected String value$email$java$lang$String;
   protected boolean isSet$email$java$lang$String;
-  protected int value$emailTokenId$int;
-  protected boolean isSet$emailTokenId$int;
+  protected int value$emailId$int;
+  protected boolean isSet$emailId$int;
   protected String value$emailToken$java$lang$String;
   protected boolean isSet$emailToken$java$lang$String;
   protected EmailType value$emailType$com$revaluate$domain$email$EmailType;
@@ -77,14 +77,14 @@ public class SendToBuilder
   }
 
   /**
-   * Sets the default value for the {@link SendTo#emailTokenId} property.
+   * Sets the default value for the {@link SendTo#emailId} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public SendToBuilder withEmailTokenId(int value) {
-    this.value$emailTokenId$int = value;
-    this.isSet$emailTokenId$int = true;
+  public SendToBuilder withEmailId(int value) {
+    this.value$emailId$int = value;
+    this.isSet$emailId$int = true;
     return self;
   }
 
@@ -157,8 +157,8 @@ public class SendToBuilder
       if (isSet$email$java$lang$String) {
         result.setEmail(value$email$java$lang$String);
       }
-      if (isSet$emailTokenId$int) {
-        result.setEmailTokenId(value$emailTokenId$int);
+      if (isSet$emailId$int) {
+        result.setEmailId(value$emailId$int);
       }
       if (isSet$emailToken$java$lang$String) {
         result.setEmailToken(value$emailToken$java$lang$String);

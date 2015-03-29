@@ -1,7 +1,7 @@
 package com.revaluate.route;
 
 import com.revaluate.AbstractBatchJobIntegrationTests;
-import com.revaluate.account.persistence.EmailToken;
+import com.revaluate.account.persistence.Email;
 import com.revaluate.domain.email.SendTo;
 import org.apache.camel.*;
 import org.apache.camel.component.mock.MockEndpoint;
@@ -29,7 +29,7 @@ public class EmailJobRouterTestIT extends AbstractBatchJobIntegrationTests {
     @EndpointInject(uri = "mock:direct:validSentEmailToken")
     protected MockEndpoint directValidSentEmailToken;
 
-    @Produce(uri = "direct:fetchAllEmailTokens")
+    @Produce(uri = "direct:fetchAllEmails")
     protected ProducerTemplate producerTemplate;
 
     @Test
@@ -45,10 +45,10 @@ public class EmailJobRouterTestIT extends AbstractBatchJobIntegrationTests {
         // Create a user and generate an email token
         //-----------------------------------------------------------------
         createUserDTO();
-        List<EmailToken> allByValidatedFalse = emailTokenRepository.findAllByValidatedFalse();
+        List<Email> allByValidatedFalse = emailRepository.findAllByTokenValidatedFalse();
         assertThat(allByValidatedFalse.size(), is(1));
-        EmailToken generatedEmailToken = allByValidatedFalse.get(0);
-        assertThat(generatedEmailToken.isValidated(), is(false));
+        Email generatedEmail = allByValidatedFalse.get(0);
+        assertThat(generatedEmail.isTokenValidated(), is(false));
 
         //-----------------------------------------------------------------
         // Send body with this email dto
@@ -68,20 +68,20 @@ public class EmailJobRouterTestIT extends AbstractBatchJobIntegrationTests {
         assertThat(directSendToProcessorEndpointExchangeList.size(), is(1));
         SendTo sendTo = directSendToProcessorEndpointExchangeList.get(0).getIn().getBody(SendTo.class);
         assertThat(sendTo, notNullValue());
-        assertThat(sendTo.getId(), is(generatedEmailToken.getUser().getId()));
-        assertThat(sendTo.getFirstName(), is(generatedEmailToken.getUser().getFirstName()));
-        assertThat(sendTo.getLastName(), is(generatedEmailToken.getUser().getLastName()));
-        assertThat(sendTo.getEmail(), is(generatedEmailToken.getUser().getEmail()));
-        assertThat(sendTo.getEmailToken(), is(generatedEmailToken.getToken()));
-        assertThat(sendTo.getEmailType(), is(generatedEmailToken.getEmailType()));
+        assertThat(sendTo.getId(), is(generatedEmail.getUser().getId()));
+        assertThat(sendTo.getFirstName(), is(generatedEmail.getUser().getFirstName()));
+        assertThat(sendTo.getLastName(), is(generatedEmail.getUser().getLastName()));
+        assertThat(sendTo.getEmail(), is(generatedEmail.getUser().getEmail()));
+        assertThat(sendTo.getEmailToken(), is(generatedEmail.getToken()));
+        assertThat(sendTo.getEmailType(), is(generatedEmail.getEmailType()));
 
         //-----------------------------------------------------------------
         // Second endpoint is proper
         //-----------------------------------------------------------------
         List<Exchange> directValidSentEmailTokenEndpointExchangeList = directValidSentEmailToken.getReceivedExchanges();
         assertThat(directValidSentEmailTokenEndpointExchangeList.size(), is(1));
-        EmailToken emailToken = directValidSentEmailTokenEndpointExchangeList.get(0).getIn().getBody(EmailToken.class);
-        assertThat(emailToken, notNullValue());
-        assertThat(emailToken.isValidated(), is(true));
+        Email email = directValidSentEmailTokenEndpointExchangeList.get(0).getIn().getBody(Email.class);
+        assertThat(email, notNullValue());
+        assertThat(email.isTokenValidated(), is(true));
     }
 }

@@ -16,7 +16,7 @@ public class SendTo {
     //-----------------------------------------------------------------
     // Email related
     //-----------------------------------------------------------------
-    private int emailTokenId;
+    private int emailId;
     private String emailToken;
     private EmailType emailType;
 
@@ -52,12 +52,12 @@ public class SendTo {
         this.email = email;
     }
 
-    public int getEmailTokenId() {
-        return emailTokenId;
+    public int getEmailId() {
+        return emailId;
     }
 
-    public void setEmailTokenId(int emailTokenId) {
-        this.emailTokenId = emailTokenId;
+    public void setEmailId(int emailId) {
+        this.emailId = emailId;
     }
 
     public String getEmailToken() {
@@ -83,7 +83,7 @@ public class SendTo {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", emailTokenId=" + emailTokenId +
+                ", emailId=" + emailId +
                 ", emailToken='" + emailToken + '\'' +
                 ", emailType=" + emailType +
                 '}';

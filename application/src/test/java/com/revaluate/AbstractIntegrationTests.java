@@ -1,7 +1,7 @@
 package com.revaluate;
 
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.EmailTokenRepository;
+import com.revaluate.account.persistence.EmailRepository;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.service.UserService;
 import com.revaluate.core.bootstrap.ConfigProperties;
@@ -33,6 +33,7 @@ public class AbstractIntegrationTests {
     public static final String TEST_PASSWORD = "1234567";
     public static final String TEST_NEW_PASSWORD = "9999999";
     public static final String TEST_PASSWORD_WRONG = "YYYYYYY";
+    public static final String INVALID_TOKEN = "INVALID_TOKEN";
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -53,7 +54,7 @@ public class AbstractIntegrationTests {
     protected ConfigProperties configProperties;
 
     @Autowired
-    protected EmailTokenRepository emailTokenRepository;
+    protected EmailRepository emailRepository;
 
     protected UserDTO userDTO;
 
@@ -65,7 +66,7 @@ public class AbstractIntegrationTests {
     @Before
     @After
     public void tearDown() throws Exception {
-        emailTokenRepository.deleteAll();
+        emailRepository.deleteAll();
         userRepository.deleteAll();
         currencyRepository.deleteAll();
     }

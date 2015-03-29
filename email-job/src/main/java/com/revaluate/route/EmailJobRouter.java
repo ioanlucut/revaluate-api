@@ -2,8 +2,8 @@ package com.revaluate.route;
 
 import com.revaluate.domain.email.SendTo;
 import com.revaluate.email.SendEmailException;
-import com.revaluate.processor.EmailTokenValidateProcessor;
-import com.revaluate.processor.EmailTokensRetrieverProcessor;
+import com.revaluate.processor.EmailValidateProcessor;
+import com.revaluate.processor.EmailsRetrieverProcessor;
 import com.revaluate.processor.SendToProcessor;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
@@ -15,19 +15,19 @@ public class EmailJobRouter extends RouteBuilder {
 
     public static final String TIME_ROUTE_RUN_ONCE = "timer://runOnce?repeatCount=1&delay=100";
     public static final String TIME_ROUTE_MANY = "timer://runOnce?fixedRate=true&period=30000";
-    public static final String DIRECT_ROUTE_FETCH_ALL_EMAIL_TOKENS = "direct:fetchAllEmailTokens";
+    public static final String DIRECT_ROUTE_FETCH_ALL_EMAIL_TOKENS = "direct:fetchAllEmails";
 
     public static final String DIRECT_SEND_TO_PROCESSOR = "direct:sendToProcessor";
     public static final String DIRECT_VALID_SENT_EMAIL_TOKEN = "direct:validSentEmailToken";
 
     @Autowired
-    private EmailTokensRetrieverProcessor emailTokensRetrieverProcessor;
+    private EmailsRetrieverProcessor emailsRetrieverProcessor;
 
     @Autowired
     private SendToProcessor sendToProcessor;
 
     @Autowired
-    private EmailTokenValidateProcessor emailTokenValidateProcessor;
+    private EmailValidateProcessor emailValidateProcessor;
 
     @Override
     public void configure() throws Exception {
@@ -45,7 +45,7 @@ public class EmailJobRouter extends RouteBuilder {
         // Timer router - initial bootstrap
         //-----------------------------------------------------------------
         from(TIME_ROUTE_MANY)
-                .bean(emailTokensRetrieverProcessor);
+                .bean(emailsRetrieverProcessor);
 
         //-----------------------------------------------------------------
         // Fetch all directly, send emails and update them in the database.
@@ -65,7 +65,7 @@ public class EmailJobRouter extends RouteBuilder {
 
         from(DIRECT_VALID_SENT_EMAIL_TOKEN)
                 .routeId(DIRECT_VALID_SENT_EMAIL_TOKEN)
-                .bean(emailTokenValidateProcessor)
+                .bean(emailValidateProcessor)
                 .end();
     }
 
