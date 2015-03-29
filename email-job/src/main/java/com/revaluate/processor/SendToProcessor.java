@@ -24,7 +24,7 @@ public class SendToProcessor {
     /**
      * Fetch all existing email tokens
      */
-    public void consumeAllEmailTokens(Exchange exchange) throws SendEmailException {
+    public void consumeAllEmails(Exchange exchange) throws SendEmailException {
         SendTo sendTo = exchange.getIn().getBody(SendTo.class);
 
         LOGGER.info(String.format("Send email with details: %s", sendTo));

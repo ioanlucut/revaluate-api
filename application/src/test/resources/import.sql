@@ -7,11 +7,11 @@ INSERT INTO users(
 VALUES (1, now(), 'x@x.x', true, 'fn', true, 'ln',
         now(), 'pw', 1);
 
-INSERT INTO email_token(
-  id, email_type, token, validated, user_id)
+INSERT INTO email(
+  id, email_type, token, tokenValidated, user_id)
 VALUES (1, 'CREATED_ACCOUNT', 'xxx', false, 1);
 
 
-INSERT INTO email_token(
-  id, email_type, token, validated, user_id)
+INSERT INTO email(
+  id, email_type, token, tokenValidated, user_id)
 VALUES (2, 'CREATED_ACCOUNT', 'xxx', false, 1);

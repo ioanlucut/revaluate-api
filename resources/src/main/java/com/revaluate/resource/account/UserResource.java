@@ -39,6 +39,7 @@ public class UserResource extends Resource {
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
     private static final String REQUEST_RESET_PASSWORD = "requestResetPassword/{email}";
     private static final String VALIDATE_RESET_PASSWORD_TOKEN = "validateResetPasswordToken/{email}/{token}";
+    private static final String VALIDATE_CONFIRMATION_EMAIL_TOKEN = "validateConfirmationEmailToken/{email}/{token}";
     private static final String RESET_PASSWORD = "resetPassword/{email}/{token}";
     private static final String REMOVE_USER = "remove";
 
@@ -118,6 +119,17 @@ public class UserResource extends Resource {
     }
 
     @POST
+    @Public
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(VALIDATE_CONFIRMATION_EMAIL_TOKEN)
+    public Response validateConfirmationEmailToken(@PathParam(EMAIL) @NotBlank @Email String email, @PathParam(TOKEN) @NotBlank String token) throws UserException {
+        userService.validateConfirmationEmailToken(email, token);
+
+        return Responses.respond(Response.Status.OK, "Confirmation successful");
+    }
+
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(UPDATE_USER_PASSWORD)
@@ -146,7 +158,7 @@ public class UserResource extends Resource {
     public Response validateResetPasswordToken(@PathParam(EMAIL) @NotBlank @Email String email, @PathParam(TOKEN) @NotBlank String token) throws UserException {
         userService.validateResetPasswordToken(email, token);
 
-        return Responses.respond(Response.Status.OK, "Token is valid");
+        return Responses.respond(Response.Status.OK, "Confirmation successful");
     }
 
     @POST

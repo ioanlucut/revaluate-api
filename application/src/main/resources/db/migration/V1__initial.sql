@@ -62,7 +62,7 @@ CREATE TABLE email_token (
     id integer NOT NULL,
     email_type character varying(255) NOT NULL,
     token character varying(255) NOT NULL,
-    validated boolean NOT NULL,
+    tokenValidated boolean NOT NULL,
     user_id integer NOT NULL
 );
 

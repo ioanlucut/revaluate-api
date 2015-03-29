@@ -29,6 +29,8 @@ public interface UserService {
 
     void remove(int userId);
 
+    void validateConfirmationEmailToken(@Email String email, @NotBlank String token) throws UserException;
+
     @NotNull
     UserDTO updatePassword(@Valid UpdatePasswordDTO updatePasswordDTO, int currentUserId) throws UserException;
 

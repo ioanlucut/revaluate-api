@@ -1,9 +1,7 @@
 package com.revaluate;
 
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.EmailToken;
-import com.revaluate.account.persistence.EmailTokenRepository;
-import com.revaluate.account.persistence.User;
+import com.revaluate.account.persistence.EmailRepository;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.service.UserService;
 import com.revaluate.currency.exception.CurrencyException;
@@ -13,7 +11,6 @@ import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.currency.CurrencyDTOBuilder;
-import com.revaluate.domain.email.EmailType;
 import org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner;
 import org.apache.camel.test.spring.CamelTestContextBootstrapper;
 import org.joda.money.CurrencyUnit;
@@ -27,9 +24,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.BootstrapWith;
 import org.springframework.test.context.ContextConfiguration;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @BootstrapWith(CamelTestContextBootstrapper.class)
@@ -59,7 +53,7 @@ public class AbstractBatchJobIntegrationTests {
     protected CurrencyRepository currencyRepository;
 
     @Autowired
-    protected EmailTokenRepository emailTokenRepository;
+    protected EmailRepository emailRepository;
 
     protected UserDTO userDTO;
 

@@ -61,7 +61,7 @@
     </mapping>
 
     <mapping map-null="false">
-        <class-a>com.revaluate.account.persistence.EmailToken</class-a>
+        <class-a>com.revaluate.account.persistence.Email</class-a>
         <class-b>com.revaluate.domain.email.SendTo</class-b>
         <field>
             <a>user.id</a>
@@ -81,7 +81,7 @@
         </field>
         <field>
             <a>id</a>
-            <b>emailTokenId</b>
+            <b>emailId</b>
         </field>
         <field>
             <a>token</a>

@@ -56,6 +56,9 @@ public class User implements Serializable {
      */
     private boolean enabled;
 
+    /**
+     * If user is initiated, which means he finished the whole registration process.
+     */
     private boolean initiated;
 
     @NotNull

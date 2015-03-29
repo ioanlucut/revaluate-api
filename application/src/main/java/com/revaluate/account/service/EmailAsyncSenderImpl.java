@@ -1,14 +1,15 @@
 package com.revaluate.account.service;
 
 import com.google.common.util.concurrent.Futures;
-import com.revaluate.account.persistence.EmailToken;
-import com.revaluate.account.persistence.EmailTokenRepository;
+import com.revaluate.account.persistence.Email;
+import com.revaluate.account.persistence.EmailRepository;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.domain.email.EmailStatus;
 import com.revaluate.domain.email.SendTo;
 import com.revaluate.email.SendEmailException;
 import com.revaluate.email.SendEmailService;
 import org.dozer.DozerBeanMapper;
+import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class EmailAsyncSenderImpl implements EmailAsyncSender {
     private DozerBeanMapper dozerBeanMapper;
 
     @Autowired
-    private EmailTokenRepository emailTokenRepository;
+    private EmailRepository emailRepository;
 
     @Autowired
     private SendEmailService sendEmailService;
@@ -38,7 +39,7 @@ public class EmailAsyncSenderImpl implements EmailAsyncSender {
     private ConfigProperties configProperties;
 
     @Async
-    public Future<EmailStatus> tryToSendEmail(EmailToken emailToken) {
+    public Future<EmailStatus> tryToSendEmail(Email email) {
 
         //-----------------------------------------------------------------
         // Do not send email for some environments
@@ -52,15 +53,16 @@ public class EmailAsyncSenderImpl implements EmailAsyncSender {
         //-----------------------------------------------------------------
         // Try to send email async
         //-----------------------------------------------------------------
-        SendTo sendTo = dozerBeanMapper.map(emailToken, SendTo.class);
+        SendTo sendTo = dozerBeanMapper.map(email, SendTo.class);
         try {
             EmailStatus emailStatus = sendEmailService.sendNonAsyncEmailTo(sendTo);
 
             //-----------------------------------------------------------------
-            // Mark email token as validated
+            // Mark email token as sent
             //-----------------------------------------------------------------
-            emailToken.setValidated(Boolean.TRUE);
-            emailTokenRepository.save(emailToken);
+            email.setSent(Boolean.TRUE);
+            email.setSentDate(LocalDateTime.now());
+            emailRepository.save(email);
 
             return new AsyncResult<>(emailStatus);
         } catch (SendEmailException ex) {

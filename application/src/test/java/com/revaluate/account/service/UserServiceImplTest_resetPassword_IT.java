@@ -2,7 +2,7 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.EmailToken;
+import com.revaluate.account.persistence.Email;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.*;
 import com.revaluate.domain.email.EmailType;
@@ -25,58 +25,104 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Request reset password
         //-----------------------------------------------------------------
-        userService.requestResetPassword(TEST_EMAIL);
+        userService.requestResetPassword(createdUserDTO.getEmail());
 
         //-----------------------------------------------------------------
-        // Reset password
+        // Reset password is generated
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
-        Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        Optional<Email> oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
+
+        //-----------------------------------------------------------------
+        // Validate reset password token
+        //-----------------------------------------------------------------
+        String token = oneByEmailTypeAndUserId.get().getToken();
+        userService.validateResetPasswordToken(createdUserDTO.getEmail(), token);
 
         //-----------------------------------------------------------------
         // Reset password with this token
         //-----------------------------------------------------------------
-        String token = oneByEmailTypeAndUserId.get().getToken();
         ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword(TEST_NEW_PASSWORD).withPasswordConfirmation(TEST_NEW_PASSWORD).build();
-        userService.resetPassword(resetPasswordDTO, TEST_EMAIL, token);
+        userService.resetPassword(resetPasswordDTO, createdUserDTO.getEmail(), token);
 
         //-----------------------------------------------------------------
         // Try to login with newest password
         //-----------------------------------------------------------------
-        LoginDTO loginDTO = new LoginDTOBuilder().withEmail(TEST_EMAIL).withPassword(TEST_NEW_PASSWORD).build();
+        LoginDTO loginDTO = new LoginDTOBuilder().withEmail(createdUserDTO.getEmail()).withPassword(TEST_NEW_PASSWORD).build();
         userService.login(loginDTO);
-
-        //-----------------------------------------------------------------
-        // Token was removed
-        //-----------------------------------------------------------------
-        oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
-        assertThat(oneByEmailTypeAndUserId.isPresent(), is(false));
     }
 
-    @Test(expected = UserException.class)
+    @Test
     public void resetPassword_invalidTokenSentBack_exceptionThrown() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        // Reset password
-        userService.requestResetPassword(TEST_EMAIL);
+        //-----------------------------------------------------------------
+        // Request reset password
+        //-----------------------------------------------------------------
+        userService.requestResetPassword(createdUserDTO.getEmail());
+
+        //-----------------------------------------------------------------
+        // Reset password is generated
+        //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
-
-        //-----------------------------------------------------------------
-        // Reset password but return the bad token back
-        //-----------------------------------------------------------------
-        Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        Optional<Email> oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
-        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword(TEST_NEW_PASSWORD).withPasswordConfirmation(TEST_NEW_PASSWORD).build();
-        userService.resetPassword(resetPasswordDTO, TEST_EMAIL, oneByEmailTypeAndUserId.get().getToken() + "x");
 
         //-----------------------------------------------------------------
-        // Token was already invalidated
+        // Validate reset password token
         //-----------------------------------------------------------------
-        oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
-        assertThat(oneByEmailTypeAndUserId.isPresent(), is(false));
+        String token = oneByEmailTypeAndUserId.get().getToken();
+        userService.validateResetPasswordToken(createdUserDTO.getEmail(), token);
+
+        //-----------------------------------------------------------------
+        // Reset password with this token
+        //-----------------------------------------------------------------
+        exception.expect(UserException.class);
+        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword(TEST_NEW_PASSWORD).withPasswordConfirmation(TEST_NEW_PASSWORD).build();
+        userService.resetPassword(resetPasswordDTO, createdUserDTO.getEmail(), INVALID_TOKEN);
+
+        //-----------------------------------------------------------------
+        // Token is still there, not removed
+        //-----------------------------------------------------------------
+        oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
+    }
+
+    @Test
+    public void resetPassword_tokenNotValidatedBefore_exceptionThrown() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Request reset password
+        //-----------------------------------------------------------------
+        userService.requestResetPassword(createdUserDTO.getEmail());
+
+        //-----------------------------------------------------------------
+        // Reset password is generated
+        //-----------------------------------------------------------------
+        User user = userRepository.findOne(createdUserDTO.getId());
+        Optional<Email> oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
+
+        //-----------------------------------------------------------------
+        // Reset password with this token
+        //-----------------------------------------------------------------
+        exception.expect(UserException.class);
+        String token = oneByEmailTypeAndUserId.get().getToken();
+        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTOBuilder().withPassword(TEST_NEW_PASSWORD).withPasswordConfirmation(TEST_NEW_PASSWORD).build();
+        userService.resetPassword(resetPasswordDTO, createdUserDTO.getEmail(), token);
+
+        //-----------------------------------------------------------------
+        // Token is still there, not removed
+        //-----------------------------------------------------------------
+        oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
     }
 }
