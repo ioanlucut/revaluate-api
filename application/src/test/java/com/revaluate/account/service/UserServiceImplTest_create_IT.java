@@ -33,6 +33,7 @@ public class UserServiceImplTest_create_IT extends AbstractIntegrationTests {
         assertThat(userDTO.getPassword(), not(equalTo(createdUserDTO.getPassword())));
         assertThat(createdUserDTO.getId(), not(equalTo(0)));
         assertThat(createdUserDTO.getPassword(), is(nullValue()));
+        assertThat(createdUserDTO.isInitiated(), is(false));
 
         //-----------------------------------------------------------------
         // Assert that email token is added
