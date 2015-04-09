@@ -48,6 +48,14 @@
             <a>password</a>
             <b>password</b>
         </field-exclude>
+        <field-exclude type="one-way">
+            <a>categories</a>
+            <b>categories</b>
+        </field-exclude>
+        <field-exclude type="one-way">
+            <a>expenses</a>
+            <b>expenses</b>
+        </field-exclude>
     </mapping>
 
     <!--Generally, the password should not be sent back to the user-->

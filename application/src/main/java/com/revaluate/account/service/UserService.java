@@ -5,8 +5,10 @@ import com.revaluate.domain.account.LoginDTO;
 import com.revaluate.domain.account.ResetPasswordDTO;
 import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UserDTO;
+import com.revaluate.groups.CreateUserGroup;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -16,13 +18,14 @@ public interface UserService {
     boolean isUnique(@Email String email);
 
     @NotNull
-    UserDTO create(@Valid UserDTO userDTO) throws UserException;
+    @Validated(value = CreateUserGroup.class)
+    UserDTO create(@Valid @NotNull UserDTO userDTO) throws UserException;
 
     @NotNull
-    UserDTO login(@Valid LoginDTO loginDTO) throws UserException;
+    UserDTO login(@Valid @NotNull LoginDTO loginDTO) throws UserException;
 
     @NotNull
-    UserDTO update(@Valid UserDTO userDTO, int userId) throws UserException;
+    UserDTO update(@Valid @NotNull UserDTO userDTO, int userId) throws UserException;
 
     @NotNull
     UserDTO getUserDetails(int userId) throws UserException;
@@ -34,11 +37,11 @@ public interface UserService {
     void requestConfirmationEmail(@Email String email) throws UserException;
 
     @NotNull
-    UserDTO updatePassword(@Valid UpdatePasswordDTO updatePasswordDTO, int currentUserId) throws UserException;
+    UserDTO updatePassword(@Valid @NotNull UpdatePasswordDTO updatePasswordDTO, int currentUserId) throws UserException;
 
     void requestResetPassword(@Email String email) throws UserException;
 
     void validateResetPasswordToken(@Email String email, @NotBlank String token) throws UserException;
 
-    void resetPassword(@Valid ResetPasswordDTO resetPasswordDTO, @Email String email, @NotBlank String token) throws UserException;
+    void resetPassword(@Valid @NotNull ResetPasswordDTO resetPasswordDTO, @Email String email, @NotBlank String token) throws UserException;
 }

@@ -115,9 +115,11 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Try to find the currency
         //-----------------------------------------------------------------
-        Optional<Currency> byCurrencyCode = currencyRepository.findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode());
-        byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists"));
-        foundUser.setCurrency(byCurrencyCode.get());
+        if (userDTO.getCurrency() != null) {
+            Optional<Currency> byCurrencyCode = currencyRepository.findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode());
+            byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists"));
+            foundUser.setCurrency(byCurrencyCode.get());
+        }
 
         //-----------------------------------------------------------------
         // Update the user accordingly to DTO
