@@ -1,5 +1,6 @@
 [![Codeship Status for sorinpantis/revaluate-api](https://codeship.com/projects/55b7f630-b7b4-0132-8745-1e8b2f627676/status?branch=master)](https://codeship.com/projects/71309)
 
+
 # Maven
 * UT tests are automatically started using `mvn clean install`
 * IT tests are automatically disabled. Can be enabled using `mvn clean install -DskipITs=false or  mvn clean install -PexecITs`
