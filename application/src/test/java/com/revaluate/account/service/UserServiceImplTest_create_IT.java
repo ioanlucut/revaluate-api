@@ -95,5 +95,12 @@ public class UserServiceImplTest_create_IT extends AbstractIntegrationTests {
         currency.setCurrencyCode("INEXISTING");
         toCreate = new UserDTOBuilder().withFirstName("fn2").withLastName("fn2").withCurrency(currency).build();
         userService.create(toCreate);
+
+        //-----------------------------------------------------------------
+        // Should not work if currency is not defined
+        //-----------------------------------------------------------------
+        exception.expect(UserException.class);
+        toCreate = new UserDTOBuilder().withFirstName("fn2").withLastName("fn2").build();
+        userService.create(toCreate);
     }
 }

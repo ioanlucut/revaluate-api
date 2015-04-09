@@ -24,11 +24,11 @@ public class UserDTO implements Serializable {
     @JsonView({Views.StrictView.class})
     private int id;
 
-    @NotBlank
+    @NotBlank(groups = CreateUserGroup.class)
     @JsonView({Views.StrictView.class})
     private String firstName;
 
-    @NotBlank
+    @NotBlank(groups = CreateUserGroup.class)
     @JsonView({Views.StrictView.class})
     private String lastName;
 
@@ -41,7 +41,7 @@ public class UserDTO implements Serializable {
     @Size(min = 7, groups = CreateUserGroup.class)
     private String password;
 
-    @NotNull
+    @NotNull(groups = CreateUserGroup.class)
     @JsonView({Views.StrictView.class})
     private CurrencyDTO currency;
 

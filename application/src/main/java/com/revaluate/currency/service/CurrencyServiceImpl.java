@@ -1,9 +1,9 @@
 package com.revaluate.currency.service;
 
-import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.currency.exception.CurrencyException;
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;
+import com.revaluate.domain.currency.CurrencyDTO;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

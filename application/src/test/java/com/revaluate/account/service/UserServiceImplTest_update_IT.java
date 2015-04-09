@@ -84,6 +84,41 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
     }
 
     @Test
+    public void update_onlyWithCurrency_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Compute the currency to update
+        //-----------------------------------------------------------------
+        CurrencyDTO currency = new CurrencyDTO();
+        currency.setCurrencyCode(CurrencyUnit.GBP.getCurrencyCode());
+        CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
+
+        //-----------------------------------------------------------------
+        // Update a user only with currency - works
+        //-----------------------------------------------------------------
+        UserDTO userDTOToUpdate = new UserDTOBuilder().withCurrency(currencyDTOToUpdate).build();
+        userService.update(userDTOToUpdate, createdUserDTO.getId());
+    }
+
+    @Test
+    public void update_onlyWithInitiatedTrue_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Update a user only with currency - works
+        //-----------------------------------------------------------------
+        UserDTO userDTOToUpdate = new UserDTOBuilder().withInitiated(Boolean.TRUE).build();
+        userService.update(userDTOToUpdate, createdUserDTO.getId());
+    }
+
+    @Test
     public void update_invalidDetails_handledCorrectly() throws Exception {
         //-----------------------------------------------------------------
         // Create user
