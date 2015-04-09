@@ -29,7 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles("IT")
 public class AbstractIntegrationTests {
 
-    public static final String TEST_EMAIL = "ioan.lucut88@gmail.com";
+    public static final String TEST_EMAIL = "dev@revaluate.io";
     public static final String TEST_PASSWORD = "1234567";
     public static final String TEST_NEW_PASSWORD = "9999999";
     public static final String TEST_PASSWORD_WRONG = "YYYYYYY";

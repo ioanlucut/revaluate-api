@@ -29,8 +29,18 @@ public class ConfigProperties {
     @Value("${mandrillAppKey}")
     private String mandrillAppKey;
 
-    @Value("${supportEmailRecipient}")
-    private String supportEmailRecipient;
+    @Value("${replyEmailRecipient}")
+    private String replyEmailRecipient;
+
+    @Value("${noReplyEmailRecipient}")
+    private String noReplyEmailRecipient;
+
+    /**
+     * If emails are sent from dev environment,
+     * they are not sent to the end user.
+     */
+    @Value("${commonEmailsRecipient}")
+    private String commonEmailsRecipient;
 
     public boolean isProduction() {
         return isProduction;
@@ -81,12 +91,28 @@ public class ConfigProperties {
         this.mandrillAppKey = mandrillAppKey;
     }
 
-    public String getSupportEmailRecipient() {
-        return supportEmailRecipient;
+    public String getReplyEmailRecipient() {
+        return replyEmailRecipient;
     }
 
-    public void setSupportEmailRecipient(String supportEmailRecipient) {
-        this.supportEmailRecipient = supportEmailRecipient;
+    public void setReplyEmailRecipient(String replyEmailRecipient) {
+        this.replyEmailRecipient = replyEmailRecipient;
+    }
+
+    public String getNoReplyEmailRecipient() {
+        return noReplyEmailRecipient;
+    }
+
+    public void setNoReplyEmailRecipient(String noReplyEmailRecipient) {
+        this.noReplyEmailRecipient = noReplyEmailRecipient;
+    }
+
+    public String getCommonEmailsRecipient() {
+        return commonEmailsRecipient;
+    }
+
+    public void setCommonEmailsRecipient(String commonEmailsRecipient) {
+        this.commonEmailsRecipient = commonEmailsRecipient;
     }
 
     public boolean isSkipSendEmail() {
@@ -107,7 +133,9 @@ public class ConfigProperties {
                 ", authTokenHeaderKey='" + authTokenHeaderKey + '\'' +
                 ", bearerHeaderKey='" + bearerHeaderKey + '\'' +
                 ", mandrillAppKey='" + mandrillAppKey + '\'' +
-                ", supportEmailRecipient='" + supportEmailRecipient + '\'' +
+                ", replyEmailRecipient='" + replyEmailRecipient + '\'' +
+                ", noReplyEmailRecipient='" + noReplyEmailRecipient + '\'' +
+                ", commonEmailsRecipient='" + commonEmailsRecipient + '\'' +
                 '}';
     }
 }
