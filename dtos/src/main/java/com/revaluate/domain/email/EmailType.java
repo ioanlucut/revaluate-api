@@ -2,19 +2,29 @@ package com.revaluate.domain.email;
 
 public enum EmailType {
 
-    CREATED_ACCOUNT("welcome-to-revaluate"),
-    RESET_PASSWORD("reset-password");
+    CREATED_ACCOUNT("welcome-to-revaluate", EmailReply.REPLY),
+    RESET_PASSWORD("reset-password", EmailReply.NO_REPLY);
 
     /**
      * Mandrill email template
      */
     private String emailTemplateName;
 
-    private EmailType(String emailTemplateName) {
+    /**
+     * Email reply strategy.
+     */
+    private EmailReply emailReply;
+
+    private EmailType(String emailTemplateName, EmailReply emailReply) {
         this.emailTemplateName = emailTemplateName;
+        this.emailReply = emailReply;
     }
 
     public String getEmailTemplateName() {
         return emailTemplateName;
+    }
+
+    public EmailReply getEmailReply() {
+        return emailReply;
     }
 }

@@ -4,6 +4,7 @@ import com.microtripit.mandrillapp.lutung.model.MandrillApiError;
 import com.microtripit.mandrillapp.lutung.view.MandrillMessage;
 import com.microtripit.mandrillapp.lutung.view.MandrillMessageStatus;
 import com.revaluate.core.bootstrap.ConfigProperties;
+import com.revaluate.domain.email.EmailReply;
 import com.revaluate.domain.email.EmailStatus;
 import com.revaluate.domain.email.EmailType;
 import com.revaluate.domain.email.SendTo;
@@ -40,7 +41,11 @@ public class SendEmailServiceImpl implements SendEmailService {
         // Build the mandrill message
         //-----------------------------------------------------------------
         MandrillMessage message = new MandrillMessage();
-        message.setFromEmail(configProperties.getSupportEmailRecipient());
+        if (sendTo.getEmailType().getEmailReply() == EmailReply.REPLY) {
+            message.setFromEmail(configProperties.getReplyEmailRecipient());
+        } else if (sendTo.getEmailType().getEmailReply() == EmailReply.NO_REPLY) {
+            message.setFromEmail(configProperties.getNoReplyEmailRecipient());
+        }
         message.setFromName("Revaluate team");
 
         //-----------------------------------------------------------------
@@ -48,7 +53,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         //-----------------------------------------------------------------
         List<MandrillMessage.Recipient> recipients = new ArrayList<>();
         MandrillMessage.Recipient recipient = new MandrillMessage.Recipient();
-        recipient.setEmail(configProperties.isProduction() ? sendTo.getEmail() : configProperties.getSupportEmailRecipient());
+        recipient.setEmail(configProperties.isProduction() ? sendTo.getEmail() : configProperties.getCommonEmailsRecipient());
         recipient.setName(String.format("%s %s", sendTo.getFirstName(), sendTo.getLastName()));
         recipients.add(recipient);
         message.setTo(recipients);
