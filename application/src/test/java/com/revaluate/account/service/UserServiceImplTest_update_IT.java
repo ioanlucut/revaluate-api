@@ -5,6 +5,7 @@ import com.revaluate.account.exception.UserException;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
 import com.revaluate.domain.currency.CurrencyDTO;
+import com.revaluate.domain.currency.CurrencyDTOBuilder;
 import org.joda.money.CurrencyUnit;
 import org.junit.Test;
 
@@ -26,8 +27,7 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Compute the currency to update
         //-----------------------------------------------------------------
-        CurrencyDTO currency = new CurrencyDTO();
-        currency.setCurrencyCode(CurrencyUnit.GBP.getCurrencyCode());
+        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
         CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
 
         // Update a user
@@ -72,8 +72,7 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Compute the currency to update
         //-----------------------------------------------------------------
-        CurrencyDTO currency = new CurrencyDTO();
-        currency.setCurrencyCode(CurrencyUnit.GBP.getCurrencyCode());
+        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
         CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
 
         //-----------------------------------------------------------------
@@ -93,8 +92,7 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Compute the currency to update
         //-----------------------------------------------------------------
-        CurrencyDTO currency = new CurrencyDTO();
-        currency.setCurrencyCode(CurrencyUnit.GBP.getCurrencyCode());
+        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
         CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
 
         //-----------------------------------------------------------------
