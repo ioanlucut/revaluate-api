@@ -27,7 +27,7 @@ public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create currency
         //-----------------------------------------------------------------
-        CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.USD.getCode()).build();
+        CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.USD.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
         currencyService.create(currencyDTO);
 
         assertThat(currencyService.isUnique(currencyDTO.getCurrencyCode()), is(false));
@@ -38,7 +38,7 @@ public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create currency
         //-----------------------------------------------------------------
-        CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.USD.getCode()).build();
+        CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.USD.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
         CurrencyDTO createdCurrencyDTO = currencyService.create(currencyDTO);
 
         assertThat(createdCurrencyDTO, is(notNullValue()));
@@ -67,9 +67,9 @@ public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create two currencies
         //-----------------------------------------------------------------
-        CurrencyDTO currencyToCreateDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.EUR.getCode()).build();
+        CurrencyDTO currencyToCreateDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.EUR.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
         currencyService.create(currencyToCreateDTO);
-        currencyToCreateDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.USD.getCode()).build();
+        currencyToCreateDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.USD.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
         currencyService.create(currencyToCreateDTO);
 
         //-----------------------------------------------------------------
@@ -85,7 +85,7 @@ public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create currency
         //-----------------------------------------------------------------
-        CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.EUR.getCode()).build();
+        CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.EUR.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
         CurrencyDTO createdCurrencyDTO = currencyService.create(currencyDTO);
 
         assertThat(createdCurrencyDTO, is(notNullValue()));
