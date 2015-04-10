@@ -25,6 +25,14 @@ public class Currency implements Serializable {
     @Column(nullable = false, unique = true)
     private String currencyCode;
 
+    @NotNull
+    @Column(nullable = false)
+    private String displayName;
+
+    @NotNull
+    @Column(nullable = false)
+    private Integer numericCode;
+
     public Integer getId() {
         return id;
     }
@@ -39,5 +47,31 @@ public class Currency implements Serializable {
 
     public void setCurrencyCode(String currencyCode) {
         this.currencyCode = currencyCode;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public Integer getNumericCode() {
+        return numericCode;
+    }
+
+    public void setNumericCode(Integer numericCode) {
+        this.numericCode = numericCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Currency{" +
+                "id=" + id +
+                ", currencyCode='" + currencyCode + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", numericCode=" + numericCode +
+                '}';
     }
 }

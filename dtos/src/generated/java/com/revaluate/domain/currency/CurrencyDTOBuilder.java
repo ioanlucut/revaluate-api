@@ -8,6 +8,10 @@ public class CurrencyDTOBuilder
   protected CurrencyDTOBuilder self;
   protected String value$currencyCode$java$lang$String;
   protected boolean isSet$currencyCode$java$lang$String;
+  protected String value$displayName$java$lang$String;
+  protected boolean isSet$displayName$java$lang$String;
+  protected int value$numericCode$int;
+  protected boolean isSet$numericCode$int;
 
   /**
    * Creates a new {@link CurrencyDTOBuilder}.
@@ -25,6 +29,30 @@ public class CurrencyDTOBuilder
   public CurrencyDTOBuilder withCurrencyCode(String value) {
     this.value$currencyCode$java$lang$String = value;
     this.isSet$currencyCode$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link CurrencyDTO#displayName} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public CurrencyDTOBuilder withDisplayName(String value) {
+    this.value$displayName$java$lang$String = value;
+    this.isSet$displayName$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link CurrencyDTO#numericCode} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public CurrencyDTOBuilder withNumericCode(int value) {
+    this.value$numericCode$int = value;
+    this.isSet$numericCode$int = true;
     return self;
   }
 
@@ -63,6 +91,12 @@ public class CurrencyDTOBuilder
       CurrencyDTO result = new CurrencyDTO();
       if (isSet$currencyCode$java$lang$String) {
         result.setCurrencyCode(value$currencyCode$java$lang$String);
+      }
+      if (isSet$displayName$java$lang$String) {
+        result.setDisplayName(value$displayName$java$lang$String);
+      }
+      if (isSet$numericCode$int) {
+        result.setNumericCode(value$numericCode$int);
       }
       return result;
     } catch (RuntimeException ex) {
