@@ -90,7 +90,7 @@ public class AbstractResourceTestEndToEnd {
 
     protected UserDTO createUserGetCreatedUserDTO() {
         // First, create a valid user - and account
-        CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.EUR.getCurrencyCode()).build();
+        CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.CAD.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
         UserDTO userDTO = new UserDTOBuilder().withEmail("a@b." + RandomStringUtils.randomAlphanumeric(5)).withFirstName("fn").withLastName("ln").withPassword("1234567").withCurrency(currencyDTO).build();
 
         WebTarget target = target("/account/create");
