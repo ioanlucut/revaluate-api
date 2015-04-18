@@ -30,8 +30,8 @@ public class Expense implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
     private Integer id;
 
-    @Column(nullable = false, precision = 7, scale = 2)
-    @Digits(integer = 9, fraction = 2)
+    @Column(nullable = false, precision = 10, scale = 2)
+    @Digits(integer = 10, fraction = 2)
     private BigDecimal value;
 
     private String description;

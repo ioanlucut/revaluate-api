@@ -25,6 +25,7 @@
 * However, for dev, there is a possibility to run flyway commands through maven.
     * E.g. `cd application`
     * E.g. `mvn flyway:migrate -DENVIRONMENT=dev`
+    * Note: connect to pgadmin (http://stackoverflow.com/questions/11769860/connect-to-a-heroku-database-with-pgadmin)
     
 # Existing endpoints:
         DELETE  /categories/remove/{categoryId} (com.revaluate.resource.category.CategoryResource)
