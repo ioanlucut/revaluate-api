@@ -18,7 +18,7 @@ public class ExpenseDTO implements Serializable {
     @JsonView({Views.DetailsView.class})
     private int id;
 
-    @Digits(integer = 9, fraction = 2)
+    @Digits(integer = 10, fraction = 2)
     @JsonView({Views.DetailsView.class})
     private double value;
 

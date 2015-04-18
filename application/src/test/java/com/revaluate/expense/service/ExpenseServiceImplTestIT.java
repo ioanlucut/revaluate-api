@@ -60,6 +60,42 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
     }
 
     @Test
+    public void create_withDifferentPriceCombinations_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        ExpenseDTO expenseDTO;
+        ExpenseDTO createdExpenseDTO;
+
+        //-----------------------------------------------------------------
+        // Create expenses
+        //-----------------------------------------------------------------
+        expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
+        createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+
+        expenseDTO = new ExpenseDTOBuilder().withValue(9999.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
+        createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+
+        expenseDTO = new ExpenseDTOBuilder().withValue(2147483647).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
+        createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+
+        expenseDTO = new ExpenseDTOBuilder().withValue(2147483647.99).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
+        createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+    }
+
+    @Test
     public void create_twoExpensesWithSameCategory_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create user
