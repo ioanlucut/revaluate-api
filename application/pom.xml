@@ -24,6 +24,14 @@
 
         <dependency>
             <groupId>com.revaluate</groupId>
+            <artifactId>core</artifactId>
+            <version>${global.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.revaluate</groupId>
             <artifactId>dtos</artifactId>
             <version>${global.version}</version>
         </dependency>
@@ -38,30 +46,13 @@
 
     <build>
 
-        <!--Resources filtering-->
-        <resources>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/test/resources</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                    <include>**/*.sql</include>
-                    <include>**/*.yaml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                    <include>**/*.sql</include>
-                    <include>**/*.yaml</include>
-                </includes>
-            </resource>
-        </resources>
-
         <plugins>
+
+            <!--Mark these tests and resources available-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
 
             <!--Migration flyway DB scripts-->
             <plugin>

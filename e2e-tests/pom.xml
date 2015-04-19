@@ -16,7 +16,14 @@
 
     <dependencies>
 
-        <!--Depends on APPLICATION-->
+        <dependency>
+            <groupId>com.revaluate</groupId>
+            <artifactId>application</artifactId>
+            <version>${global.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.revaluate</groupId>
             <artifactId>resources</artifactId>
@@ -35,7 +42,7 @@
                 <version>${maven-failsafe-plugin.version}</version>
                 <configuration>
                     <includes>
-                        <include>**/*E2E.java</include>
+                        <!--<include>**/*E2E.java</include>-->
                     </includes>
                 </configuration>
             </plugin>

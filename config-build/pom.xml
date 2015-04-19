@@ -111,6 +111,7 @@
         <lutung.version>0.0.5</lutung.version>
         <commons-io.version>2.4</commons-io.version>
         <commons-codec.version>1.7</commons-codec.version>
+        <maven-jar-plugin.version>2.2</maven-jar-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -408,6 +409,20 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven.surefire.plugin.version}</version>
+                </plugin>
+
+                <!--In order to reuse tests from a parent module-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
 
             </plugins>
