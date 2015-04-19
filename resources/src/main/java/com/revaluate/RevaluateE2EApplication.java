@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.dropwizard.setup.Environment;
 import io.github.fallwizard.FallwizardApplication;
+import io.github.fallwizard.configuration.FallwizardConfiguration;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
-import org.flywaydb.core.Flyway;
 import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
 import org.glassfish.jersey.server.ServerProperties;
 import org.slf4j.Logger;
@@ -19,19 +19,17 @@ import javax.ws.rs.ext.Provider;
 import java.util.EnumSet;
 import java.util.Map;
 
-public class RevaluateApplication extends FallwizardApplication<RevaluateConfiguration> {
+public class RevaluateE2EApplication extends FallwizardApplication<FallwizardConfiguration> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FallwizardApplication.class);
 
     public static void main(String[] args) throws Exception {
 
-        new RevaluateApplication().run(args);
+        new RevaluateE2EApplication().run(args);
     }
 
     @Override
-    public void run(RevaluateConfiguration configuration, Environment environment) throws Exception {
-        runMigrationScripts(configuration);
-
+    public void run(FallwizardConfiguration configuration, Environment environment) throws Exception {
         super.run(configuration, environment);
         // The order is very important.
         setUpOtherOptions(environment);
@@ -44,16 +42,6 @@ public class RevaluateApplication extends FallwizardApplication<RevaluateConfigu
 
         // Register providers
         registerProviders(environment);
-    }
-
-    private void runMigrationScripts(RevaluateConfiguration configuration) {
-        Flyway flyway = new Flyway();
-        flyway.setValidateOnMigrate(false);
-        flyway.setDataSource(configuration.getDataSourceFactory().getUrl(),
-                configuration.getDataSourceFactory().getUser(),
-                configuration.getDataSourceFactory().getPassword());
-
-        flyway.migrate();
     }
 
     private void configureJackson(Environment environment) {
