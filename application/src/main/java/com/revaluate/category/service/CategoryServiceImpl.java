@@ -52,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDTO> createAll(List<CategoryDTO> categoryDTOs, int userId) throws CategoryException {
+    public List<CategoryDTO> bulkCreate(List<CategoryDTO> categoryDTOs, int userId) throws CategoryException {
         //-----------------------------------------------------------------
         // Categories have to be unique between them
         //-----------------------------------------------------------------
@@ -82,6 +82,22 @@ public class CategoryServiceImpl implements CategoryService {
         return savedCategories.stream()
                 .map(categoryDTO -> dozerBeanMapper.map(categoryDTO, CategoryDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void bulkDelete(List<CategoryDTO> categoryDTOs, int userId) throws CategoryException {
+        //-----------------------------------------------------------------
+        // Categories have to exist for this user.
+        //-----------------------------------------------------------------
+        if (!categoryDTOs.stream().allMatch(categoryDTO -> categoryRepository.findOneByIdAndUserId(categoryDTO.getId(), userId).isPresent())) {
+            throw new CategoryException("One or more categories is invalid.");
+        }
+
+        List<Category> categories = categoryDTOs.stream()
+                .map(categoryDTO -> categoryRepository.findOneByIdAndUserId(categoryDTO.getId(), userId).get())
+                .collect(Collectors.toList());
+
+        categoryRepository.delete(categories);
     }
 
     @Override

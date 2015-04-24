@@ -111,7 +111,7 @@ public class CategoryServiceImplTestIT extends AbstractIntegrationTests {
     }
 
     @Test
-    public void createList_validDetails_ok() throws Exception {
+    public void bulkCreate_validDetails_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
@@ -124,35 +124,35 @@ public class CategoryServiceImplTestIT extends AbstractIntegrationTests {
         CategoryDTO categoryDTOB = new CategoryDTOBuilder().withColor("#eee").withName("name2").build();
         List<CategoryDTO> categoryDTOs = Arrays.asList(categoryDTO, categoryDTOB);
 
-        List<CategoryDTO> all = categoryService.createAll(categoryDTOs, createdUserDTO.getId());
+        List<CategoryDTO> all = categoryService.bulkCreate(categoryDTOs, createdUserDTO.getId());
         assertThat(all, is(notNullValue()));
         assertThat(all.size(), is(categoryDTOs.size()));
     }
 
     @Test
-    public void createList_invalidData_validationWorksOk() throws Exception {
+    public void bulkCreate_invalidData_validationWorksOk() throws Exception {
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
         exception.expect(ConstraintViolationException.class);
-        categoryService.createAll(null, createdUserDTO.getId());
+        categoryService.bulkCreate(null, createdUserDTO.getId());
 
         exception.expect(ConstraintViolationException.class);
-        categoryService.createAll(Arrays.asList(new CategoryDTOBuilder().withColor("#eee").withName("na").build(), new CategoryDTOBuilder().withColor("#eee").withName("name2").build()), createdUserDTO.getId());
+        categoryService.bulkCreate(Arrays.asList(new CategoryDTOBuilder().withColor("#eee").withName("na").build(), new CategoryDTOBuilder().withColor("#eee").withName("name2").build()), createdUserDTO.getId());
 
         exception.expect(ConstraintViolationException.class);
-        categoryService.createAll(Collections.singletonList(new CategoryDTOBuilder().withColor("#eee").withName("name").build()), createdUserDTO.getId());
+        categoryService.bulkCreate(Collections.singletonList(new CategoryDTOBuilder().withColor("#eee").withName("name").build()), createdUserDTO.getId());
 
         exception.expect(ConstraintViolationException.class);
         List<CategoryDTO> tooManyCategoryDTOs = new ArrayList<>(CategoryService.MAX_SIZE_LIST + 1);
         Collections.fill(tooManyCategoryDTOs, new CategoryDTOBuilder().withColor("#eee").withName("name").build());
-        categoryService.createAll(tooManyCategoryDTOs, createdUserDTO.getId());
+        categoryService.bulkCreate(tooManyCategoryDTOs, createdUserDTO.getId());
     }
 
     @Test
-    public void createList_withNonUniqueCategoryFromList_throwsException() throws Exception {
+    public void bulkCreate_withNonUniqueCategoryFromList_throwsException() throws Exception {
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
@@ -172,7 +172,79 @@ public class CategoryServiceImplTestIT extends AbstractIntegrationTests {
         List<CategoryDTO> categoryDTOs = Arrays.asList(categoryDTODuplicated, categoryDTOB);
 
         exception.expect(CategoryException.class);
-        categoryService.createAll(categoryDTOs, createdUserDTO.getId());
+        categoryService.bulkCreate(categoryDTOs, createdUserDTO.getId());
+    }
+
+    @Test
+    public void bulkDelete_validDetails_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        int firstSize = categoryService.findAllCategoriesFor(createdUserDTO.getId()).size();
+
+        //-----------------------------------------------------------------
+        // Create categories first
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        CategoryDTO categoryDTOB = new CategoryDTOBuilder().withColor("#eee").withName("name2").build();
+        List<CategoryDTO> categoryDTOs = Arrays.asList(categoryDTO, categoryDTOB);
+        List<CategoryDTO> all = categoryService.bulkCreate(categoryDTOs, createdUserDTO.getId());
+
+        int creationSize = categoryService.findAllCategoriesFor(createdUserDTO.getId()).size();
+        assertThat(firstSize, is(equalTo(creationSize - categoryDTOs.size())));
+
+        //-----------------------------------------------------------------
+        // Delete categories
+        //-----------------------------------------------------------------
+        categoryService.bulkDelete(all, createdUserDTO.getId());
+
+        int postBulkDeleteSize = categoryService.findAllCategoriesFor(createdUserDTO.getId()).size();
+        assertThat(postBulkDeleteSize, is(equalTo(firstSize)));
+    }
+
+    @Test
+    public void bulkDelete_invalidData_validationWorksOk() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        exception.expect(ConstraintViolationException.class);
+        categoryService.bulkDelete(null, createdUserDTO.getId());
+
+        exception.expect(ConstraintViolationException.class);
+        categoryService.bulkDelete(Arrays.asList(new CategoryDTOBuilder().withColor("#eee").withName("na").build(), new CategoryDTOBuilder().withColor("#eee").withName("name2").build()), createdUserDTO.getId());
+
+        exception.expect(ConstraintViolationException.class);
+        categoryService.bulkDelete(Collections.singletonList(new CategoryDTOBuilder().withColor("#eee").withName("name").build()), createdUserDTO.getId());
+
+        exception.expect(ConstraintViolationException.class);
+        List<CategoryDTO> tooManyCategoryDTOs = new ArrayList<>(CategoryService.MAX_SIZE_LIST + 1);
+        Collections.fill(tooManyCategoryDTOs, new CategoryDTOBuilder().withColor("#eee").withName("name").build());
+        categoryService.bulkDelete(tooManyCategoryDTOs, createdUserDTO.getId());
+    }
+
+    @Test
+    public void bulkDelete_tryToDeleteNonExistingCategory_exceptionThrown() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create categories first
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        List<CategoryDTO> categoryDTOs = Collections.singletonList(categoryDTO);
+        List<CategoryDTO> all = categoryService.bulkCreate(categoryDTOs, createdUserDTO.getId());
+
+        CategoryDTO categoryDTOWhichDoesNotExist = new CategoryDTOBuilder().withColor("#eee").withName("name2").withId(99999).build();
+        all.add(categoryDTOWhichDoesNotExist);
+
+        exception.expect(CategoryException.class);
+        categoryService.bulkDelete(all, createdUserDTO.getId());
     }
 
     @Test

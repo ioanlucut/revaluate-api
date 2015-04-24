@@ -18,7 +18,9 @@ public interface CategoryService {
     CategoryDTO create(@Valid CategoryDTO categoryDTO, int userId) throws CategoryException;
 
     @NotNull
-    List<CategoryDTO> createAll(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<CategoryDTO> categoryDTOs, int userId) throws CategoryException;
+    List<CategoryDTO> bulkCreate(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<CategoryDTO> categoryDTOs, int userId) throws CategoryException;
+
+    void bulkDelete(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<CategoryDTO> categoryDTOs, int userId) throws CategoryException;
 
     @NotNull
     CategoryDTO update(@Valid CategoryDTO categoryDTO, int userId) throws CategoryException;
