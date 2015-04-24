@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,39 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category savedCategory = categoryRepository.save(category);
         return dozerBeanMapper.map(savedCategory, CategoryDTO.class);
+    }
+
+    @Override
+    public List<CategoryDTO> createAll(List<CategoryDTO> categoryDTOs, int userId) throws CategoryException {
+        //-----------------------------------------------------------------
+        // Categories have to be unique between them
+        //-----------------------------------------------------------------
+        Map<String, List<CategoryDTO>> abc = categoryDTOs.stream().collect(Collectors.groupingBy(CategoryDTO::getName));
+        if (abc.size() != categoryDTOs.size()) {
+            throw new CategoryException("Categories are not unique between them");
+        }
+
+        //-----------------------------------------------------------------
+        // Categories have to be unique (not existing into database)
+        //-----------------------------------------------------------------
+        if (categoryDTOs.stream().anyMatch(categoryDTO -> categoryRepository.findOneByNameAndUserId(categoryDTO.getName(), userId).isPresent())) {
+            throw new CategoryException("Not all category names are unique");
+        }
+
+        User foundUser = userRepository.findOne(userId);
+        List<Category> categories = categoryDTOs.stream()
+                .map(categoryDTO -> {
+                    Category category = dozerBeanMapper.map(categoryDTO, Category.class);
+                    category.setUser(foundUser);
+
+                    return category;
+                }).collect(Collectors.toList());
+
+        List<Category> savedCategories = categoryRepository.save(categories);
+
+        return savedCategories.stream()
+                .map(categoryDTO -> dozerBeanMapper.map(categoryDTO, CategoryDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override

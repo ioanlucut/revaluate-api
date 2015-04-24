@@ -1,16 +1,19 @@
 package com.revaluate.category.service;
 
 import com.revaluate.AbstractIntegrationTests;
-import com.revaluate.domain.account.UserDTO;
 import com.revaluate.account.persistence.User;
+import com.revaluate.category.exception.CategoryException;
+import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
-import com.revaluate.category.exception.CategoryException;
 import org.joda.money.CurrencyUnit;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -105,6 +108,71 @@ public class CategoryServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(user.getCategories().get(0).getId(), is(equalTo(createdCategoryDTO.getId())));
         assertThat(user.getCategories().get(0).getName(), is(equalTo(createdCategoryDTO.getName())));
         assertThat(user.getCategories().get(0).getColor(), is(equalTo(createdCategoryDTO.getColor())));
+    }
+
+    @Test
+    public void createList_validDetails_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        CategoryDTO categoryDTOB = new CategoryDTOBuilder().withColor("#eee").withName("name2").build();
+        List<CategoryDTO> categoryDTOs = Arrays.asList(categoryDTO, categoryDTOB);
+
+        List<CategoryDTO> all = categoryService.createAll(categoryDTOs, createdUserDTO.getId());
+        assertThat(all, is(notNullValue()));
+        assertThat(all.size(), is(categoryDTOs.size()));
+    }
+
+    @Test
+    public void createList_invalidData_validationWorksOk() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        exception.expect(ConstraintViolationException.class);
+        categoryService.createAll(null, createdUserDTO.getId());
+
+        exception.expect(ConstraintViolationException.class);
+        categoryService.createAll(Arrays.asList(new CategoryDTOBuilder().withColor("#eee").withName("na").build(), new CategoryDTOBuilder().withColor("#eee").withName("name2").build()), createdUserDTO.getId());
+
+        exception.expect(ConstraintViolationException.class);
+        categoryService.createAll(Collections.singletonList(new CategoryDTOBuilder().withColor("#eee").withName("name").build()), createdUserDTO.getId());
+
+        exception.expect(ConstraintViolationException.class);
+        List<CategoryDTO> tooManyCategoryDTOs = new ArrayList<>(CategoryService.MAX_SIZE_LIST + 1);
+        Collections.fill(tooManyCategoryDTOs, new CategoryDTOBuilder().withColor("#eee").withName("name").build());
+        categoryService.createAll(tooManyCategoryDTOs, createdUserDTO.getId());
+    }
+
+    @Test
+    public void createList_withNonUniqueCategoryFromList_throwsException() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category (first time)
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Try to create a list of categories while one exists
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTODuplicated = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        CategoryDTO categoryDTOB = new CategoryDTOBuilder().withColor("#eee").withName("name2").build();
+        List<CategoryDTO> categoryDTOs = Arrays.asList(categoryDTODuplicated, categoryDTOB);
+
+        exception.expect(CategoryException.class);
+        categoryService.createAll(categoryDTOs, createdUserDTO.getId());
     }
 
     @Test
