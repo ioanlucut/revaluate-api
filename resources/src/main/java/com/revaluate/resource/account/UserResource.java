@@ -133,7 +133,7 @@ public class UserResource extends Resource {
         return Responses.respond(Response.Status.OK, "Confirmation successful");
     }
 
-    @POST
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(UPDATE_USER_PASSWORD)
