@@ -32,6 +32,7 @@ public class CategoryResource extends Resource {
     private static final String IS_UNIQUE_CATEGORY = "isUniqueCategory";
     private static final String RETRIEVE_EXPENSES = "retrieve";
     private static final String REMOVE_CATEGORY = "{categoryId}";
+    private static final String CREATE_ALL = "createAll";
 
     //-----------------------------------------------------------------
     // Path params
@@ -89,6 +90,16 @@ public class CategoryResource extends Resource {
         List<CategoryDTO> allCategoriesFor = categoryService.findAllCategoriesFor(getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, allCategoriesFor);
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(CREATE_ALL)
+    public Response createAll(@Valid List<CategoryDTO> categoryDTOs) throws CategoryException {
+        List<CategoryDTO> all = categoryService.createAll(categoryDTOs, getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, all);
     }
 
 }
