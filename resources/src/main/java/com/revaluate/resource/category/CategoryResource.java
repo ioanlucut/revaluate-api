@@ -1,8 +1,8 @@
 package com.revaluate.resource.category;
 
-import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.category.exception.CategoryException;
 import com.revaluate.category.service.CategoryService;
+import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
 import org.hibernate.validator.constraints.NotBlank;
@@ -30,10 +30,8 @@ public class CategoryResource extends Resource {
     // Sub paths
     //-----------------------------------------------------------------
     private static final String IS_UNIQUE_CATEGORY = "isUniqueCategory";
-    private static final String CREATE_CATEGORY = "create";
-    private static final String UPDATE_CATEGORY = "update";
     private static final String RETRIEVE_EXPENSES = "retrieve";
-    private static final String REMOVE_CATEGORY = "remove/{categoryId}";
+    private static final String REMOVE_CATEGORY = "/{categoryId}";
 
     //-----------------------------------------------------------------
     // Path params
@@ -59,21 +57,28 @@ public class CategoryResource extends Resource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(CREATE_CATEGORY)
     public Response create(@Valid CategoryDTO categoryDTO) throws CategoryException {
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, createdCategoryDTO);
     }
 
-    @POST
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(UPDATE_CATEGORY)
     public Response update(@Valid CategoryDTO categoryDTO) throws CategoryException {
         CategoryDTO createdCategoryDTO = categoryService.update(categoryDTO, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, createdCategoryDTO);
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path(REMOVE_CATEGORY)
+    public Response remove(@PathParam(CATEGORY_ID) @NotNull int categoryId) throws CategoryException {
+        categoryService.remove(categoryId, getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, "Category successfully removed");
     }
 
     @GET
@@ -86,12 +91,4 @@ public class CategoryResource extends Resource {
         return Responses.respond(Response.Status.OK, allCategoriesFor);
     }
 
-    @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path(REMOVE_CATEGORY)
-    public Response remove(@PathParam(CATEGORY_ID) @NotNull int categoryId) throws CategoryException {
-        categoryService.remove(categoryId, getCurrentUserId());
-
-        return Responses.respond(Response.Status.OK, "Category successfully removed");
-    }
 }

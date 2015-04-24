@@ -1,10 +1,10 @@
 package com.revaluate.resource.expense;
 
-import com.revaluate.resource.utils.Resource;
-import com.revaluate.resource.utils.Responses;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.expense.service.ExpenseService;
+import com.revaluate.resource.utils.Resource;
+import com.revaluate.resource.utils.Responses;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,23 +16,21 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path(ExpenseResource.CATEGORIES)
+@Path(ExpenseResource.EXPENSES)
 @Component
 public class ExpenseResource extends Resource {
 
     //-----------------------------------------------------------------
     // Path
     //-----------------------------------------------------------------
-    public static final String CATEGORIES = "expenses";
+    public static final String EXPENSES = "expenses";
 
     //-----------------------------------------------------------------
     // Sub paths
     //-----------------------------------------------------------------
-    private static final String CREATE_EXPENSE = "create";
-    private static final String UPDATE_EXPENSE = "update";
+    private static final String REMOVE_EXPENSE = "/{expenseId}";
     private static final String RETRIEVE_EXPENSES = "retrieve";
     private static final String RETRIEVE_EXPENSES_FROM_TO = "retrieve_from_to";
-    private static final String REMOVE_EXPENSE = "remove/{expenseId}";
 
     //-----------------------------------------------------------------
     // Path params
@@ -47,21 +45,28 @@ public class ExpenseResource extends Resource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(CREATE_EXPENSE)
     public Response create(@Valid ExpenseDTO expenseDTO) throws ExpenseException {
         ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, createdExpenseDTO);
     }
 
-    @POST
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(UPDATE_EXPENSE)
     public Response update(@Valid ExpenseDTO expenseDTO) throws ExpenseException {
         ExpenseDTO createdExpenseDTO = expenseService.update(expenseDTO, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, createdExpenseDTO);
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path(REMOVE_EXPENSE)
+    public Response remove(@PathParam(EXPENSE_ID) @NotNull int expenseId) throws ExpenseException {
+        expenseService.remove(expenseId, getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, "Expense successfully removed");
     }
 
     @GET
@@ -84,12 +89,4 @@ public class ExpenseResource extends Resource {
         return Responses.respond(Response.Status.OK, allExpensesFor);
     }
 
-    @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path(REMOVE_EXPENSE)
-    public Response remove(@PathParam(EXPENSE_ID) @NotNull int expenseId) throws ExpenseException {
-        expenseService.remove(expenseId, getCurrentUserId());
-
-        return Responses.respond(Response.Status.OK, "Expense successfully removed");
-    }
 }
