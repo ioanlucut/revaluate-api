@@ -31,7 +31,7 @@ public class CategoryResource extends Resource {
     //-----------------------------------------------------------------
     private static final String IS_UNIQUE_CATEGORY = "isUniqueCategory";
     private static final String RETRIEVE_EXPENSES = "retrieve";
-    private static final String REMOVE_CATEGORY = "/{categoryId}";
+    private static final String REMOVE_CATEGORY = "{categoryId}";
 
     //-----------------------------------------------------------------
     // Path params

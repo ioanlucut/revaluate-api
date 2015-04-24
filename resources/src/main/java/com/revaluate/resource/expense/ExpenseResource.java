@@ -28,7 +28,7 @@ public class ExpenseResource extends Resource {
     //-----------------------------------------------------------------
     // Sub paths
     //-----------------------------------------------------------------
-    private static final String REMOVE_EXPENSE = "/{expenseId}";
+    private static final String REMOVE_EXPENSE = "{expenseId}";
     private static final String RETRIEVE_EXPENSES = "retrieve";
     private static final String RETRIEVE_EXPENSES_FROM_TO = "retrieve_from_to";
 
