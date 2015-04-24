@@ -29,20 +29,16 @@ import javax.ws.rs.core.Response;
 public class UserResource extends Resource {
 
     public static final String ACCOUNT = "account";
-    private static final String DETAILS_USER = "details";
     private static final String IS_UNIQUE_EMAIL = "isUniqueEmail";
     private static final String EMAIL = "email";
     private static final String TOKEN = "token";
-    private static final String CREATE_USER = "create";
     private static final String LOGIN_USER = "login";
-    private static final String UPDATE_USER = "update";
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
     private static final String REQUEST_RESET_PASSWORD = "requestResetPassword/{email}";
     private static final String REQUEST_CONFIRMATION_EMAIL = "requestConfirmationEmail/{email}";
     private static final String VALIDATE_RESET_PASSWORD_TOKEN = "validateResetPasswordToken/{email}/{token}";
     private static final String VALIDATE_CONFIRMATION_EMAIL_TOKEN = "validateConfirmationEmailToken/{email}/{token}";
     private static final String RESET_PASSWORD = "resetPassword/{email}/{token}";
-    private static final String REMOVE_USER = "remove";
 
     @Autowired
     private UserService userService;
@@ -64,7 +60,6 @@ public class UserResource extends Resource {
     @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(CREATE_USER)
     @JsonView({Views.StrictView.class})
     public Response create(@Validated(CreateUserGroup.class) UserDTO userDTO) throws UserException {
         UserDTO createdUserDTO = userService.create(userDTO);
@@ -89,10 +84,9 @@ public class UserResource extends Resource {
         }
     }
 
-    @POST
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(UPDATE_USER)
     @JsonView({Views.StrictView.class})
     public Response update(@Valid UserDTO userDTO) throws UserException {
         UserDTO updatedUserDTO = userService.update(userDTO, getCurrentUserId());
@@ -102,7 +96,6 @@ public class UserResource extends Resource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path(DETAILS_USER)
     @JsonView({Views.DetailsView.class})
     public Response getUserDetails() throws UserException {
         UserDTO userDetailsDTO = userService.getUserDetails(getCurrentUserId());
@@ -112,7 +105,6 @@ public class UserResource extends Resource {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path(REMOVE_USER)
     public Response remove() {
         userService.remove(getCurrentUserId());
 

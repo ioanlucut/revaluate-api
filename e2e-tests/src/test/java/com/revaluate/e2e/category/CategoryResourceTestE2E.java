@@ -66,7 +66,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         // Create first category
         //-----------------------------------------------------------------
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(5)).withColor("#eee").build();
-        WebTarget target = target("/categories/create");
+        WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
 
@@ -100,7 +100,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         // Create invalid category
         //-----------------------------------------------------------------
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(1)).withColor("#eee").build();
-        WebTarget target = target("/categories/create");
+        WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
         assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
 //        List<String> violationsMessageTemplates = getValidationMessageTemplates(response);
@@ -116,7 +116,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         // Create invalid category
         //-----------------------------------------------------------------
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(4)).withColor("").build();
-        WebTarget target = target("/categories/create");
+        WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
         assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
 //        List<String> violationsMessageTemplates = getValidationMessageTemplates(response);
@@ -132,7 +132,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         // Create invalid category
         //-----------------------------------------------------------------
         CategoryDTO categoryDTO = new CategoryDTOBuilder().build();
-        WebTarget target = target("/categories/create");
+        WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
         assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
 //        List<String> violationsMessageTemplates = getValidationMessageTemplates(response);
@@ -148,7 +148,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         // Create valid category
         //-----------------------------------------------------------------
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#fff").withName("name").build();
-        WebTarget target = target("/categories/create");
+        WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
 
