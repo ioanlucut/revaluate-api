@@ -90,11 +90,11 @@ public class ExpenseResource extends Resource {
         return Responses.respond(Response.Status.OK, allExpensesFor);
     }
 
-    @DELETE
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(BULK_DELETE)
-    public Response bulkDelete(@Valid List<ExpenseDTO> expenseDTOs) throws ExpenseException {
+    public Response bulkDelete(@NotNull @Valid List<ExpenseDTO> expenseDTOs) throws ExpenseException {
         expenseService.bulkDelete(expenseDTOs, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, "Bulk delete action complete");

@@ -103,7 +103,7 @@ public class CategoryResource extends Resource {
         return Responses.respond(Response.Status.OK, all);
     }
 
-    @DELETE
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(BULK_DELETE)
