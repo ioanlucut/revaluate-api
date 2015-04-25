@@ -9,11 +9,14 @@ import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.expense.persistence.Expense;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import org.dozer.DozerBeanMapper;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import org.joda.time.LocalDateTime;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -95,10 +98,26 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<ExpenseDTO> findAllExpensesWithCategoryIdFor(int userId, int categoryId) {
+    public List<ExpenseDTO> findAllExpensesWithCategoryIdFor(int categoryId, int userId) {
         List<Expense> expenses = expenseRepository.findAllByUserIdAndCategoryId(userId, categoryId);
 
         return collectAndGet(expenses);
+    }
+
+    @Override
+    public void bulkDelete(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<ExpenseDTO> expenseDTOs, int userId) throws ExpenseException {
+        //-----------------------------------------------------------------
+        // Expenses have to exist for this user.
+        //-----------------------------------------------------------------
+        if (!expenseDTOs.stream().allMatch(expenseDTO -> expenseRepository.findOneByIdAndUserId(expenseDTO.getId(), userId).isPresent())) {
+            throw new ExpenseException("One or more expense is invalid.");
+        }
+
+        List<Expense> expenses = expenseDTOs.stream()
+                .map(expenseDTO -> expenseRepository.findOneByIdAndUserId(expenseDTO.getId(), userId).get())
+                .collect(Collectors.toList());
+
+        expenseRepository.delete(expenses);
     }
 
     @Override
