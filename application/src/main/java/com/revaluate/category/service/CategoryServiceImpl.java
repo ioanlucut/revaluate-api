@@ -90,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
         // Categories have to exist for this user.
         //-----------------------------------------------------------------
         if (!categoryDTOs.stream().allMatch(categoryDTO -> categoryRepository.findOneByIdAndUserId(categoryDTO.getId(), userId).isPresent())) {
-            throw new CategoryException("One or more categories is invalid.");
+            throw new CategoryException("One or more category is invalid.");
         }
 
         List<Category> categories = categoryDTOs.stream()
