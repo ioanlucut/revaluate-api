@@ -1,9 +1,6 @@
 package com.revaluate.domain.account;
 
-import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.currency.CurrencyDTO;
-import com.revaluate.domain.expense.ExpenseDTO;
-import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -24,10 +21,6 @@ public class UserDTOBuilder
   protected boolean isSet$currency$com$revaluate$domain$currency$CurrencyDTO;
   protected boolean value$initiated$boolean;
   protected boolean isSet$initiated$boolean;
-  protected List<CategoryDTO> value$categories$java$util$List;
-  protected boolean isSet$categories$java$util$List;
-  protected List<ExpenseDTO> value$expenses$java$util$List;
-  protected boolean isSet$expenses$java$util$List;
 
   /**
    * Creates a new {@link UserDTOBuilder}.
@@ -121,30 +114,6 @@ public class UserDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link UserDTO#categories} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public UserDTOBuilder withCategories(List<CategoryDTO> value) {
-    this.value$categories$java$util$List = value;
-    this.isSet$categories$java$util$List = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link UserDTO#expenses} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public UserDTOBuilder withExpenses(List<ExpenseDTO> value) {
-    this.value$expenses$java$util$List = value;
-    this.isSet$expenses$java$util$List = true;
-    return self;
-  }
-
-  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -197,12 +166,6 @@ public class UserDTOBuilder
       }
       if (isSet$initiated$boolean) {
         result.setInitiated(value$initiated$boolean);
-      }
-      if (isSet$categories$java$util$List) {
-        result.setCategories(value$categories$java$util$List);
-      }
-      if (isSet$expenses$java$util$List) {
-        result.setExpenses(value$expenses$java$util$List);
       }
       return result;
     } catch (RuntimeException ex) {

@@ -44,10 +44,10 @@ public class CategoryServiceImplTest_create_IT extends AbstractIntegrationTests 
         User user = userRepository.findOne(userDTO.getId());
 
         assertThat(user, is(notNullValue()));
-        assertThat(user.getCategories().size(), is(equalTo(1)));
-        assertThat(user.getCategories().get(0).getId(), is(equalTo(createdCategoryDTO.getId())));
-        assertThat(user.getCategories().get(0).getName(), is(equalTo(createdCategoryDTO.getName())));
-        assertThat(user.getCategories().get(0).getColor(), is(equalTo(createdCategoryDTO.getColor())));
+        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).size(), is(equalTo(1)));
+        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).get(0).getId(), is(equalTo(createdCategoryDTO.getId())));
+        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).get(0).getName(), is(equalTo(createdCategoryDTO.getName())));
+        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).get(0).getColor(), is(equalTo(createdCategoryDTO.getColor())));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class CategoryServiceImplTest_create_IT extends AbstractIntegrationTests 
         User user = userRepository.findOne(userDTO.getId());
 
         assertThat(user, is(notNullValue()));
-        assertThat(user.getCategories().size(), is(equalTo(2)));
+        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).size(), is(equalTo(2)));
     }
 
     @Test(expected = ConstraintViolationException.class)
