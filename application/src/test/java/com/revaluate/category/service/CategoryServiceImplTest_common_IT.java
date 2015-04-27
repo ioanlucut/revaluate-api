@@ -6,7 +6,11 @@ import com.revaluate.category.exception.CategoryException;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
+import com.revaluate.domain.expense.ExpenseDTO;
+import com.revaluate.domain.expense.ExpenseDTOBuilder;
+import com.revaluate.expense.service.ExpenseService;
 import org.joda.money.CurrencyUnit;
+import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,6 +24,9 @@ public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests 
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private ExpenseService expenseService;
 
     @Test
     public void isUniqueName_validName_ok() throws Exception {
@@ -193,7 +200,7 @@ public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests 
         // Create category 2
         //-----------------------------------------------------------------
         categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name2").build();
-        createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+        categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
         // Check user with 2 categories added
@@ -213,5 +220,29 @@ public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         List<User> all = userRepository.findAll();
         assertThat(all.size(), is(equalTo(0)));
+    }
+
+    @Test
+    public void remove_removeACategoryWithExpensesUsingThisCategory_exceptionThrown() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create expense
+        //-----------------------------------------------------------------
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
+        ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseDTO.setId(createdExpenseDTO.getId());
+
+        exception.expect(CategoryException.class);
+        categoryService.remove(createdCategoryDTO.getId(), userDTO.getId());
     }
 }
