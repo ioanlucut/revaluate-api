@@ -6,6 +6,8 @@ import com.revaluate.category.exception.CategoryException;
 import com.revaluate.category.persistence.Category;
 import com.revaluate.category.persistence.CategoryRepository;
 import com.revaluate.domain.category.CategoryDTO;
+import com.revaluate.expense.persistence.Expense;
+import com.revaluate.expense.persistence.ExpenseRepository;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ExpenseRepository expenseRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -126,6 +131,13 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> categoryById = categoryRepository.findOneByIdAndUserId(categoryId, userId);
         categoryById.orElseThrow(() -> new CategoryException("The given category does not exists"));
 
+        //-----------------------------------------------------------------
+        // We do not allow to delete categories which are used by one or more expenses
+        //-----------------------------------------------------------------
+        List<Expense> allByUserIdAndCategoryId = expenseRepository.findAllByUserIdAndCategoryId(userId, categoryId);
+        if (!allByUserIdAndCategoryId.isEmpty()) {
+            throw new CategoryException("This category cannot be deleted. One or more expense with this category still exists.");
+        }
         categoryRepository.delete(categoryId);
     }
 }
