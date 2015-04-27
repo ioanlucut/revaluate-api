@@ -40,8 +40,8 @@ public class Expense implements Serializable {
     @JoinColumn(name = USER_ID, nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = CATEGORY_ID)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = CATEGORY_ID, nullable = false)
     private Category category;
 
     @NotNull
