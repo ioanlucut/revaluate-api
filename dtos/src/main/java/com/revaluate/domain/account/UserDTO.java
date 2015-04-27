@@ -1,11 +1,9 @@
 package com.revaluate.domain.account;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.revaluate.domain.category.CategoryDTO;
+import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.groups.CreateUserGroup;
 import com.revaluate.views.Views;
-import com.revaluate.domain.currency.CurrencyDTO;
-import com.revaluate.domain.expense.ExpenseDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -13,8 +11,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @GeneratePojoBuilder
 public class UserDTO implements Serializable {
@@ -47,12 +43,6 @@ public class UserDTO implements Serializable {
 
     @JsonView({Views.StrictView.class})
     private boolean initiated;
-
-    @JsonView({Views.DetailsView.class})
-    private List<CategoryDTO> categories = new ArrayList<>();
-
-    @JsonView({Views.DetailsView.class})
-    private List<ExpenseDTO> expenses = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -110,22 +100,6 @@ public class UserDTO implements Serializable {
         this.initiated = initiated;
     }
 
-    public List<CategoryDTO> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<CategoryDTO> categories) {
-        this.categories = categories;
-    }
-
-    public List<ExpenseDTO> getExpenses() {
-        return expenses;
-    }
-
-    public void setExpenses(List<ExpenseDTO> expenses) {
-        this.expenses = expenses;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -135,9 +109,7 @@ public class UserDTO implements Serializable {
 
         if (id != userDTO.id) return false;
         if (initiated != userDTO.initiated) return false;
-        if (categories != null ? !categories.equals(userDTO.categories) : userDTO.categories != null) return false;
         if (email != null ? !email.equals(userDTO.email) : userDTO.email != null) return false;
-        if (expenses != null ? !expenses.equals(userDTO.expenses) : userDTO.expenses != null) return false;
         if (firstName != null ? !firstName.equals(userDTO.firstName) : userDTO.firstName != null) return false;
         if (lastName != null ? !lastName.equals(userDTO.lastName) : userDTO.lastName != null) return false;
         if (password != null ? !password.equals(userDTO.password) : userDTO.password != null) return false;
@@ -153,8 +125,6 @@ public class UserDTO implements Serializable {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (initiated ? 1 : 0);
-        result = 31 * result + (categories != null ? categories.hashCode() : 0);
-        result = 31 * result + (expenses != null ? expenses.hashCode() : 0);
         return result;
     }
 }

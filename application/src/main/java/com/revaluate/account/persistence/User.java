@@ -1,17 +1,11 @@
 package com.revaluate.account.persistence;
 
-import com.revaluate.category.persistence.Category;
 import com.revaluate.currency.persistence.Currency;
-import com.revaluate.expense.persistence.Expense;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -65,14 +59,6 @@ public class User implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = CURRENCY_ID, nullable = false)
     private Currency currency;
-
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = USER, orphanRemoval = true)
-    private List<Expense> expenses = new ArrayList<>();
-
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy = USER, orphanRemoval = true)
-    private List<Category> categories = new ArrayList<>();
 
     @NotNull
     @Column(nullable = false)
@@ -154,22 +140,6 @@ public class User implements Serializable {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
-    }
-
-    public List<Expense> getExpenses() {
-        return expenses;
-    }
-
-    public void setExpenses(List<Expense> expenses) {
-        this.expenses = expenses;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
     }
 
     public LocalDateTime getCreatedDate() {

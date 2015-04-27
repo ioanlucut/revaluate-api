@@ -148,7 +148,7 @@ public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests 
         User user = userRepository.findOne(userDTO.getId());
 
         assertThat(user, is(notNullValue()));
-        assertThat(user.getCategories().size(), is(equalTo(1)));
+        assertThat(categoryService.findAllCategoriesFor(user.getId()).size(), is(equalTo(1)));
 
         //-----------------------------------------------------------------
         // Remove the category
@@ -161,7 +161,7 @@ public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests 
         user = userRepository.findOne(userDTO.getId());
 
         assertThat(user, is(notNullValue()));
-        assertThat(user.getCategories().size(), is(equalTo(0)));
+        assertThat(categoryService.findAllCategoriesFor(user.getId()).size(), is(equalTo(0)));
     }
 
     @Test(expected = CategoryException.class)
@@ -208,7 +208,7 @@ public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests 
         User user = userRepository.findOne(userDTO.getId());
 
         assertThat(user, is(notNullValue()));
-        assertThat(user.getCategories().size(), is(equalTo(2)));
+        assertThat(categoryService.findAllCategoriesFor(user.getId()).size(), is(equalTo(2)));
 
         //-----------------------------------------------------------------
         // Remove the category

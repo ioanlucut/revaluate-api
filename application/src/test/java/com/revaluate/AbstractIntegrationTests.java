@@ -4,6 +4,7 @@ import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.EmailRepository;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.service.UserService;
+import com.revaluate.category.persistence.CategoryRepository;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.currency.exception.CurrencyException;
 import com.revaluate.currency.persistence.CurrencyRepository;
@@ -12,6 +13,7 @@ import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.currency.CurrencyDTOBuilder;
+import com.revaluate.expense.persistence.ExpenseRepository;
 import org.joda.money.CurrencyUnit;
 import org.junit.After;
 import org.junit.Before;
@@ -54,6 +56,12 @@ public class AbstractIntegrationTests {
     protected ConfigProperties configProperties;
 
     @Autowired
+    protected CategoryRepository categoryRepository;
+
+    @Autowired
+    protected ExpenseRepository expenseRepository;
+
+    @Autowired
     protected EmailRepository emailRepository;
 
     protected UserDTO userDTO;
@@ -67,6 +75,8 @@ public class AbstractIntegrationTests {
     @After
     public void tearDown() throws Exception {
         emailRepository.deleteAll();
+        expenseRepository.deleteAll();
+        categoryRepository.deleteAll();
         userRepository.deleteAll();
         currencyRepository.deleteAll();
     }

@@ -6,6 +6,7 @@ import com.revaluate.account.persistence.EmailRepository;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.utils.TokenGenerator;
+import com.revaluate.category.persistence.CategoryRepository;
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;
 import com.revaluate.domain.account.LoginDTO;
@@ -13,6 +14,7 @@ import com.revaluate.domain.account.ResetPasswordDTO;
 import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.email.EmailType;
+import com.revaluate.expense.persistence.ExpenseRepository;
 import org.dozer.DozerBeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
@@ -42,6 +44,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private EmailRepository emailRepository;
+
+    @Autowired
+    private ExpenseRepository expenseRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private EmailAsyncSender emailAsyncSender;
@@ -145,9 +153,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void remove(int userId) {
         //-----------------------------------------------------------------
-        // First, remove all its email tokens, then the user
+        // First, remove all its email tokens, then expenses, then categories, then the user
         //-----------------------------------------------------------------
         emailRepository.removeByUserId(userId);
+        expenseRepository.removeByUserId(userId);
+        categoryRepository.removeByUserId(userId);
         userRepository.delete(userId);
     }
 
