@@ -18,6 +18,10 @@ public class InsightDTOBuilder
   protected boolean isSet$insightColors$java$util$List;
   protected List<String> value$insightLabels$java$util$List;
   protected boolean isSet$insightLabels$java$util$List;
+  protected double value$totalAmountSpent$double;
+  protected boolean isSet$totalAmountSpent$double;
+  protected int value$numberOfTransactions$int;
+  protected boolean isSet$numberOfTransactions$int;
 
   /**
    * Creates a new {@link InsightDTOBuilder}.
@@ -87,6 +91,30 @@ public class InsightDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link InsightDTO#totalAmountSpent} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public InsightDTOBuilder withTotalAmountSpent(double value) {
+    this.value$totalAmountSpent$double = value;
+    this.isSet$totalAmountSpent$double = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link InsightDTO#numberOfTransactions} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public InsightDTOBuilder withNumberOfTransactions(int value) {
+    this.value$numberOfTransactions$int = value;
+    this.isSet$numberOfTransactions$int = true;
+    return self;
+  }
+
+  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -133,6 +161,12 @@ public class InsightDTOBuilder
       }
       if (isSet$insightLabels$java$util$List) {
         result.setInsightLabels(value$insightLabels$java$util$List);
+      }
+      if (isSet$totalAmountSpent$double) {
+        result.setTotalAmountSpent(value$totalAmountSpent$double);
+      }
+      if (isSet$numberOfTransactions$int) {
+        result.setNumberOfTransactions(value$numberOfTransactions$int);
       }
       return result;
     } catch (RuntimeException ex) {

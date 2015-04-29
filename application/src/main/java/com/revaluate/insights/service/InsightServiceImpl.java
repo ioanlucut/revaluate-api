@@ -72,12 +72,19 @@ public class InsightServiceImpl implements InsightService {
                 .map(bigDecimal -> decimalFormat.format(bigDecimal.setScale(DIGITS_SCALE, BigDecimal.ROUND_DOWN)))
                 .collect(Collectors.toList());
 
+        BigDecimal totalExpenses = allExpenses
+                .stream()
+                .map(Expense::getValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         return new InsightDTOBuilder()
                 .withFrom(after)
                 .withTo(before)
                 .withInsightData(insightData)
                 .withInsightColors(insightColors)
                 .withInsightLabels(insightsLabels)
+                .withNumberOfTransactions(allExpenses.size())
+                .withTotalAmountSpent(totalExpenses.doubleValue())
                 .build();
     }
 }

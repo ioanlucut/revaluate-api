@@ -35,6 +35,9 @@ public class InsightDTO implements Serializable {
     @JsonView({Views.DetailsView.class})
     private List<String> insightLabels;
 
+    private double totalAmountSpent;
+    private int numberOfTransactions;
+
     public LocalDateTime getFrom() {
         return from;
     }
@@ -75,12 +78,30 @@ public class InsightDTO implements Serializable {
         this.insightLabels = insightLabels;
     }
 
+    public double getTotalAmountSpent() {
+        return totalAmountSpent;
+    }
+
+    public void setTotalAmountSpent(double totalAmountSpent) {
+        this.totalAmountSpent = totalAmountSpent;
+    }
+
+    public int getNumberOfTransactions() {
+        return numberOfTransactions;
+    }
+
+    public void setNumberOfTransactions(int numberOfTransactions) {
+        this.numberOfTransactions = numberOfTransactions;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InsightDTO that = (InsightDTO) o;
-        return Objects.equals(from, that.from) &&
+        return Objects.equals(totalAmountSpent, that.totalAmountSpent) &&
+                Objects.equals(numberOfTransactions, that.numberOfTransactions) &&
+                Objects.equals(from, that.from) &&
                 Objects.equals(to, that.to) &&
                 Objects.equals(insightData, that.insightData) &&
                 Objects.equals(insightColors, that.insightColors) &&
@@ -89,7 +110,7 @@ public class InsightDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(from, to, insightData, insightColors, insightLabels);
+        return Objects.hash(from, to, insightData, insightColors, insightLabels, totalAmountSpent, numberOfTransactions);
     }
 
     @Override
@@ -100,6 +121,8 @@ public class InsightDTO implements Serializable {
                 ", insightData=" + insightData +
                 ", insightColors=" + insightColors +
                 ", insightLabels=" + insightLabels +
+                ", totalAmountSpent=" + totalAmountSpent +
+                ", numberOfTransactions=" + numberOfTransactions +
                 '}';
     }
 }
