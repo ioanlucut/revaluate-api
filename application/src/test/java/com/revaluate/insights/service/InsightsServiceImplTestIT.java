@@ -88,6 +88,9 @@ public class InsightsServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(insightDTO.getInsightColors().size(), is(2));
         assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#eee".equals(s)), is(Boolean.TRUE));
         assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#fff".equals(s)), is(Boolean.TRUE));
+
+        assertThat(insightDTO.getNumberOfTransactions(), is(4));
+        assertThat(insightDTO.getTotalAmountSpent(), is(40.20));
     }
 
     @Test
@@ -144,5 +147,8 @@ public class InsightsServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(insightDTO.getInsightColors().size(), is(2));
         assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#eee".equals(s)), is(Boolean.TRUE));
         assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#fff".equals(s)), is(Boolean.TRUE));
+
+        assertThat(insightDTO.getNumberOfTransactions(), is(3));
+        assertThat(insightDTO.getTotalAmountSpent(), is(22.65));
     }
 }
