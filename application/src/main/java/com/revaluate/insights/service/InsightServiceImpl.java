@@ -2,10 +2,7 @@ package com.revaluate.insights.service;
 
 import com.revaluate.category.persistence.Category;
 import com.revaluate.domain.category.CategoryDTO;
-import com.revaluate.domain.insights.InsightDTO;
-import com.revaluate.domain.insights.InsightDTOBuilder;
-import com.revaluate.domain.insights.TotalPerCategoryInsightDTO;
-import com.revaluate.domain.insights.TotalPerCategoryInsightDTOBuilder;
+import com.revaluate.domain.insights.*;
 import com.revaluate.expense.persistence.Expense;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import org.dozer.DozerBeanMapper;
@@ -20,6 +17,7 @@ import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -114,6 +112,25 @@ public class InsightServiceImpl implements InsightService {
                 .withNumberOfTransactions(allExpenses.size())
                 .withTotalAmountSpent(totalExpenses.doubleValue())
                 .withTotalPerCategoryInsightDTOs(totalPerCategoriesDTOs)
+                .build();
+    }
+
+    @Override
+    public SummaryInsightsDTO computeSummaryInsights(int userId) {
+        Optional<Expense> oneByUserIdOrderBySpentDateAsc = expenseRepository.findFirstByUserIdOrderBySpentDateAsc(userId);
+        Optional<Expense> oneByUserIdOrderBySpentDateDesc = expenseRepository.findFirstByUserIdOrderBySpentDateDesc(userId);
+
+        if (oneByUserIdOrderBySpentDateAsc.isPresent() || oneByUserIdOrderBySpentDateDesc.isPresent()) {
+
+            return new SummaryInsightsDTOBuilder()
+                    .withFirstExistingExpenseDate(oneByUserIdOrderBySpentDateAsc.get().getSpentDate())
+                    .withLastExistingExpenseDate(oneByUserIdOrderBySpentDateDesc.get().getSpentDate())
+                    .build();
+        }
+
+        return new SummaryInsightsDTOBuilder()
+                .withFirstExistingExpenseDate(LocalDateTime.now())
+                .withLastExistingExpenseDate(LocalDateTime.now())
                 .build();
     }
 }
