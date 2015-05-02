@@ -23,6 +23,10 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
     List<Expense> findAllByUserIdAndCategoryId(int userId, int categoryId);
 
+    Optional<Expense> findFirstByUserIdOrderBySpentDateDesc(int userId);
+
+    Optional<Expense> findFirstByUserIdOrderBySpentDateAsc(int userId);
+
     @Modifying
     @Transactional
     @Query("delete from Expense u where u.user.id = ?1")
