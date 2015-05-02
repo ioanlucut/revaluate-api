@@ -1,6 +1,8 @@
 package com.revaluate.domain.insights;
 
+import com.revaluate.domain.category.CategoryDTO;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Generated;
 import org.joda.time.LocalDateTime;
 
@@ -22,6 +24,8 @@ public class InsightDTOBuilder
   protected boolean isSet$totalAmountSpent$double;
   protected int value$numberOfTransactions$int;
   protected boolean isSet$numberOfTransactions$int;
+  protected Map<CategoryDTO, String> value$totalPerCategories$java$util$Map;
+  protected boolean isSet$totalPerCategories$java$util$Map;
 
   /**
    * Creates a new {@link InsightDTOBuilder}.
@@ -115,6 +119,18 @@ public class InsightDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link InsightDTO#totalPerCategories} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public InsightDTOBuilder withTotalPerCategories(Map<CategoryDTO, String> value) {
+    this.value$totalPerCategories$java$util$Map = value;
+    this.isSet$totalPerCategories$java$util$Map = true;
+    return self;
+  }
+
+  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -167,6 +183,9 @@ public class InsightDTOBuilder
       }
       if (isSet$numberOfTransactions$int) {
         result.setNumberOfTransactions(value$numberOfTransactions$int);
+      }
+      if (isSet$totalPerCategories$java$util$Map) {
+        result.setTotalPerCategories(value$totalPerCategories$java$util$Map);
       }
       return result;
     } catch (RuntimeException ex) {

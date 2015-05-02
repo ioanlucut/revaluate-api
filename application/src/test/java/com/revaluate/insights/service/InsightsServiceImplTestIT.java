@@ -89,6 +89,11 @@ public class InsightsServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#eee".equals(s)), is(Boolean.TRUE));
         assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#fff".equals(s)), is(Boolean.TRUE));
 
+        assertThat(insightDTO.getTotalPerCategories(), is(notNullValue()));
+        assertThat(insightDTO.getTotalPerCategories().size(), is(2));
+        assertThat(insightDTO.getTotalPerCategories().entrySet().stream().anyMatch(s -> s.getKey().getName().equals("name") && s.getValue().equals("10.10")), is(Boolean.TRUE));
+        assertThat(insightDTO.getTotalPerCategories().entrySet().stream().anyMatch(s -> s.getKey().getName().equals("name2") && s.getValue().equals("30.10")), is(Boolean.TRUE));
+
         assertThat(insightDTO.getNumberOfTransactions(), is(4));
         assertThat(insightDTO.getTotalAmountSpent(), is(40.20));
     }
@@ -147,6 +152,11 @@ public class InsightsServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(insightDTO.getInsightColors().size(), is(2));
         assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#eee".equals(s)), is(Boolean.TRUE));
         assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#fff".equals(s)), is(Boolean.TRUE));
+
+        assertThat(insightDTO.getTotalPerCategories(), is(notNullValue()));
+        assertThat(insightDTO.getTotalPerCategories().size(), is(2));
+        assertThat(insightDTO.getTotalPerCategories().entrySet().stream().anyMatch(s -> s.getKey().getName().equals("name") && s.getValue().equals("10.10")), is(Boolean.TRUE));
+        assertThat(insightDTO.getTotalPerCategories().entrySet().stream().anyMatch(s -> s.getKey().getName().equals("name2") && s.getValue().equals("12.55")), is(Boolean.TRUE));
 
         assertThat(insightDTO.getNumberOfTransactions(), is(3));
         assertThat(insightDTO.getTotalAmountSpent(), is(22.65));
