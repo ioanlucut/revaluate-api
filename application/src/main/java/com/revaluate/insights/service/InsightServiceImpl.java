@@ -83,10 +83,10 @@ public class InsightServiceImpl implements InsightService {
                             .map(Expense::getValue)
                             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-                    String format = decimalFormat.format(bigDecimal.setScale(DIGITS_SCALE, BigDecimal.ROUND_DOWN));
+                    String totalAmount = decimalFormat.format(bigDecimal.setScale(DIGITS_SCALE, BigDecimal.ROUND_DOWN));
                     return new TotalPerCategoryInsightDTOBuilder()
                             .withCategoryDTO(categoryDTO)
-                            .withTotalAmount(format)
+                            .withTotalAmount(totalAmount)
                             .build();
                 })
                 .collect(Collectors.toList());
