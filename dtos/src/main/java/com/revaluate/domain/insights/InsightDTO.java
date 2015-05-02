@@ -39,6 +39,10 @@ public class InsightDTO implements Serializable {
     @JsonView({Views.DetailsView.class})
     private List<TotalPerCategoryInsightDTO> totalPerCategoryInsightDTOs;
 
+    @NotNull
+    @JsonView({Views.DetailsView.class})
+    private SummaryInsightsDTO summaryInsightsDTO;
+
     private double totalAmountSpent;
     private int numberOfTransactions;
 
@@ -106,6 +110,14 @@ public class InsightDTO implements Serializable {
         this.totalPerCategoryInsightDTOs = totalPerCategoryInsightDTOs;
     }
 
+    public SummaryInsightsDTO getSummaryInsightsDTO() {
+        return summaryInsightsDTO;
+    }
+
+    public void setSummaryInsightsDTO(SummaryInsightsDTO summaryInsightsDTO) {
+        this.summaryInsightsDTO = summaryInsightsDTO;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -118,12 +130,13 @@ public class InsightDTO implements Serializable {
                 Objects.equals(insightData, that.insightData) &&
                 Objects.equals(insightColors, that.insightColors) &&
                 Objects.equals(insightLabels, that.insightLabels) &&
-                Objects.equals(totalPerCategoryInsightDTOs, that.totalPerCategoryInsightDTOs);
+                Objects.equals(totalPerCategoryInsightDTOs, that.totalPerCategoryInsightDTOs) &&
+                Objects.equals(summaryInsightsDTO, that.summaryInsightsDTO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(from, to, insightData, insightColors, insightLabels, totalPerCategoryInsightDTOs, totalAmountSpent, numberOfTransactions);
+        return Objects.hash(from, to, insightData, insightColors, insightLabels, totalPerCategoryInsightDTOs, summaryInsightsDTO, totalAmountSpent, numberOfTransactions);
     }
 
     @Override
@@ -135,6 +148,7 @@ public class InsightDTO implements Serializable {
                 ", insightColors=" + insightColors +
                 ", insightLabels=" + insightLabels +
                 ", totalPerCategoryInsightDTOs=" + totalPerCategoryInsightDTOs +
+                ", summaryInsightsDTO=" + summaryInsightsDTO +
                 ", totalAmountSpent=" + totalAmountSpent +
                 ", numberOfTransactions=" + numberOfTransactions +
                 '}';
