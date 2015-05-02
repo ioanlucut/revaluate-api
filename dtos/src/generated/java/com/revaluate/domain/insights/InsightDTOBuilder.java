@@ -1,8 +1,6 @@
 package com.revaluate.domain.insights;
 
-import com.revaluate.domain.category.CategoryDTO;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Generated;
 import org.joda.time.LocalDateTime;
 
@@ -24,8 +22,8 @@ public class InsightDTOBuilder
   protected boolean isSet$totalAmountSpent$double;
   protected int value$numberOfTransactions$int;
   protected boolean isSet$numberOfTransactions$int;
-  protected Map<CategoryDTO, String> value$totalPerCategories$java$util$Map;
-  protected boolean isSet$totalPerCategories$java$util$Map;
+  protected List<TotalPerCategoryInsightDTO> value$totalPerCategoryInsightDTOs$java$util$List;
+  protected boolean isSet$totalPerCategoryInsightDTOs$java$util$List;
 
   /**
    * Creates a new {@link InsightDTOBuilder}.
@@ -119,14 +117,14 @@ public class InsightDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link InsightDTO#totalPerCategories} property.
+   * Sets the default value for the {@link InsightDTO#totalPerCategoryInsightDTOs} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public InsightDTOBuilder withTotalPerCategories(Map<CategoryDTO, String> value) {
-    this.value$totalPerCategories$java$util$Map = value;
-    this.isSet$totalPerCategories$java$util$Map = true;
+  public InsightDTOBuilder withTotalPerCategoryInsightDTOs(List<TotalPerCategoryInsightDTO> value) {
+    this.value$totalPerCategoryInsightDTOs$java$util$List = value;
+    this.isSet$totalPerCategoryInsightDTOs$java$util$List = true;
     return self;
   }
 
@@ -184,8 +182,8 @@ public class InsightDTOBuilder
       if (isSet$numberOfTransactions$int) {
         result.setNumberOfTransactions(value$numberOfTransactions$int);
       }
-      if (isSet$totalPerCategories$java$util$Map) {
-        result.setTotalPerCategories(value$totalPerCategories$java$util$Map);
+      if (isSet$totalPerCategoryInsightDTOs$java$util$List) {
+        result.setTotalPerCategoryInsightDTOs(value$totalPerCategoryInsightDTOs$java$util$List);
       }
       return result;
     } catch (RuntimeException ex) {
