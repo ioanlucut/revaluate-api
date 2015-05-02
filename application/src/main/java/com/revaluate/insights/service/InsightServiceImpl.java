@@ -103,6 +103,8 @@ public class InsightServiceImpl implements InsightService {
                 .map(Expense::getValue)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+        SummaryInsightsDTO summaryInsightsDTO = computeSummaryInsights(userId);
+
         return new InsightDTOBuilder()
                 .withFrom(after)
                 .withTo(before)
@@ -112,6 +114,7 @@ public class InsightServiceImpl implements InsightService {
                 .withNumberOfTransactions(allExpenses.size())
                 .withTotalAmountSpent(totalExpenses.doubleValue())
                 .withTotalPerCategoryInsightDTOs(totalPerCategoriesDTOs)
+                .withSummaryInsightsDTO(summaryInsightsDTO)
                 .build();
     }
 
@@ -123,14 +126,14 @@ public class InsightServiceImpl implements InsightService {
         if (oneByUserIdOrderBySpentDateAsc.isPresent() || oneByUserIdOrderBySpentDateDesc.isPresent()) {
 
             return new SummaryInsightsDTOBuilder()
-                    .withFirstExistingExpenseDate(oneByUserIdOrderBySpentDateAsc.get().getSpentDate())
-                    .withLastExistingExpenseDate(oneByUserIdOrderBySpentDateDesc.get().getSpentDate())
+                    .withFirstExistingExpenseDate(LocalDateTime.now())
+                    .withLastExistingExpenseDate(LocalDateTime.now())
                     .build();
         }
 
         return new SummaryInsightsDTOBuilder()
-                .withFirstExistingExpenseDate(LocalDateTime.now())
-                .withLastExistingExpenseDate(LocalDateTime.now())
+                .withFirstExistingExpenseDate(oneByUserIdOrderBySpentDateAsc.get().getSpentDate())
+                .withLastExistingExpenseDate(oneByUserIdOrderBySpentDateDesc.get().getSpentDate())
                 .build();
     }
 }
