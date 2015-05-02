@@ -123,17 +123,17 @@ public class InsightServiceImpl implements InsightService {
         Optional<Expense> oneByUserIdOrderBySpentDateAsc = expenseRepository.findFirstByUserIdOrderBySpentDateAsc(userId);
         Optional<Expense> oneByUserIdOrderBySpentDateDesc = expenseRepository.findFirstByUserIdOrderBySpentDateDesc(userId);
 
-        if (oneByUserIdOrderBySpentDateAsc.isPresent() || oneByUserIdOrderBySpentDateDesc.isPresent()) {
+        if (oneByUserIdOrderBySpentDateAsc.isPresent() && oneByUserIdOrderBySpentDateDesc.isPresent()) {
 
             return new SummaryInsightsDTOBuilder()
-                    .withFirstExistingExpenseDate(LocalDateTime.now())
-                    .withLastExistingExpenseDate(LocalDateTime.now())
+                    .withFirstExistingExpenseDate(oneByUserIdOrderBySpentDateAsc.get().getSpentDate())
+                    .withLastExistingExpenseDate(oneByUserIdOrderBySpentDateDesc.get().getSpentDate())
                     .build();
         }
 
         return new SummaryInsightsDTOBuilder()
-                .withFirstExistingExpenseDate(oneByUserIdOrderBySpentDateAsc.get().getSpentDate())
-                .withLastExistingExpenseDate(oneByUserIdOrderBySpentDateDesc.get().getSpentDate())
+                .withFirstExistingExpenseDate(LocalDateTime.now())
+                .withLastExistingExpenseDate(LocalDateTime.now())
                 .build();
     }
 }
