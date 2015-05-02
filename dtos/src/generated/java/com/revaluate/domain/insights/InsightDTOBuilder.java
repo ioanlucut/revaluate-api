@@ -24,8 +24,6 @@ public class InsightDTOBuilder
   protected boolean isSet$numberOfTransactions$int;
   protected List<TotalPerCategoryInsightDTO> value$totalPerCategoryInsightDTOs$java$util$List;
   protected boolean isSet$totalPerCategoryInsightDTOs$java$util$List;
-  protected SummaryInsightsDTO value$summaryInsightsDTO$com$revaluate$domain$insights$SummaryInsightsDTO;
-  protected boolean isSet$summaryInsightsDTO$com$revaluate$domain$insights$SummaryInsightsDTO;
 
   /**
    * Creates a new {@link InsightDTOBuilder}.
@@ -131,18 +129,6 @@ public class InsightDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link InsightDTO#summaryInsightsDTO} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public InsightDTOBuilder withSummaryInsightsDTO(SummaryInsightsDTO value) {
-    this.value$summaryInsightsDTO$com$revaluate$domain$insights$SummaryInsightsDTO = value;
-    this.isSet$summaryInsightsDTO$com$revaluate$domain$insights$SummaryInsightsDTO = true;
-    return self;
-  }
-
-  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -198,9 +184,6 @@ public class InsightDTOBuilder
       }
       if (isSet$totalPerCategoryInsightDTOs$java$util$List) {
         result.setTotalPerCategoryInsightDTOs(value$totalPerCategoryInsightDTOs$java$util$List);
-      }
-      if (isSet$summaryInsightsDTO$com$revaluate$domain$insights$SummaryInsightsDTO) {
-        result.setSummaryInsightsDTO(value$summaryInsightsDTO$com$revaluate$domain$insights$SummaryInsightsDTO);
       }
       return result;
     } catch (RuntimeException ex) {
