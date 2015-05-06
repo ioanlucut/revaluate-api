@@ -10,6 +10,7 @@ import com.revaluate.domain.account.ResetPasswordDTO;
 import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.groups.CreateUserGroup;
+import com.revaluate.groups.UpdateUserCurrencyGroup;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
 import com.revaluate.views.Views;
@@ -33,6 +34,7 @@ public class UserResource extends Resource {
     private static final String EMAIL = "email";
     private static final String TOKEN = "token";
     private static final String LOGIN_USER = "login";
+    private static final String UPDATE_CURRENCY = "updateCurrency";
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
     private static final String REQUEST_RESET_PASSWORD = "requestResetPassword/{email}";
     private static final String REQUEST_CONFIRMATION_EMAIL = "requestConfirmationEmail/{email}";
@@ -174,5 +176,16 @@ public class UserResource extends Resource {
         userService.resetPassword(resetPasswordDTO, email, token);
 
         return Responses.respond(Response.Status.OK, "Password successfully reset.");
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @JsonView({Views.StrictView.class})
+    @Path(UPDATE_CURRENCY)
+    public Response updateCurrency(@Validated(UpdateUserCurrencyGroup.class) UserDTO userDTO) throws UserException {
+        UserDTO updatedUserDTO = userService.updateCurrency(userDTO, getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, updatedUserDTO);
     }
 }

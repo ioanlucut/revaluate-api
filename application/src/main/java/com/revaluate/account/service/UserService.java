@@ -6,6 +6,7 @@ import com.revaluate.domain.account.ResetPasswordDTO;
 import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.groups.CreateUserGroup;
+import com.revaluate.groups.UpdateUserCurrencyGroup;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
@@ -39,9 +40,13 @@ public interface UserService {
     @NotNull
     UserDTO updatePassword(@Valid @NotNull UpdatePasswordDTO updatePasswordDTO, int currentUserId) throws UserException;
 
-    void requestResetPassword(@Email String email) throws UserException;
-
     void validateResetPasswordToken(@Email String email, @NotBlank String token) throws UserException;
 
     void resetPassword(@Valid @NotNull ResetPasswordDTO resetPasswordDTO, @Email String email, @NotBlank String token) throws UserException;
+
+    void requestResetPassword(@Email String email) throws UserException;
+
+    @NotNull
+    @Validated(value = UpdateUserCurrencyGroup.class)
+    UserDTO updateCurrency(@Valid @NotNull UserDTO userDTO, int userId) throws UserException;
 }

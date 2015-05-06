@@ -15,10 +15,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
-public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
+public class UserServiceImplTest_updateCurrency_IT extends AbstractIntegrationTests {
 
     @Test
-    public void update_validDetails_ok() throws Exception {
+    public void updateCurrency_validDetails_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
@@ -32,16 +32,15 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
 
         // Update a user
         UserDTO userDTOToUpdate = new UserDTOBuilder().withId(9999).withEmail("xx@xx.xx2").withFirstName("fn2").withLastName("ln2").withPassword("12345672").withCurrency(currencyDTOToUpdate).build();
-        UserDTO updatedUserDTO = userService.update(userDTOToUpdate, userDTO.getId());
+        UserDTO updatedUserDTO = userService.updateCurrency(userDTOToUpdate, userDTO.getId());
 
+        //-----------------------------------------------------------------
+        // Simply ignored
+        //-----------------------------------------------------------------
         assertThat(updatedUserDTO, is(notNullValue()));
-        assertThat(updatedUserDTO.getFirstName(), equalTo(userDTOToUpdate.getFirstName()));
-        assertThat(updatedUserDTO.getLastName(), equalTo(userDTOToUpdate.getLastName()));
+        assertThat(updatedUserDTO.getFirstName(), not(equalTo(userDTOToUpdate.getFirstName())));
+        assertThat(updatedUserDTO.getLastName(), not(equalTo(userDTOToUpdate.getLastName())));
         assertThat(updatedUserDTO.isInitiated(), is(false));
-
-        //-----------------------------------------------------------------
-        // Given email is ignored
-        //-----------------------------------------------------------------
         assertThat(updatedUserDTO.getEmail(), not(equalTo(userDTOToUpdate.getEmail())));
 
         //-----------------------------------------------------------------
@@ -63,7 +62,27 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
     }
 
     @Test
-    public void update_onlyWithCurrency_ok() throws Exception {
+    public void updateCurrency_withValidDetailsWithoutPasswordAndEmail_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Compute the currency to update
+        //-----------------------------------------------------------------
+        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
+        CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
+
+        //-----------------------------------------------------------------
+        // Update a user without id, email and password - works
+        //-----------------------------------------------------------------
+        UserDTO userDTOToUpdate = new UserDTOBuilder().withFirstName("fn2").withLastName("ln2").withCurrency(currencyDTOToUpdate).build();
+        userService.updateCurrency(userDTOToUpdate, createdUserDTO.getId());
+    }
+
+    @Test
+    public void updateCurrency_onlyWithCurrency_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
@@ -79,25 +98,11 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         // Update a user only with currency - works
         //-----------------------------------------------------------------
         UserDTO userDTOToUpdate = new UserDTOBuilder().withCurrency(currencyDTOToUpdate).build();
-        userService.update(userDTOToUpdate, createdUserDTO.getId());
+        userService.updateCurrency(userDTOToUpdate, createdUserDTO.getId());
     }
 
     @Test
-    public void update_onlyWithInitiatedTrue_ok() throws Exception {
-        //-----------------------------------------------------------------
-        // Create first user
-        //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO();
-
-        //-----------------------------------------------------------------
-        // Update a user only with currency - works
-        //-----------------------------------------------------------------
-        UserDTO userDTOToUpdate = new UserDTOBuilder().withInitiated(Boolean.TRUE).build();
-        userService.update(userDTOToUpdate, createdUserDTO.getId());
-    }
-
-    @Test
-    public void update_invalidDetails_handledCorrectly() throws Exception {
+    public void updateCurrency_invalidDetails_handledCorrectly() throws Exception {
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
@@ -108,27 +113,25 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         exception.expect(ConstraintViolationException.class);
         UserDTO userDTOToUpdate = new UserDTOBuilder().build();
-        userService.update(userDTOToUpdate, userDTO.getId());
+        userService.updateCurrency(userDTOToUpdate, userDTO.getId());
 
         //-----------------------------------------------------------------
-        // Expect constraint violation if updates only with first name
+        // Not expect constraint violation if updates only with first name
         //-----------------------------------------------------------------
-        exception.expect(ConstraintViolationException.class);
         userDTOToUpdate = new UserDTOBuilder().withFirstName("fn2").build();
-        userService.update(userDTOToUpdate, userDTO.getId());
+        userService.updateCurrency(userDTOToUpdate, userDTO.getId());
 
         //-----------------------------------------------------------------
-        // Expect constraint violation if updates only with last name
+        // Not expect constraint violation if updates only with last name
         //-----------------------------------------------------------------
-        exception.expect(ConstraintViolationException.class);
         userDTOToUpdate = new UserDTOBuilder().withLastName("fn2").build();
-        userService.update(userDTOToUpdate, userDTO.getId());
+        userService.updateCurrency(userDTOToUpdate, userDTO.getId());
 
         //-----------------------------------------------------------------
         // Expect constraint violation if User DTO is null
         //-----------------------------------------------------------------
         exception.expect(ConstraintViolationException.class);
-        userService.update(null, userDTO.getId());
+        userService.updateCurrency(null, userDTO.getId());
 
         //-----------------------------------------------------------------
         // Expect constraint violation if updates with inexisting currency
@@ -137,6 +140,23 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         CurrencyDTO currency = new CurrencyDTO();
         currency.setCurrencyCode("INEXISTING");
         userDTOToUpdate = new UserDTOBuilder().withFirstName("fn2").withLastName("fn2").withCurrency(currency).build();
-        userService.update(userDTOToUpdate, userDTO.getId());
+        userService.updateCurrency(userDTOToUpdate, userDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Expect exception if updates only with currency which does not exists
+        //-----------------------------------------------------------------
+        exception.expect(UserException.class);
+        currency = new CurrencyDTO();
+        currency.setCurrencyCode("USD");
+        userDTOToUpdate = new UserDTOBuilder().withCurrency(currency).build();
+        userService.updateCurrency(userDTOToUpdate, userDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Not expect exception if updates only with currency which exists
+        //-----------------------------------------------------------------
+        currency = new CurrencyDTO();
+        currency.setCurrencyCode("EUR");
+        userDTOToUpdate = new UserDTOBuilder().withCurrency(currency).build();
+        userService.updateCurrency(userDTOToUpdate, userDTO.getId());
     }
 }
