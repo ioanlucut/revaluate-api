@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO update(UserDTO userDTO, int userId) throws UserException {
         User foundUser = userRepository.findOne(userId);
         if (foundUser == null) {
-            throw new UserException();
+            throw new UserException("User does not exist");
         }
 
         //-----------------------------------------------------------------
@@ -293,5 +293,23 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         user.setPassword(BCrypt.hashpw(resetPasswordDTO.getPassword(), BCrypt.gensalt()));
         userRepository.save(user);
+    }
+
+    @Override
+    public UserDTO updateCurrency(UserDTO userDTO, int userId) throws UserException {
+        User foundUser = userRepository.findOne(userId);
+        if (foundUser == null) {
+            throw new UserException("User does not exist");
+        }
+
+        //-----------------------------------------------------------------
+        // Try to find the currency
+        //-----------------------------------------------------------------
+        Optional<Currency> byCurrencyCode = currencyRepository.findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode());
+        byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists"));
+        foundUser.setCurrency(byCurrencyCode.get());
+
+        User updatedUser = userRepository.save(foundUser);
+        return dozerBeanMapper.map(updatedUser, UserDTO.class);
     }
 }

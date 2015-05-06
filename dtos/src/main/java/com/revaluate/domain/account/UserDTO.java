@@ -3,6 +3,7 @@ package com.revaluate.domain.account;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.groups.CreateUserGroup;
+import com.revaluate.groups.UpdateUserCurrencyGroup;
 import com.revaluate.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.Email;
@@ -37,7 +38,7 @@ public class UserDTO implements Serializable {
     @Size(min = 7, groups = CreateUserGroup.class)
     private String password;
 
-    @NotNull(groups = CreateUserGroup.class)
+    @NotNull(groups = {CreateUserGroup.class, UpdateUserCurrencyGroup.class})
     @JsonView({Views.StrictView.class})
     private CurrencyDTO currency;
 
