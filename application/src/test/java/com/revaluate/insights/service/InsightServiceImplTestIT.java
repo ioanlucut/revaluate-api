@@ -38,7 +38,7 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create category 1
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -53,7 +53,7 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create category 2
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#fff").withName("name2").build();
+        categoryDTO = new CategoryDTOBuilder().withColor(SECOND_VALID_COLOR).withName("name2").build();
         createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -86,8 +86,8 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
 
         assertThat(insightDTO.getInsightColors(), is(notNullValue()));
         assertThat(insightDTO.getInsightColors().size(), is(2));
-        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#eee".equals(s)), is(Boolean.TRUE));
-        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#fff".equals(s)), is(Boolean.TRUE));
+        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> FIRST_VALID_COLOR.getColor().equals(s)), is(Boolean.TRUE));
+        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> SECOND_VALID_COLOR.getColor().equals(s)), is(Boolean.TRUE));
 
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs(), is(notNullValue()));
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs().size(), is(2));
@@ -108,7 +108,7 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create category 1
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -123,7 +123,7 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create category 2
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#fff").withName("name2").build();
+        categoryDTO = new CategoryDTOBuilder().withColor(SECOND_VALID_COLOR).withName("name2").build();
         createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -150,8 +150,8 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
 
         assertThat(insightDTO.getInsightColors(), is(notNullValue()));
         assertThat(insightDTO.getInsightColors().size(), is(2));
-        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#eee".equals(s)), is(Boolean.TRUE));
-        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> "#fff".equals(s)), is(Boolean.TRUE));
+        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> FIRST_VALID_COLOR.getColor().equals(s)), is(Boolean.TRUE));
+        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> SECOND_VALID_COLOR.getColor().equals(s)), is(Boolean.TRUE));
 
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs(), is(notNullValue()));
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs().size(), is(2));

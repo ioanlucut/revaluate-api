@@ -7,6 +7,8 @@ import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.core.jwt.JwtService;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
+import com.revaluate.domain.color.ColorDTO;
+import com.revaluate.domain.color.ColorDTOBuilder;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.currency.CurrencyDTOBuilder;
 import io.dropwizard.jersey.validation.ValidationErrorMessage;
@@ -40,6 +42,14 @@ public class AbstractResourceTestEndToEnd {
     protected static final String JWT_SHARED_TEST = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
     protected static final String BEARER_TEST = "Bearer";
     protected JwtService jwtService = getMockedJwtService();
+    public static final String VALID_COLOR = "#eee";
+    public static final int VALID_COLOR_ID = 1;
+    public static final String VALID_COLOR_2 = "#fff";
+    public static final int VALID_COLOR_ID_2 = 2;
+
+    public static final ColorDTO FIRST_VALID_COLOR = new ColorDTOBuilder().withId(VALID_COLOR_ID).withColor(VALID_COLOR).build();
+    public static final ColorDTO SECOND_VALID_COLOR = new ColorDTOBuilder().withId(VALID_COLOR_ID_2).withColor(VALID_COLOR_2).build();
+    public static final ColorDTO INVALID_COLOR = new ColorDTOBuilder().build();
 
     static {
         System.setProperty(ConfigProperties.SPRING_PROFILE_ACTIVE, "IT");

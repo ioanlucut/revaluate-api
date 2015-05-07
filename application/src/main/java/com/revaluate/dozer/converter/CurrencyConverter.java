@@ -1,4 +1,4 @@
-package com.revaluate.others;
+package com.revaluate.dozer.converter;
 
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;

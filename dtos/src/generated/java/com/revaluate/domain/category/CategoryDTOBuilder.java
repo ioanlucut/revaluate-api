@@ -1,5 +1,6 @@
 package com.revaluate.domain.category;
 
+import com.revaluate.domain.color.ColorDTO;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -10,8 +11,8 @@ public class CategoryDTOBuilder
   protected boolean isSet$id$int;
   protected String value$name$java$lang$String;
   protected boolean isSet$name$java$lang$String;
-  protected String value$color$java$lang$String;
-  protected boolean isSet$color$java$lang$String;
+  protected ColorDTO value$color$com$revaluate$domain$color$ColorDTO;
+  protected boolean isSet$color$com$revaluate$domain$color$ColorDTO;
 
   /**
    * Creates a new {@link CategoryDTOBuilder}.
@@ -50,9 +51,9 @@ public class CategoryDTOBuilder
    * @param value the default value
    * @return this builder
    */
-  public CategoryDTOBuilder withColor(String value) {
-    this.value$color$java$lang$String = value;
-    this.isSet$color$java$lang$String = true;
+  public CategoryDTOBuilder withColor(ColorDTO value) {
+    this.value$color$com$revaluate$domain$color$ColorDTO = value;
+    this.isSet$color$com$revaluate$domain$color$ColorDTO = true;
     return self;
   }
 
@@ -95,8 +96,8 @@ public class CategoryDTOBuilder
       if (isSet$name$java$lang$String) {
         result.setName(value$name$java$lang$String);
       }
-      if (isSet$color$java$lang$String) {
-        result.setColor(value$color$java$lang$String);
+      if (isSet$color$com$revaluate$domain$color$ColorDTO) {
+        result.setColor(value$color$com$revaluate$domain$color$ColorDTO);
       }
       return result;
     } catch (RuntimeException ex) {

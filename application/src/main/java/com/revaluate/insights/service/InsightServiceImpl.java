@@ -64,7 +64,7 @@ public class InsightServiceImpl implements InsightService {
 
         List<String> insightColors = groupedByCategory.entrySet()
                 .stream()
-                .map(categoryListEntry -> categoryListEntry.getKey().getColor())
+                .map(categoryListEntry -> categoryListEntry.getKey().getColor().getColor())
                 .collect(Collectors.toList());
 
         DecimalFormat decimalFormat = new DecimalFormat(PATTERN);

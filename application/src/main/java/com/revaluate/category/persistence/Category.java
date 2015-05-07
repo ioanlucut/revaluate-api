@@ -1,7 +1,7 @@
 package com.revaluate.category.persistence;
 
 import com.revaluate.account.persistence.User;
-import com.revaluate.validators.HexColor;
+import com.revaluate.color.persistence.Color;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,6 +15,7 @@ public class Category implements Serializable {
     public static final String CATEGORY_ID = "category_id";
     public static final String CATEGORY_NAME = "name";
     public static final String USER_ID = "user_id";
+    public static final String COLOR_ID = "color_id";
 
     protected static final String SEQ_NAME = "categories_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "categories_seq_generator";
@@ -32,10 +33,9 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @NotNull
-    @HexColor
-    @Column(nullable = false)
-    private String color;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = COLOR_ID, nullable = false)
+    private Color color;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = USER_ID, nullable = false)
@@ -57,11 +57,11 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
@@ -71,5 +71,15 @@ public class Category implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", color=" + color +
+                ", user=" + user +
+                '}';
     }
 }

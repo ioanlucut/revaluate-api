@@ -42,7 +42,7 @@ public class ExpenseServiceImplTest_bulkDelete_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Create category
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -75,7 +75,7 @@ public class ExpenseServiceImplTest_bulkDelete_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Create category
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         exception.expect(ConstraintViolationException.class);
@@ -105,7 +105,7 @@ public class ExpenseServiceImplTest_bulkDelete_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Create category
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------

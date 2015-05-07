@@ -15,3 +15,7 @@ VALUES (1, 'CREATED_ACCOUNT', 'xxx', false, 1);
 INSERT INTO email(
   id, email_type, token, tokenValidated, user_id)
 VALUES (2, 'CREATED_ACCOUNT', 'xxx', false, 1);
+
+--Colors
+INSERT INTO color (id, color, color_name, priority) VALUES (1, '#eee', '', 1)
+INSERT INTO color (id, color, color_name, priority) VALUES (2, '#fff', '', 2)

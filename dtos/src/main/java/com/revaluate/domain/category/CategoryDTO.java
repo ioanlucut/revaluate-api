@@ -1,11 +1,13 @@
 package com.revaluate.domain.category;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.revaluate.validators.HexColor;
+import com.revaluate.domain.color.ColorDTO;
 import com.revaluate.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -22,10 +24,10 @@ public class CategoryDTO implements Serializable {
     @JsonView({Views.DetailsView.class})
     private String name;
 
-    @NotBlank
-    @HexColor
+    @Valid
+    @NotNull
     @JsonView({Views.DetailsView.class})
-    private String color;
+    private ColorDTO color;
 
     public int getId() {
         return id;
@@ -43,11 +45,11 @@ public class CategoryDTO implements Serializable {
         this.name = name;
     }
 
-    public String getColor() {
+    public ColorDTO getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(ColorDTO color) {
         this.color = color;
     }
 
