@@ -1,12 +1,12 @@
 package com.revaluate.e2e.category;
 
 import com.nimbusds.jose.JOSEException;
-import com.revaluate.resource.utils.Answer;
-import com.revaluate.resource.utils.ExtraStatus;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.e2e.AbstractResourceTestEndToEnd;
+import com.revaluate.resource.utils.Answer;
+import com.revaluate.resource.utils.ExtraStatus;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
@@ -65,7 +65,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         //-----------------------------------------------------------------
         // Create first category
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(5)).withColor("#eee").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(5)).withColor(FIRST_VALID_COLOR).build();
         WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
@@ -99,7 +99,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         //-----------------------------------------------------------------
         // Create invalid category
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(1)).withColor("#eee").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(1)).withColor(FIRST_VALID_COLOR).build();
         WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
         assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
@@ -115,7 +115,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         //-----------------------------------------------------------------
         // Create invalid category
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(4)).withColor("").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(4)).withColor(INVALID_COLOR).build();
         WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
         assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
@@ -147,7 +147,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         //-----------------------------------------------------------------
         // Create valid category
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#fff").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(SECOND_VALID_COLOR).withName("name").build();
         WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));

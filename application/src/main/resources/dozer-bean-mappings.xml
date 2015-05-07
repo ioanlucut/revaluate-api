@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xmlns="http://dozer.sourceforge.net"
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
@@ -8,6 +8,13 @@
         <stop-on-errors>true</stop-on-errors>
         <date-format>MM/dd/yyyy HH:mm</date-format>
         <wildcard>true</wildcard>
+
+        <custom-converters>
+            <converter type="com.revaluate.dozer.converter.ColorConverter">
+                <class-a>com.revaluate.color.persistence.Color</class-a>
+                <class-b>com.revaluate.domain.color.ColorDTO</class-b>
+            </converter>
+        </custom-converters>
 
         <copy-by-references>
             <copy-by-reference>org.joda.time.LocalDateTime</copy-by-reference>

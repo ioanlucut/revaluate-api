@@ -38,7 +38,7 @@ public class InsightServiceImplTest_fetchSummaryInsight_IT extends AbstractInteg
         //-----------------------------------------------------------------
         // Create category 1
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------

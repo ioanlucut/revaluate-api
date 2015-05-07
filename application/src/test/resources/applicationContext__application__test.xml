@@ -12,5 +12,6 @@
 
     <!--Import other resources-->
     <import resource="classpath:applicationContext__core__test.xml"/>
+    <import resource="classpath:dozer-global-configuration__test.xml"/>
     <import resource="classpath:spring-config.application/spring-context-application__application__test.xml"/>
 </beans>

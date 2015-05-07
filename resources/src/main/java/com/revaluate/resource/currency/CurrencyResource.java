@@ -1,7 +1,7 @@
 package com.revaluate.resource.currency;
 
-import com.revaluate.account.exception.UserException;
 import com.revaluate.core.annotations.Public;
+import com.revaluate.currency.exception.CurrencyException;
 import com.revaluate.currency.service.CurrencyService;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.resource.utils.Resource;
@@ -30,7 +30,7 @@ public class CurrencyResource extends Resource {
     @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Path(LIST_ALL_CURRENCIES)
-    public Response isUnique() throws UserException {
+    public Response isUnique() throws CurrencyException {
         List<CurrencyDTO> allCurrencies = currencyService.findAllCurrencies();
 
         return Responses.respond(Response.Status.OK, allCurrencies);

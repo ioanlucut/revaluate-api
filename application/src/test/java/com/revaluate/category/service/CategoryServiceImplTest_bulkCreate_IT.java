@@ -34,8 +34,8 @@ public class CategoryServiceImplTest_bulkCreate_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Create category
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
-        CategoryDTO categoryDTOB = new CategoryDTOBuilder().withColor("#eee").withName("name2").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name1").build();
+        CategoryDTO categoryDTOB = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name2").build();
         List<CategoryDTO> categoryDTOs = Arrays.asList(categoryDTO, categoryDTOB);
 
         List<CategoryDTO> all = categoryService.bulkCreate(categoryDTOs, createdUserDTO.getId());
@@ -54,14 +54,14 @@ public class CategoryServiceImplTest_bulkCreate_IT extends AbstractIntegrationTe
         categoryService.bulkCreate(null, createdUserDTO.getId());
 
         exception.expect(ConstraintViolationException.class);
-        categoryService.bulkCreate(Arrays.asList(new CategoryDTOBuilder().withColor("#eee").withName("na").build(), new CategoryDTOBuilder().withColor("#eee").withName("name2").build()), createdUserDTO.getId());
+        categoryService.bulkCreate(Arrays.asList(new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("na").build(), new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name2").build()), createdUserDTO.getId());
 
         exception.expect(ConstraintViolationException.class);
-        categoryService.bulkCreate(Collections.singletonList(new CategoryDTOBuilder().withColor("#eee").withName("name").build()), createdUserDTO.getId());
+        categoryService.bulkCreate(Collections.singletonList(new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build()), createdUserDTO.getId());
 
         exception.expect(ConstraintViolationException.class);
         List<CategoryDTO> tooManyCategoryDTOs = new ArrayList<>(CategoryService.MAX_SIZE_LIST + 1);
-        Collections.fill(tooManyCategoryDTOs, new CategoryDTOBuilder().withColor("#eee").withName("name").build());
+        Collections.fill(tooManyCategoryDTOs, new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build());
         categoryService.bulkCreate(tooManyCategoryDTOs, createdUserDTO.getId());
     }
 
@@ -75,14 +75,14 @@ public class CategoryServiceImplTest_bulkCreate_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Create category (first time)
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name1").build();
         categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
         // Try to create a list of categories while one exists
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTODuplicated = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
-        CategoryDTO categoryDTOB = new CategoryDTOBuilder().withColor("#eee").withName("name2").build();
+        CategoryDTO categoryDTODuplicated = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name1").build();
+        CategoryDTO categoryDTOB = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name2").build();
         List<CategoryDTO> categoryDTOs = Arrays.asList(categoryDTODuplicated, categoryDTOB);
 
         exception.expect(CategoryException.class);

@@ -124,19 +124,6 @@
             <artifactId>joda-time</artifactId>
         </dependency>
 
-        <!-- Dozer -->
-        <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
-            <version>${dozer.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer-spring</artifactId>
-            <version>${dozer.version}</version>
-        </dependency>
-
         <!--JWT token auth-->
         <dependency>
             <groupId>com.nimbusds</groupId>

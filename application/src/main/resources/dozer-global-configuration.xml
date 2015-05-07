@@ -2,7 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="colorConverter" class="com.revaluate.dozer.converter.ColorConverter"/>
 
     <!--
       Configures dozer.
@@ -10,12 +12,14 @@
     <bean id="dozerBeanMapper" class="org.dozer.DozerBeanMapper">
         <property name="mappingFiles">
             <list>
-                <value>dozer-bean-mappings__test.xml</value>
+                <value>dozer-bean-mappings.xml</value>
+            </list>
+        </property>
+        <property name="customConverters">
+            <list>
+                <ref bean="colorConverter"/>
             </list>
         </property>
     </bean>
 
 </beans>
-
-
-

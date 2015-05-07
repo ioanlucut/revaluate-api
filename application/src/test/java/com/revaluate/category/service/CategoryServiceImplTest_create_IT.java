@@ -6,6 +6,7 @@ import com.revaluate.category.exception.CategoryException;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
+import com.revaluate.domain.color.ColorDTOBuilder;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,7 +31,7 @@ public class CategoryServiceImplTest_create_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         // Create category
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name1").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         assertThat(createdCategoryDTO, is(notNullValue()));
@@ -60,7 +61,7 @@ public class CategoryServiceImplTest_create_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         // Create category - 1
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name1").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name1").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         assertThat(createdCategoryDTO, is(notNullValue()));
@@ -71,7 +72,7 @@ public class CategoryServiceImplTest_create_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         // Create category - 2
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name2").build();
+        categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name2").build();
         createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
         assertThat(createdCategoryDTO, is(notNullValue()));
@@ -98,7 +99,7 @@ public class CategoryServiceImplTest_create_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         // Create category - with wrong color hex format
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("12").withName("name1").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(new ColorDTOBuilder().withColor("wrongFormat").build()).withName("name1").build();
         categoryService.create(categoryDTO, createdUserDTO.getId());
     }
 
@@ -112,13 +113,14 @@ public class CategoryServiceImplTest_create_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         // Create category - 1
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         categoryService.create(categoryDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
         // Create category - 2
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor("#eee").withName("name").build();
+        categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR
+        ).withName("name").build();
         categoryService.create(categoryDTO, createdUserDTO.getId());
     }
 
