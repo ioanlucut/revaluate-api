@@ -30,6 +30,9 @@ public class ImporterServiceImpl implements ImporterService {
         //-----------------------------------------------------------------
         rowProcessor.convertIndexes(Conversions.replace(NON_DIGIT, ""), Conversions.toDouble()).set(expenseProfile.getAmountExpenseProfileEntryDTO().getImportColumnIndex());
 
+        //-----------------------------------------------------------------
+        // Set some settings
+        //-----------------------------------------------------------------
         CsvParserSettings parserSettings = new CsvParserSettings();
         parserSettings.getFormat().setLineSeparator(LINE_SEPARATOR);
         parserSettings.getFormat().setDelimiter(expenseProfile.getDelimiter());
@@ -37,7 +40,7 @@ public class ImporterServiceImpl implements ImporterService {
         parserSettings.setHeaderExtractionEnabled(HEADER_EXTRACTION_ENABLED);
 
         //-----------------------------------------------------------------
-        // Exclude any other row
+        // Exclude any unwanted row
         //-----------------------------------------------------------------
         parserSettings.selectIndexes(expenseProfile.getIndexes());
 
