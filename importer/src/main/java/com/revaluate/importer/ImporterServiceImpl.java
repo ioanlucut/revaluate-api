@@ -22,11 +22,6 @@ public class ImporterServiceImpl implements ImporterService {
     public static final String NON_DIGIT = "[^\\d]";
 
     @Override
-    public void doParse() {
-
-    }
-
-    @Override
     public List<ExpenseDTO> importFrom(Reader reader, ExpenseProfile expenseProfile) {
         ObjectRowListProcessor rowProcessor = new ObjectRowListProcessor();
 

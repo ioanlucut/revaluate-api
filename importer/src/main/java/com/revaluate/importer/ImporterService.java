@@ -9,7 +9,5 @@ import java.util.List;
 
 public interface ImporterService {
 
-    void doParse();
-
     List<ExpenseDTO> importFrom(Reader reader, @NotNull ExpenseProfile expenseProfile);
 }
