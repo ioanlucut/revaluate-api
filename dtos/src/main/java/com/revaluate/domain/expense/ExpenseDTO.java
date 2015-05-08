@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.LocalDateTime;
 
 import javax.validation.constraints.Digits;
@@ -123,5 +124,18 @@ public class ExpenseDTO implements Serializable {
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (modifiedDate != null ? modifiedDate.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("value", value)
+                .append("description", description)
+                .append("category", category)
+                .append("spentDate", spentDate)
+                .append("createdDate", createdDate)
+                .append("modifiedDate", modifiedDate)
+                .toString();
     }
 }
