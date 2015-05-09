@@ -7,6 +7,7 @@ import com.revaluate.domain.importer.column.ExpenseColumn;
 import com.revaluate.domain.importer.profile.ExpenseProfileDTO;
 import com.univocity.parsers.common.processor.ObjectRowListProcessor;
 import com.univocity.parsers.conversions.Conversions;
+import com.univocity.parsers.conversions.DoubleConversion;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 import org.joda.time.format.DateTimeFormat;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Reader;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,15 +26,19 @@ public class ImporterServiceImpl implements ImporterService {
     public static final String LINE_SEPARATOR = "\n";
     public static final boolean HEADER_EXTRACTION_ENABLED = true;
     public static final String NON_DIGIT = "[^\\d]";
+    public static final double AMOUNT_FALLBACK_AMOUNT = 0.0;
+    public static final String EMPTY_STRING = "";
 
     @Override
-    public List<ExpenseDTO> importFrom(Reader reader, ExpenseProfileDTO expenseProfileDTO) {
+    public List<ExpenseDTO> importFrom(Reader reader, ExpenseProfileDTO expenseProfileDTO) throws ImporterServiceException {
         ObjectRowListProcessor rowProcessor = new ObjectRowListProcessor();
 
         //-----------------------------------------------------------------
         // Amount should be converted to double
         //-----------------------------------------------------------------
-        rowProcessor.convertIndexes(Conversions.replace(NON_DIGIT, ""), Conversions.toDouble()).set(expenseProfileDTO.getAmountExpenseProfileEntryDTO().getImportColumnIndex());
+        DoubleConversion doubleConversion = Conversions.toDouble();
+        doubleConversion.setValueIfStringIsNull(AMOUNT_FALLBACK_AMOUNT);
+        rowProcessor.convertIndexes(Conversions.replace(NON_DIGIT, EMPTY_STRING), doubleConversion).set(expenseProfileDTO.getAmountExpenseProfileEntryDTO().getImportColumnIndex());
 
         //-----------------------------------------------------------------
         // Set some settings
@@ -58,14 +64,35 @@ public class ImporterServiceImpl implements ImporterService {
         //-----------------------------------------------------------------
         DateTimeFormatter dateTimeFormatter = expenseProfileDTO.getSpentDateFormat() != null ? DateTimeFormat.forPattern(expenseProfileDTO.getSpentDateFormat()) : ISODateTimeFormat.dateTimeNoMillis();
 
-        return rows
-                .stream()
-                .map(objects -> new ExpenseDTOBuilder()
+        //-----------------------------------------------------------------
+        // Lambda function which takes care of the transformation
+        //-----------------------------------------------------------------
+        Function<Object[], ExpenseDTO> expenseDTOMapFunction = getExpenseDTOFunction(expenseProfileDTO, dateTimeFormatter);
+
+        try {
+            return rows
+                    .stream()
+                    .map(expenseDTOMapFunction)
+                    .collect(Collectors.toList());
+        } catch (ImporterServiceWrapperException ex) {
+
+            throw new ImporterServiceException(ex.getCause());
+        }
+    }
+
+    private Function<Object[], ExpenseDTO> getExpenseDTOFunction(ExpenseProfileDTO expenseProfileDTO, DateTimeFormatter dateTimeFormatter) {
+        return objects -> {
+            try {
+                return new ExpenseDTOBuilder()
                         .withValue((Double) objects[expenseProfileDTO.getIndexOf(ExpenseColumn.AMOUNT)])
                         .withDescription((String) objects[expenseProfileDTO.getIndexOf(ExpenseColumn.DESCRIPTION)])
                         .withCategory(new CategoryDTOBuilder().withName((String) objects[expenseProfileDTO.getIndexOf(ExpenseColumn.CATEGORY)]).build())
                         .withSpentDate(dateTimeFormatter.withOffsetParsed().parseLocalDateTime(((String) objects[expenseProfileDTO.getIndexOf(ExpenseColumn.SPENT_DATE)])))
-                        .build())
-                .collect(Collectors.toList());
+                        .build();
+            } catch (Exception ex) {
+
+                throw new ImporterServiceWrapperException(ex);
+            }
+        };
     }
 }

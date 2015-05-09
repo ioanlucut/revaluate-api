@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface ImporterService {
 
-    List<ExpenseDTO> importFrom(Reader reader, @NotNull ExpenseProfileDTO expenseProfileDTO);
+    List<ExpenseDTO> importFrom(Reader reader, @NotNull ExpenseProfileDTO expenseProfileDTO) throws ImporterServiceException;
 }
