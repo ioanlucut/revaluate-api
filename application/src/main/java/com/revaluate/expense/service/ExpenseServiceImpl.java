@@ -105,6 +105,28 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    public List<ExpenseDTO> bulkCreate(List<ExpenseDTO> categoryDTOs, int userId) throws ExpenseException {
+        User foundUser = userRepository.findOne(userId);
+        List<Expense> categories = categoryDTOs.stream()
+                .map(expenseDTO -> {
+                    Expense expense = dozerBeanMapper.map(expenseDTO, Expense.class);
+                    expense.setUser(foundUser);
+
+                    return expense;
+                })
+                .collect(Collectors.toList());
+
+        //-----------------------------------------------------------------
+        // Save them
+        //-----------------------------------------------------------------
+        List<Expense> savedExpenses = expenseRepository.save(categories);
+
+        return savedExpenses.stream()
+                .map(expenseDTO -> dozerBeanMapper.map(expenseDTO, ExpenseDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void bulkDelete(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<ExpenseDTO> expenseDTOs, int userId) throws ExpenseException {
         //-----------------------------------------------------------------
         // Expenses have to exist for this user.

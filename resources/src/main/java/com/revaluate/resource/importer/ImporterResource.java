@@ -1,191 +1,74 @@
 package com.revaluate.resource.importer;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.revaluate.account.exception.UserException;
-import com.revaluate.account.service.UserService;
-import com.revaluate.core.annotations.Public;
-import com.revaluate.core.jwt.JwtException;
-import com.revaluate.domain.account.LoginDTO;
-import com.revaluate.domain.account.ResetPasswordDTO;
-import com.revaluate.domain.account.UpdatePasswordDTO;
-import com.revaluate.domain.account.UserDTO;
-import com.revaluate.groups.CreateUserGroup;
-import com.revaluate.groups.UpdateUserCurrencyGroup;
+import com.revaluate.domain.expense.ExpenseDTO;
+import com.revaluate.domain.importer.profile.MintExpenseProfileDTO;
+import com.revaluate.domain.importer.profile.SpendeeExpenseProfileDTO;
+import com.revaluate.importer.ImporterException;
+import com.revaluate.importer.ImporterService;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
-import com.revaluate.views.Views;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
+import org.apache.commons.io.IOUtils;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
-import javax.ws.rs.*;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
 
-@Path(ImporterResource.ACCOUNT)
+@Path(ImporterResource.IMPORTER)
 @Component
 public class ImporterResource extends Resource {
 
-    public static final String ACCOUNT = "account";
-    private static final String IS_UNIQUE_EMAIL = "isUniqueEmail";
-    private static final String EMAIL = "email";
-    private static final String TOKEN = "token";
-    private static final String LOGIN_USER = "login";
-    private static final String UPDATE_CURRENCY = "updateCurrency";
-    private static final String UPDATE_USER_PASSWORD = "updatePassword";
-    private static final String REQUEST_RESET_PASSWORD = "requestResetPassword/{email}";
-    private static final String REQUEST_CONFIRMATION_EMAIL = "requestConfirmationEmail/{email}";
-    private static final String VALIDATE_RESET_PASSWORD_TOKEN = "validateResetPasswordToken/{email}/{token}";
-    private static final String VALIDATE_CONFIRMATION_EMAIL_TOKEN = "validateConfirmationEmailToken/{email}/{token}";
-    private static final String RESET_PASSWORD = "resetPassword/{email}/{token}";
+    public static final String IMPORTER = "importer";
+    public static final String IMPORT_MINT = "mintImport";
+    public static final String IMPORT_SPENDEE = "spendeeImport";
+    public static final String CSV_FILE = "file";
+
+    //-----------------------------------------------------------------
+    // Predefined import profiles
+    //-----------------------------------------------------------------
+    public static final MintExpenseProfileDTO MINT_EXPENSE_PROFILE_DTO = new MintExpenseProfileDTO();
+    public static final SpendeeExpenseProfileDTO SPENDEE_EXPENSE_PROFILE_DTO = new SpendeeExpenseProfileDTO();
 
     @Autowired
-    private UserService userService;
+    private ImporterService importerService;
 
-    @GET
-    @Public
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(IS_UNIQUE_EMAIL)
-    public Response isUnique(@QueryParam(EMAIL) @NotBlank @Email String email) throws UserException {
-        if (!userService.isUnique(email)) {
-            throw new UserException("Email is not unique");
-        }
+    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    @Path(IMPORT_MINT)
+    public Response trace(@NotNull @FormDataParam(CSV_FILE) InputStream stream) throws ImporterException, IOException {
+        String received = IOUtils.toString(stream);
 
-        return Responses.respond(Response.Status.OK, "Email is unique.");
+        return Responses.respond(Response.Status.OK, received);
     }
 
     @POST
-    @Public
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @JsonView({Views.StrictView.class})
-    public Response create(@Validated(CreateUserGroup.class) UserDTO userDTO) throws UserException {
-        UserDTO createdUserDTO = userService.create(userDTO);
+    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    @Path(IMPORT_MINT)
+    public Response importMint(@NotNull @FormDataParam(CSV_FILE) InputStream stream) throws ImporterException {
+        List<ExpenseDTO> expenses = importerService.importFrom(new InputStreamReader(stream), MINT_EXPENSE_PROFILE_DTO);
 
-        return Responses.respond(Response.Status.OK, createdUserDTO);
+        return Responses.respond(Response.Status.OK, expenses);
     }
 
     @POST
-    @Public
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(LOGIN_USER)
-    @JsonView({Views.StrictView.class})
-    public Response login(@Valid LoginDTO loginDTO) throws UserException {
-        UserDTO foundUserDTO = userService.login(loginDTO);
-        try {
-            String jwtToken = jwtService.tryToGetUserToken(foundUserDTO.getId());
+    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    @Path(IMPORT_SPENDEE)
+    public Response importSpendee(@NotNull @FormDataParam(CSV_FILE) InputStream stream) throws ImporterException {
+        List<ExpenseDTO> expenses = importerService.importFrom(new InputStreamReader(stream), SPENDEE_EXPENSE_PROFILE_DTO);
 
-            return Response.status(Response.Status.OK).entity(foundUserDTO).header(configProperties.getAuthTokenHeaderKey(), jwtToken).build();
-        } catch (JwtException ex) {
-            throw new UserException(ex.getMessage(), ex);
-        }
-    }
-
-    @PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @JsonView({Views.StrictView.class})
-    public Response update(@Valid UserDTO userDTO) throws UserException {
-        UserDTO updatedUserDTO = userService.update(userDTO, getCurrentUserId());
-
-        return Responses.respond(Response.Status.OK, updatedUserDTO);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @JsonView({Views.DetailsView.class})
-    public Response getUserDetails() throws UserException {
-        UserDTO userDetailsDTO = userService.getUserDetails(getCurrentUserId());
-
-        return Responses.respond(Response.Status.OK, userDetailsDTO);
-    }
-
-    @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response remove() {
-        userService.remove(getCurrentUserId());
-
-        return Responses.respond(Response.Status.OK, "User successfully removed");
-    }
-
-    @POST
-    @Public
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(REQUEST_CONFIRMATION_EMAIL)
-    public Response requestConfirmationEmail(@PathParam(EMAIL) @NotBlank @Email String email) throws UserException {
-        userService.requestConfirmationEmail(email);
-
-        return Responses.respond(Response.Status.OK, "Email confirmation sent per email successful.");
-    }
-
-    @POST
-    @Public
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(VALIDATE_CONFIRMATION_EMAIL_TOKEN)
-    public Response validateConfirmationEmailToken(@PathParam(EMAIL) @NotBlank @Email String email, @PathParam(TOKEN) @NotBlank String token) throws UserException {
-        userService.validateConfirmationEmailToken(email, token);
-
-        return Responses.respond(Response.Status.OK, "Confirmation successful");
-    }
-
-    @PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(UPDATE_USER_PASSWORD)
-    public Response updatePassword(@Valid UpdatePasswordDTO updatePasswordDTO) throws UserException {
-        userService.updatePassword(updatePasswordDTO, getCurrentUserId());
-
-        return Responses.respond(Response.Status.OK, "Password successfully updated");
-    }
-
-    @POST
-    @Public
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(REQUEST_RESET_PASSWORD)
-    public Response requestResetPassword(@PathParam(EMAIL) @NotBlank @Email String email) throws UserException {
-        userService.requestResetPassword(email);
-
-        return Responses.respond(Response.Status.OK, "Token sent per email successful.");
-    }
-
-    @POST
-    @Public
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(VALIDATE_RESET_PASSWORD_TOKEN)
-    public Response validateResetPasswordToken(@PathParam(EMAIL) @NotBlank @Email String email, @PathParam(TOKEN) @NotBlank String token) throws UserException {
-        userService.validateResetPasswordToken(email, token);
-
-        return Responses.respond(Response.Status.OK, "Confirmation successful");
-    }
-
-    @POST
-    @Public
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(RESET_PASSWORD)
-    public Response resetPassword(@Valid ResetPasswordDTO resetPasswordDTO, @PathParam(EMAIL) @NotBlank @Email String email, @PathParam(TOKEN) @NotBlank String token) throws UserException {
-        userService.resetPassword(resetPasswordDTO, email, token);
-
-        return Responses.respond(Response.Status.OK, "Password successfully reset.");
-    }
-
-    @PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @JsonView({Views.StrictView.class})
-    @Path(UPDATE_CURRENCY)
-    public Response updateCurrency(@Validated(UpdateUserCurrencyGroup.class) UserDTO userDTO) throws UserException {
-        UserDTO updatedUserDTO = userService.updateCurrency(userDTO, getCurrentUserId());
-
-        return Responses.respond(Response.Status.OK, updatedUserDTO);
+        return Responses.respond(Response.Status.OK, expenses);
     }
 }
