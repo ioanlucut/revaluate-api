@@ -58,11 +58,23 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
     }
 
     private void categoryMatchesAreNotProperlyDefined(ExpenseProfileDTO expenseProfileDTO, List<ExpenseDTO> expenseDTOs) throws ExpenseException {
-        Map<String, List<ExpenseDTO>> categoriesGroupedPerName = expenseDTOs.stream().collect(Collectors.groupingBy(expenseDTO -> expenseDTO.getCategory().getName()));
+        Map<String, List<ExpenseDTO>> categoriesGroupedPerName = expenseDTOs
+                .stream()
+                .collect(Collectors.groupingBy(expenseDTO -> expenseDTO.getCategory().getName()));
         ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = expenseProfileDTO.getExpenseCategoriesMatchingProfileDTO();
         int size = expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().size();
 
-        if (categoriesGroupedPerName.size() != size) {
+        boolean allHaveAMatch = categoriesGroupedPerName
+                .entrySet()
+                .stream()
+                .allMatch(stringListEntry ->
+                        expenseCategoriesMatchingProfileDTO
+                                .getCategoriesMatchingMap()
+                                .entrySet()
+                                .stream()
+                                .anyMatch(stringCategoryDTOEntry -> stringCategoryDTOEntry.getKey().equals(stringListEntry.getKey())));
+
+        if (categoriesGroupedPerName.size() != size || !allHaveAMatch) {
             throw new ExpenseException(String.format("Only %s categories defined from total of %s", size, categoriesGroupedPerName.size()));
         }
     }

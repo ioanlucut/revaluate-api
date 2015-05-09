@@ -114,6 +114,37 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
     }
 
     @Test
+    public void importExpenses_matchingCategoriesDefinedButNotForExistingImportCategories_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+        String exampleString = "\"Date\",\"Description\",\"Original Description\",\"Amount\",\"Transaction Type\",\"Category\",\"Account Name\",\"Labels\",\"Notes\"\n" +
+                "\"5/05/2015\",\"Sticky\",\"PaymentTo Sticky9\",\"36.98\",\"debit\",\"Home Insurance\",\"PayPal Account\",\"\",\"\"\n" +
+                "\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"123.00\",\"debit\",\"Movies & DVDs\",\"Cash\",\"\",\"This is a note\"";
+
+        InputStream inputStream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
+
+        //-----------------------------------------------------------------
+        // Create two categories
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Expense profile - setup
+        //-----------------------------------------------------------------
+        MintExpenseProfileDTO expenseProfileDTO = new MintExpenseProfileDTO();
+        ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = expenseProfileDTO.getExpenseCategoriesMatchingProfileDTO();
+        expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Home InsuranceX", createdCategoryDTO);
+        expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Movies Y", createdCategoryDTO);
+
+        exception.expect(ExpenseException.class);
+        exception.expectMessage("categories defined from total of");
+        expenseImportService.importExpenses(inputStream, expenseProfileDTO, createdUserDTO.getId());
+    }
+
+    @Test
     public void importExpenses_invalidCategoryMatcher_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create user
