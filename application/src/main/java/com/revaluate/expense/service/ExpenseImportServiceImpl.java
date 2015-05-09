@@ -2,9 +2,7 @@ package com.revaluate.expense.service;
 
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
-import com.revaluate.domain.importer.profile.ExpenseCategoriesMatchingProfileDTO;
-import com.revaluate.domain.importer.profile.ExpenseProfileDTO;
-import com.revaluate.domain.importer.profile.ExpensesImportDTO;
+import com.revaluate.domain.importer.profile.*;
 import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.importer.ImporterException;
 import com.revaluate.importer.ImporterParserService;
@@ -28,9 +26,34 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
     private ExpenseService expenseService;
 
     @Override
-    public List<ExpenseDTO> parseAndAnalyse(InputStream csv, ExpenseProfileDTO expenseProfileDTO) throws ExpenseException {
+    public ExpensesImportDTO parseAndAnalyse(InputStream csv, ExpenseProfileDTO expenseProfileDTO) throws ExpenseException {
         try {
-            return importerParserService.parseFrom(new BufferedReader(new InputStreamReader(csv)), expenseProfileDTO);
+            List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(new BufferedReader(new InputStreamReader(csv)), expenseProfileDTO);
+
+            //-----------------------------------------------------------------
+            // We group the unmatched categories
+            //-----------------------------------------------------------------
+            Map<String, List<ExpenseDTO>> groupedByCategoryName = expenseDTOs.stream()
+                    .collect(Collectors.groupingBy(expenseDTO -> expenseDTO.getCategory().getName()));
+
+            //-----------------------------------------------------------------
+            // We define a matching profile category
+            //-----------------------------------------------------------------
+            ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = new ExpenseCategoriesMatchingProfileDTOBuilder().build();
+
+            //-----------------------------------------------------------------
+            // Populate with unmatched keys
+            //-----------------------------------------------------------------
+            groupedByCategoryName
+                    .entrySet()
+                    .stream()
+                    .map(Map.Entry::getKey)
+                    .forEach(unmatchedCategoryName -> expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().put(unmatchedCategoryName, null));
+
+            return new ExpensesImportDTOBuilder()
+                    .withExpenseDTOs(expenseDTOs)
+                    .withExpenseCategoriesMatchingProfileDTO(expenseCategoriesMatchingProfileDTO)
+                    .build();
         } catch (ImporterException ex) {
 
             throw new ExpenseException(ex);
@@ -59,7 +82,7 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
                     return expenseDTO;
                 })
                 .collect(Collectors.toList());
-
+        System.out.println(transformedExpenseDTOs);
         return expenseService.bulkCreate(transformedExpenseDTOs, userId);
     }
 

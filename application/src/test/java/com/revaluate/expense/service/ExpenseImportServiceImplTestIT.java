@@ -6,7 +6,10 @@ import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.domain.expense.ExpenseDTO;
-import com.revaluate.domain.importer.profile.*;
+import com.revaluate.domain.importer.profile.ExpenseCategoriesMatchingProfileDTO;
+import com.revaluate.domain.importer.profile.ExpenseCategoriesMatchingProfileDTOBuilder;
+import com.revaluate.domain.importer.profile.ExpensesImportDTO;
+import com.revaluate.domain.importer.profile.MintExpenseProfileDTO;
 import com.revaluate.expense.exception.ExpenseException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -61,9 +66,19 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Home Insurance", createdCategoryDTO);
         expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Movies & DVDs", createdCategoryDTOB);
 
-        List<ExpenseDTO> expenseDTOs = expenseImportService.parseAndAnalyse(inputStream, expenseProfileDTO);
-        assertThat(expenseDTOs, is(notNullValue()));
-        assertThat(expenseDTOs.size(), is(equalTo(2)));
+        //-----------------------------------------------------------------
+        // Parse and analyse
+        //-----------------------------------------------------------------
+        ExpensesImportDTO expensesImportDTO = expenseImportService.parseAndAnalyse(inputStream, expenseProfileDTO);
+
+        //-----------------------------------------------------------------
+        // Assert the parse result
+        //-----------------------------------------------------------------
+        assertThat(expensesImportDTO, is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO(), is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().getCategoriesMatchingMap(), is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().getCategoriesMatchingMap().size(), is(equalTo(2)));
     }
 
     @Test
@@ -88,7 +103,20 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         // Expense profile - parse
         //-----------------------------------------------------------------
         MintExpenseProfileDTO expenseProfileDTO = new MintExpenseProfileDTO();
-        List<ExpenseDTO> expenseDTOs = expenseImportService.parseAndAnalyse(inputStream, expenseProfileDTO);
+
+        //-----------------------------------------------------------------
+        // Parse and analyse
+        //-----------------------------------------------------------------
+        ExpensesImportDTO expensesImportDTO = expenseImportService.parseAndAnalyse(inputStream, expenseProfileDTO);
+
+        //-----------------------------------------------------------------
+        // Assert the parse result
+        //-----------------------------------------------------------------
+        assertThat(expensesImportDTO, is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO(), is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().getCategoriesMatchingMap(), is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().getCategoriesMatchingMap().size(), is(equalTo(1)));
 
         //-----------------------------------------------------------------
         // Expense profile - import
@@ -96,8 +124,26 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = new ExpenseCategoriesMatchingProfileDTOBuilder().build();
         expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Home Insurance", createdCategoryDTO);
 
-        ExpensesImportDTO expensesImportDTO = new ExpensesImportDTOBuilder().withExpenseCategoriesMatchingProfileDTO(expenseCategoriesMatchingProfileDTO).withExpenseDTOs(expenseDTOs).build();
-        expenseImportService.importExpenses(expensesImportDTO, createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Prepare the import expense profile
+        //-----------------------------------------------------------------
+        Map<String, CategoryDTO> categoriesMatchingMap = expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().getCategoriesMatchingMap();
+
+        //-----------------------------------------------------------------
+        // Fill the categories matching map
+        //-----------------------------------------------------------------
+
+        Map<String, CategoryDTO> categoriesMatchingMapFilled = categoriesMatchingMap
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> createdCategoryDTO));
+
+        //-----------------------------------------------------------------
+        // Update the expenses import profile
+        //-----------------------------------------------------------------
+        expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().setCategoriesMatchingMap(categoriesMatchingMapFilled);
+
+        List<ExpenseDTO> expenseDTOs = expenseImportService.importExpenses(expensesImportDTO, createdUserDTO.getId());
         List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -132,7 +178,20 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         // Expense profile - parse
         //-----------------------------------------------------------------
         MintExpenseProfileDTO expenseProfileDTO = new MintExpenseProfileDTO();
-        List<ExpenseDTO> expenseDTOs = expenseImportService.parseAndAnalyse(inputStream, expenseProfileDTO);
+
+        //-----------------------------------------------------------------
+        // Parse and analyse
+        //-----------------------------------------------------------------
+        ExpensesImportDTO expensesImportDTO = expenseImportService.parseAndAnalyse(inputStream, expenseProfileDTO);
+
+        //-----------------------------------------------------------------
+        // Assert the parse result
+        //-----------------------------------------------------------------
+        assertThat(expensesImportDTO, is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO(), is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().getCategoriesMatchingMap(), is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().getCategoriesMatchingMap().size(), is(equalTo(2)));
 
         //-----------------------------------------------------------------
         // Expense profile - import
@@ -140,7 +199,27 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = new ExpenseCategoriesMatchingProfileDTOBuilder().build();
         expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Home InsuranceX", createdCategoryDTO);
         expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Movies Y", createdCategoryDTO);
-        ExpensesImportDTO expensesImportDTO = new ExpensesImportDTOBuilder().withExpenseCategoriesMatchingProfileDTO(expenseCategoriesMatchingProfileDTO).withExpenseDTOs(expenseDTOs).build();
+
+        //-----------------------------------------------------------------
+        // Prepare the import expense profile
+        //-----------------------------------------------------------------
+        Map<String, CategoryDTO> categoriesMatchingMap = expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().getCategoriesMatchingMap();
+
+        //-----------------------------------------------------------------
+        // Fill the categories matching map
+        //-----------------------------------------------------------------
+
+        Map<String, CategoryDTO> categoriesMatchingMapFilled = categoriesMatchingMap
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> createdCategoryDTO));
+
+        //-----------------------------------------------------------------
+        // Update the expenses import profile
+        //-----------------------------------------------------------------
+        expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().setCategoriesMatchingMap(categoriesMatchingMapFilled);
+
+        expenseImportService.importExpenses(expensesImportDTO, createdUserDTO.getId());
 
         exception.expect(ExpenseException.class);
         exception.expectMessage("categories defined from total of");
@@ -169,14 +248,47 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         // Expense profile - parse
         //-----------------------------------------------------------------
         MintExpenseProfileDTO expenseProfileDTO = new MintExpenseProfileDTO();
-        List<ExpenseDTO> expenseDTOs = expenseImportService.parseAndAnalyse(inputStream, expenseProfileDTO);
+
+        //-----------------------------------------------------------------
+        // Parse and analyse
+        //-----------------------------------------------------------------
+        ExpensesImportDTO expensesImportDTO = expenseImportService.parseAndAnalyse(inputStream, expenseProfileDTO);
+
+        //-----------------------------------------------------------------
+        // Assert the parse result
+        //-----------------------------------------------------------------
+        assertThat(expensesImportDTO, is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO(), is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().getCategoriesMatchingMap(), is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().getCategoriesMatchingMap().size(), is(equalTo(2)));
 
         //-----------------------------------------------------------------
         // Expense profile - import
         //-----------------------------------------------------------------
         ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = new ExpenseCategoriesMatchingProfileDTOBuilder().build();
         expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Home Insurance", createdCategoryDTO);
-        ExpensesImportDTO expensesImportDTO = new ExpensesImportDTOBuilder().withExpenseCategoriesMatchingProfileDTO(expenseCategoriesMatchingProfileDTO).withExpenseDTOs(expenseDTOs).build();
+
+        //-----------------------------------------------------------------
+        // Prepare the import expense profile
+        //-----------------------------------------------------------------
+        Map<String, CategoryDTO> categoriesMatchingMap = expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().getCategoriesMatchingMap();
+
+        //-----------------------------------------------------------------
+        // Fill the categories matching map
+        //-----------------------------------------------------------------
+
+        Map<String, CategoryDTO> categoriesMatchingMapFilled = categoriesMatchingMap
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> createdCategoryDTO));
+
+        //-----------------------------------------------------------------
+        // Update the expenses import profile
+        //-----------------------------------------------------------------
+        expensesImportDTO.getExpenseCategoriesMatchingProfileDTO().setCategoriesMatchingMap(categoriesMatchingMapFilled);
+
+        expenseImportService.importExpenses(expensesImportDTO, createdUserDTO.getId());
 
         exception.expect(ExpenseException.class);
         exception.expectMessage("categories defined from total of");
