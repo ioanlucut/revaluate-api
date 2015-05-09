@@ -41,7 +41,7 @@
 
         <version.iad>WH-5.15-SNAPSHOT</version.iad>
         <version.spring>4.1.5.RELEASE</version.spring>
-        <version.jersey>2.16</version.jersey>
+        <version.jersey>2.17</version.jersey>
         <version.aspectj>1.8.4</version.aspectj>
         <version.validation-api>1.1.0.Final</version.validation-api>
         <version.javax.servlet-api>3.1.0</version.javax.servlet-api>
