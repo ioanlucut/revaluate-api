@@ -1,8 +1,8 @@
 package com.revaluate.resource.importer;
 
 import com.revaluate.domain.expense.ExpenseDTO;
-import com.revaluate.domain.importer.profile.ExpenseCategoriesMatchingProfileDTO;
 import com.revaluate.domain.importer.profile.ExpenseProfileDTO;
+import com.revaluate.domain.importer.profile.ExpensesImportDTO;
 import com.revaluate.domain.importer.profile.MintExpenseProfileDTO;
 import com.revaluate.domain.importer.profile.SpendeeExpenseProfileDTO;
 import com.revaluate.expense.exception.ExpenseException;
@@ -69,12 +69,13 @@ public class ImporterResource extends Resource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    @Consumes({MediaType.APPLICATION_JSON})
     @Path(IMPORT_MINT)
-    public Response importMint(@NotNull @Valid List<ExpenseDTO> expenseDTOs, @NotNull @Valid ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO) throws ExpenseException {
+    public Response importMint(@NotNull @Valid ExpensesImportDTO expensesImportDTO) throws ExpenseException {
 
-        return importWith(expenseDTOs, expenseCategoriesMatchingProfileDTO);
+        return importWith(expensesImportDTO);
     }
+
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -87,11 +88,11 @@ public class ImporterResource extends Resource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.MULTIPART_FORM_DATA})
+    @Consumes({MediaType.APPLICATION_JSON})
     @Path(IMPORT_SPENDEE)
-    public Response importSpendee(@NotNull @Valid List<ExpenseDTO> expenseDTOs, @NotNull @Valid ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO) throws ExpenseException {
+    public Response importSpendee(@NotNull @Valid ExpensesImportDTO expensesImportDTO) throws ExpenseException {
 
-        return importWith(expenseDTOs, expenseCategoriesMatchingProfileDTO);
+        return importWith(expensesImportDTO);
     }
 
     private Response parseAndAnalyse(InputStream stream, ExpenseProfileDTO expenseProfileDTO) throws ExpenseException {
@@ -100,8 +101,8 @@ public class ImporterResource extends Resource {
         return Responses.respond(Response.Status.OK, expenses);
     }
 
-    public Response importWith(List<ExpenseDTO> expenseDTOs, ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO) throws ExpenseException {
-        List<ExpenseDTO> expenses = expenseImportService.importExpenses(expenseDTOs, expenseCategoriesMatchingProfileDTO, getCurrentUserId());
+    public Response importWith(ExpensesImportDTO expensesImportDTO) throws ExpenseException {
+        List<ExpenseDTO> expenses = expenseImportService.importExpenses(expensesImportDTO, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, expenses);
     }
