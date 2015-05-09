@@ -4,6 +4,7 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.importer.profile.ExpenseCategoriesMatchingProfileDTO;
 import com.revaluate.domain.importer.profile.ExpenseProfileDTO;
+import com.revaluate.domain.importer.profile.ExpensesImportDTO;
 import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.importer.ImporterException;
 import com.revaluate.importer.ImporterParserService;
@@ -37,16 +38,18 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
     }
 
     @Override
-    public List<ExpenseDTO> importExpenses(List<ExpenseDTO> categoryDTOs, ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO, int userId) throws ExpenseException {
+    public List<ExpenseDTO> importExpenses(ExpensesImportDTO expensesImportDTO, int userId) throws ExpenseException {
+        ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = expensesImportDTO.getExpenseCategoriesMatchingProfileDTO();
+        List<ExpenseDTO> expenseDTOs = expensesImportDTO.getExpenseDTOs();
         //-----------------------------------------------------------------
         // Check if every category which is present on the import has a matching existing category
         //-----------------------------------------------------------------
-        categoryMatchesAreNotProperlyDefined(expenseCategoriesMatchingProfileDTO, categoryDTOs);
+        categoryMatchesAreNotProperlyDefined(expenseCategoriesMatchingProfileDTO, expenseDTOs);
 
         //-----------------------------------------------------------------
         // Make sure the matching categories are applied
         //-----------------------------------------------------------------
-        List<ExpenseDTO> transformedExpenseDTOs = categoryDTOs
+        List<ExpenseDTO> transformedExpenseDTOs = expenseDTOs
                 .stream()
                 .map(expenseDTO -> {
                     Map<String, CategoryDTO> categoriesMatchingMap = expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap();
