@@ -4,15 +4,28 @@ import com.revaluate.domain.importer.column.ExpenseColumn;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
 @GeneratePojoBuilder
 public class ExpenseProfileDTO {
 
+    @Valid
+    @NotNull
     protected ExpenseProfileEntryDTO descriptionExpenseProfileEntryDTO;
+
+    @Valid
+    @NotNull
     protected ExpenseProfileEntryDTO categoryExpenseProfileEntryDTO;
+
+    @Valid
+    @NotNull
     protected ExpenseProfileEntryDTO dateExpenseProfileEntryDTO;
+
+    @Valid
+    @NotNull
     protected ExpenseProfileEntryDTO amountExpenseProfileEntryDTO;
 
     protected char delimiter = ',';
