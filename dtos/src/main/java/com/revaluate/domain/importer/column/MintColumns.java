@@ -1,4 +1,4 @@
-package com.revaluate.importer.profile;
+package com.revaluate.domain.importer.column;
 
 public enum MintColumns {
 

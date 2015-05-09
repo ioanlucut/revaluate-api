@@ -1,18 +1,29 @@
-package com.revaluate.importer.profile;
+package com.revaluate.domain.importer.profile;
 
+import com.revaluate.domain.importer.column.ExpenseColumn;
+import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ExpenseProfile {
+@GeneratePojoBuilder
+public class ExpenseProfileDTO {
 
-    protected final ExpenseProfileEntryDTO descriptionExpenseProfileEntryDTO = new ExpenseProfileEntryDTO(ExpenseColumn.DESCRIPTION);
-    protected final ExpenseProfileEntryDTO categoryExpenseProfileEntryDTO = new ExpenseProfileEntryDTO(ExpenseColumn.CATEGORY);
-    protected final ExpenseProfileEntryDTO dateExpenseProfileEntryDTO = new ExpenseProfileEntryDTO(ExpenseColumn.SPENT_DATE);
-    protected final ExpenseProfileEntryDTO amountExpenseProfileEntryDTO = new ExpenseProfileEntryDTO(ExpenseColumn.AMOUNT);
+    protected ExpenseProfileEntryDTO descriptionExpenseProfileEntryDTO;
+    protected ExpenseProfileEntryDTO categoryExpenseProfileEntryDTO;
+    protected ExpenseProfileEntryDTO dateExpenseProfileEntryDTO;
+    protected ExpenseProfileEntryDTO amountExpenseProfileEntryDTO;
 
     protected char delimiter = ',';
+    protected String spentDateFormat = "";
+
+    public ExpenseProfileDTO() {
+        descriptionExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.DESCRIPTION).build();
+        categoryExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.CATEGORY).build();
+        dateExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.SPENT_DATE).build();
+        amountExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.AMOUNT).build();
+    }
 
     public ExpenseProfileEntryDTO getDescriptionExpenseProfileEntryDTO() {
         return descriptionExpenseProfileEntryDTO;
@@ -32,6 +43,10 @@ public class ExpenseProfile {
 
     public char getDelimiter() {
         return delimiter;
+    }
+
+    public String getSpentDateFormat() {
+        return spentDateFormat;
     }
 
     public Integer[] getIndexes() {
@@ -71,6 +86,7 @@ public class ExpenseProfile {
                 .append("dateExpenseProfileEntryDTO", dateExpenseProfileEntryDTO)
                 .append("amountExpenseProfileEntryDTO", amountExpenseProfileEntryDTO)
                 .append("delimiter", delimiter)
+                .append("spentDateFormat", spentDateFormat)
                 .toString();
     }
 }

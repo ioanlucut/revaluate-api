@@ -1,6 +1,8 @@
-package com.revaluate.importer.profile;
+package com.revaluate.domain.importer.profile;
 
+import com.revaluate.domain.importer.column.ExpenseColumn;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
@@ -17,15 +19,12 @@ public class ExpenseProfileEntryDTO {
     @NotEmpty
     private String importColumnName;
 
-    public ExpenseProfileEntryDTO() {
-    }
-
-    public ExpenseProfileEntryDTO(ExpenseColumn expenseColumn) {
-        this.expenseColumn = expenseColumn;
-    }
-
     public ExpenseColumn getExpenseColumn() {
         return expenseColumn;
+    }
+
+    public void setExpenseColumn(ExpenseColumn expenseColumn) {
+        this.expenseColumn = expenseColumn;
     }
 
     public int getImportColumnIndex() {
@@ -42,5 +41,14 @@ public class ExpenseProfileEntryDTO {
 
     public void setImportColumnName(String importColumnName) {
         this.importColumnName = importColumnName;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("expenseColumn", expenseColumn)
+                .append("importColumnIndex", importColumnIndex)
+                .append("importColumnName", importColumnName)
+                .toString();
     }
 }

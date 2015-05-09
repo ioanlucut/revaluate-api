@@ -1,10 +1,10 @@
-package com.revaluate.importer.profile;
+package com.revaluate.domain.importer.profile;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.revaluate.domain.importer.column.SpendeeColumns;
 
-public class SpendeeExpenseProfile extends ExpenseProfile {
+public class SpendeeExpenseProfileDTO extends ExpenseProfileDTO {
 
-    public SpendeeExpenseProfile() {
+    public SpendeeExpenseProfileDTO() {
         amountExpenseProfileEntryDTO.setImportColumnIndex(SpendeeColumns.AMOUNT.getImportColumnIndex());
         amountExpenseProfileEntryDTO.setImportColumnName(SpendeeColumns.AMOUNT.getImportColumnName());
 
@@ -18,11 +18,7 @@ public class SpendeeExpenseProfile extends ExpenseProfile {
         categoryExpenseProfileEntryDTO.setImportColumnName(SpendeeColumns.CATEGORY.getImportColumnName());
 
         delimiter = ';';
+        spentDateFormat = "yyyy-MM-dd'T'HH:mm:ss'GMT'Z";
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .toString();
-    }
 }
