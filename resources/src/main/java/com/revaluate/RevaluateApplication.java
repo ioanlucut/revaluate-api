@@ -8,6 +8,7 @@ import io.dropwizard.setup.Environment;
 import io.github.fallwizard.FallwizardApplication;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.flywaydb.core.Flyway;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
 import org.glassfish.jersey.server.ServerProperties;
 import org.slf4j.Logger;
@@ -66,6 +67,11 @@ public class RevaluateApplication extends FallwizardApplication<RevaluateConfigu
     private void setUpOtherOptions(Environment environment) {
         // Entity filtering
         environment.jersey().register(EntityFilteringFeature.class);
+
+        //-----------------------------------------------------------------
+        // Register multipart feature - mandatory
+        //-----------------------------------------------------------------
+        environment.jersey().register(MultiPartFeature.class);
 
         // @ValidateOnExecution annotations on subclasses won't cause errors.
         environment.jersey().property(ServerProperties.BV_DISABLE_VALIDATE_ON_EXECUTABLE_OVERRIDE_CHECK, true);

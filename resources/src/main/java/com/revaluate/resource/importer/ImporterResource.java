@@ -29,6 +29,7 @@ import java.util.List;
 public class ImporterResource extends Resource {
 
     public static final String IMPORTER = "importer";
+    public static final String IMPORT_TRACE = "traceImport";
     public static final String IMPORT_MINT = "mintImport";
     public static final String IMPORT_SPENDEE = "spendeeImport";
     public static final String CSV_FILE = "file";
@@ -45,7 +46,7 @@ public class ImporterResource extends Resource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.MULTIPART_FORM_DATA})
-    @Path(IMPORT_MINT)
+    @Path(IMPORT_TRACE)
     public Response trace(@NotNull @FormDataParam(CSV_FILE) InputStream stream) throws ImporterException, IOException {
         String received = IOUtils.toString(stream);
 
