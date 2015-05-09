@@ -13,7 +13,7 @@ import java.util.List;
 public interface ExpenseImportService {
 
     @NotNull
-    List<ExpenseDTO> parseAndAnalyse(@NotNull InputStream csv, @NotNull @Valid ExpenseProfileDTO expenseProfileDTO) throws ExpenseException;
+    ExpensesImportDTO parseAndAnalyse(@NotNull InputStream csv, @NotNull @Valid ExpenseProfileDTO expenseProfileDTO) throws ExpenseException;
 
     @NotNull
     List<ExpenseDTO> importExpenses(@NotNull @Valid ExpensesImportDTO expensesImportDTO, int userId) throws ExpenseException;

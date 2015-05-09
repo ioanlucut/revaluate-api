@@ -96,9 +96,9 @@ public class ImporterResource extends Resource {
     }
 
     private Response parseAndAnalyse(InputStream stream, ExpenseProfileDTO expenseProfileDTO) throws ExpenseException {
-        List<ExpenseDTO> expenses = expenseImportService.parseAndAnalyse(stream, expenseProfileDTO);
+        ExpensesImportDTO expensesImportDTO = expenseImportService.parseAndAnalyse(stream, expenseProfileDTO);
 
-        return Responses.respond(Response.Status.OK, expenses);
+        return Responses.respond(Response.Status.OK, expensesImportDTO);
     }
 
     public Response importWith(ExpensesImportDTO expensesImportDTO) throws ExpenseException {
