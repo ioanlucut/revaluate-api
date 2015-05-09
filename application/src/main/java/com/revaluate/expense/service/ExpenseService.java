@@ -36,6 +36,9 @@ public interface ExpenseService {
     @NotNull
     List<ExpenseDTO> findAllExpensesWithCategoryIdFor(int categoryId, int userId);
 
+    @NotNull
+    List<ExpenseDTO> bulkCreate(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<ExpenseDTO> categoryDTOs, int userId) throws ExpenseException;
+
     void bulkDelete(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<ExpenseDTO> expenseDTOs, int userId) throws ExpenseException;
 
     void remove(@Min(1) int expenseId, int userId) throws ExpenseException;

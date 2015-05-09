@@ -56,11 +56,11 @@ public class ImporterServiceImplTestIT {
     }
 
     @Test
-    public void importFromSpendee_unexpectedInput_handledOk() throws ImporterServiceException {
+    public void importFromSpendee_unexpectedInput_handledOk() throws ImporterException {
         Reader reader = new StringReader("\"Category\";\"Localized Category\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
                 "\"bills\";\"Bills\";\"2015-02-21T19:36:10+02:00\";\"-22 RON\";\"\"");
 
-        exception.expect(ImporterServiceException.class);
+        exception.expect(ImporterException.class);
         exception.expectMessage("Invalid format:");
         importerService.importFrom(reader, new SpendeeExpenseProfileDTO());
 
@@ -71,7 +71,7 @@ public class ImporterServiceImplTestIT {
     }
 
     @Test
-    public void import_cateegoryNotPresent_handledOk() throws ImporterServiceException {
+    public void import_cateegoryNotPresent_handledOk() throws ImporterException {
         Reader reader = new StringReader("\"Category\";\"Localized Category\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
                 "\"\";\"\";\"\";\"\";\"\"");
 
@@ -82,7 +82,7 @@ public class ImporterServiceImplTestIT {
     }
 
     @Test
-    public void import_amountNonDigit_handledOk() throws ImporterServiceException {
+    public void import_amountNonDigit_handledOk() throws ImporterException {
         Reader reader = new StringReader("\"Category\";\"Localized Category\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
                 "\"bills\";\"Bills\";\"2015-02-21T19:36:10GMT+02:00\";\"-a!@#$%^&*()_+=|}{/;22 RON\";\"\"");
 

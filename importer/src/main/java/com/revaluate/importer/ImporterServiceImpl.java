@@ -30,7 +30,7 @@ public class ImporterServiceImpl implements ImporterService {
     public static final String EMPTY_STRING = "";
 
     @Override
-    public List<ExpenseDTO> importFrom(Reader reader, ExpenseProfileDTO expenseProfileDTO) throws ImporterServiceException {
+    public List<ExpenseDTO> importFrom(Reader reader, ExpenseProfileDTO expenseProfileDTO) throws ImporterException {
         ObjectRowListProcessor rowProcessor = new ObjectRowListProcessor();
 
         //-----------------------------------------------------------------
@@ -74,9 +74,9 @@ public class ImporterServiceImpl implements ImporterService {
                     .stream()
                     .map(expenseDTOMapFunction)
                     .collect(Collectors.toList());
-        } catch (ImporterServiceWrapperException ex) {
+        } catch (ImporterWrapperException ex) {
 
-            throw new ImporterServiceException(ex.getCause());
+            throw new ImporterException(ex.getCause());
         }
     }
 
@@ -91,7 +91,7 @@ public class ImporterServiceImpl implements ImporterService {
                         .build();
             } catch (Exception ex) {
 
-                throw new ImporterServiceWrapperException(ex);
+                throw new ImporterWrapperException(ex);
             }
         };
     }
