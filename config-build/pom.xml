@@ -97,7 +97,7 @@
         <hsqldb.version>2.3.2</hsqldb.version>
         <dozer.version>5.5.1</dozer.version>
         <maven-failsafe-plugin.version>2.18.1</maven-failsafe-plugin.version>
-        <dropwizard-core.version>0.8.0-rc3</dropwizard-core.version>
+        <dropwizard-core.version>0.8.0</dropwizard-core.version>
         <dropwizard-spring.version>0.6.0</dropwizard-spring.version>
         <javax.el.version>2.2.6</javax.el.version>
         <Fallwizard.version>0.7.1.2</Fallwizard.version>
