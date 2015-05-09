@@ -4,6 +4,7 @@ import com.revaluate.domain.category.CategoryDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
 public class ExpenseCategoriesMatchingProfileDTO {
 
     @NotNull
+    @Valid
     private Map<String, CategoryDTO> categoriesMatchingMap = new HashMap<>();
 
     public Map<String, CategoryDTO> getCategoriesMatchingMap() {

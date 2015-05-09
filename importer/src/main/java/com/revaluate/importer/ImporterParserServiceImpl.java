@@ -21,7 +21,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class ImporterServiceImpl implements ImporterService {
+public class ImporterParserServiceImpl implements ImporterParserService {
 
     public static final String LINE_SEPARATOR = "\n";
     public static final boolean HEADER_EXTRACTION_ENABLED = true;
@@ -30,7 +30,7 @@ public class ImporterServiceImpl implements ImporterService {
     public static final String EMPTY_STRING = "";
 
     @Override
-    public List<ExpenseDTO> importFrom(Reader reader, ExpenseProfileDTO expenseProfileDTO) throws ImporterException {
+    public List<ExpenseDTO> parseFrom(Reader reader, ExpenseProfileDTO expenseProfileDTO) throws ImporterException {
         ObjectRowListProcessor rowProcessor = new ObjectRowListProcessor();
 
         //-----------------------------------------------------------------

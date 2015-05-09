@@ -34,11 +34,11 @@ public class ImporterServiceImplTestIT {
     public ExpectedException exception = ExpectedException.none();
 
     @Autowired
-    private ImporterService importerService;
+    private ImporterParserService importerParserService;
 
     @Test
     public void importFromMint() throws Exception {
-        List<ExpenseDTO> expenseDTOs = importerService.importFrom(getReader("/mint.csv"), new MintExpenseProfileDTO());
+        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/mint.csv"), new MintExpenseProfileDTO());
 
         assertThat(expenseDTOs, is(notNullValue()));
         assertThat(expenseDTOs.size(), is(equalTo(2)));
@@ -46,7 +46,7 @@ public class ImporterServiceImplTestIT {
 
     @Test
     public void importFromSpendee() throws Exception {
-        List<ExpenseDTO> expenseDTOs = importerService.importFrom(getReader("/spendee.csv"), new SpendeeExpenseProfileDTO());
+        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/spendee.csv"), new SpendeeExpenseProfileDTO());
 
         assertThat(expenseDTOs, is(notNullValue()));
         assertThat(expenseDTOs.size(), is(equalTo(6)));
@@ -59,12 +59,12 @@ public class ImporterServiceImplTestIT {
 
         exception.expect(ImporterException.class);
         exception.expectMessage("Invalid format:");
-        importerService.importFrom(reader, new SpendeeExpenseProfileDTO());
+        importerParserService.parseFrom(reader, new SpendeeExpenseProfileDTO());
 
         reader = new StringReader("\"Category\";\"Localized Category\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
                 "\"bills\";\"\";\"2015-02-21T19:36:10GMT+02:00\";\"-22 RON\";\"\"");
 
-        importerService.importFrom(reader, new SpendeeExpenseProfileDTO());
+        importerParserService.parseFrom(reader, new SpendeeExpenseProfileDTO());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class ImporterServiceImplTestIT {
         Reader reader = new StringReader("\"Category\";\"Localized Category\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
                 "\"\";\"\";\"\";\"\";\"\"");
 
-        List<ExpenseDTO> expenseDTOs = importerService.importFrom(reader, new SpendeeExpenseProfileDTO());
+        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(reader, new SpendeeExpenseProfileDTO());
         assertThat(expenseDTOs, is(notNullValue()));
         assertThat(expenseDTOs.size(), is(equalTo(1)));
         assertThat(expenseDTOs.get(0).getValue(), is(equalTo(0.0)));
@@ -84,7 +84,7 @@ public class ImporterServiceImplTestIT {
         Reader reader = new StringReader("\"Category\";\"Localized Category\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
                 "\"bills\";\"Bills\";\"2015-02-21T19:36:10GMT+02:00\";\"-a!@#$%^&*()_+=|}{/;22 RON\";\"\"");
 
-        List<ExpenseDTO> expenseDTOs = importerService.importFrom(reader, new SpendeeExpenseProfileDTO());
+        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(reader, new SpendeeExpenseProfileDTO());
         assertThat(expenseDTOs, is(notNullValue()));
         assertThat(expenseDTOs.size(), is(equalTo(1)));
         assertThat(expenseDTOs.get(0).getValue(), is(equalTo(22.0)));

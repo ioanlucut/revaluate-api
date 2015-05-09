@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Reader;
 import java.util.List;
 
-public interface ImporterService {
+public interface ImporterParserService {
 
-    List<ExpenseDTO> importFrom(Reader reader, @NotNull ExpenseProfileDTO expenseProfileDTO) throws ImporterException;
+    List<ExpenseDTO> parseFrom(Reader reader, @NotNull ExpenseProfileDTO expenseProfileDTO) throws ImporterException;
 }

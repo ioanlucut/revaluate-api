@@ -14,8 +14,6 @@ public class ExpenseProfileDTOBuilder
   protected boolean isSet$dateExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
   protected ExpenseProfileEntryDTO value$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
   protected boolean isSet$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-  protected ExpenseCategoriesMatchingProfileDTO value$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO;
-  protected boolean isSet$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO;
   protected char value$delimiter$char;
   protected boolean isSet$delimiter$char;
   protected String value$spentDateFormat$java$lang$String;
@@ -73,18 +71,6 @@ public class ExpenseProfileDTOBuilder
   public ExpenseProfileDTOBuilder withAmountExpenseProfileEntryDTO(ExpenseProfileEntryDTO value) {
     this.value$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO = value;
     this.isSet$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link ExpenseProfileDTO#expenseCategoriesMatchingProfileDTO} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public ExpenseProfileDTOBuilder withExpenseCategoriesMatchingProfileDTO(ExpenseCategoriesMatchingProfileDTO value) {
-    this.value$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO = value;
-    this.isSet$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO = true;
     return self;
   }
 
@@ -156,9 +142,6 @@ public class ExpenseProfileDTOBuilder
       }
       if (isSet$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO) {
         result.amountExpenseProfileEntryDTO = value$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-      }
-      if (isSet$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO) {
-        result.expenseCategoriesMatchingProfileDTO = value$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO;
       }
       if (isSet$delimiter$char) {
         result.delimiter = value$delimiter$char;
