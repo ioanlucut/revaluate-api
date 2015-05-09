@@ -1,9 +1,14 @@
 package com.revaluate.expense.service;
 
 import com.revaluate.AbstractIntegrationTests;
+import com.revaluate.category.service.CategoryService;
 import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.category.CategoryDTO;
+import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.domain.expense.ExpenseDTO;
+import com.revaluate.domain.importer.profile.ExpenseCategoriesMatchingProfileDTO;
 import com.revaluate.domain.importer.profile.MintExpenseProfileDTO;
+import com.revaluate.expense.exception.ExpenseException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,6 +30,9 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
     @Autowired
     private ExpenseService expenseService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @Test
     public void importExpenses_validDetails_ok() throws Exception {
         //-----------------------------------------------------------------
@@ -36,8 +44,25 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
                 "\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"123.00\",\"debit\",\"Movies & DVDs\",\"Cash\",\"\",\"This is a note\"";
 
         InputStream inputStream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
-        List<ExpenseDTO> expenseDTOs = expenseImportService.importExpenses(inputStream, new MintExpenseProfileDTO(), createdUserDTO.getId());
 
+        //-----------------------------------------------------------------
+        // Create two categories
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        CategoryDTO categoryDTOB = new CategoryDTOBuilder().withColor(SECOND_VALID_COLOR).withName("yeaks").build();
+        CategoryDTO createdCategoryDTOB = categoryService.create(categoryDTOB, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Expense profile - setup
+        //-----------------------------------------------------------------
+        MintExpenseProfileDTO expenseProfileDTO = new MintExpenseProfileDTO();
+        ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = expenseProfileDTO.getExpenseCategoriesMatchingProfileDTO();
+        expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Home Insurance", createdCategoryDTO);
+        expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Movies & DVDs", createdCategoryDTOB);
+
+        List<ExpenseDTO> expenseDTOs = expenseImportService.importExpenses(inputStream, expenseProfileDTO, createdUserDTO.getId());
         List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId());
 
         //-----------------------------------------------------------------
@@ -48,8 +73,73 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
 
         assertThat(expenseDTOs, is(notNullValue()));
         assertThat(expenseDTOs.size(), is(equalTo(2)));
+    }
 
-        System.out.println(expenseDTOs);
-        System.out.println(allExpensesFor);
+    @Test
+    public void importExpenses_twoOfTheSameCategoryValidDetails_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+        String exampleString = "\"Date\",\"Description\",\"Original Description\",\"Amount\",\"Transaction Type\",\"Category\",\"Account Name\",\"Labels\",\"Notes\"\n" +
+                "\"5/05/2015\",\"Sticky\",\"PaymentTo Sticky9\",\"36.98\",\"debit\",\"Home Insurance\",\"PayPal Account\",\"\",\"\"\n" +
+                "\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"123.00\",\"debit\",\"Home Insurance\",\"Cash\",\"\",\"This is a note\"";
+
+        InputStream inputStream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
+
+        //-----------------------------------------------------------------
+        // Create two categories
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Expense profile - setup
+        //-----------------------------------------------------------------
+        MintExpenseProfileDTO expenseProfileDTO = new MintExpenseProfileDTO();
+        ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = expenseProfileDTO.getExpenseCategoriesMatchingProfileDTO();
+        expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Home Insurance", createdCategoryDTO);
+
+        List<ExpenseDTO> expenseDTOs = expenseImportService.importExpenses(inputStream, expenseProfileDTO, createdUserDTO.getId());
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Assert imported expenses
+        //-----------------------------------------------------------------
+        assertThat(allExpensesFor, is(notNullValue()));
+        assertThat(allExpensesFor.size(), is(equalTo(2)));
+
+        assertThat(expenseDTOs, is(notNullValue()));
+        assertThat(expenseDTOs.size(), is(equalTo(2)));
+    }
+
+    @Test
+    public void importExpenses_invalidCategoryMatcher_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+        String exampleString = "\"Date\",\"Description\",\"Original Description\",\"Amount\",\"Transaction Type\",\"Category\",\"Account Name\",\"Labels\",\"Notes\"\n" +
+                "\"5/05/2015\",\"Sticky\",\"PaymentTo Sticky9\",\"36.98\",\"debit\",\"Home Insurance\",\"PayPal Account\",\"\",\"\"\n" +
+                "\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"123.00\",\"debit\",\"Movies & DVDs\",\"Cash\",\"\",\"This is a note\"";
+
+        InputStream inputStream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
+
+        //-----------------------------------------------------------------
+        // Create two categories
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Expense profile - setup
+        //-----------------------------------------------------------------
+        MintExpenseProfileDTO expenseProfileDTO = new MintExpenseProfileDTO();
+        ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = expenseProfileDTO.getExpenseCategoriesMatchingProfileDTO();
+        expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().putIfAbsent("Home Insurance", createdCategoryDTO);
+
+        exception.expect(ExpenseException.class);
+        exception.expectMessage("categories defined from total of");
+        expenseImportService.importExpenses(inputStream, expenseProfileDTO, createdUserDTO.getId());
     }
 }

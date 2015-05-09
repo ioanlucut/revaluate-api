@@ -28,14 +28,26 @@ public class ExpenseProfileDTO {
     @NotNull
     protected ExpenseProfileEntryDTO amountExpenseProfileEntryDTO;
 
+    @Valid
+    @NotNull
+    protected ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO;
+
     protected char delimiter = ',';
     protected String spentDateFormat = "";
 
     public ExpenseProfileDTO() {
+        //-----------------------------------------------------------------
+        // Columns profiles
+        //-----------------------------------------------------------------
         descriptionExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.DESCRIPTION).build();
         categoryExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.CATEGORY).build();
         dateExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.SPENT_DATE).build();
         amountExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.AMOUNT).build();
+
+        //-----------------------------------------------------------------
+        // Category profile
+        //-----------------------------------------------------------------
+        expenseCategoriesMatchingProfileDTO = new ExpenseCategoriesMatchingProfileDTOBuilder().build();
     }
 
     public ExpenseProfileEntryDTO getDescriptionExpenseProfileEntryDTO() {
@@ -60,6 +72,10 @@ public class ExpenseProfileDTO {
 
     public String getSpentDateFormat() {
         return spentDateFormat;
+    }
+
+    public ExpenseCategoriesMatchingProfileDTO getExpenseCategoriesMatchingProfileDTO() {
+        return expenseCategoriesMatchingProfileDTO;
     }
 
     public Integer[] getIndexes() {
@@ -98,6 +114,7 @@ public class ExpenseProfileDTO {
                 .append("categoryExpenseProfileEntryDTO", categoryExpenseProfileEntryDTO)
                 .append("dateExpenseProfileEntryDTO", dateExpenseProfileEntryDTO)
                 .append("amountExpenseProfileEntryDTO", amountExpenseProfileEntryDTO)
+                .append("expenseCategoriesMatchingProfileDTO", expenseCategoriesMatchingProfileDTO)
                 .append("delimiter", delimiter)
                 .append("spentDateFormat", spentDateFormat)
                 .toString();

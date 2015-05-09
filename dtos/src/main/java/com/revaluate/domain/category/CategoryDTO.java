@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.revaluate.domain.color.ColorDTO;
 import com.revaluate.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.Valid;
@@ -73,5 +74,14 @@ public class CategoryDTO implements Serializable {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (color != null ? color.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("name", name)
+                .append("color", color)
+                .toString();
     }
 }
