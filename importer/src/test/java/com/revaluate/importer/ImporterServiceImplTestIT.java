@@ -3,10 +3,7 @@ package com.revaluate.importer;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.importer.profile.MintExpenseProfileDTO;
 import com.revaluate.domain.importer.profile.SpendeeExpenseProfileDTO;
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -71,7 +68,8 @@ public class ImporterServiceImplTestIT {
     }
 
     @Test
-    public void import_cateegoryNotPresent_handledOk() throws ImporterException {
+    @Ignore
+    public void import_categoryNotPresent_handledOk() throws ImporterException {
         Reader reader = new StringReader("\"Category\";\"Localized Category\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
                 "\"\";\"\";\"\";\"\";\"\"");
 
@@ -90,30 +88,6 @@ public class ImporterServiceImplTestIT {
         assertThat(expenseDTOs, is(notNullValue()));
         assertThat(expenseDTOs.size(), is(equalTo(1)));
         assertThat(expenseDTOs.get(0).getValue(), is(equalTo(22.0)));
-    }
-
-    @Test
-    public void justPlaying() throws Exception {
-        String x = "2015-02-21T19:36:10GMT+02:00";
-        DateTimeFormatter df = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'GMT'Z");
-
-        LocalDateTime s = df.withOffsetParsed()
-                .parseLocalDateTime(x);
-        System.out.println(s);
-
-        String xx = "5/04/2015";
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/YYY");
-        LocalDateTime localDateTime = dateTimeFormatter.withOffsetParsed()
-                .parseLocalDateTime(xx);
-
-        System.out.println(localDateTime);
-
-        try {
-            ISODateTimeFormat.dateTimeNoMillis().parseLocalDateTime(xx);
-        } catch (IllegalArgumentException ex) {
-
-            ISODateTimeFormat.dateTime().parseLocalDateTime(xx);
-        }
     }
 
     public Reader getReader(String relativePath) throws UnsupportedEncodingException {
