@@ -82,7 +82,7 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
                     return expenseDTO;
                 })
                 .collect(Collectors.toList());
-        System.out.println(transformedExpenseDTOs);
+
         return expenseService.bulkCreate(transformedExpenseDTOs, userId);
     }
 
