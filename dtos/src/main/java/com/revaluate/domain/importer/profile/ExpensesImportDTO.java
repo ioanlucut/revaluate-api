@@ -2,7 +2,6 @@ package com.revaluate.domain.importer.profile;
 
 import com.revaluate.domain.expense.ExpenseDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -23,7 +22,8 @@ public class ExpensesImportDTO {
 
     @Valid
     @NotNull
-    private ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO;
+    @Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST)
+    private List<ExpenseCategoryMatchingProfileDTO> expenseCategoryMatchingProfileDTOs;
 
     public List<ExpenseDTO> getExpenseDTOs() {
         return expenseDTOs;
@@ -33,12 +33,12 @@ public class ExpensesImportDTO {
         this.expenseDTOs = expenseDTOs;
     }
 
-    public ExpenseCategoriesMatchingProfileDTO getExpenseCategoriesMatchingProfileDTO() {
-        return expenseCategoriesMatchingProfileDTO;
+    public List<ExpenseCategoryMatchingProfileDTO> getExpenseCategoryMatchingProfileDTOs() {
+        return expenseCategoryMatchingProfileDTOs;
     }
 
-    public void setExpenseCategoriesMatchingProfileDTO(ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO) {
-        this.expenseCategoriesMatchingProfileDTO = expenseCategoriesMatchingProfileDTO;
+    public void setExpenseCategoryMatchingProfileDTOs(List<ExpenseCategoryMatchingProfileDTO> expenseCategoryMatchingProfileDTOs) {
+        this.expenseCategoryMatchingProfileDTOs = expenseCategoryMatchingProfileDTOs;
     }
 
     @Override
@@ -47,19 +47,20 @@ public class ExpensesImportDTO {
         if (o == null || getClass() != o.getClass()) return false;
         ExpensesImportDTO that = (ExpensesImportDTO) o;
         return Objects.equals(expenseDTOs, that.expenseDTOs) &&
-                Objects.equals(expenseCategoriesMatchingProfileDTO, that.expenseCategoriesMatchingProfileDTO);
+                Objects.equals(expenseCategoryMatchingProfileDTOs, that.expenseCategoryMatchingProfileDTOs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(expenseDTOs, expenseCategoriesMatchingProfileDTO);
+        return Objects.hash(expenseDTOs, expenseCategoryMatchingProfileDTOs);
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("expenseDTOs", expenseDTOs)
-                .append("expenseCategoriesMatchingProfileDTO", expenseCategoriesMatchingProfileDTO)
-                .toString();
+        final StringBuilder sb = new StringBuilder("ExpensesImportDTO{");
+        sb.append("expenseDTOs=").append(expenseDTOs);
+        sb.append(", expenseCategoryMatchingProfileDTOs=").append(expenseCategoryMatchingProfileDTOs);
+        sb.append('}');
+        return sb.toString();
     }
 }
