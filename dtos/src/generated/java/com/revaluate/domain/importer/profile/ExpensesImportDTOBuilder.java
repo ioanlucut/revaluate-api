@@ -10,8 +10,8 @@ public class ExpensesImportDTOBuilder
   protected ExpensesImportDTOBuilder self;
   protected List<ExpenseDTO> value$expenseDTOs$java$util$List;
   protected boolean isSet$expenseDTOs$java$util$List;
-  protected ExpenseCategoriesMatchingProfileDTO value$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO;
-  protected boolean isSet$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO;
+  protected List<ExpenseCategoryMatchingProfileDTO> value$expenseCategoryMatchingProfileDTOs$java$util$List;
+  protected boolean isSet$expenseCategoryMatchingProfileDTOs$java$util$List;
 
   /**
    * Creates a new {@link ExpensesImportDTOBuilder}.
@@ -33,14 +33,14 @@ public class ExpensesImportDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link ExpensesImportDTO#expenseCategoriesMatchingProfileDTO} property.
+   * Sets the default value for the {@link ExpensesImportDTO#expenseCategoryMatchingProfileDTOs} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public ExpensesImportDTOBuilder withExpenseCategoriesMatchingProfileDTO(ExpenseCategoriesMatchingProfileDTO value) {
-    this.value$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO = value;
-    this.isSet$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO = true;
+  public ExpensesImportDTOBuilder withExpenseCategoryMatchingProfileDTOs(List<ExpenseCategoryMatchingProfileDTO> value) {
+    this.value$expenseCategoryMatchingProfileDTOs$java$util$List = value;
+    this.isSet$expenseCategoryMatchingProfileDTOs$java$util$List = true;
     return self;
   }
 
@@ -80,8 +80,8 @@ public class ExpensesImportDTOBuilder
       if (isSet$expenseDTOs$java$util$List) {
         result.setExpenseDTOs(value$expenseDTOs$java$util$List);
       }
-      if (isSet$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO) {
-        result.setExpenseCategoriesMatchingProfileDTO(value$expenseCategoriesMatchingProfileDTO$com$revaluate$domain$importer$profile$ExpenseCategoriesMatchingProfileDTO);
+      if (isSet$expenseCategoryMatchingProfileDTOs$java$util$List) {
+        result.setExpenseCategoryMatchingProfileDTOs(value$expenseCategoryMatchingProfileDTOs$java$util$List);
       }
       return result;
     } catch (RuntimeException ex) {

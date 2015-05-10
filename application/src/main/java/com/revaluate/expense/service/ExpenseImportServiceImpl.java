@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,22 +38,20 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
                     .collect(Collectors.groupingBy(expenseDTO -> expenseDTO.getCategory().getName()));
 
             //-----------------------------------------------------------------
-            // We define a matching profile category
+            // Build the list of unmatched categories
             //-----------------------------------------------------------------
-            ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = new ExpenseCategoriesMatchingProfileDTOBuilder().build();
-
-            //-----------------------------------------------------------------
-            // Populate with unmatched keys
-            //-----------------------------------------------------------------
-            groupedByCategoryName
+            List<ExpenseCategoryMatchingProfileDTO> expenseCategoryMatchingProfileDTOs = groupedByCategoryName
                     .entrySet()
                     .stream()
                     .map(Map.Entry::getKey)
-                    .forEach(unmatchedCategoryName -> expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().put(unmatchedCategoryName, null));
+                    .map(categoryCandidateName -> new ExpenseCategoryMatchingProfileDTOBuilder()
+                            .withCategoryCandidateName(categoryCandidateName)
+                            .build())
+                    .collect(Collectors.toList());
 
             return new ExpensesImportDTOBuilder()
                     .withExpenseDTOs(expenseDTOs)
-                    .withExpenseCategoriesMatchingProfileDTO(expenseCategoriesMatchingProfileDTO)
+                    .withExpenseCategoryMatchingProfileDTOs(expenseCategoryMatchingProfileDTOs)
                     .build();
         } catch (ImporterException ex) {
 
@@ -62,12 +61,21 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
 
     @Override
     public List<ExpenseDTO> importExpenses(ExpensesImportDTO expensesImportDTO, int userId) throws ExpenseException {
-        ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO = expensesImportDTO.getExpenseCategoriesMatchingProfileDTO();
+        //-----------------------------------------------------------------
+        // Make a map transform for faster retrieval. We map the category dto into optional,
+        // due to http://stackoverflow.com/questions/24630963/java-8-nullpointerexception-in-collectors-tomap
+        //-----------------------------------------------------------------
+        Map<String, Optional<CategoryDTO>> categoriesMatchingMap = expensesImportDTO
+                .getExpenseCategoryMatchingProfileDTOs()
+                .stream()
+                .collect(Collectors.toMap(ExpenseCategoryMatchingProfileDTO::getCategoryCandidateName, getCategoryCandidateName -> Optional.ofNullable(getCategoryCandidateName.getCategoryDTO())));
+
         List<ExpenseDTO> expenseDTOs = expensesImportDTO.getExpenseDTOs();
+
         //-----------------------------------------------------------------
         // Check if every category which is present on the import has a matching existing category
         //-----------------------------------------------------------------
-        categoryMatchesAreNotProperlyDefined(expenseCategoriesMatchingProfileDTO, expenseDTOs);
+        categoryMatchesAreNotProperlyDefined(categoriesMatchingMap, expenseDTOs);
 
         //-----------------------------------------------------------------
         // Make sure the matching categories are applied
@@ -75,9 +83,8 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
         List<ExpenseDTO> transformedExpenseDTOs = expenseDTOs
                 .stream()
                 .map(expenseDTO -> {
-                    Map<String, CategoryDTO> categoriesMatchingMap = expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap();
-                    CategoryDTO mappedCategoryDTO = categoriesMatchingMap.get(expenseDTO.getCategory().getName());
-                    expenseDTO.setCategory(mappedCategoryDTO);
+                    Optional<CategoryDTO> mappedCategoryDTO = categoriesMatchingMap.get(expenseDTO.getCategory().getName());
+                    expenseDTO.setCategory(mappedCategoryDTO.get());
 
                     return expenseDTO;
                 })
@@ -86,19 +93,18 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
         return expenseService.bulkCreate(transformedExpenseDTOs, userId);
     }
 
-    private void categoryMatchesAreNotProperlyDefined(ExpenseCategoriesMatchingProfileDTO expenseCategoriesMatchingProfileDTO, List<ExpenseDTO> expenseDTOs) throws ExpenseException {
+    private void categoryMatchesAreNotProperlyDefined(Map<String, Optional<CategoryDTO>> categoriesMatchingMap, List<ExpenseDTO> expenseDTOs) throws ExpenseException {
         Map<String, List<ExpenseDTO>> categoriesGroupedPerName = expenseDTOs
                 .stream()
                 .collect(Collectors.groupingBy(expenseDTO -> expenseDTO.getCategory().getName()));
-        int size = expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().size();
 
         boolean allHaveAMatch = categoriesGroupedPerName
                 .entrySet()
                 .stream()
-                .allMatch(matchCategoryEntry -> expenseCategoriesMatchingProfileDTO.getCategoriesMatchingMap().containsKey(matchCategoryEntry.getKey()));
+                .allMatch(matchCategoryEntry -> categoriesMatchingMap.containsKey(matchCategoryEntry.getKey()));
 
-        if (categoriesGroupedPerName.size() != size || !allHaveAMatch) {
-            throw new ExpenseException(String.format("Only %s categories defined from total of %s", size, categoriesGroupedPerName.size()));
+        if (categoriesGroupedPerName.size() != categoriesMatchingMap.size() || !allHaveAMatch) {
+            throw new ExpenseException(String.format("Only %s categories defined from total required of %s or not all categories have a match.", categoriesMatchingMap.size(), categoriesGroupedPerName.size()));
         }
     }
 }
