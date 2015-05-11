@@ -1,19 +1,15 @@
 package com.revaluate.domain.importer.profile;
 
+import com.revaluate.domain.importer.column.ExpenseColumn;
+import java.util.Map;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
 public class ExpenseProfileDTOBuilder
     implements Cloneable {
   protected ExpenseProfileDTOBuilder self;
-  protected ExpenseProfileEntryDTO value$descriptionExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-  protected boolean isSet$descriptionExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-  protected ExpenseProfileEntryDTO value$categoryExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-  protected boolean isSet$categoryExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-  protected ExpenseProfileEntryDTO value$dateExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-  protected boolean isSet$dateExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-  protected ExpenseProfileEntryDTO value$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-  protected boolean isSet$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
+  protected Map<ExpenseColumn, String> value$expenseColumnMatchingMap$java$util$Map;
+  protected boolean isSet$expenseColumnMatchingMap$java$util$Map;
   protected char value$delimiter$char;
   protected boolean isSet$delimiter$char;
   protected String value$spentDateFormat$java$lang$String;
@@ -27,50 +23,14 @@ public class ExpenseProfileDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link ExpenseProfileDTO#descriptionExpenseProfileEntryDTO} property.
+   * Sets the default value for the {@link ExpenseProfileDTO#expenseColumnMatchingMap} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public ExpenseProfileDTOBuilder withDescriptionExpenseProfileEntryDTO(ExpenseProfileEntryDTO value) {
-    this.value$descriptionExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO = value;
-    this.isSet$descriptionExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link ExpenseProfileDTO#categoryExpenseProfileEntryDTO} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public ExpenseProfileDTOBuilder withCategoryExpenseProfileEntryDTO(ExpenseProfileEntryDTO value) {
-    this.value$categoryExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO = value;
-    this.isSet$categoryExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link ExpenseProfileDTO#dateExpenseProfileEntryDTO} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public ExpenseProfileDTOBuilder withDateExpenseProfileEntryDTO(ExpenseProfileEntryDTO value) {
-    this.value$dateExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO = value;
-    this.isSet$dateExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link ExpenseProfileDTO#amountExpenseProfileEntryDTO} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public ExpenseProfileDTOBuilder withAmountExpenseProfileEntryDTO(ExpenseProfileEntryDTO value) {
-    this.value$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO = value;
-    this.isSet$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO = true;
+  public ExpenseProfileDTOBuilder withExpenseColumnMatchingMap(Map<ExpenseColumn, String> value) {
+    this.value$expenseColumnMatchingMap$java$util$Map = value;
+    this.isSet$expenseColumnMatchingMap$java$util$Map = true;
     return self;
   }
 
@@ -131,23 +91,14 @@ public class ExpenseProfileDTOBuilder
   public ExpenseProfileDTO build() {
     try {
       ExpenseProfileDTO result = new ExpenseProfileDTO();
-      if (isSet$descriptionExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO) {
-        result.descriptionExpenseProfileEntryDTO = value$descriptionExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-      }
-      if (isSet$categoryExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO) {
-        result.categoryExpenseProfileEntryDTO = value$categoryExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-      }
-      if (isSet$dateExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO) {
-        result.dateExpenseProfileEntryDTO = value$dateExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
-      }
-      if (isSet$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO) {
-        result.amountExpenseProfileEntryDTO = value$amountExpenseProfileEntryDTO$com$revaluate$domain$importer$profile$ExpenseProfileEntryDTO;
+      if (isSet$expenseColumnMatchingMap$java$util$Map) {
+        result.setExpenseColumnMatchingMap(value$expenseColumnMatchingMap$java$util$Map);
       }
       if (isSet$delimiter$char) {
-        result.delimiter = value$delimiter$char;
+        result.setDelimiter(value$delimiter$char);
       }
       if (isSet$spentDateFormat$java$lang$String) {
-        result.spentDateFormat = value$spentDateFormat$java$lang$String;
+        result.setSpentDateFormat(value$spentDateFormat$java$lang$String);
       }
       return result;
     } catch (RuntimeException ex) {

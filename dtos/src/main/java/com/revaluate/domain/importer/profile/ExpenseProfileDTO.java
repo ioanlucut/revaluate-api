@@ -2,59 +2,37 @@ package com.revaluate.domain.importer.profile;
 
 import com.revaluate.domain.importer.column.ExpenseColumn;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 
 @GeneratePojoBuilder
 public class ExpenseProfileDTO {
 
     @Valid
     @NotNull
-    protected ExpenseProfileEntryDTO descriptionExpenseProfileEntryDTO;
-
-    @Valid
-    @NotNull
-    protected ExpenseProfileEntryDTO categoryExpenseProfileEntryDTO;
-
-    @Valid
-    @NotNull
-    protected ExpenseProfileEntryDTO dateExpenseProfileEntryDTO;
-
-    @Valid
-    @NotNull
-    protected ExpenseProfileEntryDTO amountExpenseProfileEntryDTO;
+    protected Map<ExpenseColumn, String> expenseColumnMatchingMap = new HashMap<>();
 
     protected char delimiter = ',';
     protected String spentDateFormat = "";
 
-    public ExpenseProfileDTO() {
-        //-----------------------------------------------------------------
-        // Columns profiles
-        //-----------------------------------------------------------------
-        descriptionExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.DESCRIPTION).build();
-        categoryExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.CATEGORY).build();
-        dateExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.SPENT_DATE).build();
-        amountExpenseProfileEntryDTO = new ExpenseProfileEntryDTOBuilder().withExpenseColumn(ExpenseColumn.AMOUNT).build();
+    public Map<ExpenseColumn, String> getExpenseColumnMatchingMap() {
+        return expenseColumnMatchingMap;
     }
 
-    public ExpenseProfileEntryDTO getDescriptionExpenseProfileEntryDTO() {
-        return descriptionExpenseProfileEntryDTO;
+    public void setExpenseColumnMatchingMap(Map<ExpenseColumn, String> expenseColumnMatchingMap) {
+        this.expenseColumnMatchingMap = expenseColumnMatchingMap;
     }
 
-    public ExpenseProfileEntryDTO getCategoryExpenseProfileEntryDTO() {
-        return categoryExpenseProfileEntryDTO;
+    public void setDelimiter(char delimiter) {
+        this.delimiter = delimiter;
     }
 
-    public ExpenseProfileEntryDTO getDateExpenseProfileEntryDTO() {
-        return dateExpenseProfileEntryDTO;
-    }
-
-    public ExpenseProfileEntryDTO getAmountExpenseProfileEntryDTO() {
-        return amountExpenseProfileEntryDTO;
+    public void setSpentDateFormat(String spentDateFormat) {
+        this.spentDateFormat = spentDateFormat;
     }
 
     public char getDelimiter() {
@@ -65,40 +43,22 @@ public class ExpenseProfileDTO {
         return spentDateFormat;
     }
 
-    public Integer[] getIndexes() {
-        return getProfileEntries()
+    public String[] getFields() {
+
+        return getEntriesStream()
+                .map(Map.Entry::getValue)
+                .toArray(String[]::new);
+    }
+
+    Stream<Map.Entry<ExpenseColumn, String>> getEntriesStream() {
+        return expenseColumnMatchingMap
+                .entrySet()
                 .stream()
-                .map(ExpenseProfileEntryDTO::getImportColumnIndex)
-                .toArray(Integer[]::new);
+                .sorted((o1, o2) -> o1.getKey().compareTo(o2.getKey()));
     }
 
-    public Integer getIndexOf(ExpenseColumn expenseColumn) {
-        return getProfileEntries().indexOf(
-                getProfileEntries()
-                        .stream()
-                        .filter(expenseProfileEntryDTO -> expenseProfileEntryDTO.getExpenseColumn() == expenseColumn)
-                        .findFirst()
-                        .get());
-    }
+    public String getIndexOf(ExpenseColumn expenseColumn) throws Exception {
 
-    public List<ExpenseProfileEntryDTO> getProfileEntries() {
-        return Arrays.asList(
-                amountExpenseProfileEntryDTO,
-                descriptionExpenseProfileEntryDTO,
-                categoryExpenseProfileEntryDTO,
-                dateExpenseProfileEntryDTO
-        );
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("descriptionExpenseProfileEntryDTO", descriptionExpenseProfileEntryDTO)
-                .append("categoryExpenseProfileEntryDTO", categoryExpenseProfileEntryDTO)
-                .append("dateExpenseProfileEntryDTO", dateExpenseProfileEntryDTO)
-                .append("amountExpenseProfileEntryDTO", amountExpenseProfileEntryDTO)
-                .append("delimiter", delimiter)
-                .append("spentDateFormat", spentDateFormat)
-                .toString();
+        return expenseColumnMatchingMap.get(expenseColumn);
     }
 }
