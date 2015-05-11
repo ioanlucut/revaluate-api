@@ -5,6 +5,7 @@ import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
 import com.revaluate.domain.importer.column.ExpenseColumn;
 import com.revaluate.domain.importer.profile.ExpenseProfileDTO;
+import com.univocity.parsers.common.processor.ColumnProcessor;
 import com.univocity.parsers.common.processor.ObjectRowListProcessor;
 import com.univocity.parsers.conversions.Conversions;
 import com.univocity.parsers.conversions.DoubleConversion;
@@ -16,7 +17,9 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.io.Reader;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -28,36 +31,42 @@ public class ImporterParserServiceImpl implements ImporterParserService {
     public static final String NON_DIGIT = "[^\\d]";
     public static final double AMOUNT_FALLBACK_AMOUNT = 0.0;
     public static final String EMPTY_STRING = "";
+    public static final int ONE_COLUMN_FOR_VALIDATION = 1;
 
     @Override
     public List<ExpenseDTO> parseFrom(Reader reader, ExpenseProfileDTO expenseProfileDTO) throws ImporterException {
-        ObjectRowListProcessor rowProcessor = new ObjectRowListProcessor();
+
+/*
+        if (!isValidInput(reader, expenseProfileDTO)) {
+            throw new ImporterException("The csv is not valid");
+        }
+*/
+
+        ObjectRowListProcessor objectRowListProcessor = new ObjectRowListProcessor();
 
         //-----------------------------------------------------------------
         // Amount should be converted to double
         //-----------------------------------------------------------------
         DoubleConversion doubleConversion = Conversions.toDouble();
         doubleConversion.setValueIfStringIsNull(AMOUNT_FALLBACK_AMOUNT);
-        rowProcessor.convertIndexes(Conversions.replace(NON_DIGIT, EMPTY_STRING), doubleConversion).set(expenseProfileDTO.getAmountExpenseProfileEntryDTO().getImportColumnIndex());
+        objectRowListProcessor.convertFields(Conversions.replace(NON_DIGIT, EMPTY_STRING), doubleConversion).set(expenseProfileDTO.getExpenseColumnMatchingMap().get(ExpenseColumn.AMOUNT));
 
         //-----------------------------------------------------------------
         // Set some settings
         //-----------------------------------------------------------------
-        CsvParserSettings parserSettings = new CsvParserSettings();
-        parserSettings.getFormat().setLineSeparator(LINE_SEPARATOR);
-        parserSettings.getFormat().setDelimiter(expenseProfileDTO.getDelimiter());
-        parserSettings.setRowProcessor(rowProcessor);
-        parserSettings.setHeaderExtractionEnabled(HEADER_EXTRACTION_ENABLED);
+        CsvParserSettings parserSettings = buildCsvParserSettings(expenseProfileDTO);
+        parserSettings.setRowProcessor(objectRowListProcessor);
 
         //-----------------------------------------------------------------
         // Exclude any unwanted row
         //-----------------------------------------------------------------
-        parserSettings.selectIndexes(expenseProfileDTO.getIndexes());
+        String[] selectedFields = expenseProfileDTO.getFields();
+        parserSettings.selectFields(selectedFields);
 
         CsvParser parser = new CsvParser(parserSettings);
         parser.parse(reader);
 
-        List<Object[]> rows = rowProcessor.getRows();
+        List<Object[]> rows = objectRowListProcessor.getRows();
 
         //-----------------------------------------------------------------
         // We define a date time formatter
@@ -67,7 +76,7 @@ public class ImporterParserServiceImpl implements ImporterParserService {
         //-----------------------------------------------------------------
         // Lambda function which takes care of the transformation
         //-----------------------------------------------------------------
-        Function<Object[], ExpenseDTO> expenseDTOMapFunction = getExpenseDTOFunction(expenseProfileDTO, dateTimeFormatter);
+        Function<Object[], ExpenseDTO> expenseDTOMapFunction = getExpenseDTOFunction(expenseProfileDTO, selectedFields, dateTimeFormatter);
 
         try {
             return rows
@@ -80,14 +89,54 @@ public class ImporterParserServiceImpl implements ImporterParserService {
         }
     }
 
-    private Function<Object[], ExpenseDTO> getExpenseDTOFunction(ExpenseProfileDTO expenseProfileDTO, DateTimeFormatter dateTimeFormatter) {
+    private CsvParserSettings buildCsvParserSettings(ExpenseProfileDTO expenseProfileDTO) {
+        CsvParserSettings parserSettings = new CsvParserSettings();
+        parserSettings.getFormat().setLineSeparator(LINE_SEPARATOR);
+        parserSettings.getFormat().setDelimiter(expenseProfileDTO.getDelimiter());
+        parserSettings.setHeaderExtractionEnabled(HEADER_EXTRACTION_ENABLED);
+
+        return parserSettings;
+    }
+
+    @Override
+    public boolean isValidInput(Reader reader, ExpenseProfileDTO expenseProfileDTO) throws ImporterException {
+        ColumnProcessor rowProcessor = new ColumnProcessor();
+
+        //-----------------------------------------------------------------
+        // Try to parse only the columns
+        //-----------------------------------------------------------------
+        CsvParserSettings parserSettings = buildCsvParserSettings(expenseProfileDTO);
+        parserSettings.setRowProcessor(rowProcessor);
+        parserSettings.setNumberOfRecordsToRead(ONE_COLUMN_FOR_VALIDATION);
+
+        CsvParser parser = new CsvParser(parserSettings);
+        parser.parse(reader);
+
+        //-----------------------------------------------------------------
+        // We take all the columns
+        //-----------------------------------------------------------------
+        Map<String, List<String>> getAllColumnValues = rowProcessor.getColumnValuesAsMapOfNames();
+
+        //-----------------------------------------------------------------
+        // We expect each column to be present in the CSV
+        //-----------------------------------------------------------------
+        return expenseProfileDTO
+                .getExpenseColumnMatchingMap()
+                .entrySet()
+                .stream()
+                .allMatch(expenseColumnStringEntry -> getAllColumnValues.containsKey(expenseColumnStringEntry.getValue()));
+    }
+
+    private Function<Object[], ExpenseDTO> getExpenseDTOFunction(ExpenseProfileDTO expenseProfileDTO, String[] selectedFields, DateTimeFormatter dateTimeFormatter) {
         return objects -> {
             try {
+                List<String> selectedFieldsAsList = Arrays.asList(selectedFields);
+
                 return new ExpenseDTOBuilder()
-                        .withValue((Double) objects[expenseProfileDTO.getIndexOf(ExpenseColumn.AMOUNT)])
-                        .withDescription((String) objects[expenseProfileDTO.getIndexOf(ExpenseColumn.DESCRIPTION)])
-                        .withCategory(new CategoryDTOBuilder().withName((String) objects[expenseProfileDTO.getIndexOf(ExpenseColumn.CATEGORY)]).build())
-                        .withSpentDate(dateTimeFormatter.withOffsetParsed().parseLocalDateTime(((String) objects[expenseProfileDTO.getIndexOf(ExpenseColumn.SPENT_DATE)])))
+                        .withValue((Double) objects[selectedFieldsAsList.indexOf(expenseProfileDTO.getIndexOf(ExpenseColumn.AMOUNT))])
+                        .withDescription((String) objects[selectedFieldsAsList.indexOf(expenseProfileDTO.getIndexOf(ExpenseColumn.DESCRIPTION))])
+                        .withCategory(new CategoryDTOBuilder().withName((String) objects[selectedFieldsAsList.indexOf(expenseProfileDTO.getIndexOf(ExpenseColumn.CATEGORY))]).build())
+                        .withSpentDate(dateTimeFormatter.withOffsetParsed().parseLocalDateTime(((String) objects[selectedFieldsAsList.indexOf(expenseProfileDTO.getIndexOf(ExpenseColumn.SPENT_DATE))])))
                         .build();
             } catch (Exception ex) {
 

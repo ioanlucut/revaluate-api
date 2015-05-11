@@ -1,24 +1,21 @@
 package com.revaluate.domain.importer.profile;
 
+import com.revaluate.domain.importer.column.ExpenseColumn;
 import com.revaluate.domain.importer.column.SpendeeColumns;
 
 public class SpendeeExpenseProfileDTO extends ExpenseProfileDTO {
 
+    public static final String SPENDEE_SPENT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'GMT'Z";
+    public static final char SPENDEE_DELIMITER = ';';
+
     public SpendeeExpenseProfileDTO() {
-        amountExpenseProfileEntryDTO.setImportColumnIndex(SpendeeColumns.AMOUNT.getImportColumnIndex());
-        amountExpenseProfileEntryDTO.setImportColumnName(SpendeeColumns.AMOUNT.getImportColumnName());
+        expenseColumnMatchingMap.put(ExpenseColumn.AMOUNT, SpendeeColumns.AMOUNT.getImportColumnName());
+        expenseColumnMatchingMap.put(ExpenseColumn.DESCRIPTION, SpendeeColumns.DESCRIPTION.getImportColumnName());
+        expenseColumnMatchingMap.put(ExpenseColumn.SPENT_DATE, SpendeeColumns.SPENT_DATE.getImportColumnName());
+        expenseColumnMatchingMap.put(ExpenseColumn.CATEGORY, SpendeeColumns.CATEGORY.getImportColumnName());
 
-        descriptionExpenseProfileEntryDTO.setImportColumnIndex(SpendeeColumns.DESCRIPTION.getImportColumnIndex());
-        descriptionExpenseProfileEntryDTO.setImportColumnName(SpendeeColumns.DESCRIPTION.getImportColumnName());
-
-        dateExpenseProfileEntryDTO.setImportColumnIndex(SpendeeColumns.SPENT_DATE.getImportColumnIndex());
-        dateExpenseProfileEntryDTO.setImportColumnName(SpendeeColumns.SPENT_DATE.getImportColumnName());
-
-        categoryExpenseProfileEntryDTO.setImportColumnIndex(SpendeeColumns.CATEGORY.getImportColumnIndex());
-        categoryExpenseProfileEntryDTO.setImportColumnName(SpendeeColumns.CATEGORY.getImportColumnName());
-
-        delimiter = ';';
-        spentDateFormat = "yyyy-MM-dd'T'HH:mm:ss'GMT'Z";
+        delimiter = SPENDEE_DELIMITER;
+        spentDateFormat = SPENDEE_SPENT_DATE_FORMAT;
     }
 
 }

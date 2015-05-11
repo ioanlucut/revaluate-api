@@ -45,6 +45,14 @@ public class ImporterServiceImplTestIT {
     }
 
     @Test
+    public void importFromMintWithCategoriesInADifferentOrder() throws Exception {
+        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/mint_cat_different_order.csv"), new MintExpenseProfileDTO());
+
+        assertThat(expenseDTOs, is(notNullValue()));
+        assertThat(expenseDTOs.size(), is(equalTo(2)));
+    }
+
+    @Test
     public void importFromSpendee() throws Exception {
         List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/spendee.csv"), new SpendeeExpenseProfileDTO());
 
