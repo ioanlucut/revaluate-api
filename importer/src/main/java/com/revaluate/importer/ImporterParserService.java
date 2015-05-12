@@ -10,6 +10,4 @@ import java.util.List;
 public interface ImporterParserService {
 
     List<ExpenseDTO> parseFrom(Reader reader, @NotNull ExpenseProfileDTO expenseProfileDTO) throws ImporterException;
-
-    boolean isValidInput(Reader reader, @NotNull ExpenseProfileDTO expenseProfileDTO) throws ImporterException;
 }

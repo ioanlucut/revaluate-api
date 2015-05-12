@@ -1,8 +1,8 @@
 package com.revaluate.importer;
 
 import com.revaluate.domain.expense.ExpenseDTO;
-import com.revaluate.domain.importer.profile.MintExpenseProfileDTO;
 import com.revaluate.domain.importer.profile.SpendeeExpenseProfileDTO;
+import com.univocity.parsers.common.TextParsingException;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,15 +20,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext__importer__test.xml")
 @ActiveProfiles("IT")
-public class ImporterServiceImplTestIT {
+public class ImporterServiceImpl_Spendee_TestIT {
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -37,27 +36,44 @@ public class ImporterServiceImplTestIT {
     private ImporterParserService importerParserService;
 
     @Test
-    public void importFromMint() throws Exception {
-        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/mint.csv"), new MintExpenseProfileDTO());
-
-        assertThat(expenseDTOs, is(notNullValue()));
-        assertThat(expenseDTOs.size(), is(equalTo(2)));
-    }
-
-    @Test
-    public void importFromMintWithCategoriesInADifferentOrder() throws Exception {
-        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/mint_cat_different_order.csv"), new MintExpenseProfileDTO());
-
-        assertThat(expenseDTOs, is(notNullValue()));
-        assertThat(expenseDTOs.size(), is(equalTo(2)));
-    }
-
-    @Test
-    public void importFromSpendee() throws Exception {
+    public void importFromSpendee_validCsv_isOk() throws Exception {
         List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/spendee.csv"), new SpendeeExpenseProfileDTO());
 
         assertThat(expenseDTOs, is(notNullValue()));
         assertThat(expenseDTOs.size(), is(equalTo(6)));
+    }
+
+    @Test
+    public void importFromSpendee_validCsvLineSeparatorSpecified_isOk() throws Exception {
+        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/spendee_big_working.csv"), new SpendeeExpenseProfileDTO());
+
+        assertThat(expenseDTOs, is(notNullValue()));
+    }
+
+    @Test
+    public void importFromSpendee_invalidCsvLineSeparatorSpecified_isOk() throws Exception {
+        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/spendee_big_not_working.csv"), new SpendeeExpenseProfileDTO());
+
+        assertThat(expenseDTOs, is(notNullValue()));
+    }
+
+    @Test
+    public void importFromSpendee_oneCategoryMissing_exceptionThrown() throws ImporterException {
+        Reader reader = new StringReader("\"CategoryX\";\"Localized CategoryX\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
+                "\"bills\";\"Bills\";\"2015-02-21T19:36:10GMT+02:00\";\"-22 RON\";\"\"");
+
+        exception.expect(ImporterException.class);
+        exception.expectMessage("The csv is not valid");
+        exception.expectCause(any(TextParsingException.class));
+        importerParserService.parseFrom(reader, new SpendeeExpenseProfileDTO());
+    }
+
+    @Test
+    public void importFromSpendee_otherTypeUploadedLikeMint_exceptionThrown() throws ImporterException, UnsupportedEncodingException {
+        exception.expect(ImporterException.class);
+        exception.expectMessage("The csv is not valid");
+        exception.expectCause(any(TextParsingException.class));
+        importerParserService.parseFrom(getReader("/mint.csv"), new SpendeeExpenseProfileDTO());
     }
 
     @Test
