@@ -5,7 +5,6 @@ import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
 import com.revaluate.domain.importer.column.ExpenseColumn;
 import com.revaluate.domain.importer.profile.ExpenseProfileDTO;
-import com.univocity.parsers.common.processor.ColumnProcessor;
 import com.univocity.parsers.common.processor.ObjectRowListProcessor;
 import com.univocity.parsers.conversions.Conversions;
 import com.univocity.parsers.conversions.DoubleConversion;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -27,21 +25,12 @@ import java.util.stream.Collectors;
 public class ImporterParserServiceImpl implements ImporterParserService {
 
     public static final String LINE_SEPARATOR = "\n";
-    public static final boolean HEADER_EXTRACTION_ENABLED = true;
     public static final String NON_DIGIT = "[^\\d]";
     public static final double AMOUNT_FALLBACK_AMOUNT = 0.0;
     public static final String EMPTY_STRING = "";
-    public static final int ONE_COLUMN_FOR_VALIDATION = 1;
 
     @Override
     public List<ExpenseDTO> parseFrom(Reader reader, ExpenseProfileDTO expenseProfileDTO) throws ImporterException {
-
-/*
-        if (!isValidInput(reader, expenseProfileDTO)) {
-            throw new ImporterException("The csv is not valid");
-        }
-*/
-
         ObjectRowListProcessor objectRowListProcessor = new ObjectRowListProcessor();
 
         //-----------------------------------------------------------------
@@ -64,7 +53,13 @@ public class ImporterParserServiceImpl implements ImporterParserService {
         parserSettings.selectFields(selectedFields);
 
         CsvParser parser = new CsvParser(parserSettings);
-        parser.parse(reader);
+
+        try {
+            parser.parse(reader);
+        } catch (Exception ex) {
+
+            throw new ImporterException("The csv is not valid", ex);
+        }
 
         List<Object[]> rows = objectRowListProcessor.getRows();
 
@@ -93,38 +88,10 @@ public class ImporterParserServiceImpl implements ImporterParserService {
         CsvParserSettings parserSettings = new CsvParserSettings();
         parserSettings.getFormat().setLineSeparator(LINE_SEPARATOR);
         parserSettings.getFormat().setDelimiter(expenseProfileDTO.getDelimiter());
-        parserSettings.setHeaderExtractionEnabled(HEADER_EXTRACTION_ENABLED);
+        parserSettings.setHeaderExtractionEnabled(Boolean.TRUE);
+        parserSettings.setLineSeparatorDetectionEnabled(Boolean.TRUE);
 
         return parserSettings;
-    }
-
-    @Override
-    public boolean isValidInput(Reader reader, ExpenseProfileDTO expenseProfileDTO) throws ImporterException {
-        ColumnProcessor rowProcessor = new ColumnProcessor();
-
-        //-----------------------------------------------------------------
-        // Try to parse only the columns
-        //-----------------------------------------------------------------
-        CsvParserSettings parserSettings = buildCsvParserSettings(expenseProfileDTO);
-        parserSettings.setRowProcessor(rowProcessor);
-        parserSettings.setNumberOfRecordsToRead(ONE_COLUMN_FOR_VALIDATION);
-
-        CsvParser parser = new CsvParser(parserSettings);
-        parser.parse(reader);
-
-        //-----------------------------------------------------------------
-        // We take all the columns
-        //-----------------------------------------------------------------
-        Map<String, List<String>> getAllColumnValues = rowProcessor.getColumnValuesAsMapOfNames();
-
-        //-----------------------------------------------------------------
-        // We expect each column to be present in the CSV
-        //-----------------------------------------------------------------
-        return expenseProfileDTO
-                .getExpenseColumnMatchingMap()
-                .entrySet()
-                .stream()
-                .allMatch(expenseColumnStringEntry -> getAllColumnValues.containsKey(expenseColumnStringEntry.getValue()));
     }
 
     private Function<Object[], ExpenseDTO> getExpenseDTOFunction(ExpenseProfileDTO expenseProfileDTO, String[] selectedFields, DateTimeFormatter dateTimeFormatter) {
