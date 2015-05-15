@@ -82,6 +82,7 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         assertThat(expensesImportDTO, is(notNullValue()));
         assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
+        assertThat(expensesImportDTO.getTotalCategoriesFound(), is(equalTo(2)));
         assertThat(expenseCategoryMatchingProfileDTOs, is(notNullValue()));
         assertThat(expenseCategoryMatchingProfileDTOs, is(notNullValue()));
         assertThat(expenseCategoryMatchingProfileDTOs.size(), is(equalTo(2)));
@@ -120,6 +121,7 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         assertThat(expensesImportDTO, is(notNullValue()));
         assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
+        assertThat(expensesImportDTO.getTotalCategoriesFound(), is(equalTo(1)));
         assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs(), is(notNullValue()));
         assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs(), is(notNullValue()));
         assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs().size(), is(equalTo(1)));
@@ -204,7 +206,7 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         expensesImportDTO.setExpenseCategoryMatchingProfileDTOs(expenseCategoryMatchingProfileDTOs);
 
         exception.expect(ExpenseException.class);
-        exception.expectMessage("categories defined from total required of");
+        exception.expectMessage("Not all categories have a match");
         expenseImportService.importExpenses(expensesImportDTO, createdUserDTO.getId());
     }
 
@@ -256,7 +258,67 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         expensesImportDTO.setExpenseCategoryMatchingProfileDTOs(Collections.singletonList(expenseCategoryMatchingProfileDTOA));
 
         exception.expect(ExpenseException.class);
-        exception.expectMessage("categories defined from total required of");
         expenseImportService.importExpenses(expensesImportDTO, createdUserDTO.getId());
     }
+
+    @Test
+    public void importExpenses_validDetailsButNotSelected_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+        String exampleString = "\"Date\",\"Description\",\"Original Description\",\"Amount\",\"Transaction Type\",\"Category\",\"Account Name\",\"Labels\",\"Notes\"\n" +
+                "\"5/05/2015\",\"Sticky\",\"PaymentTo Sticky9\",\"36.98\",\"debit\",\"Home Insurance\",\"PayPal Account\",\"\",\"\"\n" +
+                "\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"123.00\",\"debit\",\"Movies & DVDs\",\"Cash\",\"\",\"This is a note\"";
+
+        InputStream inputStream = new ByteArrayInputStream(exampleString.getBytes(StandardCharsets.UTF_8));
+
+        //-----------------------------------------------------------------
+        // Create two categories
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Expense profile - parse
+        //-----------------------------------------------------------------
+        MintExpenseProfileDTO expenseProfileDTO = new MintExpenseProfileDTO();
+
+        //-----------------------------------------------------------------
+        // Parse and analyse
+        //-----------------------------------------------------------------
+        ExpensesImportDTO expensesImportDTO = expenseImportService.parseAndAnalyse(inputStream, expenseProfileDTO);
+
+        //-----------------------------------------------------------------
+        // Assert the parse result
+        //-----------------------------------------------------------------
+        assertThat(expensesImportDTO, is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
+        assertThat(expensesImportDTO.getTotalCategoriesFound(), is(equalTo(2)));
+        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs(), is(notNullValue()));
+        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs().size(), is(equalTo(2)));
+
+        //-----------------------------------------------------------------
+        // Expense profile - setup
+        //-----------------------------------------------------------------
+        expensesImportDTO
+                .getExpenseCategoryMatchingProfileDTOs()
+                .stream()
+                .forEach(expenseCategoryMatchingProfileDTO -> {
+                    expenseCategoryMatchingProfileDTO.setCategoryDTO(createdCategoryDTO);
+                });
+
+        expensesImportDTO
+                .getExpenseCategoryMatchingProfileDTOs()
+                .get(0).setSelected(Boolean.FALSE);
+
+        List<ExpenseDTO> expenseDTOs = expenseImportService.importExpenses(expensesImportDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Assert imported expenses
+        //-----------------------------------------------------------------
+        assertThat(expenseDTOs, is(notNullValue()));
+        assertThat(expenseDTOs.size(), is(equalTo(1)));
+    }
+
 }

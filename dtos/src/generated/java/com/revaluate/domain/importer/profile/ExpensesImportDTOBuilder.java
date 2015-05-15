@@ -10,6 +10,8 @@ public class ExpensesImportDTOBuilder
   protected ExpensesImportDTOBuilder self;
   protected List<ExpenseDTO> value$expenseDTOs$java$util$List;
   protected boolean isSet$expenseDTOs$java$util$List;
+  protected int value$totalCategoriesFound$int;
+  protected boolean isSet$totalCategoriesFound$int;
   protected List<ExpenseCategoryMatchingProfileDTO> value$expenseCategoryMatchingProfileDTOs$java$util$List;
   protected boolean isSet$expenseCategoryMatchingProfileDTOs$java$util$List;
 
@@ -29,6 +31,18 @@ public class ExpensesImportDTOBuilder
   public ExpensesImportDTOBuilder withExpenseDTOs(List<ExpenseDTO> value) {
     this.value$expenseDTOs$java$util$List = value;
     this.isSet$expenseDTOs$java$util$List = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link ExpensesImportDTO#totalCategoriesFound} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public ExpensesImportDTOBuilder withTotalCategoriesFound(int value) {
+    this.value$totalCategoriesFound$int = value;
+    this.isSet$totalCategoriesFound$int = true;
     return self;
   }
 
@@ -79,6 +93,9 @@ public class ExpensesImportDTOBuilder
       ExpensesImportDTO result = new ExpensesImportDTO();
       if (isSet$expenseDTOs$java$util$List) {
         result.setExpenseDTOs(value$expenseDTOs$java$util$List);
+      }
+      if (isSet$totalCategoriesFound$int) {
+        result.setTotalCategoriesFound(value$totalCategoriesFound$int);
       }
       if (isSet$expenseCategoryMatchingProfileDTOs$java$util$List) {
         result.setExpenseCategoryMatchingProfileDTOs(value$expenseCategoryMatchingProfileDTOs$java$util$List);
