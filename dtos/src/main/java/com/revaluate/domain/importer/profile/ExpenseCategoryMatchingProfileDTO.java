@@ -14,6 +14,11 @@ public class ExpenseCategoryMatchingProfileDTO {
     @NotEmpty
     private String categoryCandidateName;
 
+    /**
+     * If this category should be ignored.
+     */
+    private boolean selected = Boolean.TRUE;
+
     @NotNull
     @Valid
     private CategoryDTO categoryDTO;
@@ -24,6 +29,14 @@ public class ExpenseCategoryMatchingProfileDTO {
 
     public void setCategoryCandidateName(String categoryCandidateName) {
         this.categoryCandidateName = categoryCandidateName;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public CategoryDTO getCategoryDTO() {
@@ -39,21 +52,23 @@ public class ExpenseCategoryMatchingProfileDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ExpenseCategoryMatchingProfileDTO that = (ExpenseCategoryMatchingProfileDTO) o;
-        return Objects.equals(categoryCandidateName, that.categoryCandidateName) &&
+        return Objects.equals(selected, that.selected) &&
+                Objects.equals(categoryCandidateName, that.categoryCandidateName) &&
                 Objects.equals(categoryDTO, that.categoryDTO);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(categoryCandidateName, categoryDTO);
+        return Objects.hash(categoryCandidateName, selected, categoryDTO);
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("ExpenseCategoryMatchingProfileDTO{");
-        sb.append("categoryCandidateName='").append(categoryCandidateName).append('\'');
-        sb.append(", categoryDTO=").append(categoryDTO);
-        sb.append('}');
-        return sb.toString();
+        return "ExpenseCategoryMatchingProfileDTO{" +
+                "categoryCandidateName='" + categoryCandidateName + '\'' +
+                ", selected=" + selected +
+                ", categoryDTO=" + categoryDTO +
+                '}';
     }
+
 }

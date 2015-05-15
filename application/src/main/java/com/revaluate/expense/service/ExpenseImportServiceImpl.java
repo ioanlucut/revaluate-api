@@ -52,6 +52,7 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
             return new ExpensesImportDTOBuilder()
                     .withExpenseDTOs(expenseDTOs)
                     .withExpenseCategoryMatchingProfileDTOs(expenseCategoryMatchingProfileDTOs)
+                    .withTotalCategoriesFound(groupedByCategoryName.size())
                     .build();
         } catch (ImporterException ex) {
 
@@ -62,29 +63,36 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
     @Override
     public List<ExpenseDTO> importExpenses(ExpensesImportDTO expensesImportDTO, int userId) throws ExpenseException {
         //-----------------------------------------------------------------
+        // Check if every category which is present on the import has a matching existing category
+        //-----------------------------------------------------------------
+        makeSureAllExpenseCategoriesAreDefined(expensesImportDTO);
+
+        //-----------------------------------------------------------------
         // Make a map transform for faster retrieval. We map the category dto into optional,
         // due to http://stackoverflow.com/questions/24630963/java-8-nullpointerexception-in-collectors-tomap
         //-----------------------------------------------------------------
         Map<String, Optional<CategoryDTO>> categoriesMatchingMap = expensesImportDTO
                 .getExpenseCategoryMatchingProfileDTOs()
                 .stream()
-                .collect(Collectors.toMap(ExpenseCategoryMatchingProfileDTO::getCategoryCandidateName, getCategoryCandidateName -> Optional.ofNullable(getCategoryCandidateName.getCategoryDTO())));
+                .filter(ExpenseCategoryMatchingProfileDTO::isSelected)
+                .collect(Collectors.toMap(
+                        ExpenseCategoryMatchingProfileDTO::getCategoryCandidateName,
+                        expenseCategoryMatchingProfileDTO -> Optional.ofNullable(expenseCategoryMatchingProfileDTO.getCategoryDTO())));
 
         List<ExpenseDTO> expenseDTOs = expensesImportDTO.getExpenseDTOs();
-
-        //-----------------------------------------------------------------
-        // Check if every category which is present on the import has a matching existing category
-        //-----------------------------------------------------------------
-        categoryMatchesAreNotProperlyDefined(categoriesMatchingMap, expenseDTOs);
 
         //-----------------------------------------------------------------
         // Make sure the matching categories are applied
         //-----------------------------------------------------------------
         List<ExpenseDTO> transformedExpenseDTOs = expenseDTOs
                 .stream()
+                .filter(expenseDTO -> {
+                    Optional<CategoryDTO> categoryDTO = categoriesMatchingMap.get(expenseDTO.getCategory().getName());
+
+                    return categoryDTO != null && categoryDTO.isPresent();
+                })
                 .map(expenseDTO -> {
-                    Optional<CategoryDTO> mappedCategoryDTO = categoriesMatchingMap.get(expenseDTO.getCategory().getName());
-                    expenseDTO.setCategory(mappedCategoryDTO.get());
+                    expenseDTO.setCategory(categoriesMatchingMap.get(expenseDTO.getCategory().getName()).get());
 
                     return expenseDTO;
                 })
@@ -93,18 +101,20 @@ public class ExpenseImportServiceImpl implements ExpenseImportService {
         return expenseService.bulkCreate(transformedExpenseDTOs, userId);
     }
 
-    private void categoryMatchesAreNotProperlyDefined(Map<String, Optional<CategoryDTO>> categoriesMatchingMap, List<ExpenseDTO> expenseDTOs) throws ExpenseException {
-        Map<String, List<ExpenseDTO>> categoriesGroupedPerName = expenseDTOs
-                .stream()
-                .collect(Collectors.groupingBy(expenseDTO -> expenseDTO.getCategory().getName()));
+    private void makeSureAllExpenseCategoriesAreDefined(ExpensesImportDTO expensesImportDTO) throws ExpenseException {
+        List<ExpenseDTO> expenseDTOs = expensesImportDTO.getExpenseDTOs();
+        List<ExpenseCategoryMatchingProfileDTO> expenseCategoryMatchingProfileDTOs = expensesImportDTO.getExpenseCategoryMatchingProfileDTOs();
 
-        boolean allHaveAMatch = categoriesGroupedPerName
-                .entrySet()
+        //-----------------------------------------------------------------
+        // Any match (even non isSelected)
+        //-----------------------------------------------------------------
+        if (!expenseDTOs
                 .stream()
-                .allMatch(matchCategoryEntry -> categoriesMatchingMap.containsKey(matchCategoryEntry.getKey()));
+                .allMatch(expenseDTO -> expenseCategoryMatchingProfileDTOs
+                        .stream()
+                        .anyMatch(expenseCategoryMatchingProfileDTO -> expenseCategoryMatchingProfileDTO.getCategoryCandidateName().equals(expenseDTO.getCategory().getName())))) {
 
-        if (categoriesGroupedPerName.size() != categoriesMatchingMap.size() || !allHaveAMatch) {
-            throw new ExpenseException(String.format("Only %s categories defined from total required of %s or not all categories have a match.", categoriesMatchingMap.size(), categoriesGroupedPerName.size()));
+            throw new ExpenseException("Not all categories have a match.");
         }
     }
 }

@@ -9,6 +9,8 @@ public class ExpenseCategoryMatchingProfileDTOBuilder
   protected ExpenseCategoryMatchingProfileDTOBuilder self;
   protected String value$categoryCandidateName$java$lang$String;
   protected boolean isSet$categoryCandidateName$java$lang$String;
+  protected boolean value$selected$boolean;
+  protected boolean isSet$selected$boolean;
   protected CategoryDTO value$categoryDTO$com$revaluate$domain$category$CategoryDTO;
   protected boolean isSet$categoryDTO$com$revaluate$domain$category$CategoryDTO;
 
@@ -28,6 +30,18 @@ public class ExpenseCategoryMatchingProfileDTOBuilder
   public ExpenseCategoryMatchingProfileDTOBuilder withCategoryCandidateName(String value) {
     this.value$categoryCandidateName$java$lang$String = value;
     this.isSet$categoryCandidateName$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link ExpenseCategoryMatchingProfileDTO#selected} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public ExpenseCategoryMatchingProfileDTOBuilder withSelected(boolean value) {
+    this.value$selected$boolean = value;
+    this.isSet$selected$boolean = true;
     return self;
   }
 
@@ -78,6 +92,9 @@ public class ExpenseCategoryMatchingProfileDTOBuilder
       ExpenseCategoryMatchingProfileDTO result = new ExpenseCategoryMatchingProfileDTO();
       if (isSet$categoryCandidateName$java$lang$String) {
         result.setCategoryCandidateName(value$categoryCandidateName$java$lang$String);
+      }
+      if (isSet$selected$boolean) {
+        result.setSelected(value$selected$boolean);
       }
       if (isSet$categoryDTO$com$revaluate$domain$category$CategoryDTO) {
         result.setCategoryDTO(value$categoryDTO$com$revaluate$domain$category$CategoryDTO);

@@ -25,12 +25,26 @@ public class ExpensesImportDTO {
     @Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST)
     private List<ExpenseCategoryMatchingProfileDTO> expenseCategoryMatchingProfileDTOs;
 
+    /**
+     * Total of categories found.
+     */
+    private int totalCategoriesFound;
+
     public List<ExpenseDTO> getExpenseDTOs() {
         return expenseDTOs;
     }
 
     public void setExpenseDTOs(List<ExpenseDTO> expenseDTOs) {
         this.expenseDTOs = expenseDTOs;
+    }
+
+    public int getTotalCategoriesFound() {
+
+        return totalCategoriesFound;
+    }
+
+    public void setTotalCategoriesFound(int totalCategoriesFound) {
+        this.totalCategoriesFound = totalCategoriesFound;
     }
 
     public List<ExpenseCategoryMatchingProfileDTO> getExpenseCategoryMatchingProfileDTOs() {
@@ -46,21 +60,23 @@ public class ExpensesImportDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ExpensesImportDTO that = (ExpensesImportDTO) o;
-        return Objects.equals(expenseDTOs, that.expenseDTOs) &&
+        return Objects.equals(totalCategoriesFound, that.totalCategoriesFound) &&
+                Objects.equals(expenseDTOs, that.expenseDTOs) &&
                 Objects.equals(expenseCategoryMatchingProfileDTOs, that.expenseCategoryMatchingProfileDTOs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(expenseDTOs, expenseCategoryMatchingProfileDTOs);
+        return Objects.hash(expenseDTOs, expenseCategoryMatchingProfileDTOs, totalCategoriesFound);
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("ExpensesImportDTO{");
-        sb.append("expenseDTOs=").append(expenseDTOs);
-        sb.append(", expenseCategoryMatchingProfileDTOs=").append(expenseCategoryMatchingProfileDTOs);
-        sb.append('}');
-        return sb.toString();
+        return "ExpensesImportDTO{" +
+                "expenseDTOs=" + expenseDTOs +
+                ", expenseCategoryMatchingProfileDTOs=" + expenseCategoryMatchingProfileDTOs +
+                ", totalCategoriesFound=" + totalCategoriesFound +
+                '}';
     }
+
 }
