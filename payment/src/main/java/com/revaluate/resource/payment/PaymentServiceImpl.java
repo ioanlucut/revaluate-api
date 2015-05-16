@@ -4,13 +4,10 @@ import com.braintreegateway.ClientTokenRequest;
 import com.braintreegateway.Result;
 import com.braintreegateway.Transaction;
 import com.braintreegateway.TransactionRequest;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -32,9 +29,10 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Result<Transaction> pay(@NotNull @Min(MIN_VALUE) BigDecimal amount, @NotEmpty String paymentMethodNonce) throws PaymentException {
+    public Result<Transaction> pay(BigDecimal amount, String customerId, String paymentMethodNonce) throws PaymentException {
         TransactionRequest request = new TransactionRequest()
                 .amount(amount)
+                .customerId(customerId)
                 .paymentMethodNonce(paymentMethodNonce);
 
         return braintreeGatewayService
