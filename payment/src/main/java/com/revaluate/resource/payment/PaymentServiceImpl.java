@@ -1,4 +1,4 @@
-package com.revaluate.payment;
+package com.revaluate.resource.payment;
 
 import com.braintreegateway.ClientTokenRequest;
 import com.braintreegateway.Result;

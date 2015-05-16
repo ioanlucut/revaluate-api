@@ -1,4 +1,4 @@
-package com.revaluate.payment;
+package com.revaluate.resource.payment;
 
 public class PaymentException extends Exception {
 

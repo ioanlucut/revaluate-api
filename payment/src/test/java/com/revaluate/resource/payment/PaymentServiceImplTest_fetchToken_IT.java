@@ -1,4 +1,4 @@
-package com.revaluate.payment;
+package com.revaluate.resource.payment;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import static org.hamcrest.core.Is.is;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext__payment__test.xml")
 @ActiveProfiles("IT")
-public class PaymentServiceImplTestIT {
+public class PaymentServiceImplTest_fetchToken_IT {
 
     private static final String SANDBOX_CUSTOMER_ID = "REDACTED";
 
