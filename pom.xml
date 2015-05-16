@@ -20,6 +20,7 @@
         <module>core</module>
         <module>emails</module>
         <module>importer</module>
+        <module>payment</module>
         <module>application</module>
         <module>resources</module>
         <module>e2e-tests</module>
