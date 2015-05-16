@@ -1,4 +1,4 @@
-package com.revaluate.payment;
+package com.revaluate.resource.payment;
 
 import org.junit.Rule;
 import org.junit.Test;

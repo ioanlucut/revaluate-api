@@ -1,4 +1,4 @@
-package com.revaluate.payment;
+package com.revaluate.resource.payment;
 
 import com.braintreegateway.BraintreeGateway;
 import com.braintreegateway.Environment;
