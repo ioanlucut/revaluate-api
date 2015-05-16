@@ -14,5 +14,5 @@ public interface PaymentService {
 
     String fetchToken(@NotEmpty String customerId) throws PaymentException;
 
-    Result<Transaction> pay(@NotNull @Min(MIN_VALUE) BigDecimal amount, @NotEmpty String paymentMethodNonce) throws PaymentException;
+    Result<Transaction> pay(@NotNull @Min(MIN_VALUE) BigDecimal amount, @NotEmpty String customerId, @NotEmpty String paymentMethodNonce) throws PaymentException;
 }
