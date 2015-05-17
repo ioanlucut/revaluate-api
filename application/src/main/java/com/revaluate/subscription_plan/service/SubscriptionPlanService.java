@@ -1,4 +1,4 @@
-package com.revaluate.plan.service;
+package com.revaluate.subscription_plan.service;
 
 import com.revaluate.domain.subscription.SubscriptionPlanDTO;
 

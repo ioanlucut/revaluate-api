@@ -1,9 +1,9 @@
-package com.revaluate.plan.service;
+package com.revaluate.subscription_plan.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.domain.subscription.SubscriptionType;
-import com.revaluate.plan.persistence.SubscriptionPlan;
-import com.revaluate.plan.persistence.SubscriptionPlanRepository;
+import com.revaluate.subscription_plan.persistence.SubscriptionPlan;
+import com.revaluate.subscription_plan.persistence.SubscriptionPlanRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
