@@ -44,9 +44,4 @@ public class UserSubscriptionPlanServiceImpl implements UserSubscriptionPlanServ
         return dozerBeanMapper.map(savedUserSubscriptionPlan, UserSubscriptionPlanDTO.class);
     }
 
-    @Override
-    public UserSubscriptionPlanDTO update(UserSubscriptionPlanDTO userSubscriptionPlanDTO, int userId) throws UserSubscriptionPlanException {
-        return null;
-    }
-
 }
