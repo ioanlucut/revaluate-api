@@ -13,7 +13,4 @@ public interface UserSubscriptionPlanService {
 
     @NotNull
     UserSubscriptionPlanDTO create(@NotNull @Valid UserSubscriptionPlanDTO userSubscriptionPlanDTO, int userId) throws UserSubscriptionPlanException;
-
-    @NotNull
-    UserSubscriptionPlanDTO update(@NotNull @Valid UserSubscriptionPlanDTO userSubscriptionPlanDTO, int userId) throws UserSubscriptionPlanException;
 }
