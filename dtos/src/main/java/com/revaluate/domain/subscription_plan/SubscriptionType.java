@@ -1,4 +1,4 @@
-package com.revaluate.domain.subscription;
+package com.revaluate.domain.subscription_plan;
 
 public enum SubscriptionType {
 

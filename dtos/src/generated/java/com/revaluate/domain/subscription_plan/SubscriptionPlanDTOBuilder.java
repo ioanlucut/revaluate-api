@@ -1,4 +1,4 @@
-package com.revaluate.domain.subscription;
+package com.revaluate.domain.subscription_plan;
 
 import javax.annotation.Generated;
 
@@ -12,8 +12,8 @@ public class SubscriptionPlanDTOBuilder
   protected boolean isSet$value$double;
   protected String value$description$java$lang$String;
   protected boolean isSet$description$java$lang$String;
-  protected SubscriptionType value$subscriptionType$com$revaluate$domain$subscription$SubscriptionType;
-  protected boolean isSet$subscriptionType$com$revaluate$domain$subscription$SubscriptionType;
+  protected SubscriptionType value$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType;
+  protected boolean isSet$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType;
 
   /**
    * Creates a new {@link SubscriptionPlanDTOBuilder}.
@@ -65,8 +65,8 @@ public class SubscriptionPlanDTOBuilder
    * @return this builder
    */
   public SubscriptionPlanDTOBuilder withSubscriptionType(SubscriptionType value) {
-    this.value$subscriptionType$com$revaluate$domain$subscription$SubscriptionType = value;
-    this.isSet$subscriptionType$com$revaluate$domain$subscription$SubscriptionType = true;
+    this.value$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType = value;
+    this.isSet$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType = true;
     return self;
   }
 
@@ -112,8 +112,8 @@ public class SubscriptionPlanDTOBuilder
       if (isSet$description$java$lang$String) {
         result.setDescription(value$description$java$lang$String);
       }
-      if (isSet$subscriptionType$com$revaluate$domain$subscription$SubscriptionType) {
-        result.setSubscriptionType(value$subscriptionType$com$revaluate$domain$subscription$SubscriptionType);
+      if (isSet$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType) {
+        result.setSubscriptionType(value$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType);
       }
       return result;
     } catch (RuntimeException ex) {

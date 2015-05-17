@@ -1,6 +1,6 @@
 package com.revaluate.subscription_plan.persistence;
 
-import com.revaluate.domain.subscription.SubscriptionType;
+import com.revaluate.domain.subscription_plan.SubscriptionType;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;

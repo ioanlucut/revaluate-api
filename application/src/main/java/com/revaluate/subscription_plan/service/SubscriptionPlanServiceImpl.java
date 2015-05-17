@@ -1,6 +1,6 @@
 package com.revaluate.subscription_plan.service;
 
-import com.revaluate.domain.subscription.SubscriptionPlanDTO;
+import com.revaluate.domain.subscription_plan.SubscriptionPlanDTO;
 import com.revaluate.subscription_plan.persistence.SubscriptionPlan;
 import com.revaluate.subscription_plan.persistence.SubscriptionPlanRepository;
 import org.dozer.DozerBeanMapper;
