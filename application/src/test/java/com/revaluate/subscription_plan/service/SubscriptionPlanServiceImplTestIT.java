@@ -29,7 +29,7 @@ public class SubscriptionPlanServiceImplTestIT extends AbstractIntegrationTests 
         assertThat(allExistingSubscriptionPlans, is(notNullValue()));
         assertThat(allExistingSubscriptionPlans.size(), equalTo(1));
         assertThat(allExistingSubscriptionPlans.get(0).getId(), is(equalTo(1)));
-        assertThat(allExistingSubscriptionPlans.get(0).getDescription(), is(equalTo("Basic subscription_plan plan")));
+        assertThat(allExistingSubscriptionPlans.get(0).getDescription(), is(equalTo("Basic subscription plan")));
         assertThat(allExistingSubscriptionPlans.get(0).getSubscriptionType(), is(equalTo(SubscriptionType.STANDARD)));
         assertThat(allExistingSubscriptionPlans.get(0).getValue().doubleValue(), is(equalTo(5.0)));
     }
