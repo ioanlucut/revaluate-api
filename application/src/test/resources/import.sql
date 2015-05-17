@@ -21,5 +21,4 @@ INSERT INTO color (id, color, color_name, priority) VALUES (1, '#eee', '', 1);
 INSERT INTO color (id, color, color_name, priority) VALUES (2, '#fff', '', 2);
 
 --Subscription plan
-INSERT INTO subscription_plan (id, value, description, subscription_type)
-VALUES (1, 5, 'Basic subscription plan', 'STANDARD');
+INSERT INTO subscription_plan (id, value, description, subscription_type) VALUES (1, 5, 'Basic subscription plan', 'STANDARD');
