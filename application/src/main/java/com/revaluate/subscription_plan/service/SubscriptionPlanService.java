@@ -1,6 +1,6 @@
 package com.revaluate.subscription_plan.service;
 
-import com.revaluate.domain.subscription.SubscriptionPlanDTO;
+import com.revaluate.domain.subscription_plan.SubscriptionPlanDTO;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

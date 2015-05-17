@@ -1,6 +1,6 @@
 package com.revaluate.subscription_plan.persistence;
 
-import com.revaluate.domain.subscription.SubscriptionType;
+import com.revaluate.domain.subscription_plan.SubscriptionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

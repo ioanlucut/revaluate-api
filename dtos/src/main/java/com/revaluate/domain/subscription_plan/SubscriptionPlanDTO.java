@@ -1,4 +1,4 @@
-package com.revaluate.domain.subscription;
+package com.revaluate.domain.subscription_plan;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 
