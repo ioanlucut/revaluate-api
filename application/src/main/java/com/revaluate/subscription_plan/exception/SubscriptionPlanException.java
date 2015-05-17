@@ -1,4 +1,4 @@
-package com.revaluate.plan.exception;
+package com.revaluate.subscription_plan.exception;
 
 public class SubscriptionPlanException extends Exception {
 

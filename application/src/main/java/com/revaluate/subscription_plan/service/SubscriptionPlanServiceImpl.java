@@ -1,8 +1,8 @@
-package com.revaluate.plan.service;
+package com.revaluate.subscription_plan.service;
 
 import com.revaluate.domain.subscription.SubscriptionPlanDTO;
-import com.revaluate.plan.persistence.SubscriptionPlan;
-import com.revaluate.plan.persistence.SubscriptionPlanRepository;
+import com.revaluate.subscription_plan.persistence.SubscriptionPlan;
+import com.revaluate.subscription_plan.persistence.SubscriptionPlanRepository;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.revaluate.plan.persistence;
+package com.revaluate.subscription_plan.persistence;
 
 import com.revaluate.domain.subscription.SubscriptionType;
 
