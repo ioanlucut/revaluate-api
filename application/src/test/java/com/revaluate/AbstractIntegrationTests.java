@@ -16,6 +16,7 @@ import com.revaluate.domain.color.ColorDTOBuilder;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.currency.CurrencyDTOBuilder;
 import com.revaluate.expense.persistence.ExpenseRepository;
+import com.revaluate.user_subscription.persistence.UserSubscriptionPlanRepository;
 import org.joda.money.CurrencyUnit;
 import org.junit.After;
 import org.junit.Before;
@@ -73,6 +74,9 @@ public class AbstractIntegrationTests {
     @Autowired
     protected EmailRepository emailRepository;
 
+    @Autowired
+    protected UserSubscriptionPlanRepository userSubscriptionPlanRepository;
+
     protected UserDTO userDTO;
 
     @BeforeClass
@@ -83,6 +87,7 @@ public class AbstractIntegrationTests {
     @Before
     @After
     public void tearDown() throws Exception {
+        userSubscriptionPlanRepository.deleteAll();
         emailRepository.deleteAll();
         expenseRepository.deleteAll();
         categoryRepository.deleteAll();
