@@ -1,7 +1,6 @@
 package com.revaluate.domain.user_subscription;
 
 import com.revaluate.domain.subscription_plan.SubscriptionPlanDTO;
-import com.revaluate.domain.subscription_plan.SubscriptionType;
 import javax.annotation.Generated;
 import org.joda.time.LocalDateTime;
 
@@ -13,8 +12,6 @@ public class UserSubscriptionPlanDTOBuilder
   protected boolean isSet$id$int;
   protected SubscriptionPlanDTO value$subscriptionPlanDTO$com$revaluate$domain$subscription_plan$SubscriptionPlanDTO;
   protected boolean isSet$subscriptionPlanDTO$com$revaluate$domain$subscription_plan$SubscriptionPlanDTO;
-  protected SubscriptionType value$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType;
-  protected boolean isSet$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType;
   protected LocalDateTime value$createdDate$org$joda$time$LocalDateTime;
   protected boolean isSet$createdDate$org$joda$time$LocalDateTime;
   protected LocalDateTime value$modifiedDate$org$joda$time$LocalDateTime;
@@ -48,18 +45,6 @@ public class UserSubscriptionPlanDTOBuilder
   public UserSubscriptionPlanDTOBuilder withSubscriptionPlanDTO(SubscriptionPlanDTO value) {
     this.value$subscriptionPlanDTO$com$revaluate$domain$subscription_plan$SubscriptionPlanDTO = value;
     this.isSet$subscriptionPlanDTO$com$revaluate$domain$subscription_plan$SubscriptionPlanDTO = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link UserSubscriptionPlanDTO#subscriptionType} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public UserSubscriptionPlanDTOBuilder withSubscriptionType(SubscriptionType value) {
-    this.value$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType = value;
-    this.isSet$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType = true;
     return self;
   }
 
@@ -125,9 +110,6 @@ public class UserSubscriptionPlanDTOBuilder
       }
       if (isSet$subscriptionPlanDTO$com$revaluate$domain$subscription_plan$SubscriptionPlanDTO) {
         result.setSubscriptionPlanDTO(value$subscriptionPlanDTO$com$revaluate$domain$subscription_plan$SubscriptionPlanDTO);
-      }
-      if (isSet$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType) {
-        result.setSubscriptionType(value$subscriptionType$com$revaluate$domain$subscription_plan$SubscriptionType);
       }
       if (isSet$createdDate$org$joda$time$LocalDateTime) {
         result.setCreatedDate(value$createdDate$org$joda$time$LocalDateTime);

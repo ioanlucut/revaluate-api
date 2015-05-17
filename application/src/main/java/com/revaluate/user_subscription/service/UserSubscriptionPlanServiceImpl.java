@@ -1,5 +1,7 @@
 package com.revaluate.user_subscription.service;
 
+import com.revaluate.account.persistence.User;
+import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.domain.user_subscription.UserSubscriptionPlanDTO;
 import com.revaluate.user_subscription.exception.UserSubscriptionPlanException;
 import com.revaluate.user_subscription.persistence.UserSubscriptionPlan;
@@ -19,6 +21,9 @@ public class UserSubscriptionPlanServiceImpl implements UserSubscriptionPlanServ
     private UserSubscriptionPlanRepository userSubscriptionPlanRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private DozerBeanMapper dozerBeanMapper;
 
     @Override
@@ -26,6 +31,22 @@ public class UserSubscriptionPlanServiceImpl implements UserSubscriptionPlanServ
         Optional<UserSubscriptionPlan> byCurrencyCode = userSubscriptionPlanRepository.findOneByUserId(userId);
 
         return dozerBeanMapper.map(byCurrencyCode.orElseThrow(() -> new UserSubscriptionPlanException("There is no subscription_plan plan for this user")), UserSubscriptionPlanDTO.class);
+    }
+
+    @Override
+    public UserSubscriptionPlanDTO create(UserSubscriptionPlanDTO userSubscriptionPlanDTO, int userId) throws UserSubscriptionPlanException {
+        UserSubscriptionPlan userSubscriptionPlan = dozerBeanMapper.map(userSubscriptionPlanDTO, UserSubscriptionPlan.class);
+
+        User foundUser = userRepository.findOne(userId);
+        userSubscriptionPlan.setUser(foundUser);
+        UserSubscriptionPlan savedUserSubscriptionPlan = userSubscriptionPlanRepository.save(userSubscriptionPlan);
+
+        return dozerBeanMapper.map(savedUserSubscriptionPlan, UserSubscriptionPlanDTO.class);
+    }
+
+    @Override
+    public UserSubscriptionPlanDTO update(UserSubscriptionPlanDTO userSubscriptionPlanDTO, int userId) throws UserSubscriptionPlanException {
+        return null;
     }
 
 }
