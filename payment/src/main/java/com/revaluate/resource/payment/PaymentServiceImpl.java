@@ -1,9 +1,8 @@
 package com.revaluate.resource.payment;
 
-import com.braintreegateway.ClientTokenRequest;
-import com.braintreegateway.Result;
-import com.braintreegateway.Transaction;
-import com.braintreegateway.TransactionRequest;
+import com.braintreegateway.*;
+import com.braintreegateway.exceptions.NotFoundException;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +25,16 @@ public class PaymentServiceImpl implements PaymentService {
         Optional<String> token = Optional.ofNullable(braintreeGatewayService.getBraintreeGateway().clientToken().generate(clientTokenRequest));
 
         return token.orElseThrow(() -> new PaymentException("Customer id is not valid"));
+    }
+
+    @Override
+    public Customer findCustomer(@NotEmpty String customerId) throws PaymentException {
+        try {
+            return braintreeGatewayService.getBraintreeGateway().customer().find(customerId);
+        } catch (NotFoundException ex) {
+
+            throw new PaymentException(ex);
+        }
     }
 
     @Override
