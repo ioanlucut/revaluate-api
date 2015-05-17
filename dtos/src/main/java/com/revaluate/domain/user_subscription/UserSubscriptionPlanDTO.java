@@ -3,6 +3,7 @@ package com.revaluate.domain.user_subscription;
 import com.revaluate.domain.subscription_plan.SubscriptionPlanDTO;
 import com.revaluate.domain.subscription_plan.SubscriptionType;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import org.joda.time.LocalDateTime;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -20,6 +21,9 @@ public class UserSubscriptionPlanDTO {
 
     @NotNull
     private SubscriptionType subscriptionType;
+
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
     public int getId() {
         return id;
@@ -45,6 +49,24 @@ public class UserSubscriptionPlanDTO {
         this.subscriptionType = subscriptionType;
     }
 
+    public LocalDateTime getCreatedDate() {
+
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -52,12 +74,14 @@ public class UserSubscriptionPlanDTO {
         UserSubscriptionPlanDTO that = (UserSubscriptionPlanDTO) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(subscriptionPlanDTO, that.subscriptionPlanDTO) &&
-                Objects.equals(subscriptionType, that.subscriptionType);
+                Objects.equals(subscriptionType, that.subscriptionType) &&
+                Objects.equals(createdDate, that.createdDate) &&
+                Objects.equals(modifiedDate, that.modifiedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, subscriptionPlanDTO, subscriptionType);
+        return Objects.hash(id, subscriptionPlanDTO, subscriptionType, createdDate, modifiedDate);
     }
 
     @Override
@@ -66,6 +90,9 @@ public class UserSubscriptionPlanDTO {
                 "id=" + id +
                 ", subscriptionPlanDTO=" + subscriptionPlanDTO +
                 ", subscriptionType=" + subscriptionType +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
                 '}';
     }
+
 }

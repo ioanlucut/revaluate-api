@@ -2,10 +2,11 @@ package com.revaluate.user_subscription.persistence;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.subscription_plan.persistence.SubscriptionPlan;
+import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @SequenceGenerator(name = UserSubscriptionPlan.SEQ_GENERATOR_NAME, sequenceName = UserSubscriptionPlan.SEQ_NAME, initialValue = UserSubscriptionPlan.SEQ_INITIAL_VALUE, allocationSize = UserSubscriptionPlan.ALLOCATION_SIZE)
@@ -33,6 +34,24 @@ public class UserSubscriptionPlan implements Serializable {
     @JoinColumn(name = SUBSCRIPTION_PLAN_ID, nullable = false)
     private SubscriptionPlan subscriptionPlan;
 
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime createdDate;
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime modifiedDate;
+
+    @PrePersist
+    void createdAt() {
+        this.createdDate = this.modifiedDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    void updatedAt() {
+        this.modifiedDate = LocalDateTime.now();
+    }
+
     public Integer getId() {
         return id;
     }
@@ -57,19 +76,20 @@ public class UserSubscriptionPlan implements Serializable {
         this.subscriptionPlan = subscriptionPlan;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserSubscriptionPlan that = (UserSubscriptionPlan) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(user, that.user) &&
-                Objects.equals(subscriptionPlan, that.subscriptionPlan);
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, user, subscriptionPlan);
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 
     @Override
@@ -78,6 +98,8 @@ public class UserSubscriptionPlan implements Serializable {
                 "id=" + id +
                 ", user=" + user +
                 ", subscriptionPlan=" + subscriptionPlan +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
                 '}';
     }
 }
