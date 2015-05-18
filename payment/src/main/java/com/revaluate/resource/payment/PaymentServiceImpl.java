@@ -1,13 +1,15 @@
 package com.revaluate.resource.payment;
 
-import com.braintreegateway.*;
+import com.braintreegateway.ClientTokenRequest;
+import com.braintreegateway.Customer;
+import com.braintreegateway.CustomerRequest;
+import com.braintreegateway.Result;
 import com.braintreegateway.exceptions.NotFoundException;
-import org.hibernate.validator.constraints.NotEmpty;
+import com.revaluate.domain.payment.PaymentDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -28,7 +30,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Customer findCustomer(@NotEmpty String customerId) throws PaymentException {
+    public Customer findCustomer(String customerId) throws PaymentException {
         try {
             return braintreeGatewayService.getBraintreeGateway().customer().find(customerId);
         } catch (NotFoundException ex) {
@@ -38,15 +40,15 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Result<Transaction> pay(BigDecimal amount, String customerId, String paymentMethodNonce) throws PaymentException {
-        TransactionRequest request = new TransactionRequest()
-                .amount(amount)
-                .customerId(customerId)
-                .paymentMethodNonce(paymentMethodNonce);
+    public Result<Customer> createPaymentStatus(PaymentDetailsDTO paymentDetailsDTO) {
+        CustomerRequest customerRequest = new CustomerRequest()
+                .firstName(paymentDetailsDTO.getFirstName())
+                .lastName(paymentDetailsDTO.getLastName())
+                .paymentMethodNonce(paymentDetailsDTO.getPaymentMethodNonce());
 
         return braintreeGatewayService
                 .getBraintreeGateway()
-                .transaction()
-                .sale(request);
+                .customer()
+                .create(customerRequest);
     }
 }

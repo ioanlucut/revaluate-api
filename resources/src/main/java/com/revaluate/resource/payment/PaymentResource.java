@@ -47,7 +47,7 @@ public class PaymentResource extends Resource {
         return Responses.respond(Response.Status.OK, token);
     }
 
-    @POST
+    /*@POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(PERFORM_PAYMENT)
@@ -59,6 +59,6 @@ public class PaymentResource extends Resource {
         }
 
         return Responses.respond(Response.Status.OK, pay.getMessage());
-    }
+    }*/
 
 }
