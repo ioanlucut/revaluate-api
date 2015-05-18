@@ -14,10 +14,6 @@
                 <class-a>com.revaluate.color.persistence.Color</class-a>
                 <class-b>com.revaluate.domain.color.ColorDTO</class-b>
             </converter>
-            <converter type="com.revaluate.dozer.converter.SubscriptionPlanConverter">
-                <class-a>com.revaluate.subscription_plan.persistence.SubscriptionPlan</class-a>
-                <class-b>com.revaluate.domain.subscription_plan.SubscriptionPlanDTO</class-b>
-            </converter>
         </custom-converters>
 
         <copy-by-references>
@@ -42,15 +38,6 @@
             <a>id</a>
             <b>id</b>
         </field-exclude>
-    </mapping>
-
-    <mapping map-null="false">
-        <class-a>com.revaluate.user_subscription.persistence.UserSubscriptionPlan</class-a>
-        <class-b>com.revaluate.domain.user_subscription.UserSubscriptionPlanDTO</class-b>
-        <field>
-            <a>subscriptionPlan</a>
-            <b>subscriptionPlanDTO</b>
-        </field>
     </mapping>
 
     <mapping map-null="false" map-id="UserDTO__Update">

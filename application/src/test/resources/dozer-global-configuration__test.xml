@@ -18,7 +18,6 @@
         <property name="customConverters">
             <list>
                 <ref bean="colorConverter"/>
-                <ref bean="subscriptionPlanConverter"/>
             </list>
         </property>
     </bean>

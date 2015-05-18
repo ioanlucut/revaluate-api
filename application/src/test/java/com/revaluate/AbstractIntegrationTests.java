@@ -16,7 +16,7 @@ import com.revaluate.domain.color.ColorDTOBuilder;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.currency.CurrencyDTOBuilder;
 import com.revaluate.expense.persistence.ExpenseRepository;
-import com.revaluate.user_subscription.persistence.UserSubscriptionPlanRepository;
+import com.revaluate.payment.persistence.PaymentStatusRepository;
 import org.joda.money.CurrencyUnit;
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +24,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,6 +37,9 @@ public class AbstractIntegrationTests {
 
     public static final String TEST_EMAIL = "dev@revaluate.io";
     public static final String TEST_PASSWORD = "1234567";
+    public static final String CUSTOMER_ID = "1234567";
+    public static final String METHOD_PAYMENT_TOKEN = "ABCDEFGH";
+    public static final String TOKEN_PAYMENT = "XXXXXX";
     public static final String TEST_NEW_PASSWORD = "9999999";
     public static final String TEST_PASSWORD_WRONG = "YYYYYYY";
     public static final String INVALID_TOKEN = "INVALID_TOKEN";
@@ -75,7 +79,7 @@ public class AbstractIntegrationTests {
     protected EmailRepository emailRepository;
 
     @Autowired
-    protected UserSubscriptionPlanRepository userSubscriptionPlanRepository;
+    protected PaymentStatusRepository paymentStatusRepository;
 
     protected UserDTO userDTO;
 
@@ -87,7 +91,7 @@ public class AbstractIntegrationTests {
     @Before
     @After
     public void tearDown() throws Exception {
-        userSubscriptionPlanRepository.deleteAll();
+        paymentStatusRepository.deleteAll();
         emailRepository.deleteAll();
         expenseRepository.deleteAll();
         categoryRepository.deleteAll();

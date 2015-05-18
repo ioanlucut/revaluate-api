@@ -1,21 +1,21 @@
-package com.revaluate.domain.user_subscription;
+package com.revaluate.domain.payment;
 
-import com.revaluate.domain.subscription_plan.SubscriptionPlanDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDateTime;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @GeneratePojoBuilder
-public class UserSubscriptionPlanDTO {
+public class PaymentStatusDTO {
 
     private int id;
 
-    @NotNull
-    @Valid
-    private SubscriptionPlanDTO subscriptionPlanDTO;
+    @NotEmpty
+    private String customerId;
+
+    @NotEmpty
+    private String paymentMethodToken;
 
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
@@ -28,16 +28,23 @@ public class UserSubscriptionPlanDTO {
         this.id = id;
     }
 
-    public SubscriptionPlanDTO getSubscriptionPlanDTO() {
-        return subscriptionPlanDTO;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setSubscriptionPlanDTO(SubscriptionPlanDTO subscriptionPlanDTO) {
-        this.subscriptionPlanDTO = subscriptionPlanDTO;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getPaymentMethodToken() {
+        return paymentMethodToken;
+    }
+
+    public void setPaymentMethodToken(String paymentMethodToken) {
+        this.paymentMethodToken = paymentMethodToken;
     }
 
     public LocalDateTime getCreatedDate() {
-
         return createdDate;
     }
 
@@ -53,31 +60,31 @@ public class UserSubscriptionPlanDTO {
         this.modifiedDate = modifiedDate;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserSubscriptionPlanDTO that = (UserSubscriptionPlanDTO) o;
+        PaymentStatusDTO that = (PaymentStatusDTO) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(subscriptionPlanDTO, that.subscriptionPlanDTO) &&
+                Objects.equals(customerId, that.customerId) &&
+                Objects.equals(paymentMethodToken, that.paymentMethodToken) &&
                 Objects.equals(createdDate, that.createdDate) &&
                 Objects.equals(modifiedDate, that.modifiedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, subscriptionPlanDTO, createdDate, modifiedDate);
+        return Objects.hash(id, customerId, paymentMethodToken, createdDate, modifiedDate);
     }
 
     @Override
     public String toString() {
-        return "UserSubscriptionPlanDTO{" +
+        return "PaymentStatusDTO{" +
                 "id=" + id +
-                ", subscriptionPlanDTO=" + subscriptionPlanDTO +
+                ", customerId='" + customerId + '\'' +
+                ", paymentMethodToken='" + paymentMethodToken + '\'' +
                 ", createdDate=" + createdDate +
                 ", modifiedDate=" + modifiedDate +
                 '}';
     }
-
 }
