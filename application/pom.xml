@@ -48,6 +48,12 @@
             <version>${global.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.revaluate</groupId>
+            <artifactId>payment</artifactId>
+            <version>${global.version}</version>
+        </dependency>
+
         <!-- Dozer -->
         <dependency>
             <groupId>net.sf.dozer</groupId>

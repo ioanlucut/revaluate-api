@@ -14,6 +14,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.Reader;
 import java.util.Arrays;
@@ -22,6 +23,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@Validated
 public class ImporterParserServiceImpl implements ImporterParserService {
 
     public static final String LINE_SEPARATOR = "\n";

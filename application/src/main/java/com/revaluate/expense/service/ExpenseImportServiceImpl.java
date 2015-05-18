@@ -8,6 +8,7 @@ import com.revaluate.importer.ImporterException;
 import com.revaluate.importer.ImporterParserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Validated
 public class ExpenseImportServiceImpl implements ExpenseImportService {
 
     @Autowired

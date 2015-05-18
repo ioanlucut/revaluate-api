@@ -15,6 +15,7 @@ import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.email.EmailType;
 import com.revaluate.expense.persistence.ExpenseRepository;
+import com.revaluate.payment.persistence.PaymentStatusRepository;
 import org.dozer.DozerBeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
@@ -44,6 +45,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private EmailRepository emailRepository;
+
+    @Autowired
+    private PaymentStatusRepository paymentStatusRepository;
 
     @Autowired
     private ExpenseRepository expenseRepository;
@@ -153,8 +157,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void remove(int userId) {
         //-----------------------------------------------------------------
-        // First, remove all its email tokens, then expenses, then categories, then the user
+        // First, remove all its payment plan, email tokens, then expenses, then categories, then the user
         //-----------------------------------------------------------------
+        paymentStatusRepository.removeByUserId(userId);
         emailRepository.removeByUserId(userId);
         expenseRepository.removeByUserId(userId);
         categoryRepository.removeByUserId(userId);
