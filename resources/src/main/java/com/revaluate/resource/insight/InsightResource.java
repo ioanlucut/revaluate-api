@@ -1,4 +1,4 @@
-package com.revaluate.insight;
+package com.revaluate.resource.insight;
 
 import com.revaluate.domain.insights.InsightDTO;
 import com.revaluate.domain.insights.SummaryInsightsDTO;

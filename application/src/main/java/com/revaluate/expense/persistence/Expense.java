@@ -129,4 +129,18 @@ public class Expense implements Serializable {
     public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
+
+    @Override
+    public String toString() {
+        return "Expense{" +
+                "id=" + id +
+                ", value=" + value +
+                ", description='" + description + '\'' +
+                ", user=" + user +
+                ", category=" + category +
+                ", spentDate=" + spentDate +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
+                '}';
+    }
 }
