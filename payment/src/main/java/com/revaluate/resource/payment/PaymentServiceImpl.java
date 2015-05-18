@@ -46,6 +46,15 @@ public class PaymentServiceImpl implements PaymentService {
                 .lastName(paymentDetailsDTO.getLastName())
                 .paymentMethodNonce(paymentDetailsDTO.getPaymentMethodNonce());
 
+        //-----------------------------------------------------------------
+        // Only one payment method allowed + make default true.
+        //-----------------------------------------------------------------
+        customerRequest.creditCard()
+                .options()
+                .failOnDuplicatePaymentMethod(Boolean.TRUE)
+                .makeDefault(Boolean.TRUE)
+                .done();
+
         return braintreeGatewayService
                 .getBraintreeGateway()
                 .customer()
