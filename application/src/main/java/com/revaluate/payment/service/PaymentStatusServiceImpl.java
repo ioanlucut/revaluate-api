@@ -50,7 +50,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
-    public PaymentInsightsDTO fetchPaymentInsightsFor(String customerId) throws PaymentStatusException {
+    public PaymentInsightsDTO fetchPaymentInsights(String customerId) throws PaymentStatusException {
         try {
             //-----------------------------------------------------------------
             // Fetch customer details
@@ -115,7 +115,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
         //-----------------------------------------------------------------
         // Fetch payment status
         //-----------------------------------------------------------------
-        PaymentStatusDTO paymentStatusDTO = findOneByUserId(userId);
+        PaymentStatusDTO paymentStatusDTO = findPaymentStatus(userId);
 
         //-----------------------------------------------------------------
         // Apply subscription
@@ -137,7 +137,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
                 throw new PaymentStatusException(errors);
             }
 
-            return fetchPaymentInsightsFor(paymentStatusDTO.getCustomerId());
+            return fetchPaymentInsights(paymentStatusDTO.getCustomerId());
 
         } catch (PaymentException ex) {
 
@@ -146,7 +146,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
-    public PaymentStatusDTO findOneByUserId(int userId) throws PaymentStatusException {
+    public PaymentStatusDTO findPaymentStatus(int userId) throws PaymentStatusException {
         Optional<PaymentStatus> byUserId = paymentStatusRepository.findOneByUserId(userId);
 
         return dozerBeanMapper.map(byUserId.orElseThrow(() -> new PaymentStatusException("There is no payment status for this user")), PaymentStatusDTO.class);
@@ -205,7 +205,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
 
     @Override
     public PaymentStatusDTO updateCustomer(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
-        PaymentStatusDTO paymentStatusDTOByUserId = findOneByUserId(userId);
+        PaymentStatusDTO paymentStatusDTOByUserId = findPaymentStatus(userId);
         Result<Customer> customerResult = paymentService.updateCustomer(paymentStatusDTOByUserId, paymentDetailsDTO);
 
         //-----------------------------------------------------------------
@@ -241,7 +241,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
 
     @Override
     public PaymentStatusDTO updatePaymentMethod(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
-        PaymentStatusDTO paymentStatusDTOByUserId = findOneByUserId(userId);
+        PaymentStatusDTO paymentStatusDTOByUserId = findPaymentStatus(userId);
         Result<? extends PaymentMethod> paymentMethodResult = paymentService.updatePaymentMethod(paymentStatusDTOByUserId, paymentDetailsDTO);
         //-----------------------------------------------------------------
         // Throw exception if not successful

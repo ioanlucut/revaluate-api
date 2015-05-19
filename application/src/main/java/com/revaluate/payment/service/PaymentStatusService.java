@@ -12,13 +12,13 @@ import javax.validation.constraints.NotNull;
 public interface PaymentStatusService {
 
     @NotNull
-    PaymentInsightsDTO fetchPaymentInsightsFor(@NotEmpty String customerId) throws PaymentStatusException;
+    PaymentInsightsDTO fetchPaymentInsights(@NotEmpty String customerId) throws PaymentStatusException;
 
     @NotNull
     PaymentInsightsDTO subscribeToStandardPlan(int userId) throws PaymentStatusException;
 
     @NotNull
-    PaymentStatusDTO findOneByUserId(int userId) throws PaymentStatusException;
+    PaymentStatusDTO findPaymentStatus(int userId) throws PaymentStatusException;
 
     @NotNull
     PaymentStatusDTO createPaymentStatus(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException;

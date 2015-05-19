@@ -45,7 +45,7 @@ public class PaymentResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(FETCH_CUSTOMER_TOKEN)
     public Response fetchCustomerToken() throws PaymentStatusException, PaymentException {
-        PaymentStatusDTO paymentStatus = paymentStatusService.findOneByUserId(getCurrentUserId());
+        PaymentStatusDTO paymentStatus = paymentStatusService.findPaymentStatus(getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, paymentService.fetchToken(paymentStatus.getCustomerId()));
     }
@@ -65,7 +65,7 @@ public class PaymentResource extends Resource {
     @Path(CREATE_PAYMENT_STATUS)
     public Response createPaymentDetails(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
         PaymentStatusDTO paymentStatus = paymentStatusService.createPaymentStatus(paymentDetailsDTO, getCurrentUserId());
-        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.fetchPaymentInsightsFor(paymentStatus.getCustomerId());
+        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.fetchPaymentInsights(paymentStatus.getCustomerId());
 
         return Responses.respond(Response.Status.OK, paymentInsightsDTO);
     }
@@ -85,8 +85,8 @@ public class PaymentResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(FETCH_PAYMENT_INSIGHTS)
     public Response fetchPaymentInsights() throws PaymentStatusException {
-        PaymentStatusDTO paymentStatus = paymentStatusService.findOneByUserId(getCurrentUserId());
-        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.fetchPaymentInsightsFor(paymentStatus.getCustomerId());
+        PaymentStatusDTO paymentStatus = paymentStatusService.findPaymentStatus(getCurrentUserId());
+        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.fetchPaymentInsights(paymentStatus.getCustomerId());
 
         return Responses.respond(Response.Status.OK, paymentInsightsDTO);
     }
