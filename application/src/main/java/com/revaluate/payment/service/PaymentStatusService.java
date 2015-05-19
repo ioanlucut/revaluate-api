@@ -14,4 +14,10 @@ public interface PaymentStatusService {
 
     @NotNull
     PaymentStatusDTO createPaymentStatus(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException;
+
+    @NotNull
+    PaymentStatusDTO updateCustomer(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException;
+
+    @NotNull
+    PaymentStatusDTO createPaymentMethod(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException;
 }
