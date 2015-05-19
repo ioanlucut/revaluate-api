@@ -22,6 +22,9 @@ public interface PaymentService {
     Result<Customer> createPaymentStatus(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO);
 
     @NotNull
+    Result<Subscription> subscribeToStandardPlan(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid Customer customer) throws PaymentException;
+
+    @NotNull
     Result<Customer> updateCustomer(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentDetailsDTO paymentDetailsDTO);
 
     @NotNull

@@ -13,8 +13,6 @@ public class PaymentInsightsDTOBuilder
   protected boolean isSet$paymentMethodDTOs$java$util$List;
   protected List<PaymentTransactionDTO> value$paymentTransactionDTOs$java$util$List;
   protected boolean isSet$paymentTransactionDTOs$java$util$List;
-  protected String value$clientToken$java$lang$String;
-  protected boolean isSet$clientToken$java$lang$String;
 
   /**
    * Creates a new {@link PaymentInsightsDTOBuilder}.
@@ -60,18 +58,6 @@ public class PaymentInsightsDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link PaymentInsightsDTO#clientToken} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public PaymentInsightsDTOBuilder withClientToken(String value) {
-    this.value$clientToken$java$lang$String = value;
-    this.isSet$clientToken$java$lang$String = true;
-    return self;
-  }
-
-  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -112,9 +98,6 @@ public class PaymentInsightsDTOBuilder
       }
       if (isSet$paymentTransactionDTOs$java$util$List) {
         result.setPaymentTransactionDTOs(value$paymentTransactionDTOs$java$util$List);
-      }
-      if (isSet$clientToken$java$lang$String) {
-        result.setClientToken(value$clientToken$java$lang$String);
       }
       return result;
     } catch (RuntimeException ex) {

@@ -66,9 +66,10 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
             // Fetch transactions
             //-----------------------------------------------------------------
             ResourceCollection<Transaction> resourceCollection = paymentService.findTransactions(customerId);
-            List<Transaction> transactions = StreamSupport.stream(
-                    Spliterators.spliteratorUnknownSize(resourceCollection.iterator(), Spliterator.ORDERED),
-                    Boolean.FALSE).collect(Collectors.toList());
+            List<Transaction> transactions = StreamSupport
+                    .stream(Spliterators.spliteratorUnknownSize(resourceCollection.iterator(), Spliterator.ORDERED),
+                            Boolean.FALSE)
+                    .collect(Collectors.toList());
 
             List<PaymentTransactionDTO> paymentTransactions = transactions
                     .stream()
@@ -98,17 +99,10 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
                             .build())
                     .collect(Collectors.toList());
 
-            //-----------------------------------------------------------------
-            // Fetch token
-            //-----------------------------------------------------------------
-            String clientToken = paymentService
-                    .fetchToken(customerId);
-
             return new PaymentInsightsDTOBuilder()
                     .withPaymentCustomerDTO(paymentCustomerDTO)
                     .withPaymentMethodDTOs(paymentMethods)
                     .withPaymentTransactionDTOs(paymentTransactions)
-                    .withClientToken(clientToken)
                     .build();
         } catch (PaymentException ex) {
 
