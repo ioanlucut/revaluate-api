@@ -50,6 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
                     .options()
                         .failOnDuplicatePaymentMethod(Boolean.TRUE)
                         .makeDefault(Boolean.TRUE)
+                        .verifyCard(Boolean.TRUE)
                     .done()
                 .done();
 
