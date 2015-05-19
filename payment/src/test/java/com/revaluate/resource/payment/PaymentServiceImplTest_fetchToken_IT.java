@@ -55,12 +55,6 @@ public class PaymentServiceImplTest_fetchToken_IT {
 
     @Test
     public void fetchToken_invalidCustomerId_exceptionThrown() throws Exception {
-        exception.expect(PaymentException.class);
-        paymentService.fetchToken("abcd");
-
-        exception.expect(PaymentException.class);
-        paymentService.fetchToken("9");
-
         exception.expect(ConstraintViolationException.class);
         paymentService.fetchToken(null);
 
