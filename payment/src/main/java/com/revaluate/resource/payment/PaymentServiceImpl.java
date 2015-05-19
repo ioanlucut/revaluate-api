@@ -89,7 +89,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Result<Subscription> subscribeToStandardPlan(PaymentStatusDTO paymentStatusDTO, Customer customer) throws PaymentException {
+    public Result<Subscription> subscribeToStandardPlan(PaymentStatusDTO paymentStatusDTO) throws PaymentException {
         //-----------------------------------------------------------------
         // We check if there is a plan with given plan ID
         //-----------------------------------------------------------------
