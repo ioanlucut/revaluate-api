@@ -12,6 +12,8 @@ public interface PaymentService {
 
     String fetchToken(@NotEmpty String customerId) throws PaymentException;
 
+    String fetchToken() throws PaymentException;
+
     Customer findCustomer(@NotEmpty String customerId) throws PaymentException;
 
     ResourceCollection<Transaction> findTransactions(@NotEmpty String customerId);
