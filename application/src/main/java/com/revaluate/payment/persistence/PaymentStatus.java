@@ -7,7 +7,6 @@ import org.joda.time.LocalDateTime;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @SequenceGenerator(name = PaymentStatus.SEQ_GENERATOR_NAME,
@@ -105,24 +104,6 @@ public class PaymentStatus implements Serializable {
 
     public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PaymentStatus that = (PaymentStatus) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(customerId, that.customerId) &&
-                Objects.equals(paymentMethodToken, that.paymentMethodToken) &&
-                Objects.equals(user, that.user) &&
-                Objects.equals(createdDate, that.createdDate) &&
-                Objects.equals(modifiedDate, that.modifiedDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, customerId, paymentMethodToken, user, createdDate, modifiedDate);
     }
 
     @Override
