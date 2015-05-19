@@ -2,6 +2,7 @@ package com.revaluate.domain.account;
 
 import com.revaluate.domain.currency.CurrencyDTO;
 import javax.annotation.Generated;
+import org.joda.time.LocalDateTime;
 
 @Generated("PojoBuilder")
 public class UserDTOBuilder
@@ -21,6 +22,12 @@ public class UserDTOBuilder
   protected boolean isSet$currency$com$revaluate$domain$currency$CurrencyDTO;
   protected boolean value$initiated$boolean;
   protected boolean isSet$initiated$boolean;
+  protected LocalDateTime value$createdDate$org$joda$time$LocalDateTime;
+  protected boolean isSet$createdDate$org$joda$time$LocalDateTime;
+  protected LocalDateTime value$modifiedDate$org$joda$time$LocalDateTime;
+  protected boolean isSet$modifiedDate$org$joda$time$LocalDateTime;
+  protected UserSubscriptionStatus value$userSubscriptionStatus$com$revaluate$domain$account$UserSubscriptionStatus;
+  protected boolean isSet$userSubscriptionStatus$com$revaluate$domain$account$UserSubscriptionStatus;
 
   /**
    * Creates a new {@link UserDTOBuilder}.
@@ -114,6 +121,42 @@ public class UserDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link UserDTO#createdDate} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public UserDTOBuilder withCreatedDate(LocalDateTime value) {
+    this.value$createdDate$org$joda$time$LocalDateTime = value;
+    this.isSet$createdDate$org$joda$time$LocalDateTime = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link UserDTO#modifiedDate} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public UserDTOBuilder withModifiedDate(LocalDateTime value) {
+    this.value$modifiedDate$org$joda$time$LocalDateTime = value;
+    this.isSet$modifiedDate$org$joda$time$LocalDateTime = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link UserDTO#userSubscriptionStatus} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public UserDTOBuilder withUserSubscriptionStatus(UserSubscriptionStatus value) {
+    this.value$userSubscriptionStatus$com$revaluate$domain$account$UserSubscriptionStatus = value;
+    this.isSet$userSubscriptionStatus$com$revaluate$domain$account$UserSubscriptionStatus = true;
+    return self;
+  }
+
+  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -166,6 +209,15 @@ public class UserDTOBuilder
       }
       if (isSet$initiated$boolean) {
         result.setInitiated(value$initiated$boolean);
+      }
+      if (isSet$createdDate$org$joda$time$LocalDateTime) {
+        result.setCreatedDate(value$createdDate$org$joda$time$LocalDateTime);
+      }
+      if (isSet$modifiedDate$org$joda$time$LocalDateTime) {
+        result.setModifiedDate(value$modifiedDate$org$joda$time$LocalDateTime);
+      }
+      if (isSet$userSubscriptionStatus$com$revaluate$domain$account$UserSubscriptionStatus) {
+        result.setUserSubscriptionStatus(value$userSubscriptionStatus$com$revaluate$domain$account$UserSubscriptionStatus);
       }
       return result;
     } catch (RuntimeException ex) {

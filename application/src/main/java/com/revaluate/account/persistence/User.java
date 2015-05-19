@@ -1,6 +1,7 @@
 package com.revaluate.account.persistence;
 
 import com.revaluate.currency.persistence.Currency;
+import com.revaluate.domain.account.UserSubscriptionStatus;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -67,6 +68,10 @@ public class User implements Serializable {
     @NotNull
     @Column(nullable = false)
     private LocalDateTime modifiedDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserSubscriptionStatus userSubscriptionStatus;
 
     @PrePersist
     void createdAt() {
@@ -156,5 +161,30 @@ public class User implements Serializable {
 
     public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public UserSubscriptionStatus getUserSubscriptionStatus() {
+        return userSubscriptionStatus;
+    }
+
+    public void setUserSubscriptionStatus(UserSubscriptionStatus userSubscriptionStatus) {
+        this.userSubscriptionStatus = userSubscriptionStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", initiated=" + initiated +
+                ", currency=" + currency +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
+                ", userSubscriptionStatus=" + userSubscriptionStatus +
+                '}';
     }
 }

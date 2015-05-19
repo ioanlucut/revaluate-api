@@ -55,6 +55,10 @@
             <a>password</a>
             <b>password</b>
         </field-exclude>
+        <field-exclude type="one-way">
+            <a>userSubscriptionStatus</a>
+            <b>userSubscriptionStatus</b>
+        </field-exclude>
     </mapping>
 
     <!--Generally, the password should not be sent back to the user-->

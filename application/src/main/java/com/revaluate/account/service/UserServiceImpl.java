@@ -9,14 +9,12 @@ import com.revaluate.account.utils.TokenGenerator;
 import com.revaluate.category.persistence.CategoryRepository;
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;
-import com.revaluate.domain.account.LoginDTO;
-import com.revaluate.domain.account.ResetPasswordDTO;
-import com.revaluate.domain.account.UpdatePasswordDTO;
-import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.account.*;
 import com.revaluate.domain.email.EmailType;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import org.dozer.DozerBeanMapper;
+import org.joda.time.LocalDateTime;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +31,7 @@ public class UserServiceImpl implements UserService {
     public static final String USER_DTO__UPDATE = "UserDTO__Update";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    public static final int TRIAL_DAYS = 15;
 
     @Autowired
     private UserRepository userRepository;
@@ -66,6 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO create(UserDTO userDTO) throws UserException {
         if (!isUnique(userDTO.getEmail())) {
+
             throw new UserException("Email is not unique");
         }
 
@@ -85,6 +85,11 @@ public class UserServiceImpl implements UserService {
         // Hash the password and set
         //-----------------------------------------------------------------
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+
+        //-----------------------------------------------------------------
+        // Set status as trial
+        //-----------------------------------------------------------------
+        user.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL);
 
         //-----------------------------------------------------------------
         // Save the user
@@ -114,13 +119,31 @@ public class UserServiceImpl implements UserService {
             throw new UserException("Invalid email or password");
         }
 
+        if (isUserTrialPeriodExpired(foundUser)) {
+            foundUser.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL_EXPIRED);
+            User updatedUser = userRepository.save(foundUser);
+
+            return dozerBeanMapper.map(updatedUser, UserDTO.class);
+        }
+
         return dozerBeanMapper.map(foundUser, UserDTO.class);
+    }
+
+    private boolean isUserTrialPeriodExpired(User foundUser) {
+        if (foundUser.getUserSubscriptionStatus() == UserSubscriptionStatus.TRIAL) {
+            LocalDateTime createdDate = foundUser.getCreatedDate();
+            LocalDateTime endTrialDate = createdDate.plusDays(TRIAL_DAYS);
+
+            return LocalDateTime.now().isAfter(endTrialDate);
+        }
+        return Boolean.FALSE;
     }
 
     @Override
     public UserDTO update(UserDTO userDTO, int userId) throws UserException {
         User foundUser = userRepository.findOne(userId);
         if (foundUser == null) {
+
             throw new UserException("User does not exist");
         }
 
@@ -129,8 +152,7 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         if (userDTO.getCurrency() != null) {
             Optional<Currency> byCurrencyCode = currencyRepository.findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode());
-            byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists"));
-            foundUser.setCurrency(byCurrencyCode.get());
+            foundUser.setCurrency(byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists")));
         }
 
         //-----------------------------------------------------------------
@@ -146,12 +168,11 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserDetails(int userId) throws UserException {
         User foundUser = userRepository.findOne(userId);
 
-        if (foundUser != null) {
-
-            return dozerBeanMapper.map(foundUser, UserDTO.class);
+        if (foundUser == null) {
+            throw new UserException("Could not retrieve user details.");
         }
 
-        throw new UserException("Could not retrieve user details.");
+        return dozerBeanMapper.map(foundUser, UserDTO.class);
     }
 
     @Override
