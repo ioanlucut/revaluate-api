@@ -6,6 +6,7 @@ import com.braintreegateway.Result;
 import com.braintreegateway.ValidationError;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
+import com.revaluate.domain.account.UserSubscriptionStatus;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
 import com.revaluate.domain.payment.PaymentStatusDTO;
 import com.revaluate.payment.exception.PaymentStatusException;
@@ -88,12 +89,18 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
         // Payment token optional
         //-----------------------------------------------------------------
         Optional<String> paymentTokenOptional = customer.getCreditCards().stream().findFirst().map(CreditCard::getToken);
-        paymentStatus.setPaymentMethodToken(paymentTokenOptional.orElseThrow(() -> new PaymentStatusException("No payment method exists!")));
+        paymentStatus.setPaymentMethodToken(paymentTokenOptional.orElseThrow(() -> new PaymentStatusException("No payment method defined!")));
 
         //-----------------------------------------------------------------
         // Save and return
         //-----------------------------------------------------------------
         PaymentStatus savedPaymentStatus = paymentStatusRepository.save(paymentStatus);
+
+        //-----------------------------------------------------------------
+        // Update the user with the subscription status
+        //-----------------------------------------------------------------
+        user.setUserSubscriptionStatus(UserSubscriptionStatus.ACTIVE);
+        userRepository.save(user);
 
         return dozerBeanMapper.map(savedPaymentStatus, PaymentStatusDTO.class);
     }

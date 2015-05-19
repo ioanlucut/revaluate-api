@@ -15,6 +15,9 @@ public class PaymentDetailsDTO {
     private String lastName;
 
     @NotBlank
+    private String email;
+
+    @NotBlank
     private String paymentMethodNonce;
 
     public String getFirstName() {
@@ -33,6 +36,14 @@ public class PaymentDetailsDTO {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPaymentMethodNonce() {
         return paymentMethodNonce;
     }
@@ -48,12 +59,13 @@ public class PaymentDetailsDTO {
         PaymentDetailsDTO that = (PaymentDetailsDTO) o;
         return Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
+                Objects.equals(email, that.email) &&
                 Objects.equals(paymentMethodNonce, that.paymentMethodNonce);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, paymentMethodNonce);
+        return Objects.hash(firstName, lastName, email, paymentMethodNonce);
     }
 
     @Override
@@ -61,6 +73,7 @@ public class PaymentDetailsDTO {
         return "PaymentDetailsDTO{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 ", paymentMethodNonce='" + paymentMethodNonce + '\'' +
                 '}';
     }
