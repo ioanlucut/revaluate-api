@@ -4,8 +4,10 @@ import com.braintreegateway.CreditCard;
 import com.braintreegateway.Customer;
 import com.braintreegateway.Result;
 import com.revaluate.AbstractIntegrationTests;
+import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.account.UserSubscriptionStatus;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
 import com.revaluate.domain.payment.PaymentDetailsDTOBuilder;
 import com.revaluate.domain.payment.PaymentStatusDTO;
@@ -48,12 +50,11 @@ public class PaymentStatusServiceImplTest_createPaymentStatus_IT extends Abstrac
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         super.tearDown();
+        prepareAllMocks();
     }
 
     @Test
     public void createPaymentStatus__validCustomerId__isOk() throws Exception {
-        prepareAllMocks();
-
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
@@ -66,15 +67,23 @@ public class PaymentStatusServiceImplTest_createPaymentStatus_IT extends Abstrac
         assertThat(paymentStatus.getCreatedDate(), is(notNullValue()));
         assertThat(paymentStatus.getModifiedDate(), is(notNullValue()));
 
-        Optional<PaymentStatus> oneByUserId = paymentStatusRepository.findOneByUserId(createdUserDTO.getId());
-        assertThat(oneByUserId, is(notNullValue()));
-        assertThat(oneByUserId.isPresent(), is(equalTo(Boolean.TRUE)));
+        //-----------------------------------------------------------------
+        // Just check if the payment status was properly attached to this user
+        //-----------------------------------------------------------------
+        Optional<PaymentStatus> paymentStatusByUserId = paymentStatusRepository.findOneByUserId(createdUserDTO.getId());
+        assertThat(paymentStatusByUserId, is(notNullValue()));
+        assertThat(paymentStatusByUserId.isPresent(), is(equalTo(Boolean.TRUE)));
+
+        //-----------------------------------------------------------------
+        // User subscription status is active
+        //-----------------------------------------------------------------
+        User user = userRepository.findOne(createdUserDTO.getId());
+        assertThat(user, is(notNullValue()));
+        assertThat(user.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.ACTIVE)));
     }
 
     @Test
     public void createPaymentStatus__twiceValidCustomerId__exceptionThrown() throws Exception {
-        prepareAllMocks();
-
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
@@ -114,7 +123,7 @@ public class PaymentStatusServiceImplTest_createPaymentStatus_IT extends Abstrac
         Mockito.when(customerTarget.getCreditCards()).thenReturn(Collections.singletonList(creditCard));
         Mockito.when(customerResult.getTarget()).thenReturn(customerTarget);
         Mockito.when(customerResult.isSuccess()).thenReturn(Boolean.TRUE);
-        Mockito.when(paymentService.createPaymentStatus(Matchers.any(PaymentDetailsDTO.class))).thenReturn(customerResult);
+        Mockito.when(paymentService.createCustomerWithPaymentMethod(Matchers.any(PaymentDetailsDTO.class))).thenReturn(customerResult);
     }
 
 }

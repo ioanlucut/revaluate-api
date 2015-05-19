@@ -19,13 +19,13 @@ public interface PaymentService {
     ResourceCollection<Transaction> findTransactions(@NotEmpty String customerId);
 
     @NotNull
-    Result<Customer> createPaymentStatus(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO);
+    Result<Customer> createCustomerWithPaymentMethod(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO);
 
     @NotNull
     Result<Subscription> subscribeToStandardPlan(@NotNull @Valid PaymentStatusDTO paymentStatusDTO) throws PaymentException;
 
     @NotNull
-    Result<Customer> updateCustomer(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentDetailsDTO paymentDetailsDTO);
+    Result<Customer> updateCustomerDetails(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentDetailsDTO paymentDetailsDTO);
 
     @NotNull
     Result<? extends PaymentMethod> updatePaymentMethod(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentDetailsDTO paymentDetailsDTO);

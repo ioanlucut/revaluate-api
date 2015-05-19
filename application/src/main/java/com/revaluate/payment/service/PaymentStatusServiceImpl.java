@@ -154,7 +154,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
 
     @Override
     public PaymentStatusDTO createPaymentStatus(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
-        Result<Customer> customerResult = paymentService.createPaymentStatus(paymentDetailsDTO);
+        Result<Customer> customerResult = paymentService.createCustomerWithPaymentMethod(paymentDetailsDTO);
 
         //-----------------------------------------------------------------
         // Throw exception if not successful
@@ -206,7 +206,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     @Override
     public PaymentStatusDTO updateCustomer(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
         PaymentStatusDTO paymentStatusDTOByUserId = findPaymentStatus(userId);
-        Result<Customer> customerResult = paymentService.updateCustomer(paymentStatusDTOByUserId, paymentDetailsDTO);
+        Result<Customer> customerResult = paymentService.updateCustomerDetails(paymentStatusDTOByUserId, paymentDetailsDTO);
 
         //-----------------------------------------------------------------
         // Throw exception if not successful

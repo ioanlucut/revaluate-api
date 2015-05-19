@@ -68,7 +68,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Result<Customer> createPaymentStatus(PaymentDetailsDTO paymentDetailsDTO) {
+    public Result<Customer> createCustomerWithPaymentMethod(PaymentDetailsDTO paymentDetailsDTO) {
         CustomerRequest customerRequest = new CustomerRequest()
                 .firstName(paymentDetailsDTO.getFirstName())
                 .lastName(paymentDetailsDTO.getLastName())
@@ -132,7 +132,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Result<Customer> updateCustomer(PaymentStatusDTO paymentStatusDTO, PaymentDetailsDTO paymentDetailsDTO) {
+    public Result<Customer> updateCustomerDetails(PaymentStatusDTO paymentStatusDTO, PaymentDetailsDTO paymentDetailsDTO) {
         CustomerRequest updateCustomerRequest = new CustomerRequest()
                 .firstName(paymentDetailsDTO.getFirstName())
                 .lastName(paymentDetailsDTO.getLastName())
