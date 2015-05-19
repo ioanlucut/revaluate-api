@@ -10,6 +10,8 @@ public class PaymentDetailsDTOBuilder
   protected boolean isSet$firstName$java$lang$String;
   protected String value$lastName$java$lang$String;
   protected boolean isSet$lastName$java$lang$String;
+  protected String value$email$java$lang$String;
+  protected boolean isSet$email$java$lang$String;
   protected String value$paymentMethodNonce$java$lang$String;
   protected boolean isSet$paymentMethodNonce$java$lang$String;
 
@@ -41,6 +43,18 @@ public class PaymentDetailsDTOBuilder
   public PaymentDetailsDTOBuilder withLastName(String value) {
     this.value$lastName$java$lang$String = value;
     this.isSet$lastName$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link PaymentDetailsDTO#email} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public PaymentDetailsDTOBuilder withEmail(String value) {
+    this.value$email$java$lang$String = value;
+    this.isSet$email$java$lang$String = true;
     return self;
   }
 
@@ -94,6 +108,9 @@ public class PaymentDetailsDTOBuilder
       }
       if (isSet$lastName$java$lang$String) {
         result.setLastName(value$lastName$java$lang$String);
+      }
+      if (isSet$email$java$lang$String) {
+        result.setEmail(value$email$java$lang$String);
       }
       if (isSet$paymentMethodNonce$java$lang$String) {
         result.setPaymentMethodNonce(value$paymentMethodNonce$java$lang$String);
