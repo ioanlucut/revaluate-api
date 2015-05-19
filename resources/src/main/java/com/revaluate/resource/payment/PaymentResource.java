@@ -30,7 +30,7 @@ public class PaymentResource extends Resource {
     //-----------------------------------------------------------------
     private static final String FETCH_TOKEN = "fetchToken";
     private static final String FETCH_CUSTOMER_TOKEN = "fetchCustomerToken";
-    private static final String CREATE_PAYMENT_STATUS = "createPaymentStatus";
+    private static final String CREATE_PAYMENT_STATUS = "createCustomerWithPaymentMethod";
     private static final String FETCH_PAYMENT_INSIGHTS = "fetchPaymentInsights";
     private static final String SUBSCRIBE_TO_STANDARD_PLAN = "subscribeToStandardPlan";
 

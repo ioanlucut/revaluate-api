@@ -40,6 +40,22 @@ public class PaymentServiceImplTest_fetchToken_IT {
     }
 
     @Test
+    public void fetchToken_noCustomerId_isOk() throws Exception {
+        String customerIdToken = paymentService.fetchToken();
+
+        assertThat(customerIdToken, is(notNullValue()));
+    }
+
+    @Test
+    public void fetchToken_invalidCustomerId_exceptionThrown() throws Exception {
+        exception.expect(ConstraintViolationException.class);
+        paymentService.fetchToken(null);
+
+        exception.expect(ConstraintViolationException.class);
+        paymentService.fetchToken("");
+    }
+
+    @Test
     public void fetchCustomer_validCustomerId_isOk() throws Exception {
         Customer customer = paymentService.findCustomer(IOAN_LUCUT_CUSTOMER_ID_SANDBOX);
 
@@ -53,12 +69,4 @@ public class PaymentServiceImplTest_fetchToken_IT {
         assertThat(transactions, is(notNullValue()));
     }
 
-    @Test
-    public void fetchToken_invalidCustomerId_exceptionThrown() throws Exception {
-        exception.expect(ConstraintViolationException.class);
-        paymentService.fetchToken(null);
-
-        exception.expect(ConstraintViolationException.class);
-        paymentService.fetchToken("");
-    }
 }
