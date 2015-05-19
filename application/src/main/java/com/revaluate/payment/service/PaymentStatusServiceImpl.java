@@ -111,6 +111,41 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
+    public PaymentInsightsDTO subscribeToStandardPlan(int userId) throws PaymentStatusException {
+        //-----------------------------------------------------------------
+        // Fetch payment status
+        //-----------------------------------------------------------------
+        PaymentStatusDTO paymentStatusDTO = findOneByUserId(userId);
+
+        //-----------------------------------------------------------------
+        // Apply subscription
+        //-----------------------------------------------------------------
+        try {
+            Result<Subscription> subscriptionResult = paymentService.subscribeToStandardPlan(paymentStatusDTO);
+
+            //-----------------------------------------------------------------
+            // Throw exception if not successful
+            //-----------------------------------------------------------------
+            if (!subscriptionResult.isSuccess()) {
+                List<String> errors = subscriptionResult
+                        .getErrors()
+                        .getAllDeepValidationErrors()
+                        .stream()
+                        .map(ValidationError::getMessage)
+                        .collect(Collectors.toList());
+
+                throw new PaymentStatusException(errors);
+            }
+
+            return fetchPaymentInsightsFor(paymentStatusDTO.getCustomerId());
+
+        } catch (PaymentException ex) {
+
+            throw new PaymentStatusException(ex);
+        }
+    }
+
+    @Override
     public PaymentStatusDTO findOneByUserId(int userId) throws PaymentStatusException {
         Optional<PaymentStatus> byUserId = paymentStatusRepository.findOneByUserId(userId);
 

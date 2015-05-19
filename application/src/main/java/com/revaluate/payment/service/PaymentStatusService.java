@@ -15,6 +15,9 @@ public interface PaymentStatusService {
     PaymentInsightsDTO fetchPaymentInsightsFor(@NotEmpty String customerId) throws PaymentStatusException;
 
     @NotNull
+    PaymentInsightsDTO subscribeToStandardPlan(int userId) throws PaymentStatusException;
+
+    @NotNull
     PaymentStatusDTO findOneByUserId(int userId) throws PaymentStatusException;
 
     @NotNull
