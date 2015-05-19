@@ -44,19 +44,19 @@ public class PaymentResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(FETCH_CUSTOMER_TOKEN)
-    public String fetchCustomerToken() throws PaymentStatusException, PaymentException {
+    public Response fetchCustomerToken() throws PaymentStatusException, PaymentException {
         PaymentStatusDTO paymentStatus = paymentStatusService.findPaymentStatus(getCurrentUserId());
 
-        return paymentService.fetchToken(paymentStatus.getCustomerId());
+        return Responses.respond(Response.Status.OK, paymentService.fetchToken(paymentStatus.getCustomerId()));
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(FETCH_TOKEN)
-    public String fetchToken() throws PaymentStatusException, PaymentException {
+    public Response fetchToken() throws PaymentStatusException, PaymentException {
 
-        return paymentService.fetchToken();
+        return Responses.respond(Response.Status.OK, paymentService.fetchToken());
     }
 
     @POST
