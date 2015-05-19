@@ -98,10 +98,17 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
                             .build())
                     .collect(Collectors.toList());
 
+            //-----------------------------------------------------------------
+            // Fetch token
+            //-----------------------------------------------------------------
+            String clientToken = paymentService
+                    .fetchToken(customerId);
+
             return new PaymentInsightsDTOBuilder()
                     .withPaymentCustomerDTO(paymentCustomerDTO)
                     .withPaymentMethodDTOs(paymentMethods)
                     .withPaymentTransactionDTOs(paymentTransactions)
+                    .withClientToken(clientToken)
                     .build();
         } catch (PaymentException ex) {
 
@@ -111,9 +118,9 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
 
     @Override
     public PaymentStatusDTO findOneByUserId(int userId) throws PaymentStatusException {
-        Optional<PaymentStatus> byCurrencyCode = paymentStatusRepository.findOneByUserId(userId);
+        Optional<PaymentStatus> byUserId = paymentStatusRepository.findOneByUserId(userId);
 
-        return dozerBeanMapper.map(byCurrencyCode.orElseThrow(() -> new PaymentStatusException("There is no payment status for this user")), PaymentStatusDTO.class);
+        return dozerBeanMapper.map(byUserId.orElseThrow(() -> new PaymentStatusException("There is no payment status for this user")), PaymentStatusDTO.class);
     }
 
     @Override

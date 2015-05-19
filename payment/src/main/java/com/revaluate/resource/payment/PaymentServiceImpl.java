@@ -19,18 +19,32 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public String fetchToken(String customerId) throws PaymentException {
-        ClientTokenRequest clientTokenRequest = new ClientTokenRequest()
-                .customerId(customerId);
+        ClientTokenRequest clientTokenRequest = new ClientTokenRequest();
 
-        Optional<String> token = Optional.ofNullable(braintreeGatewayService.getBraintreeGateway().clientToken().generate(clientTokenRequest));
+        Optional<String> token = Optional.ofNullable(braintreeGatewayService
+                .getBraintreeGateway()
+                .clientToken()
+                .generate(clientTokenRequest));
 
         return token.orElseThrow(() -> new PaymentException("Customer id is not valid"));
     }
 
     @Override
+    public String fetchToken() throws PaymentException {
+
+        return braintreeGatewayService
+                .getBraintreeGateway()
+                .clientToken()
+                .generate();
+    }
+
+    @Override
     public Customer findCustomer(String customerId) throws PaymentException {
         try {
-            return braintreeGatewayService.getBraintreeGateway().customer().find(customerId);
+            return braintreeGatewayService
+                    .getBraintreeGateway()
+                    .customer()
+                    .find(customerId);
         } catch (NotFoundException ex) {
 
             throw new PaymentException(ex);
@@ -68,7 +82,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Result<Customer> updateCustomer( PaymentStatusDTO paymentStatusDTO,  PaymentDetailsDTO paymentDetailsDTO) {
+    public Result<Customer> updateCustomer(PaymentStatusDTO paymentStatusDTO, PaymentDetailsDTO paymentDetailsDTO) {
         CustomerRequest updateCustomerRequest = new CustomerRequest()
                 .firstName(paymentDetailsDTO.getFirstName())
                 .lastName(paymentDetailsDTO.getLastName())
