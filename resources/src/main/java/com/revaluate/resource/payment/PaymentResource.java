@@ -32,6 +32,7 @@ public class PaymentResource extends Resource {
     private static final String FETCH_CUSTOMER_TOKEN = "fetchCustomerToken";
     private static final String CREATE_PAYMENT_STATUS = "createPaymentStatus";
     private static final String FETCH_PAYMENT_INSIGHTS = "fetchPaymentInsights";
+    private static final String SUBSCRIBE_TO_STANDARD_PLAN = "subscribeToStandardPlan";
 
     @Autowired
     private PaymentService paymentService;
@@ -62,9 +63,19 @@ public class PaymentResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(CREATE_PAYMENT_STATUS)
-    public Response create(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
+    public Response createPaymentDetails(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
         PaymentStatusDTO paymentStatus = paymentStatusService.createPaymentStatus(paymentDetailsDTO, getCurrentUserId());
         PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.fetchPaymentInsightsFor(paymentStatus.getCustomerId());
+
+        return Responses.respond(Response.Status.OK, paymentInsightsDTO);
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(SUBSCRIBE_TO_STANDARD_PLAN)
+    public Response subscribeToStandardPlan(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
+        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.subscribeToStandardPlan(getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, paymentInsightsDTO);
     }

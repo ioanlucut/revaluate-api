@@ -240,7 +240,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
-    public PaymentStatusDTO createPaymentMethod(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
+    public PaymentStatusDTO updatePaymentMethod(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
         PaymentStatusDTO paymentStatusDTOByUserId = findOneByUserId(userId);
         Result<? extends PaymentMethod> paymentMethodResult = paymentService.updatePaymentMethod(paymentStatusDTOByUserId, paymentDetailsDTO);
         //-----------------------------------------------------------------
