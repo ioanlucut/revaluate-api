@@ -1,15 +1,15 @@
 package com.revaluate.resource.payment;
 
-import com.braintreegateway.ClientTokenRequest;
-import com.braintreegateway.Customer;
-import com.braintreegateway.CustomerRequest;
-import com.braintreegateway.Result;
+import com.braintreegateway.*;
 import com.braintreegateway.exceptions.NotFoundException;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
+import com.revaluate.domain.payment.PaymentStatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
@@ -58,4 +58,32 @@ public class PaymentServiceImpl implements PaymentService {
                 .customer()
                 .create(customerRequest);
     }
+
+    @Override
+    public Result<Customer> updateCustomer(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) {
+        CustomerRequest updateCustomerRequest = new CustomerRequest()
+                .firstName(paymentDetailsDTO.getFirstName())
+                .lastName(paymentDetailsDTO.getLastName())
+                .email(paymentDetailsDTO.getEmail());
+
+        return braintreeGatewayService
+                .getBraintreeGateway()
+                .customer()
+                .update(paymentStatusDTO.getCustomerId(), updateCustomerRequest);
+    }
+
+    @Override
+    public Result<? extends  PaymentMethod> updatePaymentMethod(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) {
+        PaymentMethodRequest paymentMethodRequest = new PaymentMethodRequest()
+                .paymentMethodNonce(paymentDetailsDTO.getPaymentMethodNonce())
+                    .options()
+                        .verifyCard(Boolean.TRUE)
+                    .done();
+
+        return braintreeGatewayService
+                .getBraintreeGateway()
+                .paymentMethod()
+                .update(paymentStatusDTO.getPaymentMethodToken(), paymentMethodRequest);
+    }
+
 }
