@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
@@ -40,6 +38,15 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    public ResourceCollection<Transaction> findTransactions(String customerId) {
+        TransactionSearchRequest request = new TransactionSearchRequest()
+                .customerId()
+                .is(customerId);
+
+        return braintreeGatewayService.getBraintreeGateway().transaction().search(request);
+    }
+
+    @Override
     public Result<Customer> createPaymentStatus(PaymentDetailsDTO paymentDetailsDTO) {
         CustomerRequest customerRequest = new CustomerRequest()
                 .firstName(paymentDetailsDTO.getFirstName())
@@ -61,7 +68,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Result<Customer> updateCustomer(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) {
+    public Result<Customer> updateCustomer( PaymentStatusDTO paymentStatusDTO,  PaymentDetailsDTO paymentDetailsDTO) {
         CustomerRequest updateCustomerRequest = new CustomerRequest()
                 .firstName(paymentDetailsDTO.getFirstName())
                 .lastName(paymentDetailsDTO.getLastName())
@@ -74,7 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Result<? extends  PaymentMethod> updatePaymentMethod(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) {
+    public Result<? extends PaymentMethod> updatePaymentMethod(PaymentStatusDTO paymentStatusDTO, PaymentDetailsDTO paymentDetailsDTO) {
         PaymentMethodRequest paymentMethodRequest = new PaymentMethodRequest()
                 .paymentMethodNonce(paymentDetailsDTO.getPaymentMethodNonce())
                     .options()

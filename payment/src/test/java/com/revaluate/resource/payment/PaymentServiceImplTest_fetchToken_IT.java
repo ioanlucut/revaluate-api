@@ -1,5 +1,8 @@
 package com.revaluate.resource.payment;
 
+import com.braintreegateway.Customer;
+import com.braintreegateway.ResourceCollection;
+import com.braintreegateway.Transaction;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -31,9 +34,23 @@ public class PaymentServiceImplTest_fetchToken_IT {
 
     @Test
     public void fetchToken_validCustomerId_isOk() throws Exception {
-        String customerId = paymentService.fetchToken(SANDBOX_CUSTOMER_ID);
+        String customerIdToken = paymentService.fetchToken(SANDBOX_CUSTOMER_ID);
 
-        assertThat(customerId, is(notNullValue()));
+        assertThat(customerIdToken, is(notNullValue()));
+    }
+
+    @Test
+    public void fetchCustomer_validCustomerId_isOk() throws Exception {
+        Customer customer = paymentService.findCustomer(SANDBOX_CUSTOMER_ID);
+
+        assertThat(customer, is(notNullValue()));
+    }
+
+    @Test
+    public void findTransactions_validCustomerId_isOk() throws Exception {
+        ResourceCollection<Transaction> transactions = paymentService.findTransactions(SANDBOX_CUSTOMER_ID);
+
+        assertThat(transactions, is(notNullValue()));
     }
 
     @Test

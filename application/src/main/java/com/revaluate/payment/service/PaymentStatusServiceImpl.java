@@ -6,18 +6,24 @@ import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.domain.account.UserSubscriptionStatus;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
 import com.revaluate.domain.payment.PaymentStatusDTO;
+import com.revaluate.domain.payment.insights.*;
 import com.revaluate.payment.exception.PaymentStatusException;
 import com.revaluate.payment.persistence.PaymentStatus;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
+import com.revaluate.resource.payment.PaymentException;
 import com.revaluate.resource.payment.PaymentService;
 import org.dozer.DozerBeanMapper;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @Validated
@@ -44,11 +50,70 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
+    public PaymentInsightsDTO fetchPaymentInsightsFor(String customerId) throws PaymentStatusException {
+        try {
+            //-----------------------------------------------------------------
+            // Fetch customer details
+            //-----------------------------------------------------------------
+            Customer customer = paymentService.findCustomer(customerId);
+            PaymentCustomerDTO paymentCustomerDTO = new PaymentCustomerDTOBuilder()
+                    .withEmail(customer.getEmail())
+                    .withFirstName(customer.getFirstName())
+                    .withLastName(customer.getLastName())
+                    .build();
+
+            //-----------------------------------------------------------------
+            // Fetch transactions
+            //-----------------------------------------------------------------
+            ResourceCollection<Transaction> resourceCollection = paymentService.findTransactions(customerId);
+            List<Transaction> transactions = StreamSupport.stream(
+                    Spliterators.spliteratorUnknownSize(resourceCollection.iterator(), Spliterator.ORDERED),
+                    Boolean.FALSE).collect(Collectors.toList());
+
+            List<PaymentTransactionDTO> paymentTransactions = transactions
+                    .stream()
+                    .map(transaction -> new PaymentTransactionDTOBuilder()
+                            .withId(transaction.getId())
+                            .withAmount(transaction.getAmount().doubleValue())
+                            .withCurrencyCode(transaction.getCurrencyIsoCode())
+                            .withRecurring(transaction.getRecurring())
+                            .withStatus(transaction.getStatus().toString())
+                            .withCreatedAt(LocalDateTime.fromDateFields((transaction.getCreatedAt().getTime())))
+                            .build())
+                    .collect(Collectors.toList());
+
+            //-----------------------------------------------------------------
+            // Fetch payment details
+            //-----------------------------------------------------------------
+            List<PaymentMethodDTO> paymentMethods = customer
+                    .getCreditCards()
+                    .stream()
+                    .map(creditCard -> new PaymentMethodDTOBuilder()
+                            .withBin(creditCard.getBin())
+                            .withCardType(creditCard.getCardType())
+                            .withExpirationMonth(creditCard.getExpirationMonth())
+                            .withExpirationYear(creditCard.getExpirationYear())
+                            .withImageUrl(creditCard.getImageUrl())
+                            .withLast4(creditCard.getLast4())
+                            .build())
+                    .collect(Collectors.toList());
+
+            return new PaymentInsightsDTOBuilder()
+                    .withPaymentCustomerDTO(paymentCustomerDTO)
+                    .withPaymentMethodDTOs(paymentMethods)
+                    .withPaymentTransactionDTOs(paymentTransactions)
+                    .build();
+        } catch (PaymentException ex) {
+
+            throw new PaymentStatusException(ex);
+        }
+    }
+
+    @Override
     public PaymentStatusDTO findOneByUserId(int userId) throws PaymentStatusException {
         Optional<PaymentStatus> byCurrencyCode = paymentStatusRepository.findOneByUserId(userId);
 
         return dozerBeanMapper.map(byCurrencyCode.orElseThrow(() -> new PaymentStatusException("There is no payment status for this user")), PaymentStatusDTO.class);
-
     }
 
     @Override

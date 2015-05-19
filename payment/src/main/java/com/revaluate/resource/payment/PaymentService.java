@@ -1,8 +1,6 @@
 package com.revaluate.resource.payment;
 
-import com.braintreegateway.Customer;
-import com.braintreegateway.PaymentMethod;
-import com.braintreegateway.Result;
+import com.braintreegateway.*;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
 import com.revaluate.domain.payment.PaymentStatusDTO;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -15,6 +13,8 @@ public interface PaymentService {
     String fetchToken(@NotEmpty String customerId) throws PaymentException;
 
     Customer findCustomer(@NotEmpty String customerId) throws PaymentException;
+
+    ResourceCollection<Transaction> findTransactions(@NotEmpty String customerId);
 
     @NotNull
     Result<Customer> createPaymentStatus(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO);
