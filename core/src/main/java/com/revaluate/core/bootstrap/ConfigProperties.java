@@ -42,6 +42,9 @@ public class ConfigProperties {
     @Value("${commonEmailsRecipient}")
     private String commonEmailsRecipient;
 
+    @Value("${braintreePlanId}")
+    private String braintreePlanId;
+
     public boolean isProduction() {
         return isProduction;
     }
@@ -121,6 +124,14 @@ public class ConfigProperties {
 
     public void setSkipSendEmail(boolean skipSendEmail) {
         this.skipSendEmail = skipSendEmail;
+    }
+
+    public String getBraintreePlanId() {
+        return braintreePlanId;
+    }
+
+    public void setBraintreePlanId(String braintreePlanId) {
+        this.braintreePlanId = braintreePlanId;
     }
 
     @Override

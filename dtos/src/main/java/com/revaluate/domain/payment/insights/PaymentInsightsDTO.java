@@ -1,7 +1,6 @@
 package com.revaluate.domain.payment.insights;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -21,9 +20,6 @@ public class PaymentInsightsDTO {
     @NotNull
     @Valid
     private List<PaymentTransactionDTO> paymentTransactionDTOs;
-
-    @NotEmpty
-    private String clientToken;
 
     public PaymentCustomerDTO getPaymentCustomerDTO() {
         return paymentCustomerDTO;
@@ -49,21 +45,12 @@ public class PaymentInsightsDTO {
         this.paymentTransactionDTOs = paymentTransactionDTOs;
     }
 
-    public String getClientToken() {
-        return clientToken;
-    }
-
-    public void setClientToken(String clientToken) {
-        this.clientToken = clientToken;
-    }
-
     @Override
     public String toString() {
         return "PaymentInsightsDTO{" +
                 "paymentCustomerDTO=" + paymentCustomerDTO +
                 ", paymentMethodDTOs=" + paymentMethodDTOs +
                 ", paymentTransactionDTOs=" + paymentTransactionDTOs +
-                ", clientToken='" + clientToken + '\'' +
                 '}';
     }
 }

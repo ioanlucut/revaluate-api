@@ -29,6 +29,7 @@ public class PaymentResource extends Resource {
     // Sub paths
     //-----------------------------------------------------------------
     private static final String FETCH_TOKEN = "fetchToken";
+    private static final String FETCH_CUSTOMER_TOKEN = "fetchCustomerToken";
     private static final String CREATE_PAYMENT_STATUS = "createPaymentStatus";
     private static final String FETCH_PAYMENT_INSIGHTS = "fetchPaymentInsights";
 
@@ -41,16 +42,20 @@ public class PaymentResource extends Resource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
+    @Path(FETCH_CUSTOMER_TOKEN)
+    public Response fetchCustomerToken() throws PaymentStatusException, PaymentException {
+        PaymentStatusDTO paymentStatus = paymentStatusService.findOneByUserId(getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, paymentService.fetchToken(paymentStatus.getCustomerId()));
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
     @Path(FETCH_TOKEN)
     public Response fetchToken() throws PaymentStatusException, PaymentException {
-        try {
-            PaymentStatusDTO paymentStatus = paymentStatusService.findOneByUserId(getCurrentUserId());
 
-            return Responses.respond(Response.Status.OK, paymentService.fetchToken(paymentStatus.getCustomerId()));
-        } catch (PaymentStatusException ex) {
-
-            return Responses.respond(Response.Status.OK, paymentService.fetchToken());
-        }
+        return Responses.respond(Response.Status.OK, paymentService.fetchToken());
     }
 
     @POST

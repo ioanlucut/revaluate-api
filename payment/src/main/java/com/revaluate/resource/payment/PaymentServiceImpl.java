@@ -2,6 +2,7 @@ package com.revaluate.resource.payment;
 
 import com.braintreegateway.*;
 import com.braintreegateway.exceptions.NotFoundException;
+import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
 import com.revaluate.domain.payment.PaymentStatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private BraintreeGatewayService braintreeGatewayService;
+
+    @Autowired
+    private ConfigProperties configProperties;
 
     @Override
     public String fetchToken(String customerId) throws PaymentException {
@@ -57,7 +61,10 @@ public class PaymentServiceImpl implements PaymentService {
                 .customerId()
                 .is(customerId);
 
-        return braintreeGatewayService.getBraintreeGateway().transaction().search(request);
+        return braintreeGatewayService
+                .getBraintreeGateway()
+                .transaction()
+                .search(request);
     }
 
     @Override
@@ -79,6 +86,34 @@ public class PaymentServiceImpl implements PaymentService {
                 .getBraintreeGateway()
                 .customer()
                 .create(customerRequest);
+    }
+
+    @Override
+    public Result<Subscription> subscribeToStandardPlan(PaymentStatusDTO paymentStatusDTO, Customer customer) throws PaymentException {
+        //-----------------------------------------------------------------
+        // We check if there is a plan with given plan ID
+        //-----------------------------------------------------------------
+        String planId = braintreeGatewayService
+                .getBraintreeGateway()
+                .plan()
+                .all()
+                .stream()
+                .filter(plan -> plan.getId().equals(configProperties.getBraintreePlanId()))
+                .findAny()
+                .map(Plan::getId)
+                .orElseThrow(() -> new PaymentException("No plan found"));
+
+        //-----------------------------------------------------------------
+        // Subscription request
+        //-----------------------------------------------------------------
+        SubscriptionRequest subscriptionRequest = new SubscriptionRequest()
+                .paymentMethodToken(paymentStatusDTO.getPaymentMethodToken())
+                .planId(planId);
+
+        return braintreeGatewayService
+                .getBraintreeGateway()
+                .subscription()
+                .create(subscriptionRequest);
     }
 
     @Override
