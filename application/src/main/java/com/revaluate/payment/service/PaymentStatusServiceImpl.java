@@ -1,9 +1,6 @@
 package com.revaluate.payment.service;
 
-import com.braintreegateway.CreditCard;
-import com.braintreegateway.Customer;
-import com.braintreegateway.Result;
-import com.braintreegateway.ValidationError;
+import com.braintreegateway.*;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.domain.account.UserSubscriptionStatus;
@@ -101,6 +98,77 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
         //-----------------------------------------------------------------
         user.setUserSubscriptionStatus(UserSubscriptionStatus.ACTIVE);
         userRepository.save(user);
+
+        return dozerBeanMapper.map(savedPaymentStatus, PaymentStatusDTO.class);
+    }
+
+    @Override
+    public PaymentStatusDTO updateCustomer(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
+        PaymentStatusDTO paymentStatusDTOByUserId = findOneByUserId(userId);
+        Result<Customer> customerResult = paymentService.updateCustomer(paymentStatusDTOByUserId, paymentDetailsDTO);
+
+        //-----------------------------------------------------------------
+        // Throw exception if not successful
+        //-----------------------------------------------------------------
+        if (!customerResult.isSuccess()) {
+            List<String> errors = customerResult
+                    .getErrors()
+                    .getAllDeepValidationErrors()
+                    .stream()
+                    .map(ValidationError::getMessage)
+                    .collect(Collectors.toList());
+
+            throw new PaymentStatusException(errors);
+        }
+        Customer customer = customerResult.getTarget();
+
+        Optional<PaymentStatus> byCurrencyCode = paymentStatusRepository.findOneByUserId(userId);
+        PaymentStatus paymentStatus = byCurrencyCode.orElseThrow(() -> new PaymentStatusException("There is no payment status for this user"));
+
+        //-----------------------------------------------------------------
+        // Set customer id
+        //-----------------------------------------------------------------
+        paymentStatus.setCustomerId(customer.getId());
+
+        //-----------------------------------------------------------------
+        // Save and return
+        //-----------------------------------------------------------------
+        PaymentStatus savedPaymentStatus = paymentStatusRepository.save(paymentStatus);
+
+        return dozerBeanMapper.map(savedPaymentStatus, PaymentStatusDTO.class);
+    }
+
+    @Override
+    public PaymentStatusDTO createPaymentMethod(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
+        PaymentStatusDTO paymentStatusDTOByUserId = findOneByUserId(userId);
+        Result<? extends PaymentMethod> paymentMethodResult = paymentService.updatePaymentMethod(paymentStatusDTOByUserId, paymentDetailsDTO);
+        //-----------------------------------------------------------------
+        // Throw exception if not successful
+        //-----------------------------------------------------------------
+        if (!paymentMethodResult.isSuccess()) {
+            List<String> errors = paymentMethodResult
+                    .getErrors()
+                    .getAllDeepValidationErrors()
+                    .stream()
+                    .map(ValidationError::getMessage)
+                    .collect(Collectors.toList());
+
+            throw new PaymentStatusException(errors);
+        }
+        PaymentMethod paymentMethod = paymentMethodResult.getTarget();
+
+        Optional<PaymentStatus> byCurrencyCode = paymentStatusRepository.findOneByUserId(userId);
+        PaymentStatus paymentStatus = byCurrencyCode.orElseThrow(() -> new PaymentStatusException("There is no payment status for this user"));
+
+        //-----------------------------------------------------------------
+        // Set newly payment token id
+        //-----------------------------------------------------------------
+        paymentStatus.setPaymentMethodToken(paymentMethod.getToken());
+
+        //-----------------------------------------------------------------
+        // Save and return
+        //-----------------------------------------------------------------
+        PaymentStatus savedPaymentStatus = paymentStatusRepository.save(paymentStatus);
 
         return dozerBeanMapper.map(savedPaymentStatus, PaymentStatusDTO.class);
     }
