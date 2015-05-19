@@ -18,7 +18,7 @@ public class PaymentStatusServiceImplTest_fetchPaymentInsightsFor_IT extends Abs
 
     @Test
     public void fetchPaymentInsightsFor__validCustomerId__isOk() throws Exception {
-        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.fetchPaymentInsightsFor(SANDBOX_CUSTOMER_ID);
+        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.fetchPaymentInsights(SANDBOX_CUSTOMER_ID);
         assertThat(paymentInsightsDTO, is(notNullValue()));
         assertThat(paymentInsightsDTO.getPaymentCustomerDTO(), is(notNullValue()));
         assertThat(paymentInsightsDTO.getPaymentMethodDTOs(), is(notNullValue()));

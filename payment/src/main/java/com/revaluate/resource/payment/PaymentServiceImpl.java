@@ -90,6 +90,21 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Result<Subscription> subscribeToStandardPlan(PaymentStatusDTO paymentStatusDTO) throws PaymentException {
+        Customer customer = findCustomer(paymentStatusDTO.getCustomerId());
+        boolean isAlreadySubscriptionDefined = customer
+                .getCreditCards()
+                .stream()
+                .flatMap(creditCard -> creditCard.getSubscriptions().stream())
+                .anyMatch(subscription -> subscription.getPlanId().equals(configProperties.getBraintreePlanId()));
+
+        //-----------------------------------------------------------------
+        // Throw exception if someone tries to add subscription again
+        //-----------------------------------------------------------------
+        if (isAlreadySubscriptionDefined) {
+
+            throw new PaymentException("Subscription already defined");
+        }
+
         //-----------------------------------------------------------------
         // We check if there is a plan with given plan ID
         //-----------------------------------------------------------------
