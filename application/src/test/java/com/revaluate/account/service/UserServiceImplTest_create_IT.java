@@ -6,6 +6,7 @@ import com.revaluate.account.persistence.Email;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
+import com.revaluate.domain.account.UserSubscriptionStatus;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.email.EmailType;
 import org.junit.Test;
@@ -42,6 +43,19 @@ public class UserServiceImplTest_create_IT extends AbstractIntegrationTests {
         assertThat(oneByEmail.isPresent(), is(true));
         Optional<Email> oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, oneByEmail.get().getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
+    }
+
+    @Test
+    public void create_validDetailsTrialStatusIsSet_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Assert that trial status is set
+        //-----------------------------------------------------------------
+        assertThat(createdUserDTO.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
     }
 
     @Test
