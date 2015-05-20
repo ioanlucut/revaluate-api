@@ -30,7 +30,12 @@ public class ColorConverter extends DozerConverter<ColorDTO, Color> {
     @Override
     public ColorDTO convertFrom(Color source, ColorDTO destination) {
 
-        return new ColorDTOBuilder().withId(source.getId()).withColor(source.getColor()).build();
+        return new ColorDTOBuilder()
+                .withId(source.getId())
+                .withColorName(source.getColorName())
+                .withPriority(source.getPriority())
+                .withColor(source.getColor())
+                .build();
     }
 
 }

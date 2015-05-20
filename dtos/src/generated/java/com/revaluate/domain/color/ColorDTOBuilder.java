@@ -10,6 +10,10 @@ public class ColorDTOBuilder
   protected boolean isSet$id$int;
   protected String value$color$java$lang$String;
   protected boolean isSet$color$java$lang$String;
+  protected String value$colorName$java$lang$String;
+  protected boolean isSet$colorName$java$lang$String;
+  protected int value$priority$int;
+  protected boolean isSet$priority$int;
 
   /**
    * Creates a new {@link ColorDTOBuilder}.
@@ -39,6 +43,30 @@ public class ColorDTOBuilder
   public ColorDTOBuilder withColor(String value) {
     this.value$color$java$lang$String = value;
     this.isSet$color$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link ColorDTO#colorName} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public ColorDTOBuilder withColorName(String value) {
+    this.value$colorName$java$lang$String = value;
+    this.isSet$colorName$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link ColorDTO#priority} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public ColorDTOBuilder withPriority(int value) {
+    this.value$priority$int = value;
+    this.isSet$priority$int = true;
     return self;
   }
 
@@ -80,6 +108,12 @@ public class ColorDTOBuilder
       }
       if (isSet$color$java$lang$String) {
         result.setColor(value$color$java$lang$String);
+      }
+      if (isSet$colorName$java$lang$String) {
+        result.setColorName(value$colorName$java$lang$String);
+      }
+      if (isSet$priority$int) {
+        result.setPriority(value$priority$int);
       }
       return result;
     } catch (RuntimeException ex) {
