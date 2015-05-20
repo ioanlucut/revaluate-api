@@ -79,7 +79,7 @@ public class PaymentStatusServiceImplTest_createPaymentStatus_IT extends Abstrac
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
         assertThat(user, is(notNullValue()));
-        assertThat(user.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.ACTIVE)));
+        assertThat(user.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
     }
 
     @Test

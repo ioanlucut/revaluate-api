@@ -8,7 +8,8 @@ public class Responses {
 
     public static Response respond(Response.Status status, String answer) {
         if (StringUtils.isNotBlank(answer)) {
-            return Response.status(status).entity(new Answer(answer)).build();
+
+            return respond(status, new Answer(answer));
         }
 
         return Response.status(status).build();
