@@ -2,6 +2,8 @@ package com.revaluate.resource.payment;
 
 import com.revaluate.domain.payment.PaymentDetailsDTO;
 import com.revaluate.domain.payment.PaymentStatusDTO;
+import com.revaluate.domain.payment.PaymentTokenDTO;
+import com.revaluate.domain.payment.PaymentTokenDTOBuilder;
 import com.revaluate.domain.payment.insights.PaymentInsightsDTO;
 import com.revaluate.payment.exception.PaymentStatusException;
 import com.revaluate.payment.service.PaymentStatusService;
@@ -46,8 +48,9 @@ public class PaymentResource extends Resource {
     @Path(FETCH_CUSTOMER_TOKEN)
     public Response fetchCustomerToken() throws PaymentStatusException, PaymentException {
         PaymentStatusDTO paymentStatus = paymentStatusService.findPaymentStatus(getCurrentUserId());
+        PaymentTokenDTO paymentTokenDTO = new PaymentTokenDTOBuilder().withClientToken(paymentService.fetchToken(paymentStatus.getCustomerId())).build();
 
-        return Responses.respond(Response.Status.OK, paymentService.fetchToken(paymentStatus.getCustomerId()));
+        return Responses.respond(Response.Status.OK, paymentTokenDTO);
     }
 
     @POST
@@ -55,8 +58,9 @@ public class PaymentResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(FETCH_TOKEN)
     public Response fetchToken() throws PaymentStatusException, PaymentException {
+        PaymentTokenDTO paymentTokenDTO = new PaymentTokenDTOBuilder().withClientToken(paymentService.fetchToken()).build();
 
-        return Responses.respond(Response.Status.OK, paymentService.fetchToken());
+        return Responses.respond(Response.Status.OK, paymentTokenDTO);
     }
 
     @POST
@@ -64,17 +68,16 @@ public class PaymentResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(CREATE_PAYMENT_STATUS)
     public Response createPaymentDetails(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
-        PaymentStatusDTO paymentStatus = paymentStatusService.createPaymentStatus(paymentDetailsDTO, getCurrentUserId());
-        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.fetchPaymentInsights(paymentStatus.getCustomerId());
+        paymentStatusService.createPaymentStatus(paymentDetailsDTO, getCurrentUserId());
 
-        return Responses.respond(Response.Status.OK, paymentInsightsDTO);
+        return Responses.respond(Response.Status.OK, "Payment details successful created.");
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(SUBSCRIBE_TO_STANDARD_PLAN)
-    public Response subscribeToStandardPlan(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
+    public Response subscribeToStandardPlan() throws PaymentStatusException {
         PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.subscribeToStandardPlan(getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, paymentInsightsDTO);

@@ -57,6 +57,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
             //-----------------------------------------------------------------
             Customer customer = paymentService.findCustomer(customerId);
             PaymentCustomerDTO paymentCustomerDTO = new PaymentCustomerDTOBuilder()
+                    .withId(customer.getId())
                     .withEmail(customer.getEmail())
                     .withFirstName(customer.getFirstName())
                     .withLastName(customer.getLastName())
@@ -127,15 +128,16 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
             // Throw exception if not successful
             //-----------------------------------------------------------------
             if (!subscriptionResult.isSuccess()) {
-                List<String> errors = subscriptionResult
-                        .getErrors()
-                        .getAllDeepValidationErrors()
-                        .stream()
-                        .map(ValidationError::getMessage)
-                        .collect(Collectors.toList());
 
-                throw new PaymentStatusException(errors);
+                throwExceptionWithGivenPaymentValidationErrors(subscriptionResult);
             }
+
+            //-----------------------------------------------------------------
+            // Update the user with the subscription status
+            //-----------------------------------------------------------------
+            User user = userRepository.findOne(userId);
+            user.setUserSubscriptionStatus(UserSubscriptionStatus.ACTIVE);
+            userRepository.save(user);
 
             return fetchPaymentInsights(paymentStatusDTO.getCustomerId());
 
@@ -154,24 +156,27 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
 
     @Override
     public PaymentStatusDTO createPaymentStatus(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
+        //-----------------------------------------------------------------
+        // Do not allow another payment status entry to be added for the same user.
+        //-----------------------------------------------------------------
+        Optional<PaymentStatus> byUserId = paymentStatusRepository.findOneByUserId(userId);
+        if (byUserId.isPresent()) {
+
+            throw new PaymentStatusException("There is already a payment method defined.");
+        }
+
         Result<Customer> customerResult = paymentService.createCustomerWithPaymentMethod(paymentDetailsDTO);
 
         //-----------------------------------------------------------------
         // Throw exception if not successful
         //-----------------------------------------------------------------
         if (!customerResult.isSuccess()) {
-            List<String> errors = customerResult
-                    .getErrors()
-                    .getAllDeepValidationErrors()
-                    .stream()
-                    .map(ValidationError::getMessage)
-                    .collect(Collectors.toList());
 
-            throw new PaymentStatusException(errors);
+            throwExceptionWithGivenPaymentValidationErrors(customerResult);
         }
         Customer customer = customerResult.getTarget();
-
         PaymentStatus paymentStatus = new PaymentStatus();
+
         //-----------------------------------------------------------------
         // Set user
         //-----------------------------------------------------------------
@@ -194,17 +199,14 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
         //-----------------------------------------------------------------
         PaymentStatus savedPaymentStatus = paymentStatusRepository.save(paymentStatus);
 
-        //-----------------------------------------------------------------
-        // Update the user with the subscription status
-        //-----------------------------------------------------------------
-        user.setUserSubscriptionStatus(UserSubscriptionStatus.ACTIVE);
-        userRepository.save(user);
-
         return dozerBeanMapper.map(savedPaymentStatus, PaymentStatusDTO.class);
     }
 
     @Override
     public PaymentStatusDTO updateCustomer(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
+        //-----------------------------------------------------------------
+        // Fetch the payment status for this user id. If not present, exception is thrown
+        //-----------------------------------------------------------------
         PaymentStatusDTO paymentStatusDTOByUserId = findPaymentStatus(userId);
         Result<Customer> customerResult = paymentService.updateCustomerDetails(paymentStatusDTOByUserId, paymentDetailsDTO);
 
@@ -212,14 +214,8 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
         // Throw exception if not successful
         //-----------------------------------------------------------------
         if (!customerResult.isSuccess()) {
-            List<String> errors = customerResult
-                    .getErrors()
-                    .getAllDeepValidationErrors()
-                    .stream()
-                    .map(ValidationError::getMessage)
-                    .collect(Collectors.toList());
 
-            throw new PaymentStatusException(errors);
+            throwExceptionWithGivenPaymentValidationErrors(customerResult);
         }
         Customer customer = customerResult.getTarget();
 
@@ -247,14 +243,8 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
         // Throw exception if not successful
         //-----------------------------------------------------------------
         if (!paymentMethodResult.isSuccess()) {
-            List<String> errors = paymentMethodResult
-                    .getErrors()
-                    .getAllDeepValidationErrors()
-                    .stream()
-                    .map(ValidationError::getMessage)
-                    .collect(Collectors.toList());
 
-            throw new PaymentStatusException(errors);
+            throwExceptionWithGivenPaymentValidationErrors(paymentMethodResult);
         }
         PaymentMethod paymentMethod = paymentMethodResult.getTarget();
 
@@ -272,5 +262,16 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
         PaymentStatus savedPaymentStatus = paymentStatusRepository.save(paymentStatus);
 
         return dozerBeanMapper.map(savedPaymentStatus, PaymentStatusDTO.class);
+    }
+
+    private void throwExceptionWithGivenPaymentValidationErrors(Result<?> result) throws PaymentStatusException {
+        List<String> errors = result
+                .getErrors()
+                .getAllDeepValidationErrors()
+                .stream()
+                .map(ValidationError::getMessage)
+                .collect(Collectors.toList());
+
+        throw new PaymentStatusException(errors);
     }
 }

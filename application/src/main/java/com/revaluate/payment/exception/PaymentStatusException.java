@@ -25,6 +25,7 @@ public class PaymentStatusException extends Exception {
 
     public PaymentStatusException(List<String> errors) {
         super();
+        this.errors = errors;
     }
 
     protected PaymentStatusException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {

@@ -6,8 +6,8 @@ import javax.annotation.Generated;
 public class PaymentCustomerDTOBuilder
     implements Cloneable {
   protected PaymentCustomerDTOBuilder self;
-  protected int value$id$int;
-  protected boolean isSet$id$int;
+  protected String value$id$java$lang$String;
+  protected boolean isSet$id$java$lang$String;
   protected String value$firstName$java$lang$String;
   protected boolean isSet$firstName$java$lang$String;
   protected String value$lastName$java$lang$String;
@@ -28,9 +28,9 @@ public class PaymentCustomerDTOBuilder
    * @param value the default value
    * @return this builder
    */
-  public PaymentCustomerDTOBuilder withId(int value) {
-    this.value$id$int = value;
-    this.isSet$id$int = true;
+  public PaymentCustomerDTOBuilder withId(String value) {
+    this.value$id$java$lang$String = value;
+    this.isSet$id$java$lang$String = true;
     return self;
   }
 
@@ -103,8 +103,8 @@ public class PaymentCustomerDTOBuilder
   public PaymentCustomerDTO build() {
     try {
       PaymentCustomerDTO result = new PaymentCustomerDTO();
-      if (isSet$id$int) {
-        result.setId(value$id$int);
+      if (isSet$id$java$lang$String) {
+        result.setId(value$id$java$lang$String);
       }
       if (isSet$firstName$java$lang$String) {
         result.setFirstName(value$firstName$java$lang$String);

@@ -14,6 +14,10 @@ public class PaymentStatusExceptionExceptionMapper implements ExceptionMapper<Pa
 
     public Response toResponse(PaymentStatusException ex) {
 
-        return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
+        if (ex.getErrors() == null || ex.getErrors().isEmpty()) {
+            return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
+        }
+        
+        return Responses.respond(Response.Status.BAD_REQUEST, ex.getErrors());
     }
 }
