@@ -1,6 +1,8 @@
 package com.revaluate.payment.service;
 
+import com.revaluate.domain.payment.PaymentCustomerDetailsDTO;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
+import com.revaluate.domain.payment.PaymentNonceDetailsDTO;
 import com.revaluate.domain.payment.PaymentStatusDTO;
 import com.revaluate.domain.payment.insights.PaymentInsightsDTO;
 import com.revaluate.payment.exception.PaymentStatusException;
@@ -20,12 +22,14 @@ public interface PaymentStatusService {
     @NotNull
     PaymentStatusDTO findPaymentStatus(int userId) throws PaymentStatusException;
 
+    boolean isPaymentStatusDefined(int userId);
+
     @NotNull
     PaymentStatusDTO createPaymentStatus(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException;
 
     @NotNull
-    PaymentStatusDTO updateCustomer(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException;
+    PaymentStatusDTO updateCustomer(@NotNull @Valid PaymentCustomerDetailsDTO paymentCustomerDetailsDTO, int userId) throws PaymentStatusException;
 
     @NotNull
-    PaymentStatusDTO updatePaymentMethod(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException;
+    PaymentStatusDTO updatePaymentMethod(@NotNull @Valid PaymentNonceDetailsDTO paymentNonceDetailsDTO, int userId) throws PaymentStatusException;
 }

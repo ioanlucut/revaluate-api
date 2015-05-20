@@ -1,7 +1,9 @@
 package com.revaluate.resource.payment;
 
 import com.braintreegateway.*;
+import com.revaluate.domain.payment.PaymentCustomerDetailsDTO;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
+import com.revaluate.domain.payment.PaymentNonceDetailsDTO;
 import com.revaluate.domain.payment.PaymentStatusDTO;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -25,8 +27,8 @@ public interface PaymentService {
     Result<Subscription> subscribeToStandardPlan(@NotNull @Valid PaymentStatusDTO paymentStatusDTO) throws PaymentException;
 
     @NotNull
-    Result<Customer> updateCustomerDetails(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentDetailsDTO paymentDetailsDTO);
+    Result<Customer> updateCustomerDetails(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentCustomerDetailsDTO paymentCustomerDetailsDTO);
 
     @NotNull
-    Result<? extends PaymentMethod> updatePaymentMethod(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentDetailsDTO paymentDetailsDTO);
+    Result<? extends PaymentMethod> updatePaymentMethod(@NotNull @Valid PaymentStatusDTO paymentStatusDTO, @NotNull @Valid PaymentNonceDetailsDTO paymentNonceDetailsDTO);
 }

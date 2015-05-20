@@ -4,7 +4,9 @@ import com.braintreegateway.*;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.domain.account.UserSubscriptionStatus;
+import com.revaluate.domain.payment.PaymentCustomerDetailsDTO;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
+import com.revaluate.domain.payment.PaymentNonceDetailsDTO;
 import com.revaluate.domain.payment.PaymentStatusDTO;
 import com.revaluate.domain.payment.insights.*;
 import com.revaluate.payment.exception.PaymentStatusException;
@@ -155,6 +157,12 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
+    public boolean isPaymentStatusDefined(int userId) {
+
+        return paymentStatusRepository.findOneByUserId(userId).isPresent();
+    }
+
+    @Override
     public PaymentStatusDTO createPaymentStatus(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
         //-----------------------------------------------------------------
         // Do not allow another payment status entry to be added for the same user.
@@ -203,12 +211,12 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
-    public PaymentStatusDTO updateCustomer(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
+    public PaymentStatusDTO updateCustomer(PaymentCustomerDetailsDTO paymentCustomerDetailsDTO, int userId) throws PaymentStatusException {
         //-----------------------------------------------------------------
         // Fetch the payment status for this user id. If not present, exception is thrown
         //-----------------------------------------------------------------
         PaymentStatusDTO paymentStatusDTOByUserId = findPaymentStatus(userId);
-        Result<Customer> customerResult = paymentService.updateCustomerDetails(paymentStatusDTOByUserId, paymentDetailsDTO);
+        Result<Customer> customerResult = paymentService.updateCustomerDetails(paymentStatusDTOByUserId, paymentCustomerDetailsDTO);
 
         //-----------------------------------------------------------------
         // Throw exception if not successful
@@ -236,9 +244,9 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
-    public PaymentStatusDTO updatePaymentMethod(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
+    public PaymentStatusDTO updatePaymentMethod(PaymentNonceDetailsDTO paymentNonceDetailsDTO, int userId) throws PaymentStatusException {
         PaymentStatusDTO paymentStatusDTOByUserId = findPaymentStatus(userId);
-        Result<? extends PaymentMethod> paymentMethodResult = paymentService.updatePaymentMethod(paymentStatusDTOByUserId, paymentDetailsDTO);
+        Result<? extends PaymentMethod> paymentMethodResult = paymentService.updatePaymentMethod(paymentStatusDTOByUserId, paymentNonceDetailsDTO);
         //-----------------------------------------------------------------
         // Throw exception if not successful
         //-----------------------------------------------------------------

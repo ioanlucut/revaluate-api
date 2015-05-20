@@ -6,14 +6,10 @@ import javax.annotation.Generated;
 public class PaymentDetailsDTOBuilder
     implements Cloneable {
   protected PaymentDetailsDTOBuilder self;
-  protected String value$firstName$java$lang$String;
-  protected boolean isSet$firstName$java$lang$String;
-  protected String value$lastName$java$lang$String;
-  protected boolean isSet$lastName$java$lang$String;
-  protected String value$email$java$lang$String;
-  protected boolean isSet$email$java$lang$String;
-  protected String value$paymentMethodNonce$java$lang$String;
-  protected boolean isSet$paymentMethodNonce$java$lang$String;
+  protected PaymentCustomerDetailsDTO value$paymentCustomerDetailsDTO$com$revaluate$domain$payment$PaymentCustomerDetailsDTO;
+  protected boolean isSet$paymentCustomerDetailsDTO$com$revaluate$domain$payment$PaymentCustomerDetailsDTO;
+  protected PaymentNonceDetailsDTO value$paymentNonceDetailsDTO$com$revaluate$domain$payment$PaymentNonceDetailsDTO;
+  protected boolean isSet$paymentNonceDetailsDTO$com$revaluate$domain$payment$PaymentNonceDetailsDTO;
 
   /**
    * Creates a new {@link PaymentDetailsDTOBuilder}.
@@ -23,50 +19,26 @@ public class PaymentDetailsDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link PaymentDetailsDTO#firstName} property.
+   * Sets the default value for the {@link PaymentDetailsDTO#paymentCustomerDetailsDTO} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PaymentDetailsDTOBuilder withFirstName(String value) {
-    this.value$firstName$java$lang$String = value;
-    this.isSet$firstName$java$lang$String = true;
+  public PaymentDetailsDTOBuilder withPaymentCustomerDetailsDTO(PaymentCustomerDetailsDTO value) {
+    this.value$paymentCustomerDetailsDTO$com$revaluate$domain$payment$PaymentCustomerDetailsDTO = value;
+    this.isSet$paymentCustomerDetailsDTO$com$revaluate$domain$payment$PaymentCustomerDetailsDTO = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link PaymentDetailsDTO#lastName} property.
+   * Sets the default value for the {@link PaymentDetailsDTO#paymentNonceDetailsDTO} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public PaymentDetailsDTOBuilder withLastName(String value) {
-    this.value$lastName$java$lang$String = value;
-    this.isSet$lastName$java$lang$String = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link PaymentDetailsDTO#email} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public PaymentDetailsDTOBuilder withEmail(String value) {
-    this.value$email$java$lang$String = value;
-    this.isSet$email$java$lang$String = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link PaymentDetailsDTO#paymentMethodNonce} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public PaymentDetailsDTOBuilder withPaymentMethodNonce(String value) {
-    this.value$paymentMethodNonce$java$lang$String = value;
-    this.isSet$paymentMethodNonce$java$lang$String = true;
+  public PaymentDetailsDTOBuilder withPaymentNonceDetailsDTO(PaymentNonceDetailsDTO value) {
+    this.value$paymentNonceDetailsDTO$com$revaluate$domain$payment$PaymentNonceDetailsDTO = value;
+    this.isSet$paymentNonceDetailsDTO$com$revaluate$domain$payment$PaymentNonceDetailsDTO = true;
     return self;
   }
 
@@ -103,17 +75,11 @@ public class PaymentDetailsDTOBuilder
   public PaymentDetailsDTO build() {
     try {
       PaymentDetailsDTO result = new PaymentDetailsDTO();
-      if (isSet$firstName$java$lang$String) {
-        result.setFirstName(value$firstName$java$lang$String);
+      if (isSet$paymentCustomerDetailsDTO$com$revaluate$domain$payment$PaymentCustomerDetailsDTO) {
+        result.setPaymentCustomerDetailsDTO(value$paymentCustomerDetailsDTO$com$revaluate$domain$payment$PaymentCustomerDetailsDTO);
       }
-      if (isSet$lastName$java$lang$String) {
-        result.setLastName(value$lastName$java$lang$String);
-      }
-      if (isSet$email$java$lang$String) {
-        result.setEmail(value$email$java$lang$String);
-      }
-      if (isSet$paymentMethodNonce$java$lang$String) {
-        result.setPaymentMethodNonce(value$paymentMethodNonce$java$lang$String);
+      if (isSet$paymentNonceDetailsDTO$com$revaluate$domain$payment$PaymentNonceDetailsDTO) {
+        result.setPaymentNonceDetailsDTO(value$paymentNonceDetailsDTO$com$revaluate$domain$payment$PaymentNonceDetailsDTO);
       }
       return result;
     } catch (RuntimeException ex) {

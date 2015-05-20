@@ -3,7 +3,9 @@ package com.revaluate.resource.payment;
 import com.braintreegateway.*;
 import com.braintreegateway.exceptions.NotFoundException;
 import com.revaluate.core.bootstrap.ConfigProperties;
+import com.revaluate.domain.payment.PaymentCustomerDetailsDTO;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
+import com.revaluate.domain.payment.PaymentNonceDetailsDTO;
 import com.revaluate.domain.payment.PaymentStatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,10 +72,10 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Result<Customer> createCustomerWithPaymentMethod(PaymentDetailsDTO paymentDetailsDTO) {
         CustomerRequest customerRequest = new CustomerRequest()
-                .firstName(paymentDetailsDTO.getFirstName())
-                .lastName(paymentDetailsDTO.getLastName())
-                .email(paymentDetailsDTO.getEmail())
-                .paymentMethodNonce(paymentDetailsDTO.getPaymentMethodNonce())
+                .firstName(paymentDetailsDTO.getPaymentCustomerDetailsDTO().getFirstName())
+                .lastName(paymentDetailsDTO.getPaymentCustomerDetailsDTO().getLastName())
+                .email(paymentDetailsDTO.getPaymentCustomerDetailsDTO().getEmail())
+                .paymentMethodNonce(paymentDetailsDTO.getPaymentNonceDetailsDTO().getPaymentMethodNonce())
                 .creditCard()
                     .options()
                         .failOnDuplicatePaymentMethod(Boolean.TRUE)
@@ -132,11 +134,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Result<Customer> updateCustomerDetails(PaymentStatusDTO paymentStatusDTO, PaymentDetailsDTO paymentDetailsDTO) {
+    public Result<Customer> updateCustomerDetails(PaymentStatusDTO paymentStatusDTO, PaymentCustomerDetailsDTO paymentCustomerDetailsDTO) {
         CustomerRequest updateCustomerRequest = new CustomerRequest()
-                .firstName(paymentDetailsDTO.getFirstName())
-                .lastName(paymentDetailsDTO.getLastName())
-                .email(paymentDetailsDTO.getEmail());
+                .firstName(paymentCustomerDetailsDTO.getFirstName())
+                .lastName(paymentCustomerDetailsDTO.getLastName())
+                .email(paymentCustomerDetailsDTO.getEmail());
 
         return braintreeGatewayService
                 .getBraintreeGateway()
@@ -145,9 +147,9 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Result<? extends PaymentMethod> updatePaymentMethod(PaymentStatusDTO paymentStatusDTO, PaymentDetailsDTO paymentDetailsDTO) {
+    public Result<? extends PaymentMethod> updatePaymentMethod(PaymentStatusDTO paymentStatusDTO, PaymentNonceDetailsDTO paymentNonceDetailsDTO) {
         PaymentMethodRequest paymentMethodRequest = new PaymentMethodRequest()
-                .paymentMethodNonce(paymentDetailsDTO.getPaymentMethodNonce())
+                .paymentMethodNonce(paymentNonceDetailsDTO.getPaymentMethodNonce())
                     .options()
                         .verifyCard(Boolean.TRUE)
                     .done();
