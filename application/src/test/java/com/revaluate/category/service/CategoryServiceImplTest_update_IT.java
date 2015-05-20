@@ -46,7 +46,7 @@ public class CategoryServiceImplTest_update_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         assertThat(updatedCategoryDTO, is(notNullValue()));
         assertThat(updatedCategoryDTO.getColor(), not(equalTo(createdCategoryDTO.getColor())));
-        assertThat(updatedCategoryDTO.getColor(), is(equalTo(categoryToUpdateDTO.getColor())));
+        assertThat(updatedCategoryDTO.getColor().getColor(), is(equalTo(categoryToUpdateDTO.getColor().getColor())));
 
         assertThat(updatedCategoryDTO.getName(), not(equalTo(createdCategoryDTO.getName())));
         assertThat(updatedCategoryDTO.getName(), is(equalTo(categoryToUpdateDTO.getName())));

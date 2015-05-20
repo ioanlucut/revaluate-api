@@ -36,7 +36,7 @@ public class CategoryServiceImplTest_create_IT extends AbstractIntegrationTests 
 
         assertThat(createdCategoryDTO, is(notNullValue()));
         assertThat(createdCategoryDTO.getId(), not(equalTo(0)));
-        assertThat(categoryDTO.getColor(), equalTo(createdCategoryDTO.getColor()));
+        assertThat(categoryDTO.getColor().getColor(), equalTo(createdCategoryDTO.getColor().getColor()));
         assertThat(categoryDTO.getName(), equalTo(createdCategoryDTO.getName()));
 
         //-----------------------------------------------------------------
@@ -66,7 +66,7 @@ public class CategoryServiceImplTest_create_IT extends AbstractIntegrationTests 
 
         assertThat(createdCategoryDTO, is(notNullValue()));
         assertThat(createdCategoryDTO.getId(), not(equalTo(0)));
-        assertThat(categoryDTO.getColor(), equalTo(createdCategoryDTO.getColor()));
+        assertThat(categoryDTO.getColor().getColor(), equalTo(createdCategoryDTO.getColor().getColor()));
         assertThat(categoryDTO.getName(), equalTo(createdCategoryDTO.getName()));
 
         //-----------------------------------------------------------------
@@ -77,7 +77,7 @@ public class CategoryServiceImplTest_create_IT extends AbstractIntegrationTests 
 
         assertThat(createdCategoryDTO, is(notNullValue()));
         assertThat(createdCategoryDTO.getId(), not(equalTo(0)));
-        assertThat(categoryDTO.getColor(), equalTo(createdCategoryDTO.getColor()));
+        assertThat(categoryDTO.getColor().getColor(), equalTo(createdCategoryDTO.getColor().getColor()));
         assertThat(categoryDTO.getName(), equalTo(createdCategoryDTO.getName()));
 
         //-----------------------------------------------------------------
