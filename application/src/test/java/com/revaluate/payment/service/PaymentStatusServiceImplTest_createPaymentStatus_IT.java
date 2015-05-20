@@ -11,6 +11,7 @@ import com.revaluate.domain.account.UserSubscriptionStatus;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
 import com.revaluate.domain.payment.PaymentDetailsDTOBuilder;
 import com.revaluate.domain.payment.PaymentStatusDTO;
+import com.revaluate.payment.exception.PaymentStatusException;
 import com.revaluate.payment.persistence.PaymentStatus;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import com.revaluate.resource.payment.PaymentException;
@@ -91,7 +92,7 @@ public class PaymentStatusServiceImplTest_createPaymentStatus_IT extends Abstrac
 
         paymentStatusService.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
 
-        exception.expect(JpaSystemException.class);
+        exception.expect(PaymentStatusException.class);
         paymentStatusService.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
     }
 
