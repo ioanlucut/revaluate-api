@@ -49,7 +49,7 @@ public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
     }
 
     @Test
-    public void login_trialCheckIgnoredWhileInTrial_ok() throws Exception {
+    public void login_initialTrialStatusSet_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
@@ -71,7 +71,7 @@ public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
         assertThat(oneByEmail.get().getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
     }
 
-    @Test
+    /*@Test
     public void login_trialStatusSetAsExpired_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
@@ -113,5 +113,5 @@ public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
         assertThat(oneByEmail.isPresent(), is(true));
         assertThat(oneByEmail.get().getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL_EXPIRED)));
     }
-
+*/
 }

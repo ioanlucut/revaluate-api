@@ -50,14 +50,24 @@ public class PaymentAuthorizationRequestFilter implements ContainerRequestFilter
             return;
         }
 
-        User user = userRepository.findOne((Integer) requestContext.getProperty(AuthorizationRequestFilter.USER_ID));
-        if (user == null || user.getUserSubscriptionStatus() == UserSubscriptionStatus.ACTIVE) {
+        User foundUser = userRepository.findOne((Integer) requestContext.getProperty(AuthorizationRequestFilter.USER_ID));
+        if (foundUser == null || foundUser.getUserSubscriptionStatus() == UserSubscriptionStatus.ACTIVE) {
 
             return;
         }
 
-        boolean isUserTrialPeriodExpired = userSubscriptionService.isUserTrialPeriodExpired(user);
+        boolean isUserTrialPeriodExpired = userSubscriptionService.isUserTrialPeriodExpired(foundUser);
+
+        //-----------------------------------------------------------------
+        // If user trial period is expired, set status as trial expired
+        //-----------------------------------------------------------------
         if (isUserTrialPeriodExpired) {
+            foundUser.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL_EXPIRED);
+            userRepository.save(foundUser);
+
+            //-----------------------------------------------------------------
+            // And abort the request
+            //-----------------------------------------------------------------
             abort(requestContext);
         }
     }
