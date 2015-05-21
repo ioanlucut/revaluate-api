@@ -23,6 +23,5 @@ public class MandrillServiceImplTest {
     public void serviceIsNotNull() {
         assertThat(mandrillService, is(notNullValue()));
         assertThat(mandrillService.getApi(), is(notNullValue()));
-        assertThat(mandrillService.getApi(), is(notNullValue()));
     }
 }

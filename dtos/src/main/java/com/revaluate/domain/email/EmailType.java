@@ -15,7 +15,7 @@ public enum EmailType {
      */
     private EmailReply emailReply;
 
-    private EmailType(String emailTemplateName, EmailReply emailReply) {
+    EmailType(String emailTemplateName, EmailReply emailReply) {
         this.emailTemplateName = emailTemplateName;
         this.emailReply = emailReply;
     }
