@@ -56,9 +56,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private EmailAsyncSender emailAsyncSender;
 
-    @Autowired
-    private UserSubscriptionService userSubscriptionService;
-
     @Override
     public boolean isUnique(String email) {
         return !userRepository.findOneByEmail(email).isPresent();
@@ -119,13 +116,6 @@ public class UserServiceImpl implements UserService {
 
         if (!BCrypt.checkpw(loginDTO.getPassword(), foundUser.getPassword())) {
             throw new UserException("Invalid email or password");
-        }
-
-        if (userSubscriptionService.isUserTrialPeriodExpired(foundUser)) {
-            foundUser.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL_EXPIRED);
-            User updatedUser = userRepository.save(foundUser);
-
-            return dozerBeanMapper.map(updatedUser, UserDTO.class);
         }
 
         return dozerBeanMapper.map(foundUser, UserDTO.class);
