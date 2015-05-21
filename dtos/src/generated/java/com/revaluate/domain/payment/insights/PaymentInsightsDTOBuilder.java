@@ -13,6 +13,8 @@ public class PaymentInsightsDTOBuilder
   protected boolean isSet$paymentMethodDTOs$java$util$List;
   protected List<PaymentTransactionDTO> value$paymentTransactionDTOs$java$util$List;
   protected boolean isSet$paymentTransactionDTOs$java$util$List;
+  protected boolean value$subscriptionActive$boolean;
+  protected boolean isSet$subscriptionActive$boolean;
 
   /**
    * Creates a new {@link PaymentInsightsDTOBuilder}.
@@ -58,6 +60,18 @@ public class PaymentInsightsDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link PaymentInsightsDTO#subscriptionActive} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public PaymentInsightsDTOBuilder withSubscriptionActive(boolean value) {
+    this.value$subscriptionActive$boolean = value;
+    this.isSet$subscriptionActive$boolean = true;
+    return self;
+  }
+
+  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -98,6 +112,9 @@ public class PaymentInsightsDTOBuilder
       }
       if (isSet$paymentTransactionDTOs$java$util$List) {
         result.setPaymentTransactionDTOs(value$paymentTransactionDTOs$java$util$List);
+      }
+      if (isSet$subscriptionActive$boolean) {
+        result.setSubscriptionActive(value$subscriptionActive$boolean);
       }
       return result;
     } catch (RuntimeException ex) {
