@@ -3,6 +3,7 @@ package com.revaluate.domain.payment.insights;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
+import java.util.List;
 import java.util.Objects;
 
 @GeneratePojoBuilder
@@ -25,6 +26,8 @@ public class PaymentMethodDTO {
 
     @NotBlank
     private String last4;
+
+    private List<PaymentSubscriptionDTO> paymentSubscriptionDTOList;
 
     public String getBin() {
         return bin;
@@ -74,6 +77,14 @@ public class PaymentMethodDTO {
         this.last4 = last4;
     }
 
+    public List<PaymentSubscriptionDTO> getPaymentSubscriptionDTOList() {
+        return paymentSubscriptionDTOList;
+    }
+
+    public void setPaymentSubscriptionDTOList(List<PaymentSubscriptionDTO> paymentSubscriptionDTOList) {
+        this.paymentSubscriptionDTOList = paymentSubscriptionDTOList;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,12 +95,13 @@ public class PaymentMethodDTO {
                 Objects.equals(expirationMonth, that.expirationMonth) &&
                 Objects.equals(expirationYear, that.expirationYear) &&
                 Objects.equals(imageUrl, that.imageUrl) &&
-                Objects.equals(last4, that.last4);
+                Objects.equals(last4, that.last4) &&
+                Objects.equals(paymentSubscriptionDTOList, that.paymentSubscriptionDTOList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bin, cardType, expirationMonth, expirationYear, imageUrl, last4);
+        return Objects.hash(bin, cardType, expirationMonth, expirationYear, imageUrl, last4, paymentSubscriptionDTOList);
     }
 
     @Override
@@ -101,6 +113,7 @@ public class PaymentMethodDTO {
                 ", expirationYear='" + expirationYear + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", last4='" + last4 + '\'' +
+                ", paymentSubscriptionDTOList=" + paymentSubscriptionDTOList +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.revaluate.domain.payment.insights;
 
+import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -18,6 +19,8 @@ public class PaymentMethodDTOBuilder
   protected boolean isSet$imageUrl$java$lang$String;
   protected String value$last4$java$lang$String;
   protected boolean isSet$last4$java$lang$String;
+  protected List<PaymentSubscriptionDTO> value$paymentSubscriptionDTOList$java$util$List;
+  protected boolean isSet$paymentSubscriptionDTOList$java$util$List;
 
   /**
    * Creates a new {@link PaymentMethodDTOBuilder}.
@@ -99,6 +102,18 @@ public class PaymentMethodDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link PaymentMethodDTO#paymentSubscriptionDTOList} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public PaymentMethodDTOBuilder withPaymentSubscriptionDTOList(List<PaymentSubscriptionDTO> value) {
+    this.value$paymentSubscriptionDTOList$java$util$List = value;
+    this.isSet$paymentSubscriptionDTOList$java$util$List = true;
+    return self;
+  }
+
+  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -148,6 +163,9 @@ public class PaymentMethodDTOBuilder
       }
       if (isSet$last4$java$lang$String) {
         result.setLast4(value$last4$java$lang$String);
+      }
+      if (isSet$paymentSubscriptionDTOList$java$util$List) {
+        result.setPaymentSubscriptionDTOList(value$paymentSubscriptionDTOList$java$util$List);
       }
       return result;
     } catch (RuntimeException ex) {

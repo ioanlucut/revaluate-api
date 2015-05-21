@@ -21,6 +21,11 @@ public class PaymentInsightsDTO {
     @Valid
     private List<PaymentTransactionDTO> paymentTransactionDTOs;
 
+    /**
+     * If at least a subscription is present. We only allow one to have.
+     */
+    private boolean subscriptionActive;
+
     public PaymentCustomerDTO getPaymentCustomerDTO() {
         return paymentCustomerDTO;
     }
@@ -45,12 +50,21 @@ public class PaymentInsightsDTO {
         this.paymentTransactionDTOs = paymentTransactionDTOs;
     }
 
+    public boolean isSubscriptionActive() {
+        return subscriptionActive;
+    }
+
+    public void setSubscriptionActive(boolean subscriptionActive) {
+        this.subscriptionActive = subscriptionActive;
+    }
+
     @Override
     public String toString() {
         return "PaymentInsightsDTO{" +
                 "paymentCustomerDTO=" + paymentCustomerDTO +
                 ", paymentMethodDTOs=" + paymentMethodDTOs +
                 ", paymentTransactionDTOs=" + paymentTransactionDTOs +
+                ", subscriptionActive=" + subscriptionActive +
                 '}';
     }
 }

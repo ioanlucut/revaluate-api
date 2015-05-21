@@ -99,6 +99,20 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
                             .withExpirationYear(creditCard.getExpirationYear())
                             .withImageUrl(creditCard.getImageUrl())
                             .withLast4(creditCard.getLast4())
+                            .withPaymentSubscriptionDTOList(creditCard
+                                    .getSubscriptions()
+                                    .stream()
+                                    .map(subscription -> new PaymentSubscriptionDTOBuilder()
+                                            .withId(subscription.getId())
+                                            .withAmount(subscription.getPrice().doubleValue())
+                                            .withStatus(subscription.getStatus().toString())
+                                            .withCreatedAt(LocalDateTime.fromDateFields((subscription.getCreatedAt().getTime())))
+                                            .withTrialDuration(String.valueOf(subscription.getTrialDuration()))
+                                            .withTrialDurationUnit(subscription.getTrialDurationUnit().toString())
+                                            .withBillingPeriodStartDate(LocalDateTime.fromDateFields((subscription.getBillingPeriodStartDate().getTime())))
+                                            .withBillingPeriodEndDate(LocalDateTime.fromDateFields((subscription.getBillingPeriodEndDate().getTime())))
+                                            .build())
+                                    .collect(Collectors.toList()))
                             .build())
                     .collect(Collectors.toList());
 
@@ -106,6 +120,11 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
                     .withPaymentCustomerDTO(paymentCustomerDTO)
                     .withPaymentMethodDTOs(paymentMethods)
                     .withPaymentTransactionDTOs(paymentTransactions)
+                    .withSubscriptionActive(customer
+                            .getCreditCards()
+                            .stream()
+                            .flatMap(creditCard -> creditCard.getSubscriptions().stream())
+                            .anyMatch(subscription -> subscription.getStatus() == Subscription.Status.ACTIVE))
                     .build();
         } catch (PaymentException ex) {
 
