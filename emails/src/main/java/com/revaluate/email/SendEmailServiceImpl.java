@@ -22,6 +22,7 @@ public class SendEmailServiceImpl implements SendEmailService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SendEmailServiceImpl.class);
 
     private static final String RESET_PASSWORD_LINK = "RESET_PASSWORD_LINK";
+    private static final String CONFIRM_EMAIL_LINK = "CONFIRM_EMAIL_LINK";
     public static final String FROM_NAME = "Revaluate team";
 
     @Autowired
@@ -71,6 +72,9 @@ public class SendEmailServiceImpl implements SendEmailService {
             if (sendTo.getEmailType() == EmailType.RESET_PASSWORD) {
                 String resetPasswordLink = String.format(configProperties.getResetPasswordURLFormat(), configProperties.getWebsiteHost(), sendTo.getEmail(), sendTo.getEmailToken());
                 templateContent.put(RESET_PASSWORD_LINK, resetPasswordLink);
+            } else if (sendTo.getEmailType() == EmailType.CREATED_ACCOUNT) {
+                String confirmEmailLink = String.format(configProperties.getConfirmEmailURLFormat(), configProperties.getWebsiteHost(), sendTo.getEmail(), sendTo.getEmailToken());
+                templateContent.put(CONFIRM_EMAIL_LINK, confirmEmailLink);
             }
             MandrillMessageStatus[] messageStatusReports = mandrillService.getApi().sendTemplate(sendTo.getEmailType().getEmailTemplateName(), templateContent, message, sendAsync);
             MandrillMessageStatus messageStatusReport = messageStatusReports[0];

@@ -51,6 +51,12 @@ public class ConfigProperties {
     @Value("${resetPasswordURLFormat}")
     private String resetPasswordURLFormat;
 
+    /**
+     * The URL where the confirm email link will be set in the email.
+     */
+    @Value("${confirmEmailURLFormat}")
+    private String confirmEmailURLFormat;
+
     @Value("${braintreePlanId}")
     private String braintreePlanId;
 
@@ -149,6 +155,14 @@ public class ConfigProperties {
 
     public void setResetPasswordURLFormat(String resetPasswordURLFormat) {
         this.resetPasswordURLFormat = resetPasswordURLFormat;
+    }
+
+    public String getConfirmEmailURLFormat() {
+        return confirmEmailURLFormat;
+    }
+
+    public void setConfirmEmailURLFormat(String confirmEmailURLFormat) {
+        this.confirmEmailURLFormat = confirmEmailURLFormat;
     }
 
     public String getBraintreePlanId() {
