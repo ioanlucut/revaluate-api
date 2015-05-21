@@ -24,6 +24,22 @@
             <version>${global.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.revaluate</groupId>
+            <artifactId>application</artifactId>
+            <version>${global.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.revaluate</groupId>
+            <artifactId>core</artifactId>
+            <version>${global.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Jersey -->
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
