@@ -101,6 +101,30 @@ public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends Ab
     }
 
     @Test
+    public void paymentRequired_userWithSubscriptionTrialExpired_isOk() throws Exception {
+        PaymentAuthorizationRequestFilter paymentAuthorizationRequestFilter = spy(new PaymentAuthorizationRequestFilter());
+        doReturn(Boolean.TRUE).when(paymentAuthorizationRequestFilter).isPaymentRequired();
+
+        //-----------------------------------------------------------------
+        // Create a user and make it with trial expired
+        //-----------------------------------------------------------------
+        UserDTO userDTO = createUserDTO();
+        User user = userRepository.findOne(userDTO.getId());
+        user.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL_EXPIRED);
+        userRepository.save(user);
+
+        ContainerRequestContext containerRequestContext = mock(ContainerRequestContext.class);
+        when(containerRequestContext.getMethod()).thenReturn("POST");
+        when(containerRequestContext.getProperty(AuthorizationRequestFilter.USER_ID)).thenReturn(userDTO.getId());
+
+        paymentAuthorizationRequestFilter.setUserRepository(userRepository);
+        paymentAuthorizationRequestFilter.setUserSubscriptionService(userSubscriptionService);
+        paymentAuthorizationRequestFilter.filter(containerRequestContext);
+
+        verify(paymentAuthorizationRequestFilter, times(1)).abort(any());
+    }
+
+    @Test
     public void paymentRequired_nonExistingUser_isOk() throws Exception {
         PaymentAuthorizationRequestFilter paymentAuthorizationRequestFilter = spy(new PaymentAuthorizationRequestFilter());
         doReturn(Boolean.TRUE).when(paymentAuthorizationRequestFilter).isPaymentRequired();

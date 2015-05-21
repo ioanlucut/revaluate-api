@@ -64,10 +64,12 @@ public class PaymentAuthorizationRequestFilter implements ContainerRequestFilter
         if (isUserTrialPeriodExpired) {
             foundUser.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL_EXPIRED);
             userRepository.save(foundUser);
+        }
 
-            //-----------------------------------------------------------------
-            // And abort the request
-            //-----------------------------------------------------------------
+        //-----------------------------------------------------------------
+        // If user is in TRIAL EXPIRED, abort
+        //-----------------------------------------------------------------
+        if (foundUser.getUserSubscriptionStatus() == UserSubscriptionStatus.TRIAL_EXPIRED) {
             abort(requestContext);
         }
     }
