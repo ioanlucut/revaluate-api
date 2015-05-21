@@ -48,6 +48,9 @@ public class UserDTO implements Serializable {
     private boolean initiated;
 
     @JsonView({Views.StrictView.class})
+    private boolean emailConfirmed;
+
+    @JsonView({Views.StrictView.class})
     private LocalDateTime createdDate;
 
     @JsonView({Views.StrictView.class})
@@ -112,6 +115,14 @@ public class UserDTO implements Serializable {
         this.initiated = initiated;
     }
 
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
+    }
+
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -143,6 +154,7 @@ public class UserDTO implements Serializable {
         UserDTO userDTO = (UserDTO) o;
         return Objects.equals(id, userDTO.id) &&
                 Objects.equals(initiated, userDTO.initiated) &&
+                Objects.equals(emailConfirmed, userDTO.emailConfirmed) &&
                 Objects.equals(firstName, userDTO.firstName) &&
                 Objects.equals(lastName, userDTO.lastName) &&
                 Objects.equals(email, userDTO.email) &&
@@ -155,7 +167,7 @@ public class UserDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, password, currency, initiated, createdDate, modifiedDate, userSubscriptionStatus);
+        return Objects.hash(id, firstName, lastName, email, password, currency, initiated, emailConfirmed, createdDate, modifiedDate, userSubscriptionStatus);
     }
 
     @Override
@@ -168,6 +180,7 @@ public class UserDTO implements Serializable {
                 ", password='" + password + '\'' +
                 ", currency=" + currency +
                 ", initiated=" + initiated +
+                ", emailConfirmed=" + emailConfirmed +
                 ", createdDate=" + createdDate +
                 ", modifiedDate=" + modifiedDate +
                 ", userSubscriptionStatus=" + userSubscriptionStatus +

@@ -8,5 +8,5 @@ import java.util.concurrent.Future;
 
 public interface EmailAsyncSender {
 
-    public Future<EmailStatus> tryToSendEmail(@NotNull Email email);
+    Future<EmailStatus> tryToSendEmail(@NotNull Email email);
 }

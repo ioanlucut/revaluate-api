@@ -56,6 +56,12 @@ public class User implements Serializable {
      */
     private boolean initiated;
 
+
+    /**
+     * Is user email confirmed ?.
+     */
+    private boolean emailConfirmed;
+
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = CURRENCY_ID, nullable = false)
@@ -147,6 +153,14 @@ public class User implements Serializable {
         this.currency = currency;
     }
 
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
+    }
+
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -181,6 +195,7 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
                 ", initiated=" + initiated +
+                ", emailConfirmed=" + emailConfirmed +
                 ", currency=" + currency +
                 ", createdDate=" + createdDate +
                 ", modifiedDate=" + modifiedDate +
