@@ -114,7 +114,6 @@ public class UserResource extends Resource {
     }
 
     @POST
-    @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(REQUEST_CONFIRMATION_EMAIL)
@@ -125,7 +124,6 @@ public class UserResource extends Resource {
     }
 
     @POST
-    @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(VALIDATE_CONFIRMATION_EMAIL_TOKEN)
