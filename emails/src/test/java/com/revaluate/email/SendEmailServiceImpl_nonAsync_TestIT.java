@@ -7,6 +7,7 @@ import com.revaluate.domain.email.EmailStatus;
 import com.revaluate.domain.email.EmailType;
 import com.revaluate.domain.email.SendTo;
 import com.revaluate.domain.email.SendToBuilder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -20,6 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.*;
 
+@Ignore
 @RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext__emailApi__test.xml")
 public class SendEmailServiceImpl_nonAsync_TestIT {
