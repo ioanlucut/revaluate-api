@@ -20,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -82,7 +79,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
                             .withCurrencyCode(transaction.getCurrencyIsoCode())
                             .withRecurring(transaction.getRecurring())
                             .withStatus(transaction.getStatus().toString())
-                            .withCreatedAt(LocalDateTime.fromDateFields((transaction.getCreatedAt().getTime())))
+                            .withCreatedAt(parseDateFrom((transaction.getCreatedAt())))
                             .build())
                     .collect(Collectors.toList());
 
@@ -106,11 +103,11 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
                                             .withId(subscription.getId())
                                             .withAmount(subscription.getPrice().doubleValue())
                                             .withStatus(subscription.getStatus().toString())
-                                            .withCreatedAt(LocalDateTime.fromDateFields((subscription.getCreatedAt().getTime())))
+                                            .withCreatedAt(parseDateFrom((subscription.getCreatedAt())))
                                             .withTrialDuration(String.valueOf(subscription.getTrialDuration()))
                                             .withTrialDurationUnit(subscription.getTrialDurationUnit().toString())
-                                            .withBillingPeriodStartDate(LocalDateTime.fromDateFields((subscription.getBillingPeriodStartDate().getTime())))
-                                            .withBillingPeriodEndDate(LocalDateTime.fromDateFields((subscription.getBillingPeriodEndDate().getTime())))
+                                            .withBillingPeriodStartDate(parseDateFrom((subscription.getBillingPeriodStartDate())))
+                                            .withBillingPeriodEndDate(parseDateFrom((subscription.getBillingPeriodEndDate())))
                                             .build())
                                     .collect(Collectors.toList()))
                             .build())
@@ -130,6 +127,13 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
 
             throw new PaymentStatusException(ex);
         }
+    }
+
+    private LocalDateTime parseDateFrom(Calendar calendar) {
+        if (calendar == null) {
+            return null;
+        }
+        return LocalDateTime.fromDateFields(calendar.getTime());
     }
 
     @Override
