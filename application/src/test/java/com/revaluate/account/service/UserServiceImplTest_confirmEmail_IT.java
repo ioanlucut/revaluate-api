@@ -3,6 +3,7 @@ package com.revaluate.account.service;
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.Email;
+import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.email.EmailType;
 import org.junit.Test;
@@ -44,6 +45,12 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         assertThat(email.isTokenValidated(), is(true));
         assertThat(email.isSent(), is(false));
         assertThat(email.getSentDate(), is(nullValue()));
+
+        //-----------------------------------------------------------------
+        // User has the email confirmed flag
+        //-----------------------------------------------------------------
+        User one = userRepository.findOne(createdUserDTO.getId());
+        assertThat(one.isEmailConfirmed(), is(true));
     }
 
     @Test
@@ -77,6 +84,12 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         assertThat(email.isTokenValidated(), is(true));
         assertThat(email.isSent(), is(false));
         assertThat(email.getSentDate(), is(nullValue()));
+
+        //-----------------------------------------------------------------
+        // User has the email confirmed flag
+        //-----------------------------------------------------------------
+        User one = userRepository.findOne(createdUserDTO.getId());
+        assertThat(one.isEmailConfirmed(), is(true));
     }
 
     @Test
@@ -108,6 +121,12 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         assertThat(email.isTokenValidated(), is(false));
         assertThat(email.isSent(), is(false));
         assertThat(email.getSentDate(), is(nullValue()));
+
+        //-----------------------------------------------------------------
+        // User has the email confirmed flag
+        //-----------------------------------------------------------------
+        User one = userRepository.findOne(createdUserDTO.getId());
+        assertThat(one.isEmailConfirmed(), is(false));
     }
 
     @Test
@@ -155,5 +174,11 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         assertThat(email.isTokenValidated(), is(true));
         assertThat(email.isSent(), is(false));
         assertThat(email.getSentDate(), is(nullValue()));
+
+        //-----------------------------------------------------------------
+        // User has the email confirmed flag
+        //-----------------------------------------------------------------
+        User one = userRepository.findOne(createdUserDTO.getId());
+        assertThat(one.isEmailConfirmed(), is(true));
     }
 }

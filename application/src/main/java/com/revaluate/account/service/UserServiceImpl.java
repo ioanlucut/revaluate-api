@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
@@ -62,6 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDTO create(UserDTO userDTO) throws UserException {
         if (!isUnique(userDTO.getEmail())) {
 
@@ -158,6 +160,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void remove(int userId) {
         //-----------------------------------------------------------------
         // First, remove all its payment plan, email tokens, then expenses, then categories, then the user
@@ -170,28 +173,42 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void validateConfirmationEmailToken(String email, String token) throws UserException {
-        Optional<User> byEmail = userRepository.findOneByEmail(email);
-        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
+        Optional<User> optionalUserFoundByEmail = userRepository.findOneByEmail(email);
+        User user = optionalUserFoundByEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
         // Try to find a matching email token
         //-----------------------------------------------------------------
-        Optional<Email> oneByUserIdAndTokenValidatedFalse = emailRepository.findOneByEmailTypeAndUserIdAndToken(EmailType.CREATED_ACCOUNT, user.getId(), token);
-        Email emailToken = oneByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Confirmation email token is invalid."));
+        Optional<Email> optionalByUserIdAndTokenValidatedFalse = emailRepository.findOneByEmailTypeAndUserIdAndToken(EmailType.CREATED_ACCOUNT, user.getId(), token);
+        Email emailEntry = optionalByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Confirmation email token is invalid."));
 
         //-----------------------------------------------------------------
         // If already validated, just return
         //-----------------------------------------------------------------
-        if (emailToken.isTokenValidated()) {
+        if (emailEntry.isTokenValidated()) {
             return;
         }
 
         //-----------------------------------------------------------------
         // Otherwise, set token as validated
         //-----------------------------------------------------------------
-        emailToken.setTokenValidated(Boolean.TRUE);
-        emailRepository.save(emailToken);
+        emailEntry.setTokenValidated(Boolean.TRUE);
+        emailRepository.save(emailEntry);
+
+        //-----------------------------------------------------------------
+        // If already set as confirmed, return
+        //-----------------------------------------------------------------
+        if (user.isEmailConfirmed()) {
+            return;
+        }
+
+        //-----------------------------------------------------------------
+        // Set use as having email confirmed
+        //-----------------------------------------------------------------
+        user.setEmailConfirmed(Boolean.TRUE);
+        userRepository.save(user);
     }
 
     @Override
@@ -234,6 +251,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void requestResetPassword(String email) throws UserException {
         Optional<User> byEmail = userRepository.findOneByEmail(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
