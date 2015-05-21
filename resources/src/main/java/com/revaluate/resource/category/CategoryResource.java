@@ -2,6 +2,7 @@ package com.revaluate.resource.category;
 
 import com.revaluate.category.exception.CategoryException;
 import com.revaluate.category.service.CategoryService;
+import com.revaluate.core.annotations.PaymentRequired;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
@@ -59,6 +60,7 @@ public class CategoryResource extends Resource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
+    @PaymentRequired
     public Response create(@Valid CategoryDTO categoryDTO) throws CategoryException {
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, getCurrentUserId());
 
@@ -68,6 +70,7 @@ public class CategoryResource extends Resource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
+    @PaymentRequired
     public Response update(@Valid CategoryDTO categoryDTO) throws CategoryException {
         CategoryDTO createdCategoryDTO = categoryService.update(categoryDTO, getCurrentUserId());
 
@@ -77,6 +80,7 @@ public class CategoryResource extends Resource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path(REMOVE_CATEGORY)
+    @PaymentRequired
     public Response remove(@PathParam(CATEGORY_ID) @NotNull int categoryId) throws CategoryException {
         categoryService.remove(categoryId, getCurrentUserId());
 

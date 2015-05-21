@@ -14,7 +14,6 @@ import com.revaluate.domain.email.EmailType;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import org.dozer.DozerBeanMapper;
-import org.joda.time.LocalDateTime;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,7 @@ public class UserServiceImpl implements UserService {
     public static final String USER_DTO__UPDATE = "UserDTO__Update";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
-    public static final int TRIAL_DAYS = 15;
+
 
     @Autowired
     private UserRepository userRepository;
@@ -56,6 +55,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private EmailAsyncSender emailAsyncSender;
+
+    @Autowired
+    private UserSubscriptionService userSubscriptionService;
 
     @Override
     public boolean isUnique(String email) {
@@ -119,7 +121,7 @@ public class UserServiceImpl implements UserService {
             throw new UserException("Invalid email or password");
         }
 
-        if (isUserTrialPeriodExpired(foundUser)) {
+        if (userSubscriptionService.isUserTrialPeriodExpired(foundUser)) {
             foundUser.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL_EXPIRED);
             User updatedUser = userRepository.save(foundUser);
 
@@ -127,16 +129,6 @@ public class UserServiceImpl implements UserService {
         }
 
         return dozerBeanMapper.map(foundUser, UserDTO.class);
-    }
-
-    private boolean isUserTrialPeriodExpired(User foundUser) {
-        if (foundUser.getUserSubscriptionStatus() == UserSubscriptionStatus.TRIAL) {
-            LocalDateTime createdDate = foundUser.getCreatedDate();
-            LocalDateTime endTrialDate = createdDate.plusDays(TRIAL_DAYS);
-
-            return LocalDateTime.now().isAfter(endTrialDate);
-        }
-        return Boolean.FALSE;
     }
 
     @Override

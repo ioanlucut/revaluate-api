@@ -1,5 +1,6 @@
 package com.revaluate.resource.expense;
 
+import com.revaluate.core.annotations.PaymentRequired;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.expense.service.ExpenseService;
@@ -46,6 +47,7 @@ public class ExpenseResource extends Resource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
+    @PaymentRequired
     public Response create(@Valid ExpenseDTO expenseDTO) throws ExpenseException {
         ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, getCurrentUserId());
 
@@ -55,6 +57,7 @@ public class ExpenseResource extends Resource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
+    @PaymentRequired
     public Response update(@Valid ExpenseDTO expenseDTO) throws ExpenseException {
         ExpenseDTO createdExpenseDTO = expenseService.update(expenseDTO, getCurrentUserId());
 
@@ -64,6 +67,7 @@ public class ExpenseResource extends Resource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path(REMOVE_EXPENSE)
+    @PaymentRequired
     public Response remove(@PathParam(EXPENSE_ID) @NotNull int expenseId) throws ExpenseException {
         expenseService.remove(expenseId, getCurrentUserId());
 
@@ -94,6 +98,7 @@ public class ExpenseResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(BULK_DELETE)
+    @PaymentRequired
     public Response bulkDelete(@NotNull @Valid List<ExpenseDTO> expenseDTOs) throws ExpenseException {
         expenseService.bulkDelete(expenseDTOs, getCurrentUserId());
 

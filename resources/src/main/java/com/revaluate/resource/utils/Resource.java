@@ -2,9 +2,10 @@ package com.revaluate.resource.utils;
 
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.core.jwt.JwtService;
-import org.apache.commons.lang3.StringUtils;
+import com.revaluate.settings.filter.AuthorizationRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
@@ -23,18 +24,11 @@ public class Resource {
     @Autowired
     protected JwtService jwtService;
 
+    @Context
+    private HttpServletRequest httpServletRequest;
+
     protected int getCurrentUserId() {
-        String authorization = httpHeaders.getHeaderString("Authorization");
 
-        if (!authorization.contains(configProperties.getBearerHeaderKey())) {
-            return -1;
-        }
-
-        String jwtToken = authorization.replaceAll(configProperties.getBearerHeaderKey(), "").trim();
-        if (StringUtils.isBlank(jwtToken)) {
-            return -1;
-        }
-
-        return jwtService.parseTokenSilent(jwtToken);
+        return (int) httpServletRequest.getAttribute(AuthorizationRequestFilter.USER_ID);
     }
 }
