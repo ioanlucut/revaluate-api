@@ -22,6 +22,7 @@ public class SendEmailServiceImpl implements SendEmailService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SendEmailServiceImpl.class);
 
     private static final String RESET_PASSWORD_LINK = "RESET_PASSWORD_LINK";
+    public static final String FROM_NAME = "Revaluate team";
 
     @Autowired
     private ConfigProperties configProperties;
@@ -46,7 +47,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         } else if (sendTo.getEmailType().getEmailReply() == EmailReply.NO_REPLY) {
             message.setFromEmail(configProperties.getNoReplyEmailRecipient());
         }
-        message.setFromName("Revaluate team");
+        message.setFromName(FROM_NAME);
 
         //-----------------------------------------------------------------
         // Build mandrill recipients
@@ -68,7 +69,8 @@ public class SendEmailServiceImpl implements SendEmailService {
         try {
             Map<String, String> templateContent = new HashMap<>();
             if (sendTo.getEmailType() == EmailType.RESET_PASSWORD) {
-                templateContent.put(RESET_PASSWORD_LINK, "http://revaluate.io/reset_password/" + sendTo.getEmailToken());
+                String resetPasswordLink = String.format(configProperties.getResetPasswordURLFormat(), configProperties.getWebsiteHost(), sendTo.getEmail(), sendTo.getEmailToken());
+                templateContent.put(RESET_PASSWORD_LINK, resetPasswordLink);
             }
             MandrillMessageStatus[] messageStatusReports = mandrillService.getApi().sendTemplate(sendTo.getEmailType().getEmailTemplateName(), templateContent, message, sendAsync);
             MandrillMessageStatus messageStatusReport = messageStatusReports[0];

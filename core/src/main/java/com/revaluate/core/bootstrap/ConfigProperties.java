@@ -9,7 +9,10 @@ public class ConfigProperties {
     public static final String ENVIRONMENT = "ENVIRONMENT";
     public static final String SPRING_PROFILE_ACTIVE = "spring.profiles.active";
 
-    private boolean isProduction;
+    private boolean production;
+
+    @Value("${websiteHost}")
+    private String websiteHost;
 
     @Value("${skipSendEmail}")
     private boolean skipSendEmail;
@@ -42,16 +45,30 @@ public class ConfigProperties {
     @Value("${commonEmailsRecipient}")
     private String commonEmailsRecipient;
 
+    /**
+     * The URL where the reset password link will be set in the email.
+     */
+    @Value("${resetPasswordURLFormat}")
+    private String resetPasswordURLFormat;
+
     @Value("${braintreePlanId}")
     private String braintreePlanId;
 
     public boolean isProduction() {
-        return isProduction;
+        return production;
     }
 
     @Value("${isProduction}")
     public void setProduction(boolean isProduction) {
-        this.isProduction = isProduction;
+        this.production = isProduction;
+    }
+
+    public String getWebsiteHost() {
+        return websiteHost;
+    }
+
+    public void setWebsiteHost(String websiteHost) {
+        this.websiteHost = websiteHost;
     }
 
     public String getShared() {
@@ -126,6 +143,14 @@ public class ConfigProperties {
         this.skipSendEmail = skipSendEmail;
     }
 
+    public String getResetPasswordURLFormat() {
+        return resetPasswordURLFormat;
+    }
+
+    public void setResetPasswordURLFormat(String resetPasswordURLFormat) {
+        this.resetPasswordURLFormat = resetPasswordURLFormat;
+    }
+
     public String getBraintreePlanId() {
         return braintreePlanId;
     }
@@ -137,7 +162,8 @@ public class ConfigProperties {
     @Override
     public String toString() {
         return "ConfigProperties{" +
-                "isProduction=" + isProduction +
+                "production=" + production +
+                ", websiteHost='" + websiteHost + '\'' +
                 ", skipSendEmail=" + skipSendEmail +
                 ", shared='" + shared + '\'' +
                 ", issuer='" + issuer + '\'' +
@@ -147,6 +173,8 @@ public class ConfigProperties {
                 ", replyEmailRecipient='" + replyEmailRecipient + '\'' +
                 ", noReplyEmailRecipient='" + noReplyEmailRecipient + '\'' +
                 ", commonEmailsRecipient='" + commonEmailsRecipient + '\'' +
+                ", resetPasswordURL='" + resetPasswordURLFormat + '\'' +
+                ", braintreePlanId='" + braintreePlanId + '\'' +
                 '}';
     }
 }
