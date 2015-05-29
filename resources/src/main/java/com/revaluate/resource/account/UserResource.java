@@ -186,7 +186,6 @@ public class UserResource extends Resource {
     }
 
     @POST
-    @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(SEND_FEEDBACK)
