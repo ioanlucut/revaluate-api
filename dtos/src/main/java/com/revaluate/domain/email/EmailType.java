@@ -3,7 +3,8 @@ package com.revaluate.domain.email;
 public enum EmailType {
 
     CREATED_ACCOUNT("welcome-to-revaluate", EmailReply.REPLY),
-    RESET_PASSWORD("reset-password", EmailReply.NO_REPLY);
+    RESET_PASSWORD("reset-password", EmailReply.NO_REPLY),
+    FEEDBACK_MESSAGE("feedback-message", EmailReply.REPLY);
 
     /**
      * Mandrill email template

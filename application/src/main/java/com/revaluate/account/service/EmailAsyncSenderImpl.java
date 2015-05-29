@@ -51,7 +51,7 @@ public class EmailAsyncSenderImpl implements EmailAsyncSender {
         }
 
         //-----------------------------------------------------------------
-        // Try to send email async
+        // Try to send email
         //-----------------------------------------------------------------
         SendTo sendTo = dozerBeanMapper.map(email, SendTo.class);
         try {

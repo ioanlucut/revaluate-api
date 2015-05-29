@@ -1,10 +1,7 @@
 package com.revaluate.account.service;
 
 import com.revaluate.account.exception.UserException;
-import com.revaluate.domain.account.LoginDTO;
-import com.revaluate.domain.account.ResetPasswordDTO;
-import com.revaluate.domain.account.UpdatePasswordDTO;
-import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.account.*;
 import com.revaluate.groups.CreateUserGroup;
 import com.revaluate.groups.UpdateUserCurrencyGroup;
 import org.hibernate.validator.constraints.Email;
@@ -49,4 +46,6 @@ public interface UserService {
     @NotNull
     @Validated(value = UpdateUserCurrencyGroup.class)
     UserDTO updateCurrency(@Valid @NotNull UserDTO userDTO, int userId) throws UserException;
+
+    void sendFeedback(@Valid @NotNull FeedbackDTO feedbackDTO, int currentUserId) throws UserException;
 }

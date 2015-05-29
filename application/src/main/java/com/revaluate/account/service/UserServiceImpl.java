@@ -338,4 +338,25 @@ public class UserServiceImpl implements UserService {
         User updatedUser = userRepository.save(foundUser);
         return dozerBeanMapper.map(updatedUser, UserDTO.class);
     }
+
+    @Override
+    public void sendFeedback(FeedbackDTO feedbackDTO, int userId) throws UserException {
+        User user = userRepository.findOne(userId);
+
+        if (user == null) {
+            throw new UserException("User does not exist");
+        }
+
+        //-----------------------------------------------------------------
+        // Generate a feedback email message
+        //-----------------------------------------------------------------
+        Email feedbackMessage = TokenGenerator.buildEmail(user, EmailType.FEEDBACK_MESSAGE);
+
+        //-----------------------------------------------------------------
+        // Try to send email async
+        //-----------------------------------------------------------------
+        emailAsyncSender.tryToSendEmail(feedbackMessage);
+
+        emailRepository.save(feedbackMessage);
+    }
 }
