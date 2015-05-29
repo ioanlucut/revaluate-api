@@ -5,10 +5,7 @@ import com.revaluate.account.exception.UserException;
 import com.revaluate.account.service.UserService;
 import com.revaluate.core.annotations.Public;
 import com.revaluate.core.jwt.JwtException;
-import com.revaluate.domain.account.LoginDTO;
-import com.revaluate.domain.account.ResetPasswordDTO;
-import com.revaluate.domain.account.UpdatePasswordDTO;
-import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.account.*;
 import com.revaluate.groups.CreateUserGroup;
 import com.revaluate.groups.UpdateUserCurrencyGroup;
 import com.revaluate.resource.utils.Resource;
@@ -41,6 +38,7 @@ public class UserResource extends Resource {
     private static final String VALIDATE_RESET_PASSWORD_TOKEN = "validateResetPasswordToken/{email}/{token}";
     private static final String VALIDATE_CONFIRMATION_EMAIL_TOKEN = "validateConfirmationEmailToken/{email}/{token}";
     private static final String RESET_PASSWORD = "resetPassword/{email}/{token}";
+    private static final String SEND_FEEDBACK = "sendFeedback";
 
     @Autowired
     private UserService userService;
@@ -185,5 +183,16 @@ public class UserResource extends Resource {
         UserDTO updatedUserDTO = userService.updateCurrency(userDTO, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, updatedUserDTO);
+    }
+
+    @POST
+    @Public
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(SEND_FEEDBACK)
+    public Response sendFeedback(@Valid FeedbackDTO feedbackDTO) throws UserException {
+        userService.sendFeedback(feedbackDTO, getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, "Feedback successfully sent!");
     }
 }
