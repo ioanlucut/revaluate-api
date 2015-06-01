@@ -48,6 +48,7 @@ public class InsightServiceImpl implements InsightService {
                     .withInsightColors(Collections.emptyList())
                     .withInsightLabels(Collections.emptyList())
                     .withTotalPerCategoryInsightDTOs(Collections.emptyList())
+                    .withTotalNumberOfTransactions(expenseRepository.countByUserId(userId))
                     .build();
         }
 

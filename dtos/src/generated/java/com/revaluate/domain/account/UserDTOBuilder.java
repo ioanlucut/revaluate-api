@@ -28,6 +28,8 @@ public class UserDTOBuilder
   protected boolean isSet$createdDate$org$joda$time$LocalDateTime;
   protected LocalDateTime value$modifiedDate$org$joda$time$LocalDateTime;
   protected boolean isSet$modifiedDate$org$joda$time$LocalDateTime;
+  protected LocalDateTime value$endTrialDate$org$joda$time$LocalDateTime;
+  protected boolean isSet$endTrialDate$org$joda$time$LocalDateTime;
   protected UserSubscriptionStatus value$userSubscriptionStatus$com$revaluate$domain$account$UserSubscriptionStatus;
   protected boolean isSet$userSubscriptionStatus$com$revaluate$domain$account$UserSubscriptionStatus;
 
@@ -159,6 +161,18 @@ public class UserDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link UserDTO#endTrialDate} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public UserDTOBuilder withEndTrialDate(LocalDateTime value) {
+    this.value$endTrialDate$org$joda$time$LocalDateTime = value;
+    this.isSet$endTrialDate$org$joda$time$LocalDateTime = true;
+    return self;
+  }
+
+  /**
    * Sets the default value for the {@link UserDTO#userSubscriptionStatus} property.
    *
    * @param value the default value
@@ -232,6 +246,9 @@ public class UserDTOBuilder
       }
       if (isSet$modifiedDate$org$joda$time$LocalDateTime) {
         result.setModifiedDate(value$modifiedDate$org$joda$time$LocalDateTime);
+      }
+      if (isSet$endTrialDate$org$joda$time$LocalDateTime) {
+        result.setEndTrialDate(value$endTrialDate$org$joda$time$LocalDateTime);
       }
       if (isSet$userSubscriptionStatus$com$revaluate$domain$account$UserSubscriptionStatus) {
         result.setUserSubscriptionStatus(value$userSubscriptionStatus$com$revaluate$domain$account$UserSubscriptionStatus);
