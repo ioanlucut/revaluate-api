@@ -18,6 +18,7 @@ import com.revaluate.email.service.EmailAsyncSender;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import org.dozer.DozerBeanMapper;
+import org.joda.time.LocalDateTime;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     public static final String USER_DTO__UPDATE = "UserDTO__Update";
+
+    public static final int TRIAL_DAYS = 15;
 
     @Autowired
     private UserRepository userRepository;
@@ -95,9 +98,10 @@ public class UserServiceImpl implements UserService {
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
         //-----------------------------------------------------------------
-        // Set status as trial
+        // Set status as trial and end trial date.
         //-----------------------------------------------------------------
         user.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL);
+        user.setEndTrialDate(LocalDateTime.now().plusDays(TRIAL_DAYS));
 
         //-----------------------------------------------------------------
         // Save the user

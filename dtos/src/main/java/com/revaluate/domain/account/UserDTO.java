@@ -57,6 +57,9 @@ public class UserDTO implements Serializable {
     private LocalDateTime modifiedDate;
 
     @JsonView({Views.StrictView.class})
+    private LocalDateTime endTrialDate;
+
+    @JsonView({Views.StrictView.class})
     private UserSubscriptionStatus userSubscriptionStatus;
 
     public int getId() {
@@ -139,6 +142,14 @@ public class UserDTO implements Serializable {
         this.modifiedDate = modifiedDate;
     }
 
+    public LocalDateTime getEndTrialDate() {
+        return endTrialDate;
+    }
+
+    public void setEndTrialDate(LocalDateTime endTrialDate) {
+        this.endTrialDate = endTrialDate;
+    }
+
     public UserSubscriptionStatus getUserSubscriptionStatus() {
         return userSubscriptionStatus;
     }
@@ -162,12 +173,13 @@ public class UserDTO implements Serializable {
                 Objects.equals(currency, userDTO.currency) &&
                 Objects.equals(createdDate, userDTO.createdDate) &&
                 Objects.equals(modifiedDate, userDTO.modifiedDate) &&
+                Objects.equals(endTrialDate, userDTO.endTrialDate) &&
                 Objects.equals(userSubscriptionStatus, userDTO.userSubscriptionStatus);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, password, currency, initiated, emailConfirmed, createdDate, modifiedDate, userSubscriptionStatus);
+        return Objects.hash(id, firstName, lastName, email, password, currency, initiated, emailConfirmed, createdDate, modifiedDate, endTrialDate, userSubscriptionStatus);
     }
 
     @Override
@@ -183,6 +195,7 @@ public class UserDTO implements Serializable {
                 ", emailConfirmed=" + emailConfirmed +
                 ", createdDate=" + createdDate +
                 ", modifiedDate=" + modifiedDate +
+                ", endTrialDate=" + endTrialDate +
                 ", userSubscriptionStatus=" + userSubscriptionStatus +
                 '}';
     }

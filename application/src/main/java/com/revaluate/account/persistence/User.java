@@ -14,7 +14,6 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
-    public static final String USER = "user";
     protected static final String SEQ_NAME = "users_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "users_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 1;
@@ -74,6 +73,10 @@ public class User implements Serializable {
     @NotNull
     @Column(nullable = false)
     private LocalDateTime modifiedDate;
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime endTrialDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -177,6 +180,14 @@ public class User implements Serializable {
         this.modifiedDate = modifiedDate;
     }
 
+    public LocalDateTime getEndTrialDate() {
+        return endTrialDate;
+    }
+
+    public void setEndTrialDate(LocalDateTime endTrialDate) {
+        this.endTrialDate = endTrialDate;
+    }
+
     public UserSubscriptionStatus getUserSubscriptionStatus() {
         return userSubscriptionStatus;
     }
@@ -199,6 +210,7 @@ public class User implements Serializable {
                 ", currency=" + currency +
                 ", createdDate=" + createdDate +
                 ", modifiedDate=" + modifiedDate +
+                ", endTrialDate=" + endTrialDate +
                 ", userSubscriptionStatus=" + userSubscriptionStatus +
                 '}';
     }
