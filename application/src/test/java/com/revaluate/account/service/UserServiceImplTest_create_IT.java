@@ -2,7 +2,7 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.Email;
+import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
@@ -41,7 +41,7 @@ public class UserServiceImplTest_create_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         Optional<User> oneByEmail = userRepository.findOneByEmail(userDTO.getEmail());
         assertThat(oneByEmail.isPresent(), is(true));
-        Optional<Email> oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, oneByEmail.get().getId());
+        Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, oneByEmail.get().getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
     }
 

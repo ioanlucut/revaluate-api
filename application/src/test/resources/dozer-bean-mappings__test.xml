@@ -72,7 +72,7 @@
     </mapping>
 
     <mapping map-null="false">
-        <class-a>com.revaluate.account.persistence.Email</class-a>
+        <class-a>com.revaluate.email.persistence.EmailToken</class-a>
         <class-b>com.revaluate.domain.email.SendTo</class-b>
         <field>
             <a>user.id</a>
@@ -97,6 +97,43 @@
         <field>
             <a>token</a>
             <b>emailToken</b>
+        </field>
+        <field>
+            <a>emailType</a>
+            <b>emailType</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false">
+        <class-a>com.revaluate.email.persistence.EmailFeedback</class-a>
+        <class-b>com.revaluate.domain.email.SendFeedbackTo</class-b>
+        <field>
+            <a>user.id</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>user.firstName</a>
+            <b>firstName</b>
+        </field>
+        <field>
+            <a>user.lastName</a>
+            <b>lastName</b>
+        </field>
+        <field>
+            <a>user.email</a>
+            <b>email</b>
+        </field>
+        <field>
+            <a>id</a>
+            <b>emailId</b>
+        </field>
+        <field>
+            <a>subject</a>
+            <b>subject</b>
+        </field>
+        <field>
+            <a>message</a>
+            <b>message</b>
         </field>
         <field>
             <a>emailType</a>

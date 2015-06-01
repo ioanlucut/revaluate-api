@@ -2,10 +2,10 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.Email;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.*;
 import com.revaluate.domain.email.EmailType;
+import com.revaluate.email.persistence.EmailToken;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -31,7 +31,7 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         // Reset password is generated
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
-        Optional<Email> oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
 
         //-----------------------------------------------------------------
@@ -69,7 +69,7 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         // Reset password is generated
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
-        Optional<Email> oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
 
         //-----------------------------------------------------------------
@@ -77,7 +77,7 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         userService.requestResetPassword(createdUserDTO.getEmail());
 
-        oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
     }
 
@@ -97,7 +97,7 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         // Reset password is generated
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
-        Optional<Email> oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
 
         //-----------------------------------------------------------------
@@ -116,7 +116,7 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Token is still there, not removed
         //-----------------------------------------------------------------
-        oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
     }
 
@@ -136,7 +136,7 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         // Reset password is generated
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
-        Optional<Email> oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
 
         //-----------------------------------------------------------------
@@ -150,7 +150,7 @@ public class UserServiceImplTest_resetPassword_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Token is still there, not removed
         //-----------------------------------------------------------------
-        oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
+        oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, user.getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
     }
 }

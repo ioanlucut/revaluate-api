@@ -1,45 +1,42 @@
-package com.revaluate.account.service;
+package com.revaluate.email.service;
 
 import com.google.common.util.concurrent.Futures;
-import com.revaluate.account.persistence.Email;
-import com.revaluate.account.persistence.EmailRepository;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.domain.email.EmailStatus;
-import com.revaluate.domain.email.SendTo;
-import com.revaluate.email.SendEmailException;
 import com.revaluate.email.SendEmailService;
+import com.revaluate.email.SendEmailWrapperException;
+import com.revaluate.email.persistence.Email;
+import com.revaluate.email.persistence.EmailRepository;
 import org.dozer.DozerBeanMapper;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.Future;
+import java.util.function.Function;
 
-@Service
-@Validated
-public class EmailAsyncSenderImpl implements EmailAsyncSender {
+@Component
+public abstract class EmailAsyncSenderAbstract<T extends Email> implements EmailAsyncSender<T> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmailAsyncSenderImpl.class);
-
-    @Autowired
-    private DozerBeanMapper dozerBeanMapper;
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailAsyncSenderAbstract.class);
 
     @Autowired
     private EmailRepository emailRepository;
 
     @Autowired
-    private SendEmailService sendEmailService;
-
-    @Autowired
     private ConfigProperties configProperties;
 
-    @Async
-    public Future<EmailStatus> tryToSendEmail(Email email) {
+    @Autowired
+    protected DozerBeanMapper dozerBeanMapper;
+
+    @Autowired
+    protected SendEmailService sendEmailService;
+
+    @Override
+    public Future<EmailStatus> tryToSendEmail(T email) {
 
         //-----------------------------------------------------------------
         // Do not send email for some environments
@@ -53,9 +50,8 @@ public class EmailAsyncSenderImpl implements EmailAsyncSender {
         //-----------------------------------------------------------------
         // Try to send email
         //-----------------------------------------------------------------
-        SendTo sendTo = dozerBeanMapper.map(email, SendTo.class);
         try {
-            EmailStatus emailStatus = sendEmailService.sendNonAsyncEmailTo(sendTo);
+            EmailStatus emailStatus = getApplyFunction().apply(email);
 
             //-----------------------------------------------------------------
             // Mark email token as sent
@@ -65,10 +61,13 @@ public class EmailAsyncSenderImpl implements EmailAsyncSender {
             emailRepository.save(email);
 
             return new AsyncResult<>(emailStatus);
-        } catch (SendEmailException ex) {
+        } catch (SendEmailWrapperException ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             return Futures.immediateFailedFuture(ex);
         }
     }
+
+    public abstract Function<T, EmailStatus> getApplyFunction();
+
 }

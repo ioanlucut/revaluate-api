@@ -1,8 +1,10 @@
 package com.revaluate.account.utils;
 
-import com.revaluate.account.persistence.Email;
-import com.revaluate.domain.email.EmailType;
+import com.revaluate.email.persistence.EmailFeedback;
+import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.account.persistence.User;
+import com.revaluate.domain.account.FeedbackDTO;
+import com.revaluate.domain.email.EmailType;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class TokenGenerator {
@@ -14,12 +16,22 @@ public class TokenGenerator {
         return RandomStringUtils.randomAlphanumeric(COUNT);
     }
 
-    public static Email buildEmail(User user, EmailType emailType) {
-        Email resetEmail = new Email();
-        resetEmail.setToken(TokenGenerator.getGeneratedToken());
-        resetEmail.setEmailType(emailType);
-        resetEmail.setUser(user);
+    public static EmailToken buildEmail(User user, EmailType emailType) {
+        EmailToken emailToken = new EmailToken();
+        emailToken.setToken(TokenGenerator.getGeneratedToken());
+        emailToken.setEmailType(emailType);
+        emailToken.setUser(user);
 
-        return resetEmail;
+        return emailToken;
+    }
+
+    public static EmailFeedback buildFeedbackEmail(User user, EmailType emailType, FeedbackDTO feedbackDTO) {
+        EmailFeedback emailFeedback = new EmailFeedback();
+        emailFeedback.setEmailType(emailType);
+        emailFeedback.setUser(user);
+        emailFeedback.setSubject(feedbackDTO.getSubject());
+        emailFeedback.setMessage(feedbackDTO.getMessage());
+
+        return emailFeedback;
     }
 }
