@@ -1,5 +1,6 @@
-package com.revaluate.account.persistence;
+package com.revaluate.email.persistence;
 
+import com.revaluate.account.persistence.User;
 import com.revaluate.domain.email.EmailType;
 import org.joda.time.LocalDateTime;
 
@@ -10,7 +11,9 @@ import java.io.Serializable;
 @Entity
 @SequenceGenerator(name = Email.SEQ_GENERATOR_NAME, sequenceName = Email.SEQ_NAME, initialValue = Email.SEQ_INITIAL_VALUE, allocationSize = Email.ALLOCATION_SIZE)
 @Table(name = "email")
-public class Email implements Serializable {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = Email.EMAIL_TYPE)
+public abstract class Email implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
@@ -19,14 +22,11 @@ public class Email implements Serializable {
     protected static final int SEQ_INITIAL_VALUE = 1;
     protected static final int ALLOCATION_SIZE = 1;
     public static final String USER_ID = "user_id";
+    public static final String EMAIL_TYPE = "discriminator_email_type";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
     private Integer id;
-
-    @NotNull
-    @Column(nullable = false)
-    private String token;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -35,8 +35,6 @@ public class Email implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = USER_ID, nullable = false)
     private User user;
-
-    private boolean tokenValidated;
 
     /**
      * Is email sent flag
@@ -63,14 +61,6 @@ public class Email implements Serializable {
         this.id = id;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public EmailType getEmailType() {
         return emailType;
     }
@@ -85,14 +75,6 @@ public class Email implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public boolean isTokenValidated() {
-        return tokenValidated;
-    }
-
-    public void setTokenValidated(boolean tokenValidated) {
-        this.tokenValidated = tokenValidated;
     }
 
     public boolean isSent() {
@@ -123,10 +105,8 @@ public class Email implements Serializable {
     public String toString() {
         return "Email{" +
                 "id=" + id +
-                ", token='" + token + '\'' +
                 ", emailType=" + emailType +
                 ", user=" + user +
-                ", tokenValidated=" + tokenValidated +
                 ", sent=" + sent +
                 ", createdDate=" + createdDate +
                 ", sentDate=" + sentDate +

@@ -1,7 +1,8 @@
 package com.revaluate;
 
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.EmailRepository;
+import com.revaluate.email.persistence.EmailRepository;
+import com.revaluate.email.persistence.EmailTokenRepository;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.service.UserService;
 import com.revaluate.category.persistence.CategoryRepository;
@@ -24,7 +25,6 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -74,6 +74,9 @@ public class AbstractIntegrationTests {
 
     @Autowired
     protected ExpenseRepository expenseRepository;
+
+    @Autowired
+    protected EmailTokenRepository emailTokenRepository;
 
     @Autowired
     protected EmailRepository emailRepository;

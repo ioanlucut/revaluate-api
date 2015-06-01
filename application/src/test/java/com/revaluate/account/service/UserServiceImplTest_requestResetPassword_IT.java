@@ -2,7 +2,7 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.Email;
+import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.email.EmailType;
@@ -31,7 +31,7 @@ public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegra
         // Assert that reset email token is added
         //-----------------------------------------------------------------
         User foundUser = userRepository.findOne(createdUserDTO.getId());
-        List<Email> emails = emailRepository.findAllByEmailTypeAndUserId(EmailType.RESET_PASSWORD, foundUser.getId());
+        List<EmailToken> emails = emailTokenRepository.findAllByEmailTypeAndUserId(EmailType.RESET_PASSWORD, foundUser.getId());
         assertThat(emails.size(), is(1));
     }
 
@@ -49,9 +49,9 @@ public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegra
         // Assert that reset email token is added - FIRST ONE
         //-----------------------------------------------------------------
         User foundUser = userRepository.findOne(createdUserDTO.getId());
-        Optional<Email> oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, foundUser.getId());
+        Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, foundUser.getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
-        Email firstEmailResetToken = oneByEmailTypeAndUserId.get();
+        EmailToken firstEmailResetToken = oneByEmailTypeAndUserId.get();
 
         // Second time
         userService.requestResetPassword(createdUserDTO.getEmail());
@@ -60,9 +60,9 @@ public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegra
         // Assert that reset email token is added - SECOND ONE
         //-----------------------------------------------------------------
         foundUser = userRepository.findOne(createdUserDTO.getId());
-        oneByEmailTypeAndUserId = emailRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, foundUser.getId());
+        oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, foundUser.getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
-        Email aDifferentResetToken = oneByEmailTypeAndUserId.get();
+        EmailToken aDifferentResetToken = oneByEmailTypeAndUserId.get();
         assertThat(aDifferentResetToken.getToken(), Matchers.not(Matchers.equalTo(firstEmailResetToken.getToken())));
     }
 

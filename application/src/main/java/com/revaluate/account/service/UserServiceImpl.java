@@ -1,22 +1,24 @@
 package com.revaluate.account.service;
 
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.Email;
-import com.revaluate.account.persistence.EmailRepository;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.utils.TokenGenerator;
 import com.revaluate.category.persistence.CategoryRepository;
+import com.revaluate.core.annotations.EmailSenderQualifier;
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;
 import com.revaluate.domain.account.*;
 import com.revaluate.domain.email.EmailType;
+import com.revaluate.email.persistence.EmailFeedback;
+import com.revaluate.email.persistence.EmailRepository;
+import com.revaluate.email.persistence.EmailToken;
+import com.revaluate.email.persistence.EmailTokenRepository;
+import com.revaluate.email.service.EmailAsyncSender;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import org.dozer.DozerBeanMapper;
 import org.mindrot.jbcrypt.BCrypt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,9 +31,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     public static final String USER_DTO__UPDATE = "UserDTO__Update";
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
-
 
     @Autowired
     private UserRepository userRepository;
@@ -46,6 +45,9 @@ public class UserServiceImpl implements UserService {
     private EmailRepository emailRepository;
 
     @Autowired
+    private EmailTokenRepository emailTokenRepository;
+
+    @Autowired
     private PaymentStatusRepository paymentStatusRepository;
 
     @Autowired
@@ -55,7 +57,12 @@ public class UserServiceImpl implements UserService {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private EmailAsyncSender emailAsyncSender;
+    @EmailSenderQualifier(value = EmailSenderQualifier.EmailSenderType.TO_USER)
+    private EmailAsyncSender<EmailToken> emailTokenAsyncSender;
+
+    @Autowired
+    @EmailSenderQualifier(value = EmailSenderQualifier.EmailSenderType.FEEDBACK)
+    private EmailAsyncSender<EmailFeedback> feedbackEmailAsyncSender;
 
     @Override
     public boolean isUnique(String email) {
@@ -100,13 +107,13 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Generate a new create email token
         //-----------------------------------------------------------------
-        Email createEmail = TokenGenerator.buildEmail(savedUser, EmailType.CREATED_ACCOUNT);
-        Email savedCreateEmail = emailRepository.save(createEmail);
+        EmailToken createEmail = TokenGenerator.buildEmail(savedUser, EmailType.CREATED_ACCOUNT);
+        EmailToken savedCreateEmail = emailTokenRepository.save(createEmail);
 
         //-----------------------------------------------------------------
         // Try to send email async
         //-----------------------------------------------------------------
-        emailAsyncSender.tryToSendEmail(savedCreateEmail);
+        emailTokenAsyncSender.tryToSendEmail(savedCreateEmail);
 
         return dozerBeanMapper.map(savedUser, UserDTO.class);
     }
@@ -181,8 +188,8 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Try to find a matching email token
         //-----------------------------------------------------------------
-        Optional<Email> optionalByUserIdAndTokenValidatedFalse = emailRepository.findOneByEmailTypeAndUserIdAndToken(EmailType.CREATED_ACCOUNT, user.getId(), token);
-        Email emailEntry = optionalByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Confirmation email token is invalid."));
+        Optional<EmailToken> optionalByUserIdAndTokenValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndToken(EmailType.CREATED_ACCOUNT, user.getId(), token);
+        EmailToken emailEntry = optionalByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Confirmation email token is invalid."));
 
         //-----------------------------------------------------------------
         // If already validated, just return
@@ -195,7 +202,7 @@ public class UserServiceImpl implements UserService {
         // Otherwise, set token as validated
         //-----------------------------------------------------------------
         emailEntry.setTokenValidated(Boolean.TRUE);
-        emailRepository.save(emailEntry);
+        emailTokenRepository.save(emailEntry);
 
         //-----------------------------------------------------------------
         // If already set as confirmed, return
@@ -219,14 +226,14 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Generate a new reset email token and save it
         //-----------------------------------------------------------------
-        Email confirmEmail = TokenGenerator.buildEmail(user, EmailType.CREATED_ACCOUNT);
+        EmailToken confirmEmail = TokenGenerator.buildEmail(user, EmailType.CREATED_ACCOUNT);
 
         //-----------------------------------------------------------------
         // Try to send email async
         //-----------------------------------------------------------------
-        emailAsyncSender.tryToSendEmail(confirmEmail);
+        emailTokenAsyncSender.tryToSendEmail(confirmEmail);
 
-        emailRepository.save(confirmEmail);
+        emailTokenRepository.save(confirmEmail);
     }
 
     @Override
@@ -264,14 +271,14 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Generate a new reset email token and save it
         //-----------------------------------------------------------------
-        Email resetEmail = TokenGenerator.buildEmail(user, EmailType.RESET_PASSWORD);
+        EmailToken resetEmail = TokenGenerator.buildEmail(user, EmailType.RESET_PASSWORD);
 
         //-----------------------------------------------------------------
         // Try to send email async
         //-----------------------------------------------------------------
-        emailAsyncSender.tryToSendEmail(resetEmail);
+        emailTokenAsyncSender.tryToSendEmail(resetEmail);
 
-        emailRepository.save(resetEmail);
+        emailTokenRepository.save(resetEmail);
     }
 
     @Override
@@ -282,8 +289,8 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Try to find a matching email token
         //-----------------------------------------------------------------
-        Optional<Email> oneByUserIdAndTokenValidatedFalse = emailRepository.findOneByEmailTypeAndUserIdAndToken(EmailType.RESET_PASSWORD, user.getId(), token);
-        Email emailToken = oneByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Token is invalid."));
+        Optional<EmailToken> oneByUserIdAndTokenValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndToken(EmailType.RESET_PASSWORD, user.getId(), token);
+        EmailToken emailToken = oneByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Token is invalid."));
 
         //-----------------------------------------------------------------
         // If already validated, just return
@@ -296,7 +303,7 @@ public class UserServiceImpl implements UserService {
         // Set token as validated
         //-----------------------------------------------------------------
         emailToken.setTokenValidated(Boolean.TRUE);
-        emailRepository.save(emailToken);
+        emailTokenRepository.save(emailToken);
     }
 
     @Override
@@ -311,7 +318,7 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Try to find a matching email token which is validated
         //-----------------------------------------------------------------
-        Optional<Email> oneByUserIdAndTokenValidatedFalse = emailRepository.findOneByEmailTypeAndUserIdAndTokenAndTokenValidatedTrue(EmailType.RESET_PASSWORD, user.getId(), token);
+        Optional<EmailToken> oneByUserIdAndTokenValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndTokenAndTokenValidatedTrue(EmailType.RESET_PASSWORD, user.getId(), token);
         oneByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Token is invalid."));
 
         //-----------------------------------------------------------------
@@ -350,12 +357,12 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Generate a feedback email message
         //-----------------------------------------------------------------
-        Email feedbackMessage = TokenGenerator.buildEmail(user, EmailType.FEEDBACK_MESSAGE);
+        EmailFeedback feedbackMessage = TokenGenerator.buildFeedbackEmail(user, EmailType.FEEDBACK_MESSAGE, feedbackDTO);
 
         //-----------------------------------------------------------------
         // Try to send email async
         //-----------------------------------------------------------------
-        emailAsyncSender.tryToSendEmail(feedbackMessage);
+        feedbackEmailAsyncSender.tryToSendEmail(feedbackMessage);
 
         emailRepository.save(feedbackMessage);
     }

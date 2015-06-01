@@ -2,12 +2,12 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.Email;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.FeedbackDTO;
 import com.revaluate.domain.account.FeedbackDTOBuilder;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.email.EmailType;
+import com.revaluate.email.persistence.Email;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolationException;
@@ -33,7 +33,7 @@ public class UserServiceImplTest_sendFeedback_IT extends AbstractIntegrationTest
         // Assert that reset email token is added
         //-----------------------------------------------------------------
         User foundUser = userRepository.findOne(createdUserDTO.getId());
-        List<Email> emails = emailRepository.findAllByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, foundUser.getId());
+        List<Email> emails = emailRepository.findAllByEmailTypeAndUserId(EmailType.FEEDBACK_MESSAGE, foundUser.getId());
         assertThat(emails.size(), is(1));
     }
 

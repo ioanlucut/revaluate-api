@@ -3,9 +3,9 @@ package com.revaluate.domain.email;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class SendToBuilder
+public class SendFeedbackToBuilder
     implements Cloneable {
-  protected SendToBuilder self;
+  protected SendFeedbackToBuilder self;
   protected int value$id$int;
   protected boolean isSet$id$int;
   protected String value$firstName$java$lang$String;
@@ -18,97 +18,111 @@ public class SendToBuilder
   protected boolean isSet$emailId$int;
   protected EmailType value$emailType$com$revaluate$domain$email$EmailType;
   protected boolean isSet$emailType$com$revaluate$domain$email$EmailType;
-  protected String value$emailToken$java$lang$String;
-  protected boolean isSet$emailToken$java$lang$String;
+  protected String value$subject$java$lang$String;
+  protected boolean isSet$subject$java$lang$String;
+  protected String value$message$java$lang$String;
+  protected boolean isSet$message$java$lang$String;
 
   /**
-   * Creates a new {@link SendToBuilder}.
+   * Creates a new {@link SendFeedbackToBuilder}.
    */
-  public SendToBuilder() {
-    self = (SendToBuilder)this;
+  public SendFeedbackToBuilder() {
+    self = (SendFeedbackToBuilder)this;
   }
 
   /**
-   * Sets the default value for the {@link SendTo#id} property.
+   * Sets the default value for the {@link SendFeedbackTo#id} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public SendToBuilder withId(int value) {
+  public SendFeedbackToBuilder withId(int value) {
     this.value$id$int = value;
     this.isSet$id$int = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link SendTo#firstName} property.
+   * Sets the default value for the {@link SendFeedbackTo#firstName} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public SendToBuilder withFirstName(String value) {
+  public SendFeedbackToBuilder withFirstName(String value) {
     this.value$firstName$java$lang$String = value;
     this.isSet$firstName$java$lang$String = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link SendTo#lastName} property.
+   * Sets the default value for the {@link SendFeedbackTo#lastName} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public SendToBuilder withLastName(String value) {
+  public SendFeedbackToBuilder withLastName(String value) {
     this.value$lastName$java$lang$String = value;
     this.isSet$lastName$java$lang$String = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link SendTo#email} property.
+   * Sets the default value for the {@link SendFeedbackTo#email} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public SendToBuilder withEmail(String value) {
+  public SendFeedbackToBuilder withEmail(String value) {
     this.value$email$java$lang$String = value;
     this.isSet$email$java$lang$String = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link SendTo#emailId} property.
+   * Sets the default value for the {@link SendFeedbackTo#emailId} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public SendToBuilder withEmailId(int value) {
+  public SendFeedbackToBuilder withEmailId(int value) {
     this.value$emailId$int = value;
     this.isSet$emailId$int = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link SendTo#emailType} property.
+   * Sets the default value for the {@link SendFeedbackTo#emailType} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public SendToBuilder withEmailType(EmailType value) {
+  public SendFeedbackToBuilder withEmailType(EmailType value) {
     this.value$emailType$com$revaluate$domain$email$EmailType = value;
     this.isSet$emailType$com$revaluate$domain$email$EmailType = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link SendTo#emailToken} property.
+   * Sets the default value for the {@link SendFeedbackTo#subject} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public SendToBuilder withEmailToken(String value) {
-    this.value$emailToken$java$lang$String = value;
-    this.isSet$emailToken$java$lang$String = true;
+  public SendFeedbackToBuilder withSubject(String value) {
+    this.value$subject$java$lang$String = value;
+    this.isSet$subject$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link SendFeedbackTo#message} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public SendFeedbackToBuilder withMessage(String value) {
+    this.value$message$java$lang$String = value;
+    this.isSet$message$java$lang$String = true;
     return self;
   }
 
@@ -120,7 +134,7 @@ public class SendToBuilder
   @Override
   public Object clone() {
     try {
-      SendToBuilder result = (SendToBuilder)super.clone();
+      SendFeedbackToBuilder result = (SendFeedbackToBuilder)super.clone();
       result.self = result;
       return result;
     } catch (CloneNotSupportedException e) {
@@ -133,18 +147,18 @@ public class SendToBuilder
    *
    * @return the clone
    */
-  public SendToBuilder but() {
-    return (SendToBuilder)clone();
+  public SendFeedbackToBuilder but() {
+    return (SendFeedbackToBuilder)clone();
   }
 
   /**
-   * Creates a new {@link SendTo} based on this builder's settings.
+   * Creates a new {@link SendFeedbackTo} based on this builder's settings.
    *
-   * @return the created SendTo
+   * @return the created SendFeedbackTo
    */
-  public SendTo build() {
+  public SendFeedbackTo build() {
     try {
-      SendTo result = new SendTo();
+      SendFeedbackTo result = new SendFeedbackTo();
       if (isSet$id$int) {
         result.setId(value$id$int);
       }
@@ -163,8 +177,11 @@ public class SendToBuilder
       if (isSet$emailType$com$revaluate$domain$email$EmailType) {
         result.setEmailType(value$emailType$com$revaluate$domain$email$EmailType);
       }
-      if (isSet$emailToken$java$lang$String) {
-        result.setEmailToken(value$emailToken$java$lang$String);
+      if (isSet$subject$java$lang$String) {
+        result.setSubject(value$subject$java$lang$String);
+      }
+      if (isSet$message$java$lang$String) {
+        result.setMessage(value$message$java$lang$String);
       }
       return result;
     } catch (RuntimeException ex) {

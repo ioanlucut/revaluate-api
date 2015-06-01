@@ -2,7 +2,7 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.account.persistence.Email;
+import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.email.EmailType;
@@ -28,7 +28,7 @@ public class UserServiceImplTest_requestConfirmEmail_IT extends AbstractIntegrat
         // Assert that reset email token is added
         //-----------------------------------------------------------------
         User foundUser = userRepository.findOne(createdUserDTO.getId());
-        List<Email> emails = emailRepository.findAllByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, foundUser.getId());
+        List<EmailToken> emails = emailTokenRepository.findAllByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, foundUser.getId());
         assertThat(emails.size(), is(2));
     }
 
@@ -46,7 +46,7 @@ public class UserServiceImplTest_requestConfirmEmail_IT extends AbstractIntegrat
         // Assert that reset email token is added - FIRST ONE
         //-----------------------------------------------------------------
         User foundUser = userRepository.findOne(createdUserDTO.getId());
-        List<Email> emails = emailRepository.findAllByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, foundUser.getId());
+        List<EmailToken> emails = emailTokenRepository.findAllByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, foundUser.getId());
         assertThat(emails.size(), is(2));
 
         // Second time
@@ -55,7 +55,7 @@ public class UserServiceImplTest_requestConfirmEmail_IT extends AbstractIntegrat
         //-----------------------------------------------------------------
         // Assert that reset email token is added - SECOND ONE
         //-----------------------------------------------------------------
-        emails = emailRepository.findAllByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, foundUser.getId());
+        emails = emailTokenRepository.findAllByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, foundUser.getId());
         assertThat(emails.size(), is(3));
     }
 
