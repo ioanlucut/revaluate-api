@@ -40,7 +40,8 @@ public class InsightDTO implements Serializable {
     private List<TotalPerCategoryInsightDTO> totalPerCategoryInsightDTOs;
 
     private double totalAmountSpent;
-    private int numberOfTransactions;
+    private long numberOfTransactions;
+    private long totalNumberOfTransactions;
 
     public LocalDateTime getFrom() {
         return from;
@@ -90,12 +91,20 @@ public class InsightDTO implements Serializable {
         this.totalAmountSpent = totalAmountSpent;
     }
 
-    public int getNumberOfTransactions() {
+    public long getNumberOfTransactions() {
         return numberOfTransactions;
     }
 
-    public void setNumberOfTransactions(int numberOfTransactions) {
+    public void setNumberOfTransactions(long numberOfTransactions) {
         this.numberOfTransactions = numberOfTransactions;
+    }
+
+    public long getTotalNumberOfTransactions() {
+        return totalNumberOfTransactions;
+    }
+
+    public void setTotalNumberOfTransactions(long totalNumberOfTransactions) {
+        this.totalNumberOfTransactions = totalNumberOfTransactions;
     }
 
     public List<TotalPerCategoryInsightDTO> getTotalPerCategoryInsightDTOs() {
@@ -113,6 +122,7 @@ public class InsightDTO implements Serializable {
         InsightDTO that = (InsightDTO) o;
         return Objects.equals(totalAmountSpent, that.totalAmountSpent) &&
                 Objects.equals(numberOfTransactions, that.numberOfTransactions) &&
+                Objects.equals(totalNumberOfTransactions, that.totalNumberOfTransactions) &&
                 Objects.equals(from, that.from) &&
                 Objects.equals(to, that.to) &&
                 Objects.equals(insightData, that.insightData) &&
@@ -123,7 +133,7 @@ public class InsightDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(from, to, insightData, insightColors, insightLabels, totalPerCategoryInsightDTOs, totalAmountSpent, numberOfTransactions);
+        return Objects.hash(from, to, insightData, insightColors, insightLabels, totalPerCategoryInsightDTOs, totalAmountSpent, numberOfTransactions, totalNumberOfTransactions);
     }
 
     @Override
@@ -137,6 +147,7 @@ public class InsightDTO implements Serializable {
                 ", totalPerCategoryInsightDTOs=" + totalPerCategoryInsightDTOs +
                 ", totalAmountSpent=" + totalAmountSpent +
                 ", numberOfTransactions=" + numberOfTransactions +
+                ", totalNumberOfTransactions=" + totalNumberOfTransactions +
                 '}';
     }
 }

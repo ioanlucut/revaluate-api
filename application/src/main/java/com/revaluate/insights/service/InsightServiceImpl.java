@@ -110,6 +110,7 @@ public class InsightServiceImpl implements InsightService {
                 .withInsightColors(insightColors)
                 .withInsightLabels(insightsLabels)
                 .withNumberOfTransactions(allExpenses.size())
+                .withTotalNumberOfTransactions(expenseRepository.countByUserId(userId))
                 .withTotalAmountSpent(totalExpenses.doubleValue())
                 .withTotalPerCategoryInsightDTOs(totalPerCategoriesDTOs)
                 .build();
