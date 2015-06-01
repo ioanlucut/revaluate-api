@@ -20,8 +20,10 @@ public class InsightDTOBuilder
   protected boolean isSet$insightLabels$java$util$List;
   protected double value$totalAmountSpent$double;
   protected boolean isSet$totalAmountSpent$double;
-  protected int value$numberOfTransactions$int;
-  protected boolean isSet$numberOfTransactions$int;
+  protected long value$numberOfTransactions$long;
+  protected boolean isSet$numberOfTransactions$long;
+  protected long value$totalNumberOfTransactions$long;
+  protected boolean isSet$totalNumberOfTransactions$long;
   protected List<TotalPerCategoryInsightDTO> value$totalPerCategoryInsightDTOs$java$util$List;
   protected boolean isSet$totalPerCategoryInsightDTOs$java$util$List;
 
@@ -110,9 +112,21 @@ public class InsightDTOBuilder
    * @param value the default value
    * @return this builder
    */
-  public InsightDTOBuilder withNumberOfTransactions(int value) {
-    this.value$numberOfTransactions$int = value;
-    this.isSet$numberOfTransactions$int = true;
+  public InsightDTOBuilder withNumberOfTransactions(long value) {
+    this.value$numberOfTransactions$long = value;
+    this.isSet$numberOfTransactions$long = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link InsightDTO#totalNumberOfTransactions} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public InsightDTOBuilder withTotalNumberOfTransactions(long value) {
+    this.value$totalNumberOfTransactions$long = value;
+    this.isSet$totalNumberOfTransactions$long = true;
     return self;
   }
 
@@ -179,8 +193,11 @@ public class InsightDTOBuilder
       if (isSet$totalAmountSpent$double) {
         result.setTotalAmountSpent(value$totalAmountSpent$double);
       }
-      if (isSet$numberOfTransactions$int) {
-        result.setNumberOfTransactions(value$numberOfTransactions$int);
+      if (isSet$numberOfTransactions$long) {
+        result.setNumberOfTransactions(value$numberOfTransactions$long);
+      }
+      if (isSet$totalNumberOfTransactions$long) {
+        result.setTotalNumberOfTransactions(value$totalNumberOfTransactions$long);
       }
       if (isSet$totalPerCategoryInsightDTOs$java$util$List) {
         result.setTotalPerCategoryInsightDTOs(value$totalPerCategoryInsightDTOs$java$util$List);
