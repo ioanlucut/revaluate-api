@@ -62,7 +62,7 @@ public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends Ab
         //-----------------------------------------------------------------
         UserDTO userDTO = createUserDTO();
         User user = userRepository.findOne(userDTO.getId());
-        user.setCreatedDate(LocalDateTime.now().minusDays(15));
+        user.setEndTrialDate(LocalDateTime.now().minusDays(15));
         userRepository.save(user);
 
         ContainerRequestContext containerRequestContext = mock(ContainerRequestContext.class);
@@ -155,7 +155,7 @@ public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends Ab
         // Now change the user created date
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
-        user.setCreatedDate(LocalDateTime.now().minusDays(15));
+        user.setEndTrialDate(LocalDateTime.now().minusDays(15));
         userRepository.save(user);
 
         ContainerRequestContext containerRequestContext = mock(ContainerRequestContext.class);

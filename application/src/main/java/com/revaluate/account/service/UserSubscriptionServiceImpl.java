@@ -10,13 +10,10 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class UserSubscriptionServiceImpl implements UserSubscriptionService {
 
-    public static final int TRIAL_DAYS = 15;
-
     @Override
     public boolean isUserTrialPeriodExpired(User foundUser) {
         if (foundUser.getUserSubscriptionStatus() == UserSubscriptionStatus.TRIAL) {
-            LocalDateTime createdDate = foundUser.getCreatedDate();
-            LocalDateTime endTrialDate = createdDate.plusDays(TRIAL_DAYS);
+            LocalDateTime endTrialDate = foundUser.getEndTrialDate();
 
             return LocalDateTime.now().isAfter(endTrialDate);
         }
