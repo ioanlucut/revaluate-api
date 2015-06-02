@@ -2,6 +2,7 @@ package com.revaluate.payment.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.domain.payment.insights.PaymentInsightsDTO;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +18,7 @@ public class PaymentStatusServiceImplTest_fetchPaymentInsightsFor_IT extends Abs
     private PaymentStatusService paymentStatusService;
 
     @Test
+    @Ignore
     public void fetchPaymentInsightsFor__validCustomerId__isOk() throws Exception {
         PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.fetchPaymentInsights(IOAN_LUCUT_CUSTOMER_ID_SANDBOX);
         assertThat(paymentInsightsDTO, is(notNullValue()));
