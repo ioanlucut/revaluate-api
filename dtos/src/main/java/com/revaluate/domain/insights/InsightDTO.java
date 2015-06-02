@@ -25,18 +25,6 @@ public class InsightDTO implements Serializable {
 
     @NotNull
     @JsonView({Views.DetailsView.class})
-    private List<String> insightData;
-
-    @NotNull
-    @JsonView({Views.DetailsView.class})
-    private List<String> insightColors;
-
-    @NotNull
-    @JsonView({Views.DetailsView.class})
-    private List<String> insightLabels;
-
-    @NotNull
-    @JsonView({Views.DetailsView.class})
     private List<TotalPerCategoryInsightDTO> totalPerCategoryInsightDTOs;
 
     private double totalAmountSpent;
@@ -57,30 +45,6 @@ public class InsightDTO implements Serializable {
 
     public void setTo(LocalDateTime to) {
         this.to = to;
-    }
-
-    public List<String> getInsightData() {
-        return insightData;
-    }
-
-    public void setInsightData(List<String> insightData) {
-        this.insightData = insightData;
-    }
-
-    public List<String> getInsightColors() {
-        return insightColors;
-    }
-
-    public void setInsightColors(List<String> insightColors) {
-        this.insightColors = insightColors;
-    }
-
-    public List<String> getInsightLabels() {
-        return insightLabels;
-    }
-
-    public void setInsightLabels(List<String> insightLabels) {
-        this.insightLabels = insightLabels;
     }
 
     public double getTotalAmountSpent() {
@@ -125,15 +89,12 @@ public class InsightDTO implements Serializable {
                 Objects.equals(totalNumberOfTransactions, that.totalNumberOfTransactions) &&
                 Objects.equals(from, that.from) &&
                 Objects.equals(to, that.to) &&
-                Objects.equals(insightData, that.insightData) &&
-                Objects.equals(insightColors, that.insightColors) &&
-                Objects.equals(insightLabels, that.insightLabels) &&
                 Objects.equals(totalPerCategoryInsightDTOs, that.totalPerCategoryInsightDTOs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(from, to, insightData, insightColors, insightLabels, totalPerCategoryInsightDTOs, totalAmountSpent, numberOfTransactions, totalNumberOfTransactions);
+        return Objects.hash(from, to, totalPerCategoryInsightDTOs, totalAmountSpent, numberOfTransactions, totalNumberOfTransactions);
     }
 
     @Override
@@ -141,9 +102,6 @@ public class InsightDTO implements Serializable {
         return "InsightDTO{" +
                 "from=" + from +
                 ", to=" + to +
-                ", insightData=" + insightData +
-                ", insightColors=" + insightColors +
-                ", insightLabels=" + insightLabels +
                 ", totalPerCategoryInsightDTOs=" + totalPerCategoryInsightDTOs +
                 ", totalAmountSpent=" + totalAmountSpent +
                 ", numberOfTransactions=" + numberOfTransactions +

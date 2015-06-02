@@ -12,12 +12,6 @@ public class InsightDTOBuilder
   protected boolean isSet$from$org$joda$time$LocalDateTime;
   protected LocalDateTime value$to$org$joda$time$LocalDateTime;
   protected boolean isSet$to$org$joda$time$LocalDateTime;
-  protected List<String> value$insightData$java$util$List;
-  protected boolean isSet$insightData$java$util$List;
-  protected List<String> value$insightColors$java$util$List;
-  protected boolean isSet$insightColors$java$util$List;
-  protected List<String> value$insightLabels$java$util$List;
-  protected boolean isSet$insightLabels$java$util$List;
   protected double value$totalAmountSpent$double;
   protected boolean isSet$totalAmountSpent$double;
   protected long value$numberOfTransactions$long;
@@ -55,42 +49,6 @@ public class InsightDTOBuilder
   public InsightDTOBuilder withTo(LocalDateTime value) {
     this.value$to$org$joda$time$LocalDateTime = value;
     this.isSet$to$org$joda$time$LocalDateTime = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link InsightDTO#insightData} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public InsightDTOBuilder withInsightData(List<String> value) {
-    this.value$insightData$java$util$List = value;
-    this.isSet$insightData$java$util$List = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link InsightDTO#insightColors} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public InsightDTOBuilder withInsightColors(List<String> value) {
-    this.value$insightColors$java$util$List = value;
-    this.isSet$insightColors$java$util$List = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link InsightDTO#insightLabels} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public InsightDTOBuilder withInsightLabels(List<String> value) {
-    this.value$insightLabels$java$util$List = value;
-    this.isSet$insightLabels$java$util$List = true;
     return self;
   }
 
@@ -180,15 +138,6 @@ public class InsightDTOBuilder
       }
       if (isSet$to$org$joda$time$LocalDateTime) {
         result.setTo(value$to$org$joda$time$LocalDateTime);
-      }
-      if (isSet$insightData$java$util$List) {
-        result.setInsightData(value$insightData$java$util$List);
-      }
-      if (isSet$insightColors$java$util$List) {
-        result.setInsightColors(value$insightColors$java$util$List);
-      }
-      if (isSet$insightLabels$java$util$List) {
-        result.setInsightLabels(value$insightLabels$java$util$List);
       }
       if (isSet$totalAmountSpent$double) {
         result.setTotalAmountSpent(value$totalAmountSpent$double);
