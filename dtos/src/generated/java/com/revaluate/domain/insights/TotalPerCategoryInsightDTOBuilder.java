@@ -11,10 +11,6 @@ public class TotalPerCategoryInsightDTOBuilder
   protected boolean isSet$categoryDTO$com$revaluate$domain$category$CategoryDTO;
   protected String value$totalAmount$java$lang$String;
   protected boolean isSet$totalAmount$java$lang$String;
-  protected String value$label$java$lang$String;
-  protected boolean isSet$label$java$lang$String;
-  protected String value$color$java$lang$String;
-  protected boolean isSet$color$java$lang$String;
 
   /**
    * Creates a new {@link TotalPerCategoryInsightDTOBuilder}.
@@ -44,30 +40,6 @@ public class TotalPerCategoryInsightDTOBuilder
   public TotalPerCategoryInsightDTOBuilder withTotalAmount(String value) {
     this.value$totalAmount$java$lang$String = value;
     this.isSet$totalAmount$java$lang$String = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link TotalPerCategoryInsightDTO#label} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public TotalPerCategoryInsightDTOBuilder withLabel(String value) {
-    this.value$label$java$lang$String = value;
-    this.isSet$label$java$lang$String = true;
-    return self;
-  }
-
-  /**
-   * Sets the default value for the {@link TotalPerCategoryInsightDTO#color} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public TotalPerCategoryInsightDTOBuilder withColor(String value) {
-    this.value$color$java$lang$String = value;
-    this.isSet$color$java$lang$String = true;
     return self;
   }
 
@@ -109,12 +81,6 @@ public class TotalPerCategoryInsightDTOBuilder
       }
       if (isSet$totalAmount$java$lang$String) {
         result.setTotalAmount(value$totalAmount$java$lang$String);
-      }
-      if (isSet$label$java$lang$String) {
-        result.setLabel(value$label$java$lang$String);
-      }
-      if (isSet$color$java$lang$String) {
-        result.setColor(value$color$java$lang$String);
       }
       return result;
     } catch (RuntimeException ex) {
