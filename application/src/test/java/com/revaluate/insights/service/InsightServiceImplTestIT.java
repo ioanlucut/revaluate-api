@@ -74,21 +74,6 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(insightDTO.getFrom(), is(notNullValue()));
         assertThat(insightDTO.getTo(), is(notNullValue()));
 
-        assertThat(insightDTO.getInsightData(), is(notNullValue()));
-        assertThat(insightDTO.getInsightData().size(), is(2));
-        assertThat(insightDTO.getInsightData().stream().anyMatch(s -> "10.10".equals(s)), is(Boolean.TRUE));
-        assertThat(insightDTO.getInsightData().stream().anyMatch(s -> "30.10".equals(s)), is(Boolean.TRUE));
-
-        assertThat(insightDTO.getInsightLabels(), is(notNullValue()));
-        assertThat(insightDTO.getInsightLabels().size(), is(2));
-        assertThat(insightDTO.getInsightLabels().stream().anyMatch(s -> "name".equals(s)), is(Boolean.TRUE));
-        assertThat(insightDTO.getInsightLabels().stream().anyMatch(s -> "name2".equals(s)), is(Boolean.TRUE));
-
-        assertThat(insightDTO.getInsightColors(), is(notNullValue()));
-        assertThat(insightDTO.getInsightColors().size(), is(2));
-        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> FIRST_VALID_COLOR.getColor().equals(s)), is(Boolean.TRUE));
-        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> SECOND_VALID_COLOR.getColor().equals(s)), is(Boolean.TRUE));
-
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs(), is(notNullValue()));
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs().size(), is(2));
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name") && s.getTotalAmount().equals("10.10")), is(Boolean.TRUE));
@@ -139,21 +124,6 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert insight is ok
         //-----------------------------------------------------------------
-        assertThat(insightDTO.getInsightData(), is(notNullValue()));
-        assertThat(insightDTO.getInsightData().size(), is(2));
-        assertThat(insightDTO.getInsightData().stream().anyMatch(s -> "10.10".equals(s)), is(Boolean.TRUE));
-        assertThat(insightDTO.getInsightData().stream().anyMatch(s -> "12.55".equals(s)), is(Boolean.TRUE));
-
-        assertThat(insightDTO.getInsightLabels(), is(notNullValue()));
-        assertThat(insightDTO.getInsightLabels().size(), is(2));
-        assertThat(insightDTO.getInsightLabels().stream().anyMatch(s -> "name".equals(s)), is(Boolean.TRUE));
-        assertThat(insightDTO.getInsightLabels().stream().anyMatch(s -> "name2".equals(s)), is(Boolean.TRUE));
-
-        assertThat(insightDTO.getInsightColors(), is(notNullValue()));
-        assertThat(insightDTO.getInsightColors().size(), is(2));
-        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> FIRST_VALID_COLOR.getColor().equals(s)), is(Boolean.TRUE));
-        assertThat(insightDTO.getInsightColors().stream().anyMatch(s -> SECOND_VALID_COLOR.getColor().equals(s)), is(Boolean.TRUE));
-
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs(), is(notNullValue()));
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs().size(), is(2));
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name") && s.getTotalAmount().equals("10.10")), is(Boolean.TRUE));

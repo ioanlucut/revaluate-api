@@ -14,10 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,9 +41,6 @@ public class InsightServiceImpl implements InsightService {
             return new InsightDTOBuilder()
                     .withFrom(after)
                     .withTo(before)
-                    .withInsightData(Collections.emptyList())
-                    .withInsightColors(Collections.emptyList())
-                    .withInsightLabels(Collections.emptyList())
                     .withTotalPerCategoryInsightDTOs(Collections.emptyList())
                     .withTotalNumberOfTransactions(expenseRepository.countByUserId(userId))
                     .build();
@@ -55,29 +49,31 @@ public class InsightServiceImpl implements InsightService {
         //-----------------------------------------------------------------
         // Otherwise, return a nice insight
         //-----------------------------------------------------------------
-        Map<Category, List<Expense>> groupedByCategory = allExpenses.stream()
-                .collect(Collectors.groupingBy(Expense::getCategory));
 
-        List<String> insightsLabels = groupedByCategory.entrySet()
+        Set<Map.Entry<Category, List<Expense>>> groupedCategoriesEntrySet = allExpenses
                 .stream()
-                .map(categoryListEntry -> categoryListEntry.getKey().getName())
-                .collect(Collectors.toList());
-
-        List<String> insightColors = groupedByCategory.entrySet()
-                .stream()
-                .map(categoryListEntry -> categoryListEntry.getKey().getColor().getColor())
-                .collect(Collectors.toList());
+                .collect(Collectors.groupingBy(Expense::getCategory))
+                .entrySet();
 
         DecimalFormat decimalFormat = new DecimalFormat(PATTERN);
 
         //-----------------------------------------------------------------
         // Total per categories
         //-----------------------------------------------------------------
-        List<TotalPerCategoryInsightDTO> totalPerCategoriesDTOs = groupedByCategory.entrySet()
+        Comparator<TotalPerCategoryInsightDTO> totalPerCategoryInsightDTOComparator = (o1, o2) -> o1.getTotalAmount().compareTo(o2.getTotalAmount());
+        List<TotalPerCategoryInsightDTO> totalPerCategoriesDTOs = groupedCategoriesEntrySet
                 .stream()
                 .map(categoryListEntry -> {
+                    //-----------------------------------------------------------------
+                    // Compute category DTO
+                    //-----------------------------------------------------------------
                     CategoryDTO categoryDTO = dozerBeanMapper.map(categoryListEntry.getKey(), CategoryDTO.class);
-                    BigDecimal bigDecimal = categoryListEntry.getValue()
+
+                    //-----------------------------------------------------------------
+                    // Compute total expenses of this category
+                    //-----------------------------------------------------------------
+                    BigDecimal bigDecimal = categoryListEntry
+                            .getValue()
                             .stream()
                             .map(Expense::getValue)
                             .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -88,15 +84,7 @@ public class InsightServiceImpl implements InsightService {
                             .withTotalAmount(totalAmount)
                             .build();
                 })
-                .collect(Collectors.toList());
-
-        List<String> insightData = groupedByCategory.entrySet()
-                .stream()
-                .map(Map.Entry::getValue)
-                .map(expenses -> expenses.stream()
-                        .map(Expense::getValue)
-                        .reduce(BigDecimal.ZERO, BigDecimal::add))
-                .map(bigDecimal -> decimalFormat.format(bigDecimal.setScale(DIGITS_SCALE, BigDecimal.ROUND_DOWN)))
+                .sorted(totalPerCategoryInsightDTOComparator.reversed())
                 .collect(Collectors.toList());
 
         BigDecimal totalExpenses = allExpenses
@@ -107,9 +95,6 @@ public class InsightServiceImpl implements InsightService {
         return new InsightDTOBuilder()
                 .withFrom(after)
                 .withTo(before)
-                .withInsightData(insightData)
-                .withInsightColors(insightColors)
-                .withInsightLabels(insightsLabels)
                 .withNumberOfTransactions(allExpenses.size())
                 .withTotalNumberOfTransactions(expenseRepository.countByUserId(userId))
                 .withTotalAmountSpent(totalExpenses.doubleValue())

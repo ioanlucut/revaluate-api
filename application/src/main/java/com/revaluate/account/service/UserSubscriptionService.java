@@ -7,5 +7,5 @@ import javax.validation.constraints.NotNull;
 
 public interface UserSubscriptionService {
 
-    boolean isUserTrialPeriodExpired(@NotNull @Valid User foundUser);
+    boolean isUserTrialPeriodExpired(@NotNull @Valid User user);
 }
