@@ -3,6 +3,7 @@ package com.revaluate.resource.payment;
 import com.braintreegateway.Customer;
 import com.braintreegateway.ResourceCollection;
 import com.braintreegateway.Transaction;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -56,6 +57,7 @@ public class PaymentServiceImplTest_fetchToken_IT {
     }
 
     @Test
+    @Ignore
     public void fetchCustomer_validCustomerId_isOk() throws Exception {
         Customer customer = paymentService.findCustomer(IOAN_LUCUT_CUSTOMER_ID_SANDBOX);
 
