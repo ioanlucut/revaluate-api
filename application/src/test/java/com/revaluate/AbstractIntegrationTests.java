@@ -1,8 +1,6 @@
 package com.revaluate;
 
 import com.revaluate.account.exception.UserException;
-import com.revaluate.email.persistence.EmailRepository;
-import com.revaluate.email.persistence.EmailTokenRepository;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.service.UserService;
 import com.revaluate.category.persistence.CategoryRepository;
@@ -16,6 +14,8 @@ import com.revaluate.domain.color.ColorDTO;
 import com.revaluate.domain.color.ColorDTOBuilder;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.currency.CurrencyDTOBuilder;
+import com.revaluate.email.persistence.EmailRepository;
+import com.revaluate.email.persistence.EmailTokenRepository;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import org.joda.money.CurrencyUnit;
@@ -47,9 +47,12 @@ public class AbstractIntegrationTests {
     public static final int VALID_COLOR_ID = 1;
     public static final String VALID_COLOR_2 = "#fff";
     public static final int VALID_COLOR_ID_2 = 2;
+    public static final String VALID_COLOR_3 = "#fef";
+    public static final int VALID_COLOR_ID_3 = 3;
 
     public static final ColorDTO FIRST_VALID_COLOR = new ColorDTOBuilder().withId(VALID_COLOR_ID).withColor(VALID_COLOR).build();
     public static final ColorDTO SECOND_VALID_COLOR = new ColorDTOBuilder().withId(VALID_COLOR_ID_2).withColor(VALID_COLOR_2).build();
+    public static final ColorDTO THIRD_VALID_COLOR = new ColorDTOBuilder().withId(VALID_COLOR_ID_3).withColor(VALID_COLOR_3).build();
 
     @Rule
     public ExpectedException exception = ExpectedException.none();

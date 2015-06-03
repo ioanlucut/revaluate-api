@@ -60,7 +60,7 @@ public class InsightServiceImpl implements InsightService {
         //-----------------------------------------------------------------
         // Total per categories
         //-----------------------------------------------------------------
-        Comparator<TotalPerCategoryInsightDTO> totalPerCategoryInsightDTOComparator = (o1, o2) -> o1.getTotalAmount().compareTo(o2.getTotalAmount());
+        Comparator<TotalPerCategoryInsightDTO> totalPerCategoryInsightDTOComparator = (o1, o2) -> Double.compare(o1.getTotalAmount(), o2.getTotalAmount());
         List<TotalPerCategoryInsightDTO> totalPerCategoriesDTOs = groupedCategoriesEntrySet
                 .stream()
                 .map(categoryListEntry -> {
@@ -72,16 +72,21 @@ public class InsightServiceImpl implements InsightService {
                     //-----------------------------------------------------------------
                     // Compute total expenses of this category
                     //-----------------------------------------------------------------
-                    BigDecimal bigDecimal = categoryListEntry
+                    BigDecimal totalAmount = categoryListEntry
                             .getValue()
                             .stream()
                             .map(Expense::getValue)
                             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-                    String totalAmount = decimalFormat.format(bigDecimal.setScale(DIGITS_SCALE, BigDecimal.ROUND_DOWN));
+                    //-----------------------------------------------------------------
+                    // Format total amount
+                    //-----------------------------------------------------------------
+                    String totalAmountFormatted = decimalFormat.format(totalAmount.setScale(DIGITS_SCALE, BigDecimal.ROUND_DOWN));
+
                     return new TotalPerCategoryInsightDTOBuilder()
                             .withCategoryDTO(categoryDTO)
-                            .withTotalAmount(totalAmount)
+                            .withTotalAmount(totalAmount.doubleValue())
+                            .withTotalAmountFormatted(totalAmountFormatted)
                             .build();
                 })
                 .sorted(totalPerCategoryInsightDTOComparator.reversed())

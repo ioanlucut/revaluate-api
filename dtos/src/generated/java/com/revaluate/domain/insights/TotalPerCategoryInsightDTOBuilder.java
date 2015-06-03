@@ -9,8 +9,10 @@ public class TotalPerCategoryInsightDTOBuilder
   protected TotalPerCategoryInsightDTOBuilder self;
   protected CategoryDTO value$categoryDTO$com$revaluate$domain$category$CategoryDTO;
   protected boolean isSet$categoryDTO$com$revaluate$domain$category$CategoryDTO;
-  protected String value$totalAmount$java$lang$String;
-  protected boolean isSet$totalAmount$java$lang$String;
+  protected String value$totalAmountFormatted$java$lang$String;
+  protected boolean isSet$totalAmountFormatted$java$lang$String;
+  protected double value$totalAmount$double;
+  protected boolean isSet$totalAmount$double;
 
   /**
    * Creates a new {@link TotalPerCategoryInsightDTOBuilder}.
@@ -32,14 +34,26 @@ public class TotalPerCategoryInsightDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link TotalPerCategoryInsightDTO#totalAmountFormatted} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public TotalPerCategoryInsightDTOBuilder withTotalAmountFormatted(String value) {
+    this.value$totalAmountFormatted$java$lang$String = value;
+    this.isSet$totalAmountFormatted$java$lang$String = true;
+    return self;
+  }
+
+  /**
    * Sets the default value for the {@link TotalPerCategoryInsightDTO#totalAmount} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public TotalPerCategoryInsightDTOBuilder withTotalAmount(String value) {
-    this.value$totalAmount$java$lang$String = value;
-    this.isSet$totalAmount$java$lang$String = true;
+  public TotalPerCategoryInsightDTOBuilder withTotalAmount(double value) {
+    this.value$totalAmount$double = value;
+    this.isSet$totalAmount$double = true;
     return self;
   }
 
@@ -79,8 +93,11 @@ public class TotalPerCategoryInsightDTOBuilder
       if (isSet$categoryDTO$com$revaluate$domain$category$CategoryDTO) {
         result.setCategoryDTO(value$categoryDTO$com$revaluate$domain$category$CategoryDTO);
       }
-      if (isSet$totalAmount$java$lang$String) {
-        result.setTotalAmount(value$totalAmount$java$lang$String);
+      if (isSet$totalAmountFormatted$java$lang$String) {
+        result.setTotalAmountFormatted(value$totalAmountFormatted$java$lang$String);
+      }
+      if (isSet$totalAmount$double) {
+        result.setTotalAmount(value$totalAmount$double);
       }
       return result;
     } catch (RuntimeException ex) {
