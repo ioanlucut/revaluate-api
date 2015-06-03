@@ -19,6 +19,7 @@ VALUES (2, 'CREATED_ACCOUNT', 'xxx', FALSE, 1);
 --Colors
 INSERT INTO color (id, color, color_name, priority) VALUES (1, '#eee', '', 1);
 INSERT INTO color (id, color, color_name, priority) VALUES (2, '#fff', '', 2);
+INSERT INTO color (id, color, color_name, priority) VALUES (3, '#fef', '', 3);
 
 --
 INSERT INTO subscription_plan (id, value, description, subscription_type) VALUES (1, 5, 'Basic subscription plan', 'STANDARD');

@@ -21,7 +21,11 @@ public class TotalPerCategoryInsightDTO implements Serializable {
 
     @NotEmpty
     @JsonView({Views.DetailsView.class})
-    private String totalAmount;
+    private String totalAmountFormatted;
+
+    @NotEmpty
+    @JsonView({Views.DetailsView.class})
+    private double totalAmount;
 
     public CategoryDTO getCategoryDTO() {
         return categoryDTO;
@@ -31,11 +35,19 @@ public class TotalPerCategoryInsightDTO implements Serializable {
         this.categoryDTO = categoryDTO;
     }
 
-    public String getTotalAmount() {
+    public String getTotalAmountFormatted() {
+        return totalAmountFormatted;
+    }
+
+    public void setTotalAmountFormatted(String totalAmountFormatted) {
+        this.totalAmountFormatted = totalAmountFormatted;
+    }
+
+    public double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(String totalAmount) {
+    public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -44,20 +56,22 @@ public class TotalPerCategoryInsightDTO implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TotalPerCategoryInsightDTO that = (TotalPerCategoryInsightDTO) o;
-        return Objects.equals(categoryDTO, that.categoryDTO) &&
-                Objects.equals(totalAmount, that.totalAmount);
+        return Objects.equals(totalAmount, that.totalAmount) &&
+                Objects.equals(categoryDTO, that.categoryDTO) &&
+                Objects.equals(totalAmountFormatted, that.totalAmountFormatted);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(categoryDTO, totalAmount);
+        return Objects.hash(categoryDTO, totalAmountFormatted, totalAmount);
     }
 
     @Override
     public String toString() {
         return "TotalPerCategoryInsightDTO{" +
                 "categoryDTO=" + categoryDTO +
-                ", totalAmount='" + totalAmount + '\'' +
+                ", totalAmountFormatted='" + totalAmountFormatted + '\'' +
+                ", totalAmount=" + totalAmount +
                 '}';
     }
 }
