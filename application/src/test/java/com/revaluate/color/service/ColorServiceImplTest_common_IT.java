@@ -26,6 +26,6 @@ public class ColorServiceImplTest_common_IT extends AbstractIntegrationTests {
         // Assertions
         //-----------------------------------------------------------------
         assertThat(allExistingColors, is(notNullValue()));
-        assertThat(allExistingColors.size(), equalTo(2));
+        assertThat(allExistingColors.size(), equalTo(3));
     }
 }
