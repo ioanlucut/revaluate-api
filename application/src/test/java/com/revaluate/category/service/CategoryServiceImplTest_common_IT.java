@@ -22,12 +22,6 @@ import static org.hamcrest.core.Is.is;
 
 public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests {
 
-    @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private ExpenseService expenseService;
-
     @Test
     public void isUniqueName_validName_ok() throws Exception {
         //-----------------------------------------------------------------
