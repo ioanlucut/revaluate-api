@@ -189,7 +189,9 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Finally, try to delete the customer from braintree
         //-----------------------------------------------------------------
-        paymentStatusService.deleteCustomerWithId(userId);
+        if (paymentStatusService.isPaymentStatusDefined(userId)) {
+            paymentStatusService.deleteCustomerWithId(userId);
+        }
     }
 
     @Override
