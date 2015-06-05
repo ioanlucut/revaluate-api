@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -186,6 +187,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
+    @Transactional(rollbackOn = Exception.class)
     public PaymentStatusDTO createPaymentStatus(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
         //-----------------------------------------------------------------
         // Do not allow another payment status entry to be added for the same user.
