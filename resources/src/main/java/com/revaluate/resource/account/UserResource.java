@@ -106,7 +106,12 @@ public class UserResource extends Resource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public Response remove() {
-        userService.remove(getCurrentUserId());
+        try {
+            userService.remove(getCurrentUserId());
+        } catch (Exception ex) {
+
+            return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
+        }
 
         return Responses.respond(Response.Status.OK, "User successfully removed");
     }
