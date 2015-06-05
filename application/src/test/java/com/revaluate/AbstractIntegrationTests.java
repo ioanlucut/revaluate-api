@@ -4,6 +4,7 @@ import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.service.UserService;
 import com.revaluate.category.persistence.CategoryRepository;
+import com.revaluate.category.service.CategoryService;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.currency.exception.CurrencyException;
 import com.revaluate.currency.persistence.CurrencyRepository;
@@ -17,6 +18,7 @@ import com.revaluate.domain.currency.CurrencyDTOBuilder;
 import com.revaluate.email.persistence.EmailRepository;
 import com.revaluate.email.persistence.EmailTokenRepository;
 import com.revaluate.expense.persistence.ExpenseRepository;
+import com.revaluate.expense.service.ExpenseService;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import org.joda.money.CurrencyUnit;
 import org.junit.After;
@@ -77,6 +79,12 @@ public class AbstractIntegrationTests {
 
     @Autowired
     protected ExpenseRepository expenseRepository;
+
+    @Autowired
+    protected CategoryService categoryService;
+
+    @Autowired
+    protected ExpenseService expenseService;
 
     @Autowired
     protected EmailTokenRepository emailTokenRepository;

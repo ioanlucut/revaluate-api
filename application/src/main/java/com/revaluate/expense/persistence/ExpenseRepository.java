@@ -4,6 +4,7 @@ import org.joda.time.LocalDateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
     Optional<Expense> findFirstByUserIdOrderBySpentDateAsc(int userId);
 
     @Modifying
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     @Query("delete from Expense u where u.user.id = ?1")
     void removeByUserId(int userId);
 }
