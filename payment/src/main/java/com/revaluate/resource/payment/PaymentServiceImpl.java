@@ -7,6 +7,7 @@ import com.revaluate.domain.payment.PaymentCustomerDetailsDTO;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
 import com.revaluate.domain.payment.PaymentNonceDetailsDTO;
 import com.revaluate.domain.payment.PaymentStatusDTO;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -58,6 +59,19 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    public Result<Customer> deleteCustomer(@NotEmpty String customerId) throws PaymentException {
+        try {
+            return braintreeGatewayService
+                    .getBraintreeGateway()
+                    .customer()
+                    .delete(customerId);
+        } catch (NotFoundException ex) {
+
+            throw new PaymentException(ex);
+        }
+    }
+
+    @Override
     public ResourceCollection<Transaction> findTransactions(String customerId) {
         TransactionSearchRequest request = new TransactionSearchRequest()
                 .customerId()
@@ -77,11 +91,11 @@ public class PaymentServiceImpl implements PaymentService {
                 .email(paymentDetailsDTO.getPaymentCustomerDetailsDTO().getEmail())
                 .paymentMethodNonce(paymentDetailsDTO.getPaymentNonceDetailsDTO().getPaymentMethodNonce())
                 .creditCard()
-                    .options()
-                        .failOnDuplicatePaymentMethod(Boolean.TRUE)
-                        .makeDefault(Boolean.TRUE)
-                        .verifyCard(Boolean.TRUE)
-                    .done()
+                .options()
+                .failOnDuplicatePaymentMethod(Boolean.TRUE)
+                .makeDefault(Boolean.TRUE)
+                .verifyCard(Boolean.TRUE)
+                .done()
                 .done();
 
         return braintreeGatewayService
@@ -150,9 +164,9 @@ public class PaymentServiceImpl implements PaymentService {
     public Result<? extends PaymentMethod> updatePaymentMethod(PaymentStatusDTO paymentStatusDTO, PaymentNonceDetailsDTO paymentNonceDetailsDTO) {
         PaymentMethodRequest paymentMethodRequest = new PaymentMethodRequest()
                 .paymentMethodNonce(paymentNonceDetailsDTO.getPaymentMethodNonce())
-                    .options()
-                        .verifyCard(Boolean.TRUE)
-                    .done();
+                .options()
+                .verifyCard(Boolean.TRUE)
+                .done();
 
         return braintreeGatewayService
                 .getBraintreeGateway()

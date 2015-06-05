@@ -18,6 +18,8 @@ public interface PaymentService {
 
     Customer findCustomer(@NotEmpty String customerId) throws PaymentException;
 
+    Result<Customer> deleteCustomer(@NotEmpty String customerId) throws PaymentException;
+
     ResourceCollection<Transaction> findTransactions(@NotEmpty String customerId);
 
     @NotNull
