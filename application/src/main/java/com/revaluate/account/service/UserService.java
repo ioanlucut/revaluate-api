@@ -4,6 +4,7 @@ import com.revaluate.account.exception.UserException;
 import com.revaluate.domain.account.*;
 import com.revaluate.groups.CreateUserGroup;
 import com.revaluate.groups.UpdateUserCurrencyGroup;
+import com.revaluate.payment.exception.PaymentStatusException;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +29,7 @@ public interface UserService {
     @NotNull
     UserDTO getUserDetails(int userId) throws UserException;
 
-    void remove(int userId);
+    void remove(int userId) throws Exception;
 
     void validateConfirmationEmailToken(@Email String email, @NotBlank String token) throws UserException;
 

@@ -17,6 +17,7 @@ import com.revaluate.email.persistence.EmailTokenRepository;
 import com.revaluate.email.service.EmailAsyncSender;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
+import com.revaluate.payment.service.PaymentStatusService;
 import org.dozer.DozerBeanMapper;
 import org.joda.time.LocalDateTime;
 import org.mindrot.jbcrypt.BCrypt;
@@ -52,6 +53,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PaymentStatusRepository paymentStatusRepository;
+
+    @Autowired
+    private PaymentStatusService paymentStatusService;
 
     @Autowired
     private ExpenseRepository expenseRepository;
@@ -171,8 +175,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public void remove(int userId) {
+    @Transactional(rollbackFor = Exception.class)
+    public void remove(int userId) throws Exception {
         //-----------------------------------------------------------------
         // First, remove all its payment plan, email tokens, then expenses, then categories, then the user
         //-----------------------------------------------------------------
@@ -181,6 +185,11 @@ public class UserServiceImpl implements UserService {
         expenseRepository.removeByUserId(userId);
         categoryRepository.removeByUserId(userId);
         userRepository.delete(userId);
+
+        //-----------------------------------------------------------------
+        // Finally, try to delete the customer from braintree
+        //-----------------------------------------------------------------
+        paymentStatusService.deleteCustomerWithId(userId);
     }
 
     @Override

@@ -234,6 +234,34 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
+    public void deleteCustomerWithId(int userId) throws PaymentStatusException {
+        //-----------------------------------------------------------------
+        // Do not allow another payment status entry to be added for the same user.
+        //-----------------------------------------------------------------
+        Optional<PaymentStatus> byUserId = paymentStatusRepository.findOneByUserId(userId);
+        if (!byUserId.isPresent()) {
+
+            throw new PaymentStatusException("There is no payment method defined.");
+        }
+
+        try {
+            Result<Customer> customerResult = paymentService.deleteCustomer(byUserId.get().getCustomerId());
+
+            //-----------------------------------------------------------------
+            // Throw exception if not successful
+            //-----------------------------------------------------------------
+            if (!customerResult.isSuccess()) {
+
+                throwExceptionWithGivenPaymentValidationErrors(customerResult);
+            }
+        } catch (PaymentException ex) {
+
+            throw new PaymentStatusException(ex);
+        }
+
+    }
+
+    @Override
     public PaymentStatusDTO updateCustomer(PaymentCustomerDetailsDTO paymentCustomerDetailsDTO, int userId) throws PaymentStatusException {
         //-----------------------------------------------------------------
         // Fetch the payment status for this user id. If not present, exception is thrown
