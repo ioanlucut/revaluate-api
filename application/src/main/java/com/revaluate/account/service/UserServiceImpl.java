@@ -185,6 +185,13 @@ public class UserServiceImpl implements UserService {
         expenseRepository.removeByUserId(userId);
         categoryRepository.removeByUserId(userId);
         userRepository.delete(userId);
+
+        //-----------------------------------------------------------------
+        // Finally, try to delete the customer from braintree
+        //-----------------------------------------------------------------
+        if (paymentStatusService.isPaymentStatusDefined(userId)) {
+            paymentStatusService.deleteCustomerWithId(userId);
+        }
     }
 
     @Override
