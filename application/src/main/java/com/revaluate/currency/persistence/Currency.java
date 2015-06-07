@@ -31,6 +31,10 @@ public class Currency implements Serializable {
 
     @NotNull
     @Column(nullable = false)
+    private String symbol;
+
+    @NotNull
+    @Column(nullable = false)
     private Integer numericCode;
 
     public Integer getId() {
@@ -57,6 +61,14 @@ public class Currency implements Serializable {
         this.displayName = displayName;
     }
 
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
     public Integer getNumericCode() {
         return numericCode;
     }
@@ -71,6 +83,7 @@ public class Currency implements Serializable {
                 "id=" + id +
                 ", currencyCode='" + currencyCode + '\'' +
                 ", displayName='" + displayName + '\'' +
+                ", symbol='" + symbol + '\'' +
                 ", numericCode=" + numericCode +
                 '}';
     }
