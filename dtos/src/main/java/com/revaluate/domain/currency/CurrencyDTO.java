@@ -1,5 +1,7 @@
 package com.revaluate.domain.currency;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.revaluate.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -7,10 +9,16 @@ import org.hibernate.validator.constraints.NotBlank;
 public class CurrencyDTO {
 
     @NotBlank
+    @JsonView({Views.StrictView.class})
     private String currencyCode;
 
+    @JsonView({Views.StrictView.class})
     private String displayName;
+
+    @JsonView({Views.StrictView.class})
     private String symbol;
+
+    @JsonView({Views.StrictView.class})
     private int numericCode;
 
     public String getCurrencyCode() {
