@@ -27,7 +27,7 @@ public class UserServiceImplTest_updateCurrency_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Compute the currency to update
         //-----------------------------------------------------------------
-        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
+        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).withSymbol("E").build();
         CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
 
         // Update a user
@@ -71,7 +71,7 @@ public class UserServiceImplTest_updateCurrency_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Compute the currency to update
         //-----------------------------------------------------------------
-        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
+        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).withSymbol("E").build();
         CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
 
         //-----------------------------------------------------------------
@@ -91,7 +91,7 @@ public class UserServiceImplTest_updateCurrency_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Compute the currency to update
         //-----------------------------------------------------------------
-        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).build();
+        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).withSymbol("E").build();
         CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
 
         //-----------------------------------------------------------------
