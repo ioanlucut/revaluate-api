@@ -10,6 +10,8 @@ public class CurrencyDTOBuilder
   protected boolean isSet$currencyCode$java$lang$String;
   protected String value$displayName$java$lang$String;
   protected boolean isSet$displayName$java$lang$String;
+  protected String value$symbol$java$lang$String;
+  protected boolean isSet$symbol$java$lang$String;
   protected int value$numericCode$int;
   protected boolean isSet$numericCode$int;
 
@@ -41,6 +43,18 @@ public class CurrencyDTOBuilder
   public CurrencyDTOBuilder withDisplayName(String value) {
     this.value$displayName$java$lang$String = value;
     this.isSet$displayName$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link CurrencyDTO#symbol} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public CurrencyDTOBuilder withSymbol(String value) {
+    this.value$symbol$java$lang$String = value;
+    this.isSet$symbol$java$lang$String = true;
     return self;
   }
 
@@ -94,6 +108,9 @@ public class CurrencyDTOBuilder
       }
       if (isSet$displayName$java$lang$String) {
         result.setDisplayName(value$displayName$java$lang$String);
+      }
+      if (isSet$symbol$java$lang$String) {
+        result.setSymbol(value$symbol$java$lang$String);
       }
       if (isSet$numericCode$int) {
         result.setNumericCode(value$numericCode$int);
