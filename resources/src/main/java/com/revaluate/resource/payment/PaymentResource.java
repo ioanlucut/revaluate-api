@@ -31,7 +31,7 @@ public class PaymentResource extends Resource {
     //-----------------------------------------------------------------
     private static final String FETCH_TOKEN = "fetchToken";
     private static final String FETCH_CUSTOMER_TOKEN = "fetchCustomerToken";
-    private static final String CREATE_PAYMENT_STATUS = "createCustomerWithPaymentMethod";
+    private static final String CREATE_PAYMENT_STATUS_SUBSCRIBE_TO_STANDARD_PLAN = "createCustomerWithPaymentMethodSubscribeToStandardPlan";
     private static final String FETCH_PAYMENT_INSIGHTS = "fetchPaymentInsights";
     private static final String SUBSCRIBE_TO_STANDARD_PLAN = "subscribeToStandardPlan";
     private static final String FETCH_PAYMENT_STATUS = "fetchPaymentStatus";
@@ -71,26 +71,6 @@ public class PaymentResource extends Resource {
         return Responses.respond(Response.Status.OK, paymentTokenDTO);
     }
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(CREATE_PAYMENT_STATUS)
-    public Response createPaymentDetails(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
-        paymentStatusService.createPaymentStatus(paymentDetailsDTO, getCurrentUserId());
-
-        return Responses.respond(Response.Status.OK, "Payment details successful created.");
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(FETCH_PAYMENT_STATUS)
-    public Response fetchPaymentStatus() throws PaymentStatusException {
-        PaymentStatusDTO paymentStatus = paymentStatusService.findPaymentStatus(getCurrentUserId());
-
-        return Responses.respond(Response.Status.OK, paymentStatus);
-    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
@@ -101,6 +81,26 @@ public class PaymentResource extends Resource {
         Map<String, Boolean> response = new HashMap<>();
         response.put(PAYMENT_STATUS_DEFINED, paymentStatusDefined);
         return Responses.respond(Response.Status.OK, response);
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(CREATE_PAYMENT_STATUS_SUBSCRIBE_TO_STANDARD_PLAN)
+    public Response createPaymentDetails(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
+        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.createPaymentStatusAndTryToSubscribeToStandardPlan(paymentDetailsDTO, getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, paymentInsightsDTO);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(FETCH_PAYMENT_STATUS)
+    public Response fetchPaymentStatus() throws PaymentStatusException {
+        PaymentStatusDTO paymentStatus = paymentStatusService.findPaymentStatus(getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, paymentStatus);
     }
 
     @POST

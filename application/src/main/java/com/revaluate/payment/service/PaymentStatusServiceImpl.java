@@ -228,6 +228,18 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
+    public PaymentInsightsDTO createPaymentStatusAndTryToSubscribeToStandardPlan(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
+        PaymentStatusDTO paymentStatusDTO = createPaymentStatus(paymentDetailsDTO, userId);
+
+        try {
+            return subscribeToStandardPlan(userId);
+        } catch (PaymentStatusException ex) {
+
+            return fetchPaymentInsights(paymentStatusDTO.getCustomerId());
+        }
+    }
+
+    @Override
     public void deleteCustomerWithId(String customerId) throws PaymentStatusException {
         try {
             Result<Customer> customerResult = paymentService.deleteCustomer(customerId);
