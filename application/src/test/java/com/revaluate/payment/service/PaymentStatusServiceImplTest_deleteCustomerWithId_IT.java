@@ -5,7 +5,6 @@ import com.braintreegateway.Customer;
 import com.braintreegateway.Result;
 import com.braintreegateway.ValidationErrors;
 import com.revaluate.AbstractIntegrationTests;
-import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.payment.PaymentDetailsDTO;
 import com.revaluate.domain.payment.PaymentDetailsDTOBuilder;
@@ -28,13 +27,10 @@ import static org.mockito.Matchers.anyString;
 public class PaymentStatusServiceImplTest_deleteCustomerWithId_IT extends AbstractIntegrationTests {
 
     @InjectMocks
-    private PaymentStatusServiceImpl paymentStatusService;
+    private PaymentStatusServiceImpl paymentStatusServiceMock;
 
     @Mock
     private PaymentService paymentService;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private PaymentStatusRepository paymentStatusRepository;
@@ -66,7 +62,7 @@ public class PaymentStatusServiceImplTest_deleteCustomerWithId_IT extends Abstra
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        paymentStatusService.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
+        paymentStatusServiceMock.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
 
         //-----------------------------------------------------------------
         // Just check if the payment status was properly attached to this user
@@ -74,7 +70,7 @@ public class PaymentStatusServiceImplTest_deleteCustomerWithId_IT extends Abstra
         Optional<PaymentStatus> paymentStatusByUserId = paymentStatusRepository.findOneByUserId(createdUserDTO.getId());
         PaymentStatus paymentStatus = paymentStatusByUserId.get();
 
-        paymentStatusService.deleteCustomerWithId(paymentStatus.getUser().getId());
+        paymentStatusServiceMock.deleteCustomerWithId(paymentStatus.getCustomerId());
     }
 
     @Test
@@ -96,7 +92,7 @@ public class PaymentStatusServiceImplTest_deleteCustomerWithId_IT extends Abstra
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        paymentStatusService.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
+        paymentStatusServiceMock.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
 
         //-----------------------------------------------------------------
         // Just check if the payment status was properly attached to this user
@@ -105,21 +101,30 @@ public class PaymentStatusServiceImplTest_deleteCustomerWithId_IT extends Abstra
         PaymentStatus paymentStatus = paymentStatusByUserId.get();
 
         exception.expect(PaymentStatusException.class);
-        paymentStatusService.deleteCustomerWithId(paymentStatus.getUser().getId());
+        paymentStatusServiceMock.deleteCustomerWithId(paymentStatus.getCustomerId());
     }
 
     @Test
     public void deleteCustomerWithId__nonExistingUserId__isOk() throws Exception {
+        //-----------------------------------------------------------------
+        // Mock create payment method
+        //-----------------------------------------------------------------
+        Result<Customer> customerResult = (Result<Customer>) Mockito.mock(Result.class);
+        Customer customerTarget = Mockito.mock(Customer.class);
+        Mockito.when(customerTarget.getId()).thenReturn(CUSTOMER_ID);
+        Mockito.when(customerResult.getTarget()).thenReturn(customerTarget);
+        Mockito.when(customerResult.isSuccess()).thenReturn(Boolean.FALSE);
+        ValidationErrors validationErrors = Mockito.mock(ValidationErrors.class);
+        Mockito.when(customerResult.getErrors()).thenReturn(validationErrors);
+        Mockito.when(paymentService.deleteCustomer(Matchers.anyString())).thenReturn(customerResult);
+
         exception.expect(PaymentStatusException.class);
-        paymentStatusService.deleteCustomerWithId(99999);
+        paymentStatusServiceMock.deleteCustomerWithId("abcdefghij");
     }
 
     private void prepareAllMocks() throws PaymentException {
-        //-----------------------------------------------------------------
-        // I cannot spy on it because it is an interface, so we autowire and set it.. Ugly, I know..
-        //-----------------------------------------------------------------
-        paymentStatusService.setUserRepository(userRepository);
-        paymentStatusService.setPaymentStatusRepository(paymentStatusRepository);
+        setFieldViaReflection(paymentStatusServiceMock.getClass(), paymentStatusServiceMock, "userRepository", userRepository);
+        setFieldViaReflection(paymentStatusServiceMock.getClass(), paymentStatusServiceMock, "paymentStatusRepository", paymentStatusRepository);
 
         //-----------------------------------------------------------------
         // Mock fetch token

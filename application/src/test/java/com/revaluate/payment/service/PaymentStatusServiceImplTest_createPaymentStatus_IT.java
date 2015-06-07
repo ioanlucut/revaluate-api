@@ -21,7 +21,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaSystemException;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -33,7 +32,7 @@ import static org.mockito.Matchers.anyString;
 public class PaymentStatusServiceImplTest_createPaymentStatus_IT extends AbstractIntegrationTests {
 
     @InjectMocks
-    private PaymentStatusServiceImpl paymentStatusService;
+    private PaymentStatusServiceImpl paymentStatusServiceMock;
 
     @Mock
     private PaymentService paymentService;
@@ -61,7 +60,7 @@ public class PaymentStatusServiceImplTest_createPaymentStatus_IT extends Abstrac
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        PaymentStatusDTO paymentStatus = paymentStatusService.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
+        PaymentStatusDTO paymentStatus = paymentStatusServiceMock.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
         assertThat(paymentStatus, is(notNullValue()));
         assertThat(paymentStatus.getCustomerId(), is(equalTo(CUSTOMER_ID)));
         assertThat(paymentStatus.getPaymentMethodToken(), is(equalTo(METHOD_PAYMENT_TOKEN)));
@@ -90,18 +89,15 @@ public class PaymentStatusServiceImplTest_createPaymentStatus_IT extends Abstrac
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        paymentStatusService.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
+        paymentStatusServiceMock.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
 
         exception.expect(PaymentStatusException.class);
-        paymentStatusService.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
+        paymentStatusServiceMock.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
     }
 
     private void prepareAllMocks() throws PaymentException {
-        //-----------------------------------------------------------------
-        // I cannot spy on it because it is an interface, so we autowire and set it.. Ugly, I know..
-        //-----------------------------------------------------------------
-        paymentStatusService.setUserRepository(userRepository);
-        paymentStatusService.setPaymentStatusRepository(paymentStatusRepository);
+        setFieldViaReflection(paymentStatusServiceMock.getClass(), paymentStatusServiceMock, "userRepository", userRepository);
+        setFieldViaReflection(paymentStatusServiceMock.getClass(), paymentStatusServiceMock, "paymentStatusRepository", paymentStatusRepository);
 
         //-----------------------------------------------------------------
         // Mock fetch token

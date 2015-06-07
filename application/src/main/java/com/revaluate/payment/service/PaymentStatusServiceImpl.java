@@ -41,14 +41,6 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     @Autowired
     private DozerBeanMapper dozerBeanMapper;
 
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public void setPaymentStatusRepository(PaymentStatusRepository paymentStatusRepository) {
-        this.paymentStatusRepository = paymentStatusRepository;
-    }
-
     @Override
     public PaymentInsightsDTO fetchPaymentInsights(String customerId) throws PaymentStatusException {
         try {
@@ -236,18 +228,9 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
-    public void deleteCustomerWithId(int userId) throws PaymentStatusException {
-        //-----------------------------------------------------------------
-        // Do not allow another payment status entry to be added for the same user.
-        //-----------------------------------------------------------------
-        Optional<PaymentStatus> byUserId = paymentStatusRepository.findOneByUserId(userId);
-        if (!byUserId.isPresent()) {
-
-            throw new PaymentStatusException("There is no payment method defined.");
-        }
-
+    public void deleteCustomerWithId(String customerId) throws PaymentStatusException {
         try {
-            Result<Customer> customerResult = paymentService.deleteCustomer(byUserId.get().getCustomerId());
+            Result<Customer> customerResult = paymentService.deleteCustomer(customerId);
 
             //-----------------------------------------------------------------
             // Throw exception if not successful

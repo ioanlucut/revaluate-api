@@ -10,6 +10,7 @@ import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;
 import com.revaluate.domain.account.*;
 import com.revaluate.domain.email.EmailType;
+import com.revaluate.domain.payment.PaymentStatusDTO;
 import com.revaluate.email.persistence.EmailFeedback;
 import com.revaluate.email.persistence.EmailRepository;
 import com.revaluate.email.persistence.EmailToken;
@@ -177,6 +178,16 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void remove(int userId) throws Exception {
+
+        //-----------------------------------------------------------------
+        // If there is a payment status defined, fetch it
+        //-----------------------------------------------------------------
+        Optional<PaymentStatusDTO> paymentStatusOptional = Optional.empty();
+        if (paymentStatusService.isPaymentStatusDefined(userId)) {
+
+            paymentStatusOptional = Optional.of(paymentStatusService.findPaymentStatus(userId));
+        }
+
         //-----------------------------------------------------------------
         // First, remove all its payment plan, email tokens, then expenses, then categories, then the user
         //-----------------------------------------------------------------
@@ -187,10 +198,11 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(userId);
 
         //-----------------------------------------------------------------
-        // Finally, try to delete the customer from braintree
+        // Finally, try to delete the customer from Braintree. It has to be the last action as we rollback database
+        // changes if this call is not successful.
         //-----------------------------------------------------------------
-        if (paymentStatusService.isPaymentStatusDefined(userId)) {
-            paymentStatusService.deleteCustomerWithId(userId);
+        if (paymentStatusOptional.isPresent()) {
+            paymentStatusService.deleteCustomerWithId(paymentStatusOptional.get().getCustomerId());
         }
     }
 

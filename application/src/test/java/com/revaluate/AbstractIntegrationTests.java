@@ -20,6 +20,7 @@ import com.revaluate.email.persistence.EmailTokenRepository;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.expense.service.ExpenseService;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
+import org.dozer.DozerBeanMapper;
 import org.joda.money.CurrencyUnit;
 import org.junit.After;
 import org.junit.Before;
@@ -31,6 +32,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.ReflectionUtils;
+
+import java.lang.reflect.Field;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext__application__test.xml")
@@ -95,6 +99,9 @@ public class AbstractIntegrationTests {
     @Autowired
     protected PaymentStatusRepository paymentStatusRepository;
 
+    @Autowired
+    protected DozerBeanMapper dozerBeanMapper;
+
     protected UserDTO userDTO;
 
     @BeforeClass
@@ -148,5 +155,11 @@ public class AbstractIntegrationTests {
 
     protected UserDTO createUserDTO(String email) throws com.revaluate.account.exception.UserException {
         return createUserDTO(email, CurrencyUnit.EUR.getCurrencyCode());
+    }
+
+    protected void setFieldViaReflection(Class<?> clazz, Object target, String name, Object value) {
+        Field field = ReflectionUtils.findField(clazz, name);
+        ReflectionUtils.makeAccessible(field);
+        ReflectionUtils.setField(field, target, value);
     }
 }

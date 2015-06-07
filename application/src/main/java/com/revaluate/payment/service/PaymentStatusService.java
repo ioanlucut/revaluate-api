@@ -27,7 +27,7 @@ public interface PaymentStatusService {
     @NotNull
     PaymentStatusDTO createPaymentStatus(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException;
 
-    void deleteCustomerWithId(int userId) throws PaymentStatusException;
+    void deleteCustomerWithId(@NotEmpty String customerId) throws PaymentStatusException;
 
     @NotNull
     PaymentStatusDTO updateCustomer(@NotNull @Valid PaymentCustomerDetailsDTO paymentCustomerDetailsDTO, int userId) throws PaymentStatusException;
