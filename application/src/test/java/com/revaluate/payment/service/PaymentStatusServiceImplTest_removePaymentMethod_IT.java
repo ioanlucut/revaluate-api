@@ -24,9 +24,9 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 
 public class PaymentStatusServiceImplTest_removePaymentMethod_IT extends AbstractIntegrationTests {
 

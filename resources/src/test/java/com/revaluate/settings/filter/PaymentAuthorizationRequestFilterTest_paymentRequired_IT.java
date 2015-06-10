@@ -18,6 +18,7 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
+
 public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends AbstractIntegrationTests {
 
     @Autowired

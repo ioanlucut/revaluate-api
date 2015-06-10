@@ -28,6 +28,8 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class PaymentStatusServiceImplTest_createPaymentStatus_IT extends AbstractIntegrationTests {
 
@@ -102,25 +104,25 @@ public class PaymentStatusServiceImplTest_createPaymentStatus_IT extends Abstrac
         //-----------------------------------------------------------------
         // Mock fetch token
         //-----------------------------------------------------------------
-        Mockito.when(paymentService.fetchToken(anyString())).thenReturn(TOKEN_PAYMENT);
+        when(paymentService.fetchToken(anyString())).thenReturn(TOKEN_PAYMENT);
 
         //-----------------------------------------------------------------
         // Mock fetch token
         //-----------------------------------------------------------------
-        Mockito.when(paymentService.fetchToken(anyString())).thenReturn(TOKEN_PAYMENT);
+        when(paymentService.fetchToken(anyString())).thenReturn(TOKEN_PAYMENT);
 
         //-----------------------------------------------------------------
         // Mock create payment method
         //-----------------------------------------------------------------
-        Result<Customer> customerResult = (Result<Customer>) Mockito.mock(Result.class);
-        Customer customerTarget = Mockito.mock(Customer.class);
-        Mockito.when(customerTarget.getId()).thenReturn(CUSTOMER_ID);
-        CreditCard creditCard = Mockito.mock(CreditCard.class);
-        Mockito.when(creditCard.getToken()).thenReturn(METHOD_PAYMENT_TOKEN);
-        Mockito.when(customerTarget.getCreditCards()).thenReturn(Collections.singletonList(creditCard));
-        Mockito.when(customerResult.getTarget()).thenReturn(customerTarget);
-        Mockito.when(customerResult.isSuccess()).thenReturn(Boolean.TRUE);
-        Mockito.when(paymentService.createCustomerWithPaymentMethod(Matchers.any(PaymentDetailsDTO.class))).thenReturn(customerResult);
+        Result<Customer> customerResult = (Result<Customer>) mock(Result.class);
+        Customer customerTarget = mock(Customer.class);
+        when(customerTarget.getId()).thenReturn(CUSTOMER_ID);
+        CreditCard creditCard = mock(CreditCard.class);
+        when(creditCard.getToken()).thenReturn(METHOD_PAYMENT_TOKEN);
+        when(customerTarget.getCreditCards()).thenReturn(Collections.singletonList(creditCard));
+        when(customerResult.getTarget()).thenReturn(customerTarget);
+        when(customerResult.isSuccess()).thenReturn(Boolean.TRUE);
+        when(paymentService.createCustomerWithPaymentMethod(Matchers.any(PaymentDetailsDTO.class))).thenReturn(customerResult);
     }
 
 }
