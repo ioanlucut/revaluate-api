@@ -22,10 +22,10 @@ public class BraintreeGatewayServiceImpl implements BraintreeGatewayService {
     @PostConstruct
     private void initialize() {
         this.braintreeGateway = new BraintreeGateway(
-                Environment.SANDBOX,
-                "6748tp7gxxbj2cv8",
-                "y5w9jtq7r35w6fy3",
-                "6dc818e94271df9952fd7bf1bb80e90b"
+                configProperties.isProduction() ? Environment.PRODUCTION : Environment.SANDBOX,
+                configProperties.getBraintreeMerchantId(),
+                configProperties.getBraintreePublicKey(),
+                configProperties.getBraintreePrivateKey()
         );
     }
 
