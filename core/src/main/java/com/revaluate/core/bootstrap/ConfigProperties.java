@@ -60,6 +60,15 @@ public class ConfigProperties {
     @Value("${braintreePlanId}")
     private String braintreePlanId;
 
+    @Value("${braintreeMerchantId}")
+    private String braintreeMerchantId;
+
+    @Value("${braintreePublicKey}")
+    private String braintreePublicKey;
+
+    @Value("${braintreePrivateKey}")
+    private String braintreePrivateKey;
+
     public boolean isProduction() {
         return production;
     }
@@ -173,6 +182,30 @@ public class ConfigProperties {
         this.braintreePlanId = braintreePlanId;
     }
 
+    public String getBraintreeMerchantId() {
+        return braintreeMerchantId;
+    }
+
+    public void setBraintreeMerchantId(String braintreeMerchantId) {
+        this.braintreeMerchantId = braintreeMerchantId;
+    }
+
+    public String getBraintreePublicKey() {
+        return braintreePublicKey;
+    }
+
+    public void setBraintreePublicKey(String braintreePublicKey) {
+        this.braintreePublicKey = braintreePublicKey;
+    }
+
+    public String getBraintreePrivateKey() {
+        return braintreePrivateKey;
+    }
+
+    public void setBraintreePrivateKey(String braintreePrivateKey) {
+        this.braintreePrivateKey = braintreePrivateKey;
+    }
+
     @Override
     public String toString() {
         return "ConfigProperties{" +
@@ -187,8 +220,12 @@ public class ConfigProperties {
                 ", replyEmailRecipient='" + replyEmailRecipient + '\'' +
                 ", noReplyEmailRecipient='" + noReplyEmailRecipient + '\'' +
                 ", commonEmailsRecipient='" + commonEmailsRecipient + '\'' +
-                ", resetPasswordURL='" + resetPasswordURLFormat + '\'' +
+                ", resetPasswordURLFormat='" + resetPasswordURLFormat + '\'' +
+                ", confirmEmailURLFormat='" + confirmEmailURLFormat + '\'' +
                 ", braintreePlanId='" + braintreePlanId + '\'' +
+                ", braintreeMerchantId='" + braintreeMerchantId + '\'' +
+                ", braintreePublicKey='" + braintreePublicKey + '\'' +
+                ", braintreePrivateKey='" + braintreePrivateKey + '\'' +
                 '}';
     }
 }
