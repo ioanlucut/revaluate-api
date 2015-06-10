@@ -26,6 +26,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class UserServiceImplTest_remove_IT extends AbstractIntegrationTests {
 
@@ -47,14 +49,14 @@ public class UserServiceImplTest_remove_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Mock create payment method
         //-----------------------------------------------------------------
-        Result<Customer> customerResult = (Result<Customer>) Mockito.mock(Result.class);
-        Customer customerTarget = Mockito.mock(Customer.class);
-        Mockito.when(customerTarget.getId()).thenReturn(CUSTOMER_ID);
-        CreditCard creditCard = Mockito.mock(CreditCard.class);
-        Mockito.when(creditCard.getToken()).thenReturn(METHOD_PAYMENT_TOKEN);
-        Mockito.when(customerTarget.getCreditCards()).thenReturn(Collections.singletonList(creditCard));
-        Mockito.when(customerResult.getTarget()).thenReturn(customerTarget);
-        Mockito.when(customerResult.isSuccess()).thenReturn(Boolean.TRUE);
+        Result<Customer> customerResult = (Result<Customer>) mock(Result.class);
+        Customer customerTarget = mock(Customer.class);
+        when(customerTarget.getId()).thenReturn(CUSTOMER_ID);
+        CreditCard creditCard = mock(CreditCard.class);
+        when(creditCard.getToken()).thenReturn(METHOD_PAYMENT_TOKEN);
+        when(customerTarget.getCreditCards()).thenReturn(Collections.singletonList(creditCard));
+        when(customerResult.getTarget()).thenReturn(customerTarget);
+        when(customerResult.isSuccess()).thenReturn(Boolean.TRUE);
         Mockito.doNothing().when(paymentStatusService).deleteCustomerWithId(Mockito.anyString());
         Mockito.doReturn(true).when(paymentStatusService).isPaymentStatusDefined(Matchers.anyInt());
 
@@ -114,14 +116,14 @@ public class UserServiceImplTest_remove_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Mock create payment method
         //-----------------------------------------------------------------
-        Result<Customer> customerResult = (Result<Customer>) Mockito.mock(Result.class);
-        Customer customerTarget = Mockito.mock(Customer.class);
-        Mockito.when(customerTarget.getId()).thenReturn(CUSTOMER_ID);
-        CreditCard creditCard = Mockito.mock(CreditCard.class);
-        Mockito.when(creditCard.getToken()).thenReturn(METHOD_PAYMENT_TOKEN);
-        Mockito.when(customerTarget.getCreditCards()).thenReturn(Collections.singletonList(creditCard));
-        Mockito.when(customerResult.getTarget()).thenReturn(customerTarget);
-        Mockito.when(customerResult.isSuccess()).thenReturn(Boolean.TRUE);
+        Result<Customer> customerResult = (Result<Customer>) mock(Result.class);
+        Customer customerTarget = mock(Customer.class);
+        when(customerTarget.getId()).thenReturn(CUSTOMER_ID);
+        CreditCard creditCard = mock(CreditCard.class);
+        when(creditCard.getToken()).thenReturn(METHOD_PAYMENT_TOKEN);
+        when(customerTarget.getCreditCards()).thenReturn(Collections.singletonList(creditCard));
+        when(customerResult.getTarget()).thenReturn(customerTarget);
+        when(customerResult.isSuccess()).thenReturn(Boolean.TRUE);
         Mockito.doThrow(Exception.class).when(paymentStatusService).deleteCustomerWithId(Mockito.anyString());
         Mockito.doReturn(true).when(paymentStatusService).isPaymentStatusDefined(Matchers.anyInt());
 

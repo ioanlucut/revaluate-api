@@ -18,7 +18,6 @@ import io.github.fallwizard.configuration.FallwizardConfiguration;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.money.CurrencyUnit;
 import org.junit.ClassRule;
-import org.mockito.Mockito;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -33,6 +32,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.*;
 
 // [UnitOfWork_StateUnderTest_ExpectedBehavior]
 // public void Sum_NegativeNumberAs1stParam_ExceptionThrown()
@@ -86,11 +86,11 @@ public class AbstractResourceTestEndToEnd {
     }
 
     protected JwtService getMockedJwtService() {
-        ConfigProperties configProperties = Mockito.mock(ConfigProperties.class);
-        Mockito.when(configProperties.getIssuer()).thenReturn(JWT_ISSUER_TEST);
-        Mockito.when(configProperties.getShared()).thenReturn(JWT_SHARED_TEST);
-        Mockito.when(configProperties.getBearerHeaderKey()).thenReturn(BEARER_TEST);
-        JwtService jwtService = Mockito.spy(new JwtService());
+        ConfigProperties configProperties = mock(ConfigProperties.class);
+        when(configProperties.getIssuer()).thenReturn(JWT_ISSUER_TEST);
+        when(configProperties.getShared()).thenReturn(JWT_SHARED_TEST);
+        when(configProperties.getBearerHeaderKey()).thenReturn(BEARER_TEST);
+        JwtService jwtService = spy(new JwtService());
         jwtService.setConfigProperties(configProperties);
         return jwtService;
     }
