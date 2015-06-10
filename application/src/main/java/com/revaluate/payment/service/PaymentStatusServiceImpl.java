@@ -18,9 +18,9 @@ import org.dozer.DozerBeanMapper;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -179,7 +179,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public PaymentStatusDTO createPaymentStatus(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
         //-----------------------------------------------------------------
         // Do not allow another payment status entry to be added for the same user.
@@ -318,6 +318,27 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
         PaymentStatus savedPaymentStatus = paymentStatusRepository.save(paymentStatus);
 
         return dozerBeanMapper.map(savedPaymentStatus, PaymentStatusDTO.class);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void removePaymentMethod(int userId) throws PaymentStatusException {
+
+        //-----------------------------------------------------------------
+        // Fetch the payment status
+        //-----------------------------------------------------------------
+        PaymentStatusDTO paymentStatusDTO = findPaymentStatus(userId);
+
+        //-----------------------------------------------------------------
+        // Remove records from database
+        //-----------------------------------------------------------------
+        paymentStatusRepository.removeByUserId(userId);
+
+        //-----------------------------------------------------------------
+        // Finally, try to delete the customer from Braintree. It has to be the last action as we rollback database
+        // changes if this call is not successful.
+        //-----------------------------------------------------------------
+        deleteCustomerWithId(paymentStatusDTO.getCustomerId());
     }
 
     private void throwExceptionWithGivenPaymentValidationErrors(Result<?> result) throws PaymentStatusException {
