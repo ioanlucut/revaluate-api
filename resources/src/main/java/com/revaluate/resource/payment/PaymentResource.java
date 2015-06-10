@@ -38,6 +38,7 @@ public class PaymentResource extends Resource {
     private static final String IS_PAYMENT_STATUS_DEFINED = "isPaymentStatusDefined";
     private static final String UPDATE_CUSTOMER = "updateCustomer";
     private static final String UPDATE_PAYMENT_METHOD = "updatePaymentMethod";
+    private static final String REMOVE_PAYMENT_METHOD = "removePaymentMethod";
 
     //-----------------------------------------------------------------
     // Json keys
@@ -144,5 +145,15 @@ public class PaymentResource extends Resource {
         PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.fetchPaymentInsights(updatedPaymentStatus.getCustomerId());
 
         return Responses.respond(Response.Status.OK, paymentInsightsDTO);
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(REMOVE_PAYMENT_METHOD)
+    public Response removePaymentMethod() throws PaymentStatusException {
+        paymentStatusService.removePaymentMethod(getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, "Payment method successfully removed");
     }
 }

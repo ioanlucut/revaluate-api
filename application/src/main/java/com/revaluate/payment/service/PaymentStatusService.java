@@ -37,4 +37,6 @@ public interface PaymentStatusService {
 
     @NotNull
     PaymentStatusDTO updatePaymentMethod(@NotNull @Valid PaymentNonceDetailsDTO paymentNonceDetailsDTO, int userId) throws PaymentStatusException;
+
+    void removePaymentMethod(int userId) throws PaymentStatusException;
 }
