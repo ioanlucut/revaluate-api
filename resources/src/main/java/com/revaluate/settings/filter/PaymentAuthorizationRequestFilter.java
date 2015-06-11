@@ -2,7 +2,6 @@ package com.revaluate.settings.filter;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
-import com.revaluate.account.service.UserSubscriptionService;
 import com.revaluate.core.annotations.PaymentRequired;
 import com.revaluate.domain.account.UserSubscriptionStatus;
 import com.revaluate.resource.utils.Responses;
@@ -31,16 +30,9 @@ public class PaymentAuthorizationRequestFilter implements ContainerRequestFilter
 
     private UserRepository userRepository;
 
-    private UserSubscriptionService userSubscriptionService;
-
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    @Autowired
-    public void setUserSubscriptionService(UserSubscriptionService userSubscriptionService) {
-        this.userSubscriptionService = userSubscriptionService;
     }
 
     @Override
@@ -56,12 +48,10 @@ public class PaymentAuthorizationRequestFilter implements ContainerRequestFilter
             return;
         }
 
-        boolean isUserTrialPeriodExpired = userSubscriptionService.isUserTrialPeriodExpired(foundUser);
-
         //-----------------------------------------------------------------
         // If user trial period is expired, set status as trial expired
         //-----------------------------------------------------------------
-        if (isUserTrialPeriodExpired) {
+        if (foundUser.getUserSubscriptionStatus() == UserSubscriptionStatus.TRIAL && foundUser.isUserTrialPeriodExpired()) {
             foundUser.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL_EXPIRED);
             userRepository.save(foundUser);
         }

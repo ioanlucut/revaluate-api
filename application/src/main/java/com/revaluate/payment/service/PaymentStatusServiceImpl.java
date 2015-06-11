@@ -335,6 +335,13 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
         paymentStatusRepository.removeByUserId(userId);
 
         //-----------------------------------------------------------------
+        // Update the user with the subscription status
+        //-----------------------------------------------------------------
+        User user = userRepository.findOne(userId);
+        user.setUserSubscriptionStatus(user.isUserTrialPeriodExpired() ? UserSubscriptionStatus.TRIAL_EXPIRED : UserSubscriptionStatus.TRIAL);
+        userRepository.save(user);
+
+        //-----------------------------------------------------------------
         // Finally, try to delete the customer from Braintree. It has to be the last action as we rollback database
         // changes if this call is not successful.
         //-----------------------------------------------------------------

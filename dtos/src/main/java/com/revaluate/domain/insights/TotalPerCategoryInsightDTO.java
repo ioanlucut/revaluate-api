@@ -1,8 +1,7 @@
 package com.revaluate.domain.insights;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.revaluate.domain.category.CategoryDTO;
-import com.revaluate.views.Views;
+import com.revaluate.domain.expense.ExpenseDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -16,15 +15,18 @@ public class TotalPerCategoryInsightDTO implements Serializable {
     private static final long serialVersionUID = -1799428438852023627L;
 
     @NotNull
-    @JsonView({Views.DetailsView.class})
     private CategoryDTO categoryDTO;
 
+    @NotNull
+    private ExpenseDTO biggestExpense;
+
+    @NotNull
+    private int numberOfTransactions;
+
     @NotEmpty
-    @JsonView({Views.DetailsView.class})
     private String totalAmountFormatted;
 
     @NotEmpty
-    @JsonView({Views.DetailsView.class})
     private double totalAmount;
 
     public CategoryDTO getCategoryDTO() {
@@ -33,6 +35,22 @@ public class TotalPerCategoryInsightDTO implements Serializable {
 
     public void setCategoryDTO(CategoryDTO categoryDTO) {
         this.categoryDTO = categoryDTO;
+    }
+
+    public ExpenseDTO getBiggestExpense() {
+        return biggestExpense;
+    }
+
+    public void setBiggestExpense(ExpenseDTO biggestExpense) {
+        this.biggestExpense = biggestExpense;
+    }
+
+    public int getNumberOfTransactions() {
+        return numberOfTransactions;
+    }
+
+    public void setNumberOfTransactions(int numberOfTransactions) {
+        this.numberOfTransactions = numberOfTransactions;
     }
 
     public String getTotalAmountFormatted() {
@@ -56,20 +74,24 @@ public class TotalPerCategoryInsightDTO implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TotalPerCategoryInsightDTO that = (TotalPerCategoryInsightDTO) o;
-        return Objects.equals(totalAmount, that.totalAmount) &&
+        return Objects.equals(numberOfTransactions, that.numberOfTransactions) &&
+                Objects.equals(totalAmount, that.totalAmount) &&
                 Objects.equals(categoryDTO, that.categoryDTO) &&
+                Objects.equals(biggestExpense, that.biggestExpense) &&
                 Objects.equals(totalAmountFormatted, that.totalAmountFormatted);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(categoryDTO, totalAmountFormatted, totalAmount);
+        return Objects.hash(categoryDTO, biggestExpense, numberOfTransactions, totalAmountFormatted, totalAmount);
     }
 
     @Override
     public String toString() {
         return "TotalPerCategoryInsightDTO{" +
                 "categoryDTO=" + categoryDTO +
+                ", biggestExpense=" + biggestExpense +
+                ", numberOfTransactions=" + numberOfTransactions +
                 ", totalAmountFormatted='" + totalAmountFormatted + '\'' +
                 ", totalAmount=" + totalAmount +
                 '}';

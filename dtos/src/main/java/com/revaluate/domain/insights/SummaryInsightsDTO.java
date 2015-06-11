@@ -1,7 +1,5 @@
 package com.revaluate.domain.insights;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.revaluate.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.joda.time.LocalDateTime;
 
@@ -15,11 +13,9 @@ public class SummaryInsightsDTO implements Serializable {
     private static final long serialVersionUID = -1799428438852023627L;
 
     @NotNull
-    @JsonView({Views.DetailsView.class})
     private LocalDateTime firstExistingExpenseDate;
 
     @NotNull
-    @JsonView({Views.DetailsView.class})
     private LocalDateTime lastExistingExpenseDate;
 
     public LocalDateTime getFirstExistingExpenseDate() {

@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
@@ -182,6 +183,8 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseDTO = new ExpenseDTOBuilder().withValue(300).withDescription("my third expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseDTO = new ExpenseDTOBuilder().withValue(400).withDescription("my third expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        expenseService.create(expenseDTO, createdUserDTO.getId());
 
         LocalDateTime before = LocalDateTime.now().plusMinutes(1);
         InsightDTO insightDTO = insightService.fetchInsightAfterBeforePeriod(userDTO.getId(), after, before);
@@ -194,7 +197,11 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs().get(0).getCategoryDTO().getColor().getColor(), is(THIRD_VALID_COLOR.getColor()));
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs().get(1).getCategoryDTO().getColor().getColor(), is(FIRST_VALID_COLOR.getColor()));
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs().get(2).getCategoryDTO().getColor().getColor(), is(SECOND_VALID_COLOR.getColor()));
+        assertThat(insightDTO.getBiggestExpense().getValue(), is(400.0));
+        assertThat(insightDTO.getCategoryWithTheMostTransactionsInsightsDTO(), is(notNullValue()));
+        assertThat(insightDTO.getCategoryWithTheMostTransactionsInsightsDTO().getCategoryDTO().getName(), is(equalTo("name3")));
+        assertThat(insightDTO.getCategoryWithTheMostTransactionsInsightsDTO().getNumberOfTransactions(), is(3));
 
-        assertThat(insightDTO.getNumberOfTransactions(), is(6L));
+        assertThat(insightDTO.getNumberOfTransactions(), is(7L));
     }
 }

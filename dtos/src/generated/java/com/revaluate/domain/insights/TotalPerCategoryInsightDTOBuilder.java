@@ -1,6 +1,7 @@
 package com.revaluate.domain.insights;
 
 import com.revaluate.domain.category.CategoryDTO;
+import com.revaluate.domain.expense.ExpenseDTO;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
@@ -9,6 +10,10 @@ public class TotalPerCategoryInsightDTOBuilder
   protected TotalPerCategoryInsightDTOBuilder self;
   protected CategoryDTO value$categoryDTO$com$revaluate$domain$category$CategoryDTO;
   protected boolean isSet$categoryDTO$com$revaluate$domain$category$CategoryDTO;
+  protected ExpenseDTO value$biggestExpense$com$revaluate$domain$expense$ExpenseDTO;
+  protected boolean isSet$biggestExpense$com$revaluate$domain$expense$ExpenseDTO;
+  protected int value$numberOfTransactions$int;
+  protected boolean isSet$numberOfTransactions$int;
   protected String value$totalAmountFormatted$java$lang$String;
   protected boolean isSet$totalAmountFormatted$java$lang$String;
   protected double value$totalAmount$double;
@@ -30,6 +35,30 @@ public class TotalPerCategoryInsightDTOBuilder
   public TotalPerCategoryInsightDTOBuilder withCategoryDTO(CategoryDTO value) {
     this.value$categoryDTO$com$revaluate$domain$category$CategoryDTO = value;
     this.isSet$categoryDTO$com$revaluate$domain$category$CategoryDTO = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link TotalPerCategoryInsightDTO#biggestExpense} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public TotalPerCategoryInsightDTOBuilder withBiggestExpense(ExpenseDTO value) {
+    this.value$biggestExpense$com$revaluate$domain$expense$ExpenseDTO = value;
+    this.isSet$biggestExpense$com$revaluate$domain$expense$ExpenseDTO = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link TotalPerCategoryInsightDTO#numberOfTransactions} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public TotalPerCategoryInsightDTOBuilder withNumberOfTransactions(int value) {
+    this.value$numberOfTransactions$int = value;
+    this.isSet$numberOfTransactions$int = true;
     return self;
   }
 
@@ -92,6 +121,12 @@ public class TotalPerCategoryInsightDTOBuilder
       TotalPerCategoryInsightDTO result = new TotalPerCategoryInsightDTO();
       if (isSet$categoryDTO$com$revaluate$domain$category$CategoryDTO) {
         result.setCategoryDTO(value$categoryDTO$com$revaluate$domain$category$CategoryDTO);
+      }
+      if (isSet$biggestExpense$com$revaluate$domain$expense$ExpenseDTO) {
+        result.setBiggestExpense(value$biggestExpense$com$revaluate$domain$expense$ExpenseDTO);
+      }
+      if (isSet$numberOfTransactions$int) {
+        result.setNumberOfTransactions(value$numberOfTransactions$int);
       }
       if (isSet$totalAmountFormatted$java$lang$String) {
         result.setTotalAmountFormatted(value$totalAmountFormatted$java$lang$String);
