@@ -21,6 +21,9 @@ public class CurrencyDTO {
     @JsonView({Views.StrictView.class})
     private int numericCode;
 
+    @JsonView({Views.StrictView.class})
+    private int fractionSize;
+
     public String getCurrencyCode() {
         return currencyCode;
     }
@@ -51,6 +54,14 @@ public class CurrencyDTO {
 
     public void setNumericCode(int numericCode) {
         this.numericCode = numericCode;
+    }
+
+    public int getFractionSize() {
+        return fractionSize;
+    }
+
+    public void setFractionSize(int fractionSize) {
+        this.fractionSize = fractionSize;
     }
 
     @Override
