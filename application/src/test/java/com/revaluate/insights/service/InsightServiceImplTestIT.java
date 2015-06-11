@@ -198,6 +198,7 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs().get(1).getCategoryDTO().getColor().getColor(), is(FIRST_VALID_COLOR.getColor()));
         assertThat(insightDTO.getTotalPerCategoryInsightDTOs().get(2).getCategoryDTO().getColor().getColor(), is(SECOND_VALID_COLOR.getColor()));
         assertThat(insightDTO.getBiggestExpense().getValue(), is(400.0));
+        assertThat(insightDTO.getHighestAmountCategory().getName(), is(equalTo("name3")));
         assertThat(insightDTO.getCategoryWithTheMostTransactionsInsightsDTO(), is(notNullValue()));
         assertThat(insightDTO.getCategoryWithTheMostTransactionsInsightsDTO().getCategoryDTO().getName(), is(equalTo("name3")));
         assertThat(insightDTO.getCategoryWithTheMostTransactionsInsightsDTO().getNumberOfTransactions(), is(3));
