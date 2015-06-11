@@ -37,6 +37,10 @@ public class Currency implements Serializable {
     @Column(nullable = false)
     private Integer numericCode;
 
+    @NotNull
+    @Column(nullable = false)
+    private Integer fractionSize;
+
     public Integer getId() {
         return id;
     }
@@ -75,6 +79,14 @@ public class Currency implements Serializable {
 
     public void setNumericCode(Integer numericCode) {
         this.numericCode = numericCode;
+    }
+
+    public Integer getFractionSize() {
+        return fractionSize;
+    }
+
+    public void setFractionSize(Integer fractionSize) {
+        this.fractionSize = fractionSize;
     }
 
     @Override
