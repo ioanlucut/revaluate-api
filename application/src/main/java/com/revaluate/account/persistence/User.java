@@ -196,6 +196,12 @@ public class User implements Serializable {
         this.userSubscriptionStatus = userSubscriptionStatus;
     }
 
+    public boolean isUserTrialPeriodExpired() {
+        LocalDateTime endTrialDate = getEndTrialDate();
+
+        return LocalDateTime.now().isAfter(endTrialDate);
+    }
+
     @Override
     public String toString() {
         return "User{" +

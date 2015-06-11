@@ -1,5 +1,7 @@
 package com.revaluate.domain.insights;
 
+import com.revaluate.domain.category.CategoryDTO;
+import com.revaluate.domain.expense.ExpenseDTO;
 import java.util.List;
 import javax.annotation.Generated;
 import org.joda.time.LocalDateTime;
@@ -12,14 +14,24 @@ public class InsightDTOBuilder
   protected boolean isSet$from$org$joda$time$LocalDateTime;
   protected LocalDateTime value$to$org$joda$time$LocalDateTime;
   protected boolean isSet$to$org$joda$time$LocalDateTime;
+  protected List<TotalPerCategoryInsightDTO> value$totalPerCategoryInsightDTOs$java$util$List;
+  protected boolean isSet$totalPerCategoryInsightDTOs$java$util$List;
+  protected CategoryDTO value$highestAmountCategory$com$revaluate$domain$category$CategoryDTO;
+  protected boolean isSet$highestAmountCategory$com$revaluate$domain$category$CategoryDTO;
+  protected CategoryWithTheMostTransactionsInsightsDTO value$categoryWithTheMostTransactionsInsightsDTO$com$revaluate$domain$insights$CategoryWithTheMostTransactionsInsightsDTO;
+  protected boolean isSet$categoryWithTheMostTransactionsInsightsDTO$com$revaluate$domain$insights$CategoryWithTheMostTransactionsInsightsDTO;
+  protected ExpenseDTO value$biggestExpense$com$revaluate$domain$expense$ExpenseDTO;
+  protected boolean isSet$biggestExpense$com$revaluate$domain$expense$ExpenseDTO;
   protected double value$totalAmountSpent$double;
   protected boolean isSet$totalAmountSpent$double;
   protected long value$numberOfTransactions$long;
   protected boolean isSet$numberOfTransactions$long;
   protected long value$totalNumberOfTransactions$long;
   protected boolean isSet$totalNumberOfTransactions$long;
-  protected List<TotalPerCategoryInsightDTO> value$totalPerCategoryInsightDTOs$java$util$List;
-  protected boolean isSet$totalPerCategoryInsightDTOs$java$util$List;
+  protected double value$differenceBetweenLastMonth$double;
+  protected boolean isSet$differenceBetweenLastMonth$double;
+  protected double value$differencePercentageBetweenLastMonth$double;
+  protected boolean isSet$differencePercentageBetweenLastMonth$double;
 
   /**
    * Creates a new {@link InsightDTOBuilder}.
@@ -49,6 +61,54 @@ public class InsightDTOBuilder
   public InsightDTOBuilder withTo(LocalDateTime value) {
     this.value$to$org$joda$time$LocalDateTime = value;
     this.isSet$to$org$joda$time$LocalDateTime = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link InsightDTO#totalPerCategoryInsightDTOs} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public InsightDTOBuilder withTotalPerCategoryInsightDTOs(List<TotalPerCategoryInsightDTO> value) {
+    this.value$totalPerCategoryInsightDTOs$java$util$List = value;
+    this.isSet$totalPerCategoryInsightDTOs$java$util$List = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link InsightDTO#highestAmountCategory} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public InsightDTOBuilder withHighestAmountCategory(CategoryDTO value) {
+    this.value$highestAmountCategory$com$revaluate$domain$category$CategoryDTO = value;
+    this.isSet$highestAmountCategory$com$revaluate$domain$category$CategoryDTO = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link InsightDTO#categoryWithTheMostTransactionsInsightsDTO} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public InsightDTOBuilder withCategoryWithTheMostTransactionsInsightsDTO(CategoryWithTheMostTransactionsInsightsDTO value) {
+    this.value$categoryWithTheMostTransactionsInsightsDTO$com$revaluate$domain$insights$CategoryWithTheMostTransactionsInsightsDTO = value;
+    this.isSet$categoryWithTheMostTransactionsInsightsDTO$com$revaluate$domain$insights$CategoryWithTheMostTransactionsInsightsDTO = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link InsightDTO#biggestExpense} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public InsightDTOBuilder withBiggestExpense(ExpenseDTO value) {
+    this.value$biggestExpense$com$revaluate$domain$expense$ExpenseDTO = value;
+    this.isSet$biggestExpense$com$revaluate$domain$expense$ExpenseDTO = true;
     return self;
   }
 
@@ -89,14 +149,26 @@ public class InsightDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link InsightDTO#totalPerCategoryInsightDTOs} property.
+   * Sets the default value for the {@link InsightDTO#differenceBetweenLastMonth} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public InsightDTOBuilder withTotalPerCategoryInsightDTOs(List<TotalPerCategoryInsightDTO> value) {
-    this.value$totalPerCategoryInsightDTOs$java$util$List = value;
-    this.isSet$totalPerCategoryInsightDTOs$java$util$List = true;
+  public InsightDTOBuilder withDifferenceBetweenLastMonth(double value) {
+    this.value$differenceBetweenLastMonth$double = value;
+    this.isSet$differenceBetweenLastMonth$double = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link InsightDTO#differencePercentageBetweenLastMonth} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public InsightDTOBuilder withDifferencePercentageBetweenLastMonth(double value) {
+    this.value$differencePercentageBetweenLastMonth$double = value;
+    this.isSet$differencePercentageBetweenLastMonth$double = true;
     return self;
   }
 
@@ -139,6 +211,18 @@ public class InsightDTOBuilder
       if (isSet$to$org$joda$time$LocalDateTime) {
         result.setTo(value$to$org$joda$time$LocalDateTime);
       }
+      if (isSet$totalPerCategoryInsightDTOs$java$util$List) {
+        result.setTotalPerCategoryInsightDTOs(value$totalPerCategoryInsightDTOs$java$util$List);
+      }
+      if (isSet$highestAmountCategory$com$revaluate$domain$category$CategoryDTO) {
+        result.setHighestAmountCategory(value$highestAmountCategory$com$revaluate$domain$category$CategoryDTO);
+      }
+      if (isSet$categoryWithTheMostTransactionsInsightsDTO$com$revaluate$domain$insights$CategoryWithTheMostTransactionsInsightsDTO) {
+        result.setCategoryWithTheMostTransactionsInsightsDTO(value$categoryWithTheMostTransactionsInsightsDTO$com$revaluate$domain$insights$CategoryWithTheMostTransactionsInsightsDTO);
+      }
+      if (isSet$biggestExpense$com$revaluate$domain$expense$ExpenseDTO) {
+        result.setBiggestExpense(value$biggestExpense$com$revaluate$domain$expense$ExpenseDTO);
+      }
       if (isSet$totalAmountSpent$double) {
         result.setTotalAmountSpent(value$totalAmountSpent$double);
       }
@@ -148,8 +232,11 @@ public class InsightDTOBuilder
       if (isSet$totalNumberOfTransactions$long) {
         result.setTotalNumberOfTransactions(value$totalNumberOfTransactions$long);
       }
-      if (isSet$totalPerCategoryInsightDTOs$java$util$List) {
-        result.setTotalPerCategoryInsightDTOs(value$totalPerCategoryInsightDTOs$java$util$List);
+      if (isSet$differenceBetweenLastMonth$double) {
+        result.setDifferenceBetweenLastMonth(value$differenceBetweenLastMonth$double);
+      }
+      if (isSet$differencePercentageBetweenLastMonth$double) {
+        result.setDifferencePercentageBetweenLastMonth(value$differencePercentageBetweenLastMonth$double);
       }
       return result;
     } catch (RuntimeException ex) {

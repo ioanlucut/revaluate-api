@@ -2,6 +2,7 @@ package com.revaluate.insights.service;
 
 import com.revaluate.category.persistence.Category;
 import com.revaluate.domain.category.CategoryDTO;
+import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.insights.*;
 import com.revaluate.expense.persistence.Expense;
 import com.revaluate.expense.persistence.ExpenseRepository;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -31,7 +31,7 @@ public class InsightServiceImpl implements InsightService {
     private DozerBeanMapper dozerBeanMapper;
 
     @Override
-    public InsightDTO fetchInsightAfterBeforePeriod(int userId, @NotNull LocalDateTime after, @NotNull LocalDateTime before) {
+    public InsightDTO fetchInsightAfterBeforePeriod(int userId, LocalDateTime after, LocalDateTime before) {
         List<Expense> allExpenses = expenseRepository.findAllByUserIdAndSpentDateAfterAndSpentDateBefore(userId, after, before);
 
         //-----------------------------------------------------------------
@@ -64,6 +64,8 @@ public class InsightServiceImpl implements InsightService {
         List<TotalPerCategoryInsightDTO> totalPerCategoriesDTOs = groupedCategoriesEntrySet
                 .stream()
                 .map(categoryListEntry -> {
+                    TotalPerCategoryInsightDTOBuilder totalPerCategoryInsightDTOBuilder = new TotalPerCategoryInsightDTOBuilder();
+
                     //-----------------------------------------------------------------
                     // Compute category DTO
                     //-----------------------------------------------------------------
@@ -83,10 +85,27 @@ public class InsightServiceImpl implements InsightService {
                     //-----------------------------------------------------------------
                     String totalAmountFormatted = decimalFormat.format(totalAmount.setScale(DIGITS_SCALE, BigDecimal.ROUND_DOWN));
 
-                    return new TotalPerCategoryInsightDTOBuilder()
+                    //-----------------------------------------------------------------
+                    // Compute biggest expense
+                    //-----------------------------------------------------------------
+                    if (categoryListEntry.getValue().size() > 0) {
+                        Comparator<? super Expense> biggestExpenseComparator = (o1, o2) -> o1.getValue().compareTo(o2.getValue());
+                        Expense expense = categoryListEntry
+                                .getValue()
+                                .stream()
+                                .sorted(biggestExpenseComparator.reversed())
+                                .findFirst()
+                                .get();
+                        ExpenseDTO biggestExpenseDTO = dozerBeanMapper.map(expense, ExpenseDTO.class);
+
+                        totalPerCategoryInsightDTOBuilder.withBiggestExpense(biggestExpenseDTO);
+                    }
+
+                    return totalPerCategoryInsightDTOBuilder
                             .withCategoryDTO(categoryDTO)
                             .withTotalAmount(totalAmount.doubleValue())
                             .withTotalAmountFormatted(totalAmountFormatted)
+                            .withNumberOfTransactions(categoryListEntry.getValue().size())
                             .build();
                 })
                 .sorted(totalPerCategoryInsightDTOComparator.reversed())
@@ -97,6 +116,29 @@ public class InsightServiceImpl implements InsightService {
                 .map(Expense::getValue)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+        //-----------------------------------------------------------------
+        // Compute biggest expense overall
+        //-----------------------------------------------------------------
+        Comparator<TotalPerCategoryInsightDTO> biggestExpenseOverallComparator = (o1, o2) -> Double.compare(o1.getBiggestExpense().getValue(), o2.getBiggestExpense().getValue());
+        Optional<TotalPerCategoryInsightDTO> biggestExpenseOverallOptional = totalPerCategoriesDTOs
+                .stream()
+                .filter(totalPerCategoryInsightDTO -> totalPerCategoryInsightDTO.getNumberOfTransactions() > 0)
+                .sorted(biggestExpenseOverallComparator.reversed())
+                .findFirst();
+
+        //-----------------------------------------------------------------
+        // Compute most number of transactions
+        //-----------------------------------------------------------------
+        Comparator<TotalPerCategoryInsightDTO> mostNumberOfTransactionsComparator = (o1, o2) -> Integer.compare(o1.getNumberOfTransactions(), o2.getNumberOfTransactions());
+        Optional<TotalPerCategoryInsightDTO> mostNumberOfTransactionsOptional = totalPerCategoriesDTOs
+                .stream()
+                .filter(totalPerCategoryInsightDTO -> totalPerCategoryInsightDTO.getNumberOfTransactions() > 0)
+                .sorted(mostNumberOfTransactionsComparator.reversed())
+                .findFirst();
+
+        //-----------------------------------------------------------------
+        // Return the insight DTO
+        //-----------------------------------------------------------------
         return new InsightDTOBuilder()
                 .withFrom(after)
                 .withTo(before)
@@ -104,6 +146,15 @@ public class InsightServiceImpl implements InsightService {
                 .withTotalNumberOfTransactions(expenseRepository.countByUserId(userId))
                 .withTotalAmountSpent(totalExpenses.doubleValue())
                 .withTotalPerCategoryInsightDTOs(totalPerCategoriesDTOs)
+                .withBiggestExpense(biggestExpenseOverallOptional.isPresent() ? biggestExpenseOverallOptional.get().getBiggestExpense() : null)
+                .withCategoryWithTheMostTransactionsInsightsDTO(
+                        mostNumberOfTransactionsOptional.isPresent() ?
+                                new CategoryWithTheMostTransactionsInsightsDTOBuilder()
+                                        .withCategoryDTO(mostNumberOfTransactionsOptional.get().getCategoryDTO())
+                                        .withNumberOfTransactions(mostNumberOfTransactionsOptional.get().getNumberOfTransactions())
+                                        .build()
+                                : null
+                )
                 .build();
     }
 

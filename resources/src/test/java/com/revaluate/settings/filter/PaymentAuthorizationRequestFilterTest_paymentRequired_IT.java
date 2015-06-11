@@ -3,7 +3,6 @@ package com.revaluate.settings.filter;
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
-import com.revaluate.account.service.UserSubscriptionService;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserSubscriptionStatus;
 import org.joda.time.LocalDateTime;
@@ -23,9 +22,6 @@ public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends Ab
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private UserSubscriptionService userSubscriptionService;
 
     @Test
     public void paymentRequired_nonPaymentRequiredMethod_isOk() throws Exception {
@@ -71,7 +67,6 @@ public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends Ab
         when(containerRequestContext.getProperty(AuthorizationRequestFilter.USER_ID)).thenReturn(userDTO.getId());
 
         paymentAuthorizationRequestFilter.setUserRepository(userRepository);
-        paymentAuthorizationRequestFilter.setUserSubscriptionService(userSubscriptionService);
         paymentAuthorizationRequestFilter.filter(containerRequestContext);
 
         verify(paymentAuthorizationRequestFilter, times(1)).abort(any());
@@ -95,7 +90,6 @@ public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends Ab
         when(containerRequestContext.getProperty(AuthorizationRequestFilter.USER_ID)).thenReturn(userDTO.getId());
 
         paymentAuthorizationRequestFilter.setUserRepository(userRepository);
-        paymentAuthorizationRequestFilter.setUserSubscriptionService(userSubscriptionService);
         paymentAuthorizationRequestFilter.filter(containerRequestContext);
 
         verify(paymentAuthorizationRequestFilter, never()).abort(any());
@@ -119,7 +113,6 @@ public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends Ab
         when(containerRequestContext.getProperty(AuthorizationRequestFilter.USER_ID)).thenReturn(userDTO.getId());
 
         paymentAuthorizationRequestFilter.setUserRepository(userRepository);
-        paymentAuthorizationRequestFilter.setUserSubscriptionService(userSubscriptionService);
         paymentAuthorizationRequestFilter.filter(containerRequestContext);
 
         verify(paymentAuthorizationRequestFilter, times(1)).abort(any());
@@ -135,7 +128,6 @@ public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends Ab
         when(containerRequestContext.getProperty(AuthorizationRequestFilter.USER_ID)).thenReturn(999999);
 
         paymentAuthorizationRequestFilter.setUserRepository(userRepository);
-        paymentAuthorizationRequestFilter.setUserSubscriptionService(userSubscriptionService);
         paymentAuthorizationRequestFilter.filter(containerRequestContext);
 
         verify(paymentAuthorizationRequestFilter, never()).abort(any());
@@ -164,7 +156,6 @@ public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends Ab
         when(containerRequestContext.getProperty(AuthorizationRequestFilter.USER_ID)).thenReturn(createdUserDTO.getId());
 
         paymentAuthorizationRequestFilter.setUserRepository(userRepository);
-        paymentAuthorizationRequestFilter.setUserSubscriptionService(userSubscriptionService);
         paymentAuthorizationRequestFilter.filter(containerRequestContext);
 
         verify(paymentAuthorizationRequestFilter, times(1)).abort(any());

@@ -5,6 +5,7 @@ import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.utils.TokenGenerator;
 import com.revaluate.category.persistence.CategoryRepository;
+import com.revaluate.config.AppConfig;
 import com.revaluate.core.annotations.EmailSenderQualifier;
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;
@@ -34,8 +35,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     public static final String USER_DTO__UPDATE = "UserDTO__Update";
-
-    public static final int TRIAL_DAYS = 15;
 
     @Autowired
     private UserRepository userRepository;
@@ -106,7 +105,7 @@ public class UserServiceImpl implements UserService {
         // Set status as trial and end trial date.
         //-----------------------------------------------------------------
         user.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL);
-        user.setEndTrialDate(LocalDateTime.now().plusDays(TRIAL_DAYS));
+        user.setEndTrialDate(LocalDateTime.now().plusDays(AppConfig.TRIAL_DATE));
 
         //-----------------------------------------------------------------
         // Save the user
