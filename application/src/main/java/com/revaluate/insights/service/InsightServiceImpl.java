@@ -137,6 +137,16 @@ public class InsightServiceImpl implements InsightService {
                 .findFirst();
 
         //-----------------------------------------------------------------
+        // Compute highest amount category
+        //-----------------------------------------------------------------
+        Comparator<TotalPerCategoryInsightDTO> highestAmountCategoryComparator = (o1, o2) -> Double.compare(o1.getTotalAmount(), o2.getTotalAmount());
+        Optional<TotalPerCategoryInsightDTO> highestAmountCategoryOptional = totalPerCategoriesDTOs
+                .stream()
+                .filter(totalPerCategoryInsightDTO -> totalPerCategoryInsightDTO.getNumberOfTransactions() > 0)
+                .sorted(highestAmountCategoryComparator.reversed())
+                .findFirst();
+
+        //-----------------------------------------------------------------
         // Return the insight DTO
         //-----------------------------------------------------------------
         return new InsightDTOBuilder()
@@ -148,13 +158,16 @@ public class InsightServiceImpl implements InsightService {
                 .withTotalPerCategoryInsightDTOs(totalPerCategoriesDTOs)
                 .withBiggestExpense(biggestExpenseOverallOptional.isPresent() ? biggestExpenseOverallOptional.get().getBiggestExpense() : null)
                 .withCategoryWithTheMostTransactionsInsightsDTO(
-                        mostNumberOfTransactionsOptional.isPresent() ?
-                                new CategoryWithTheMostTransactionsInsightsDTOBuilder()
-                                        .withCategoryDTO(mostNumberOfTransactionsOptional.get().getCategoryDTO())
-                                        .withNumberOfTransactions(mostNumberOfTransactionsOptional.get().getNumberOfTransactions())
-                                        .build()
+                        mostNumberOfTransactionsOptional.isPresent()
+                                ? new CategoryWithTheMostTransactionsInsightsDTOBuilder()
+                                .withCategoryDTO(mostNumberOfTransactionsOptional.get().getCategoryDTO())
+                                .withNumberOfTransactions(mostNumberOfTransactionsOptional.get().getNumberOfTransactions())
+                                .build()
                                 : null
                 )
+                .withHighestAmountCategory(highestAmountCategoryOptional.isPresent()
+                        ? highestAmountCategoryOptional.get().getCategoryDTO()
+                        : null)
                 .build();
     }
 
