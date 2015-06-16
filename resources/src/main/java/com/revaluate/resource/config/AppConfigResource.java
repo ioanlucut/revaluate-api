@@ -54,6 +54,12 @@ public class AppConfigResource extends Resource {
         List<String> predefinedCategories = Arrays.asList("Bills", "Food", "Clothes", "Car", "Donations", "Hobby", "Health", "Education", "Investments", "House");
         appConfig.put("PREDEFINED_CATEGORIES", predefinedCategories);
 
+        //-----------------------------------------------------------------
+        // Categories boundaries
+        //-----------------------------------------------------------------
+        appConfig.put("MIN_ALLOWED_CATEGORIES", AppConfig.MIN_ALLOWED_CATEGORIES);
+        appConfig.put("MAX_ALLOWED_CATEGORIES", AppConfig.MAX_ALLOWED_CATEGORIES);
+
 
         return Responses.respond(Response.Status.OK, appConfig);
     }
