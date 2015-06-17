@@ -60,6 +60,12 @@ public class AppConfigResource extends Resource {
         appConfig.put("MIN_ALLOWED_CATEGORIES", AppConfig.MIN_ALLOWED_CATEGORIES);
         appConfig.put("MAX_ALLOWED_CATEGORIES", AppConfig.MAX_ALLOWED_CATEGORIES);
 
+        //-----------------------------------------------------------------
+        // Others
+        //-----------------------------------------------------------------
+        appConfig.put("MIN_EXPENSES_TO_ENABLE_BULK_ACTION", AppConfig.MIN_EXPENSES_TO_ENABLE_BULK_ACTION);
+        appConfig.put("IMPORT_MIN_CATEGORIES_TO_SELECT", AppConfig.IMPORT_MIN_CATEGORIES_TO_SELECT);
+        appConfig.put("SETUP_MIN_CATEGORIES_TO_SELECT", AppConfig.SETUP_MIN_CATEGORIES_TO_SELECT);
 
         return Responses.respond(Response.Status.OK, appConfig);
     }
