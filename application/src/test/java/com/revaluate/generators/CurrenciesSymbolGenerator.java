@@ -1,9 +1,7 @@
 package com.revaluate.generators;
 
-import java.util.Currency;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CurrenciesSymbolGenerator {
 
@@ -13,6 +11,15 @@ public class CurrenciesSymbolGenerator {
         System.out.println("----------");
 
         generateCurrencyFractionSize();
+
+        System.out.println("----------");
+
+        List<String> strings = Arrays.asList("#DD5440", "#E29C45", "#E5C236", "#A1D16C", "#00B16A", "#16A085", "#59ABE3", "#4B77BE", "#2B5496", "#8471B1", "#BC73BF", "#D2527F", "#908E8E", "#6C6C6C", "#383838");
+        AtomicInteger atomicInteger = new AtomicInteger(1);
+        strings.stream().forEach(s -> {
+            int andAdd = atomicInteger.getAndIncrement();
+            System.out.println(String.format("UPDATE color SET color_name = '%s' WHERE  id = '%s';", s, andAdd));
+        });
     }
 
     private static void generateCurrencyCode() {
