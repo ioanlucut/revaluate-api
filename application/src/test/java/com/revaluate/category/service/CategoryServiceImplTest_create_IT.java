@@ -119,8 +119,7 @@ public class CategoryServiceImplTest_create_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         // Create category - 2
         //-----------------------------------------------------------------
-        categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR
-        ).withName("name").build();
+        categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         categoryService.create(categoryDTO, createdUserDTO.getId());
     }
 

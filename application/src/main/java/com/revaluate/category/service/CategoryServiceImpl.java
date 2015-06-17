@@ -80,7 +80,8 @@ public class CategoryServiceImpl implements CategoryService {
                     category.setUser(foundUser);
 
                     return category;
-                }).collect(Collectors.toList());
+                })
+                .collect(Collectors.toList());
 
         List<Category> savedCategories = categoryRepository.save(categories);
 
@@ -109,6 +110,14 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO update(CategoryDTO categoryDTO, int userId) throws CategoryException {
         Optional<Category> categoryById = categoryRepository.findOneByIdAndUserId(categoryDTO.getId(), userId);
         Category category = categoryById.orElseThrow(() -> new CategoryException("The given category does not exists"));
+
+        //-----------------------------------------------------------------
+        // Means that the category name is changed
+        //-----------------------------------------------------------------
+        if (!category.getName().equals(categoryDTO.getName()) && !isUnique(categoryDTO.getName(), userId)) {
+
+            throw new CategoryException("The given category name exists already");
+        }
 
         //-----------------------------------------------------------------
         // Update the category with given category DTO
