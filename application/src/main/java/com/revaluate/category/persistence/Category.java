@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "categories", uniqueConstraints = @UniqueConstraint(columnNames = {Category.CATEGORY_ID, Category.CATEGORY_NAME}))
+@Table(name = "categories", uniqueConstraints = @UniqueConstraint(columnNames = {Category.USER_ID, Category.CATEGORY_NAME}))
 public class Category implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
