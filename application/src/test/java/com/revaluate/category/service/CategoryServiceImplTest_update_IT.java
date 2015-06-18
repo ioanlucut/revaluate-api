@@ -139,4 +139,38 @@ public class CategoryServiceImplTest_update_IT extends AbstractIntegrationTests 
         categoryService.update(firstCategoryDTO, createdUserDTO.getId());
     }
 
+    @Test
+    public void update_twoCategoriesWithSameNameButSecondWithUppercase_throwsException() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category updated DTO with same ID as previous
+        //-----------------------------------------------------------------
+        CategoryDTO firstCategoryToCreateDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name1").build();
+        CategoryDTO secondCategoryToCreateDTO = new CategoryDTOBuilder().withColor(SECOND_VALID_COLOR).withName("name2").build();
+
+        //-----------------------------------------------------------------
+        // Create first category
+        //-----------------------------------------------------------------
+        CategoryDTO firstCategoryDTO = categoryService.create(firstCategoryToCreateDTO, createdUserDTO.getId());
+        //-----------------------------------------------------------------
+        // Create second category
+        //-----------------------------------------------------------------
+        categoryService.create(secondCategoryToCreateDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Try to set the second category
+        //-----------------------------------------------------------------
+        firstCategoryDTO.setName(secondCategoryToCreateDTO.getName().toUpperCase());
+
+        //-----------------------------------------------------------------
+        // Update the first category with the name of the secnd one - should break.
+        //-----------------------------------------------------------------
+        exception.expect(CategoryException.class);
+        categoryService.update(firstCategoryDTO, createdUserDTO.getId());
+    }
+
 }

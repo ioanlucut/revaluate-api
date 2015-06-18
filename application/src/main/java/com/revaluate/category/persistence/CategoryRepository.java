@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
-    Optional<Category> findOneByNameAndUserId(String name, int userId);
+    Optional<Category> findOneByNameIgnoreCaseAndUserId(String name, int userId);
 
     Optional<Category> findOneByIdAndUserId(int categoryId, int userId);
 

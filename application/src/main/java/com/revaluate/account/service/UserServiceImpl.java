@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUnique(String email) {
-        return !userRepository.findOneByEmail(email).isPresent();
+        return !userRepository.findOneByEmailIgnoreCase(email).isPresent();
     }
 
     @Override
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO login(LoginDTO loginDTO) throws UserException {
-        Optional<User> byEmail = userRepository.findOneByEmail(loginDTO.getEmail());
+        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(loginDTO.getEmail());
         User foundUser = byEmail.orElseThrow(() -> new UserException("Invalid email or password"));
 
         if (!BCrypt.checkpw(loginDTO.getPassword(), foundUser.getPassword())) {
@@ -208,7 +208,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void validateConfirmationEmailToken(String email, String token) throws UserException {
-        Optional<User> optionalUserFoundByEmail = userRepository.findOneByEmail(email);
+        Optional<User> optionalUserFoundByEmail = userRepository.findOneByEmailIgnoreCase(email);
         User user = optionalUserFoundByEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
@@ -246,7 +246,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void requestConfirmationEmail(String email) throws UserException {
-        Optional<User> byEmail = userRepository.findOneByEmail(email);
+        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
@@ -286,7 +286,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void requestResetPassword(String email) throws UserException {
-        Optional<User> byEmail = userRepository.findOneByEmail(email);
+        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
@@ -309,7 +309,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void validateResetPasswordToken(String email, String token) throws UserException {
-        Optional<User> byEmail = userRepository.findOneByEmail(email);
+        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
@@ -338,7 +338,7 @@ public class UserServiceImpl implements UserService {
             throw new UserException("New password should match new password confirmation");
         }
 
-        Optional<User> byEmail = userRepository.findOneByEmail(email);
+        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(email);
         User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------

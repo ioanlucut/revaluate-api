@@ -38,12 +38,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean isUnique(String name, int userId) {
-        return !categoryRepository.findOneByNameAndUserId(name, userId).isPresent();
+        return !categoryRepository.findOneByNameIgnoreCaseAndUserId(name, userId).isPresent();
     }
 
     @Override
     public CategoryDTO create(CategoryDTO categoryDTO, int userId) throws CategoryException {
-        Optional<Category> categoryByName = categoryRepository.findOneByNameAndUserId(categoryDTO.getName(), userId);
+        Optional<Category> categoryByName = categoryRepository.findOneByNameIgnoreCaseAndUserId(categoryDTO.getName(), userId);
         if (categoryByName.isPresent()) {
             throw new CategoryException("Category name is not unique");
         }
@@ -69,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
         //-----------------------------------------------------------------
         // Categories have to be unique (not existing into database)
         //-----------------------------------------------------------------
-        if (categoryDTOs.stream().anyMatch(categoryDTO -> categoryRepository.findOneByNameAndUserId(categoryDTO.getName(), userId).isPresent())) {
+        if (categoryDTOs.stream().anyMatch(categoryDTO -> categoryRepository.findOneByNameIgnoreCaseAndUserId(categoryDTO.getName(), userId).isPresent())) {
             throw new CategoryException("Not all category names are unique");
         }
 

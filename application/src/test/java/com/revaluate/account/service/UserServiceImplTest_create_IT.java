@@ -2,13 +2,13 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
 import com.revaluate.domain.account.UserSubscriptionStatus;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.email.EmailType;
+import com.revaluate.email.persistence.EmailToken;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolationException;
@@ -39,7 +39,7 @@ public class UserServiceImplTest_create_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert that email token is added
         //-----------------------------------------------------------------
-        Optional<User> oneByEmail = userRepository.findOneByEmail(userDTO.getEmail());
+        Optional<User> oneByEmail = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
         assertThat(oneByEmail.isPresent(), is(true));
         Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, oneByEmail.get().getId());
         assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
@@ -70,6 +70,34 @@ public class UserServiceImplTest_create_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         exception.expect(UserException.class);
         createUserDTO();
+    }
+
+    @Test
+    public void create_sameEmailTwiceOneWithLowerCaseOneWithUppercase_throwsException() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        createUserDTO("a@a.a");
+
+        //-----------------------------------------------------------------
+        // Try to create again the user with same email but uppercase
+        //-----------------------------------------------------------------
+        exception.expect(UserException.class);
+        createUserDTO("A@A.A");
+    }
+
+    @Test
+    public void create_sameEmailTwiceSecondNotTrimmed_throwsException() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        createUserDTO("a@a.a");
+
+        //-----------------------------------------------------------------
+        // Try to create again the user with same email but uppercase
+        //-----------------------------------------------------------------
+        exception.expect(ConstraintViolationException.class);
+        createUserDTO(" a@a.a    ");
     }
 
     @Test
