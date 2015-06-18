@@ -1,0 +1,15 @@
+UPDATE color SET color = '#DD5440', color_name = 'red' WHERE  id = '1';
+UPDATE color SET color = '#E29C45', color_name = 'orange' WHERE  id = '2';
+UPDATE color SET color = '#E5C236', color_name = 'yellow' WHERE  id = '3';
+UPDATE color SET color = '#A1D16C', color_name = 'lime' WHERE  id = '4';
+UPDATE color SET color = '#00B16A', color_name = 'green' WHERE  id = '5';
+UPDATE color SET color = '#8471B1', color_name = 'plum' WHERE  id = '6';
+UPDATE color SET color = '#2B5496', color_name = 'navy' WHERE  id = '7';
+UPDATE color SET color = '#4B77BE', color_name = 'blue' WHERE  id = '8';
+UPDATE color SET color = '#59ABE3', color_name = 'sky' WHERE  id = '9';
+UPDATE color SET color = '#16A085', color_name = 'teal' WHERE  id = '10';
+UPDATE color SET color = '#BC73BF', color_name = 'purple' WHERE  id = '11';
+UPDATE color SET color = '#D2527F', color_name = 'magenta' WHERE  id = '12';
+UPDATE color SET color = '#908E8E', color_name = 'gray' WHERE  id = '13';
+UPDATE color SET color = '#6C6C6C', color_name = 'gray-dark' WHERE  id = '14';
+UPDATE color SET color = '#383838', color_name = 'gray-darker' WHERE  id = '15';
