@@ -7,7 +7,6 @@ import com.revaluate.domain.account.LoginDTO;
 import com.revaluate.domain.account.LoginDTOBuilder;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserSubscriptionStatus;
-import org.joda.time.LocalDateTime;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -66,7 +65,7 @@ public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Check payment status
         //-----------------------------------------------------------------
-        Optional<User> oneByEmail = userRepository.findOneByEmail(createdUserDTO.getEmail());
+        Optional<User> oneByEmail = userRepository.findOneByEmailIgnoreCase(createdUserDTO.getEmail());
         assertThat(oneByEmail.isPresent(), is(true));
         assertThat(oneByEmail.get().getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
     }
@@ -89,7 +88,7 @@ public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Check payment status
         //-----------------------------------------------------------------
-        Optional<User> oneByEmail = userRepository.findOneByEmail(createdUserDTO.getEmail());
+        Optional<User> oneByEmail = userRepository.findOneByEmailIgnoreCase(createdUserDTO.getEmail());
         assertThat(oneByEmail.isPresent(), is(true));
         User user = oneByEmail.get();
         assertThat(user.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
@@ -109,7 +108,7 @@ public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Check payment status
         //-----------------------------------------------------------------
-        oneByEmail = userRepository.findOneByEmail(createdUserDTO.getEmail());
+        oneByEmail = userRepository.findOneByEmailIgnoreCase(createdUserDTO.getEmail());
         assertThat(oneByEmail.isPresent(), is(true));
         assertThat(oneByEmail.get().getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL_EXPIRED)));
     }

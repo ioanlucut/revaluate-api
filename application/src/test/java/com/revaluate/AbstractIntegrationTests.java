@@ -7,6 +7,7 @@ import com.revaluate.category.persistence.CategoryRepository;
 import com.revaluate.category.service.CategoryService;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.currency.exception.CurrencyException;
+import com.revaluate.currency.persistence.Currency;
 import com.revaluate.currency.persistence.CurrencyRepository;
 import com.revaluate.currency.service.CurrencyService;
 import com.revaluate.domain.account.UserDTO;
@@ -35,6 +36,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext__application__test.xml")
@@ -125,17 +127,24 @@ public class AbstractIntegrationTests {
     //-----------------------------------------------------------------
 
     protected UserDTO createUserDTO(String email, String currencyCode) throws UserException {
-        //-----------------------------------------------------------------
-        // Create currency
-        //-----------------------------------------------------------------
-        CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(currencyCode).withDisplayName("").withSymbol("$").withNumericCode(0).build();
-        try {
-            currencyDTO = currencyService.create(currencyDTO);
-        } catch (CurrencyException e) {
-            throw new UserException((e));
-        }
-        return createUserDTO(email, currencyDTO);
+        Optional<Currency> oneByCurrencyCode = currencyRepository.findOneByCurrencyCode(currencyCode);
 
+        CurrencyDTO currencyDTO;
+        if (oneByCurrencyCode.isPresent()) {
+            currencyDTO = dozerBeanMapper.map(oneByCurrencyCode.get(), CurrencyDTO.class);
+        } else {
+            //-----------------------------------------------------------------
+            // Create currency
+            //-----------------------------------------------------------------
+            currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(currencyCode).withDisplayName("").withSymbol("$").withNumericCode(0).build();
+            try {
+                currencyDTO = currencyService.create(currencyDTO);
+            } catch (CurrencyException ex) {
+                throw new IllegalArgumentException((ex));
+            }
+        }
+
+        return createUserDTO(email, currencyDTO);
     }
 
     public UserDTO createUserDTO(String email, CurrencyDTO currencyDTO) throws UserException {
