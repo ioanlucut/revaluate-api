@@ -7,8 +7,9 @@
         http://www.springframework.org/schema/task
         http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-    <!--Enable async capability-->
-    <task:annotation-driven/>
+    <!--Enable scheduling capability-->
+    <task:annotation-driven scheduler="taskScheduler"/>
+    <task:scheduler id="taskScheduler" pool-size="10"/>
 
     <!--Import other resources-->
     <import resource="classpath*:applicationContext__core.xml"/>
