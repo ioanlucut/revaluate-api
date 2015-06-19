@@ -8,7 +8,8 @@
         http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
     <!--Enable scheduling capability-->
-    <task:annotation-driven/>
+    <task:annotation-driven scheduler="taskScheduler"/>
+    <task:scheduler id="taskScheduler" pool-size="10"/>
 
     <!--Import other resources-->
     <import resource="classpath*:applicationContext__core.xml"/>
