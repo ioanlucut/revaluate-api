@@ -8,6 +8,7 @@ import io.dropwizard.setup.Environment;
 import io.github.fallwizard.FallwizardApplication;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.FlywayException;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.message.filtering.EntityFilteringFeature;
 import org.glassfish.jersey.server.ServerProperties;
@@ -54,8 +55,14 @@ public class RevaluateApplication extends FallwizardApplication<RevaluateConfigu
                 configuration.getDataSourceFactory().getUser(),
                 configuration.getDataSourceFactory().getPassword());
 
-        flyway.repair();
-        flyway.migrate();
+        try {
+            flyway.migrate();
+        } catch (FlywayException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+
+            flyway.repair();
+            flyway.migrate();
+        }
     }
 
     private void configureJackson(Environment environment) {

@@ -1,4 +1,3 @@
-/*
 package com.revaluate.emailjob;
 
 import com.revaluate.core.annotations.EmailSenderQualifier;
@@ -57,4 +56,4 @@ public class ResendEmailJobService {
         //-----------------------------------------------------------------
         allBySentFalse.forEach(feedbackEmailAsyncSender::tryToSendEmail);
     }
-}*/
+}
