@@ -1,13 +1,24 @@
 package com.revaluate.core.bootstrap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
 
 @Service
 public class ConfigProperties {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigProperties.class);
+
     public static final String ENVIRONMENT = "ENVIRONMENT";
     public static final String SPRING_PROFILE_ACTIVE = "spring.profiles.active";
+
+    @PostConstruct
+    public void afterInject() {
+        LOGGER.info("Configuration loaded: " + this.toString());
+    }
 
     private boolean production;
 
