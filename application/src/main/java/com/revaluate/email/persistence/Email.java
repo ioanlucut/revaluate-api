@@ -38,7 +38,6 @@ public abstract class Email implements Serializable {
     @JoinColumn(name = USER_ID, nullable = false)
     private User user;
 
-    @NotNull
     @Column(nullable = false)
     private LocalDateTime createdDate;
 
