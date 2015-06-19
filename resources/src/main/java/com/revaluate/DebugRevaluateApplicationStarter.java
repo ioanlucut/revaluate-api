@@ -11,6 +11,6 @@ public class DebugRevaluateApplicationStarter {
         Optional<URL> urlOptional = Optional.ofNullable(DebugRevaluateApplicationStarter.class.getClassLoader().getResource("config_local.yaml"));
         System.setProperty(ConfigProperties.ENVIRONMENT, "local");
 
-        new RevaluateApplication().run("server", urlOptional.orElseThrow(Exception::new).getPath());
+        new RevaluateApplication().run("server" , urlOptional.orElseThrow(Exception::new).getPath());
     }
 }
