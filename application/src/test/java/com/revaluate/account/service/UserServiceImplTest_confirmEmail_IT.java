@@ -2,6 +2,7 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
+import com.revaluate.domain.email.EmailStatus;
 import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
@@ -27,7 +28,7 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         assertThat(oneEmail.isPresent(), is(true));
         EmailToken email = oneEmail.get();
         assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.isSent(), is(false));
+        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
         assertThat(email.getSentDate(), is(nullValue()));
 
         //-----------------------------------------------------------------
@@ -43,7 +44,7 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         email = oneEmail.get();
         assertThat(oneEmail.isPresent(), is(true));
         assertThat(email.isTokenValidated(), is(true));
-        assertThat(email.isSent(), is(false));
+        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
         assertThat(email.getSentDate(), is(nullValue()));
 
         //-----------------------------------------------------------------
@@ -64,7 +65,7 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         assertThat(oneEmail.isPresent(), is(true));
         EmailToken email = oneEmail.get();
         assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.isSent(), is(false));
+        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
         assertThat(email.getSentDate(), is(nullValue()));
 
         //-----------------------------------------------------------------
@@ -82,7 +83,7 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         email = oneEmail.get();
         assertThat(oneEmail.isPresent(), is(true));
         assertThat(email.isTokenValidated(), is(true));
-        assertThat(email.isSent(), is(false));
+        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
         assertThat(email.getSentDate(), is(nullValue()));
 
         //-----------------------------------------------------------------
@@ -103,7 +104,7 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         assertThat(oneEmail.isPresent(), is(true));
         EmailToken email = oneEmail.get();
         assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.isSent(), is(false));
+        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
         assertThat(email.getSentDate(), is(nullValue()));
 
         //-----------------------------------------------------------------
@@ -119,7 +120,7 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         email = oneEmail.get();
         assertThat(oneEmail.isPresent(), is(true));
         assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.isSent(), is(false));
+        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
         assertThat(email.getSentDate(), is(nullValue()));
 
         //-----------------------------------------------------------------
@@ -140,7 +141,7 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         assertThat(oneEmail.isPresent(), is(true));
         EmailToken email = oneEmail.get();
         assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.isSent(), is(false));
+        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
         assertThat(email.getSentDate(), is(nullValue()));
 
         //-----------------------------------------------------------------
@@ -156,7 +157,7 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         email = oneEmail.get();
         assertThat(oneEmail.isPresent(), is(true));
         assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.isSent(), is(false));
+        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
         assertThat(email.getSentDate(), is(nullValue()));
 
         //-----------------------------------------------------------------
@@ -172,7 +173,7 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         email = oneEmail.get();
         assertThat(oneEmail.isPresent(), is(true));
         assertThat(email.isTokenValidated(), is(true));
-        assertThat(email.isSent(), is(false));
+        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
         assertThat(email.getSentDate(), is(nullValue()));
 
         //-----------------------------------------------------------------

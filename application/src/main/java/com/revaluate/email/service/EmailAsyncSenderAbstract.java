@@ -3,6 +3,7 @@ package com.revaluate.email.service;
 import com.google.common.util.concurrent.Futures;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.domain.email.EmailStatus;
+import com.revaluate.domain.email.MandrillEmailStatus;
 import com.revaluate.email.SendEmailService;
 import com.revaluate.email.SendEmailWrapperException;
 import com.revaluate.email.persistence.Email;
@@ -36,7 +37,7 @@ public abstract class EmailAsyncSenderAbstract<T extends Email> implements Email
     protected SendEmailService sendEmailService;
 
     @Override
-    public Future<EmailStatus> tryToSendEmail(T email) {
+    public Future<MandrillEmailStatus> tryToSendEmail(T email) {
 
         //-----------------------------------------------------------------
         // Do not send email for some environments
@@ -51,23 +52,29 @@ public abstract class EmailAsyncSenderAbstract<T extends Email> implements Email
         // Try to send email
         //-----------------------------------------------------------------
         try {
-            EmailStatus emailStatus = getApplyFunction().apply(email);
+            MandrillEmailStatus mandrillEmailStatus = getApplyFunction().apply(email);
+            markAsSentWithStatuses(email, EmailStatus.SENT, mandrillEmailStatus);
 
-            //-----------------------------------------------------------------
-            // Mark email token as sent
-            //-----------------------------------------------------------------
-            email.setSent(Boolean.TRUE);
-            email.setSentDate(LocalDateTime.now());
-            emailRepository.save(email);
-
-            return new AsyncResult<>(emailStatus);
+            return new AsyncResult<>(mandrillEmailStatus);
         } catch (SendEmailWrapperException ex) {
             LOGGER.error(ex.getMessage(), ex);
+
+            //-----------------------------------------------------------------
+            // Mark email as sent unsuccessful
+            //-----------------------------------------------------------------
+            markAsSentWithStatuses(email, EmailStatus.SENT_UNSUCCESSFUL, MandrillEmailStatus.UNKNOWN);
 
             return Futures.immediateFailedFuture(ex);
         }
     }
 
-    public abstract Function<T, EmailStatus> getApplyFunction();
+    private void markAsSentWithStatuses(T email, EmailStatus sentUnsuccessful, MandrillEmailStatus unknown) {
+        email.setEmailStatus(sentUnsuccessful);
+        email.setMandrillEmailStatus(unknown);
+        email.setSentDate(LocalDateTime.now());
+        emailRepository.save(email);
+    }
+
+    public abstract Function<T, MandrillEmailStatus> getApplyFunction();
 
 }

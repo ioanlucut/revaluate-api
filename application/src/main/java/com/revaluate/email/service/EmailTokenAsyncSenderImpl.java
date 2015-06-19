@@ -1,7 +1,7 @@
 package com.revaluate.email.service;
 
 import com.revaluate.core.annotations.EmailSenderQualifier;
-import com.revaluate.domain.email.EmailStatus;
+import com.revaluate.domain.email.MandrillEmailStatus;
 import com.revaluate.domain.email.SendTo;
 import com.revaluate.email.SendEmailException;
 import com.revaluate.email.SendEmailWrapperException;
@@ -17,7 +17,7 @@ import java.util.function.Function;
 public class EmailTokenAsyncSenderImpl extends EmailAsyncSenderAbstract<EmailToken> {
 
     @Override
-    public Function<EmailToken, EmailStatus> getApplyFunction() {
+    public Function<EmailToken, MandrillEmailStatus> getApplyFunction() {
         return emailCandidate -> {
             try {
                 return sendEmailService.sendNonAsyncEmailTo(dozerBeanMapper.map(emailCandidate, SendTo.class));
