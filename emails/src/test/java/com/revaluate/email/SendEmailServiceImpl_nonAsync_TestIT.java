@@ -46,7 +46,7 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
         MandrillMessagesApi mandrillMessagesApi = mock(MandrillMessagesApi.class);
 
         MandrillMessageStatus mandrillMessageStatus = mock(MandrillMessageStatus.class);
-        when(mandrillMessageStatus.getStatus()).thenReturn(EmailStatus.SENT.getStatus());
+        when(mandrillMessageStatus.getStatus()).thenReturn(MandrillEmailStatus.SENT.getStatus());
 
         when(mandrillMessagesApi.sendTemplate(anyString(), anyMapOf(String.class, String.class), anyObject(), eq(Boolean.FALSE))).thenReturn(new MandrillMessageStatus[]{mandrillMessageStatus});
 
@@ -56,8 +56,8 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
         when(mandrillService.getApi()).thenReturn(mandrillMessagesApi);
 
         SendTo sendTo = new SendToBuilder().withEmail("a@b.c").withEmailToken("abcdef").withEmailId(1).withEmailType(EmailType.CREATED_ACCOUNT).withFirstName("a").withId(1).withLastName("").build();
-        EmailStatus feedback = sendEmailService.sendNonAsyncEmailTo(sendTo);
-        assertThat(feedback, is(EmailStatus.SENT));
+        MandrillEmailStatus feedback = sendEmailService.sendNonAsyncEmailTo(sendTo);
+        assertThat(feedback, is(MandrillEmailStatus.SENT));
     }
 
     @Test(expected = SendEmailException.class)
@@ -65,7 +65,7 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
         MandrillMessagesApi mandrillMessagesApi = mock(MandrillMessagesApi.class);
 
         MandrillMessageStatus mandrillMessageStatus = mock(MandrillMessageStatus.class);
-        when(mandrillMessageStatus.getStatus()).thenReturn(EmailStatus.QUEUED.getStatus());
+        when(mandrillMessageStatus.getStatus()).thenReturn(MandrillEmailStatus.QUEUED.getStatus());
 
         when(mandrillMessagesApi.sendTemplate(anyString(), anyMapOf(String.class, String.class), anyObject(), eq(Boolean.FALSE))).thenReturn(new MandrillMessageStatus[]{mandrillMessageStatus});
 
@@ -75,8 +75,8 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
         when(mandrillService.getApi()).thenReturn(mandrillMessagesApi);
 
         SendTo sendTo = new SendToBuilder().withEmail("a@b.c").withEmailToken("abcdef").withEmailId(1).withEmailType(EmailType.CREATED_ACCOUNT).withFirstName("a").withId(1).withLastName("").build();
-        EmailStatus feedback = sendEmailService.sendNonAsyncEmailTo(sendTo);
-        assertThat(feedback, is(EmailStatus.SENT));
+        MandrillEmailStatus feedback = sendEmailService.sendNonAsyncEmailTo(sendTo);
+        assertThat(feedback, is(MandrillEmailStatus.SENT));
     }
 
 
@@ -85,7 +85,7 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
         MandrillMessagesApi mandrillMessagesApi = mock(MandrillMessagesApi.class);
 
         MandrillMessageStatus mandrillMessageStatus = mock(MandrillMessageStatus.class);
-        when(mandrillMessageStatus.getStatus()).thenReturn(EmailStatus.REJECTED.getStatus());
+        when(mandrillMessageStatus.getStatus()).thenReturn(MandrillEmailStatus.REJECTED.getStatus());
 
         when(mandrillMessagesApi.sendTemplate(anyString(), anyMapOf(String.class, String.class), anyObject(), eq(Boolean.FALSE))).thenReturn(new MandrillMessageStatus[]{mandrillMessageStatus});
 
@@ -95,8 +95,8 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
         when(mandrillService.getApi()).thenReturn(mandrillMessagesApi);
 
         SendTo sendTo = new SendToBuilder().withEmail("a@b.c").withEmailToken("abcdef").withEmailId(1).withEmailType(EmailType.CREATED_ACCOUNT).withFirstName("a").withId(1).withLastName("").build();
-        EmailStatus feedback = sendEmailService.sendNonAsyncEmailTo(sendTo);
-        assertThat(feedback, is(EmailStatus.SENT));
+        MandrillEmailStatus feedback = sendEmailService.sendNonAsyncEmailTo(sendTo);
+        assertThat(feedback, is(MandrillEmailStatus.SENT));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
         MandrillMessagesApi mandrillMessagesApi = mock(MandrillMessagesApi.class);
 
         MandrillMessageStatus mandrillMessageStatus = mock(MandrillMessageStatus.class);
-        when(mandrillMessageStatus.getStatus()).thenReturn(EmailStatus.SENT.getStatus());
+        when(mandrillMessageStatus.getStatus()).thenReturn(MandrillEmailStatus.SENT.getStatus());
 
         when(mandrillMessagesApi.send(anyObject(), eq(Boolean.FALSE))).thenReturn(new MandrillMessageStatus[]{mandrillMessageStatus});
 
@@ -114,7 +114,7 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
         when(mandrillService.getApi()).thenReturn(mandrillMessagesApi);
 
         SendFeedbackTo sendTo = new SendFeedbackToBuilder().withEmail("a@b.c").withEmailId(1).withEmailType(EmailType.FEEDBACK_MESSAGE).withFirstName("a").withId(1).withLastName("").withSubject("subject").withMessage("message").build();
-        EmailStatus feedback = sendEmailService.sendNonAsyncFeedbackEmailTo(sendTo);
-        assertThat(feedback, is(EmailStatus.SENT));
+        MandrillEmailStatus feedback = sendEmailService.sendNonAsyncFeedbackEmailTo(sendTo);
+        assertThat(feedback, is(MandrillEmailStatus.SENT));
     }
 }

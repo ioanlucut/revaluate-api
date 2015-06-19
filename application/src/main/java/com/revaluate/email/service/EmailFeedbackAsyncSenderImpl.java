@@ -1,7 +1,7 @@
 package com.revaluate.email.service;
 
 import com.revaluate.core.annotations.EmailSenderQualifier;
-import com.revaluate.domain.email.EmailStatus;
+import com.revaluate.domain.email.MandrillEmailStatus;
 import com.revaluate.domain.email.SendFeedbackTo;
 import com.revaluate.email.SendEmailException;
 import com.revaluate.email.SendEmailWrapperException;
@@ -17,7 +17,7 @@ import java.util.function.Function;
 public class EmailFeedbackAsyncSenderImpl extends EmailAsyncSenderAbstract<EmailFeedback> {
 
     @Override
-    public Function<EmailFeedback, EmailStatus> getApplyFunction() {
+    public Function<EmailFeedback, MandrillEmailStatus> getApplyFunction() {
         return emailCandidate -> {
             try {
                 return sendEmailService.sendNonAsyncFeedbackEmailTo(dozerBeanMapper.map(emailCandidate, SendFeedbackTo.class));

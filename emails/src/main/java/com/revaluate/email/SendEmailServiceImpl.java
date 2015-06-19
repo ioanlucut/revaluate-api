@@ -20,7 +20,7 @@ public class SendEmailServiceImpl implements SendEmailService {
 
     private static final String RESET_PASSWORD_LINK = "RESET_PASSWORD_LINK";
     private static final String CONFIRM_EMAIL_LINK = "CONFIRM_EMAIL_LINK";
-    public static final String REVALUATE_TEAM_NAME = "Revaluate team";
+    private static final String REVALUATE_TEAM_NAME = "Revaluate team";
 
     @Autowired
     private ConfigProperties configProperties;
@@ -29,13 +29,13 @@ public class SendEmailServiceImpl implements SendEmailService {
     private MandrillService mandrillService;
 
     @Override
-    public EmailStatus sendNonAsyncEmailTo(SendTo sendTo) throws SendEmailException {
+    public MandrillEmailStatus sendNonAsyncEmailTo(SendTo sendTo) throws SendEmailException {
         LOGGER.info(String.format("Send non async email with details: %s", sendTo));
 
         return sendEmailTo(sendTo, Boolean.FALSE);
     }
 
-    private EmailStatus sendEmailTo(SendTo sendTo, boolean sendAsync) throws SendEmailException {
+    private MandrillEmailStatus sendEmailTo(SendTo sendTo, boolean sendAsync) throws SendEmailException {
         //-----------------------------------------------------------------
         // Build the mandrill message
         //-----------------------------------------------------------------
@@ -67,7 +67,7 @@ public class SendEmailServiceImpl implements SendEmailService {
         }
     }
 
-    private EmailStatus tryToSendEmail(SendTo sendTo, MandrillMessage message, boolean sendAsync) throws SendEmailException, IOException, MandrillApiError {
+    private MandrillEmailStatus tryToSendEmail(SendTo sendTo, MandrillMessage message, boolean sendAsync) throws SendEmailException, IOException, MandrillApiError {
         Map<String, String> templateContent = new HashMap<>();
         if (sendTo.getEmailType() == EmailType.RESET_PASSWORD) {
             String resetPasswordLink = String.format(configProperties.getResetPasswordURLFormat(), configProperties.getWebsiteHost(), sendTo.getEmail(), sendTo.getEmailToken());
@@ -82,7 +82,7 @@ public class SendEmailServiceImpl implements SendEmailService {
     }
 
     @Override
-    public EmailStatus sendNonAsyncFeedbackEmailTo(SendFeedbackTo sendFeedbackTo) throws SendEmailException {
+    public MandrillEmailStatus sendNonAsyncFeedbackEmailTo(SendFeedbackTo sendFeedbackTo) throws SendEmailException {
         //-----------------------------------------------------------------
         // Build the mandrill message
         //-----------------------------------------------------------------
@@ -112,16 +112,16 @@ public class SendEmailServiceImpl implements SendEmailService {
         }
     }
 
-    private EmailStatus interpretEmailStatus(AbstractSendTo sendTo, boolean sendAsync, MandrillMessageStatus[] messageStatusReports) throws SendEmailException {
+    private MandrillEmailStatus interpretEmailStatus(AbstractSendTo sendTo, boolean sendAsync, MandrillMessageStatus[] messageStatusReports) throws SendEmailException {
         MandrillMessageStatus messageStatusReport = messageStatusReports[0];
         LOGGER.info(Arrays.toString(messageStatusReports));
 
-        EmailStatus emailStatus = EmailStatus.from(messageStatusReport.getStatus());
+        MandrillEmailStatus mandrillEmailStatus = MandrillEmailStatus.from(messageStatusReport.getStatus());
 
         //-----------------------------------------------------------------
         // If email is required
         //-----------------------------------------------------------------
-        if (EmailStatus.REJECTED == emailStatus) {
+        if (MandrillEmailStatus.REJECTED == mandrillEmailStatus) {
 
             throw new SendEmailException(String.format("Email rejected %s. Cause %s", sendTo, messageStatusReport));
         }
@@ -131,7 +131,7 @@ public class SendEmailServiceImpl implements SendEmailService {
             //-----------------------------------------------------------------
             // Check if email is queued
             //-----------------------------------------------------------------
-            if (EmailStatus.QUEUED != emailStatus) {
+            if (MandrillEmailStatus.QUEUED != mandrillEmailStatus) {
 
                 throw new SendEmailException(String.format("Email not queued %s. Cause %s", sendTo, messageStatusReport));
             }
@@ -140,13 +140,13 @@ public class SendEmailServiceImpl implements SendEmailService {
             //-----------------------------------------------------------------
             // Check if email is sent
             //-----------------------------------------------------------------
-            if (EmailStatus.SENT != emailStatus) {
+            if (MandrillEmailStatus.SENT != mandrillEmailStatus) {
 
                 throw new SendEmailException(String.format("Email not sent %s. Cause %s", sendTo, messageStatusReport));
             }
         }
 
-        return emailStatus;
+        return mandrillEmailStatus;
     }
 
 }

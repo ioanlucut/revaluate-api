@@ -1,5 +1,6 @@
 package com.revaluate.email.persistence;
 
+import com.revaluate.domain.email.EmailStatus;
 import com.revaluate.domain.email.EmailType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,6 +21,11 @@ public interface AbstractEmailRepository<T, ID extends Serializable> extends Jpa
     // Find all by type and user id
     //-----------------------------------------------------------------
     List<T> findAllByEmailTypeAndUserId(EmailType emailType, int userId);
+
+    //-----------------------------------------------------------------
+    // Find all by emailStatus
+    //-----------------------------------------------------------------
+    List<T> findAllByEmailStatus(EmailStatus emailStatus);
 
     @Modifying
     @Transactional

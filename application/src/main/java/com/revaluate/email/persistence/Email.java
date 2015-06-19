@@ -1,7 +1,9 @@
 package com.revaluate.email.persistence;
 
 import com.revaluate.account.persistence.User;
+import com.revaluate.domain.email.EmailStatus;
 import com.revaluate.domain.email.EmailType;
+import com.revaluate.domain.email.MandrillEmailStatus;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -36,17 +38,20 @@ public abstract class Email implements Serializable {
     @JoinColumn(name = USER_ID, nullable = false)
     private User user;
 
-    /**
-     * Is email sent flag
-     */
-    private boolean sent;
-
     @NotNull
     @Column(nullable = false)
     private LocalDateTime createdDate;
 
     @Column
     private LocalDateTime sentDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private MandrillEmailStatus mandrillEmailStatus;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EmailStatus emailStatus;
 
     @PrePersist
     void createdAt() {
@@ -77,14 +82,6 @@ public abstract class Email implements Serializable {
         this.user = user;
     }
 
-    public boolean isSent() {
-        return sent;
-    }
-
-    public void setSent(boolean sent) {
-        this.sent = sent;
-    }
-
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -101,15 +98,32 @@ public abstract class Email implements Serializable {
         this.sentDate = sentDate;
     }
 
+    public MandrillEmailStatus getMandrillEmailStatus() {
+        return mandrillEmailStatus;
+    }
+
+    public void setMandrillEmailStatus(MandrillEmailStatus mandrillEmailStatus) {
+        this.mandrillEmailStatus = mandrillEmailStatus;
+    }
+
+    public EmailStatus getEmailStatus() {
+        return emailStatus;
+    }
+
+    public void setEmailStatus(EmailStatus emailStatus) {
+        this.emailStatus = emailStatus;
+    }
+
     @Override
     public String toString() {
         return "Email{" +
                 "id=" + id +
                 ", emailType=" + emailType +
                 ", user=" + user +
-                ", sent=" + sent +
                 ", createdDate=" + createdDate +
                 ", sentDate=" + sentDate +
+                ", mandrillEmailStatus=" + mandrillEmailStatus +
+                ", emailStatus=" + emailStatus +
                 '}';
     }
 }

@@ -1,6 +1,6 @@
 package com.revaluate.email.service;
 
-import com.revaluate.domain.email.EmailStatus;
+import com.revaluate.domain.email.MandrillEmailStatus;
 import com.revaluate.email.persistence.Email;
 import org.springframework.scheduling.annotation.Async;
 
@@ -11,5 +11,5 @@ import java.util.concurrent.Future;
 public interface EmailAsyncSender<T extends Email> {
 
     @Async
-    Future<EmailStatus> tryToSendEmail(@NotNull @Valid T email);
+    Future<MandrillEmailStatus> tryToSendEmail(@NotNull @Valid T email);
 }
