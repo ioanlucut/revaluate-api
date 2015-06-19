@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.revaluate.core.bootstrap.ConfigProperties;
 import io.dropwizard.setup.Environment;
 import io.github.fallwizard.FallwizardApplication;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
@@ -20,6 +21,7 @@ import javax.servlet.FilterRegistration;
 import javax.ws.rs.ext.Provider;
 import java.util.EnumSet;
 import java.util.Map;
+import java.util.Properties;
 
 public class RevaluateApplication extends FallwizardApplication<RevaluateConfiguration> {
 
@@ -32,6 +34,11 @@ public class RevaluateApplication extends FallwizardApplication<RevaluateConfigu
 
     @Override
     public void run(RevaluateConfiguration configuration, Environment environment) throws Exception {
+        Properties properties = System.getProperties();
+        LOGGER.info("----------INFO-----------");
+        LOGGER.info(properties.getProperty(ConfigProperties.ENVIRONMENT));
+        LOGGER.info("--------END INFO-----------");
+
         runMigrationScripts(configuration);
 
         super.run(configuration, environment);
