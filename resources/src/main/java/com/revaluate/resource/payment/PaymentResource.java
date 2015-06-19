@@ -33,7 +33,6 @@ public class PaymentResource extends Resource {
     private static final String FETCH_CUSTOMER_TOKEN = "fetchCustomerToken";
     private static final String CREATE_PAYMENT_STATUS_SUBSCRIBE_TO_STANDARD_PLAN = "createCustomerWithPaymentMethodSubscribeToStandardPlan";
     private static final String FETCH_PAYMENT_INSIGHTS = "fetchPaymentInsights";
-    private static final String SUBSCRIBE_TO_STANDARD_PLAN = "subscribeToStandardPlan";
     private static final String FETCH_PAYMENT_STATUS = "fetchPaymentStatus";
     private static final String IS_PAYMENT_STATUS_DEFINED = "isPaymentStatusDefined";
     private static final String UPDATE_CUSTOMER = "updateCustomer";
@@ -102,16 +101,6 @@ public class PaymentResource extends Resource {
         PaymentStatusDTO paymentStatus = paymentStatusService.findPaymentStatus(getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, paymentStatus);
-    }
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(SUBSCRIBE_TO_STANDARD_PLAN)
-    public Response subscribeToStandardPlan() throws PaymentStatusException {
-        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.subscribeToStandardPlan(getCurrentUserId());
-
-        return Responses.respond(Response.Status.OK, paymentInsightsDTO);
     }
 
     @GET
