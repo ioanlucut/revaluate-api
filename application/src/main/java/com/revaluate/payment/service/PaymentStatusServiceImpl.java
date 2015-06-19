@@ -137,6 +137,15 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
         PaymentStatusDTO paymentStatusDTO = findPaymentStatus(userId);
 
         //-----------------------------------------------------------------
+        // Do not let subscription activation if user is not in trial expired mode.
+        //-----------------------------------------------------------------
+        User user = userRepository.findOne(userId);
+        if (!(user.isUserTrialPeriodExpired() && user.getUserSubscriptionStatus() == UserSubscriptionStatus.TRIAL_EXPIRED)) {
+
+            throw new PaymentStatusException("User has to be in trial expired status in order to activate its subscription");
+        }
+
+        //-----------------------------------------------------------------
         // Apply subscription
         //-----------------------------------------------------------------
         try {
@@ -153,7 +162,6 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
             //-----------------------------------------------------------------
             // Update the user with the subscription status
             //-----------------------------------------------------------------
-            User user = userRepository.findOne(userId);
             user.setUserSubscriptionStatus(UserSubscriptionStatus.ACTIVE);
             userRepository.save(user);
 
