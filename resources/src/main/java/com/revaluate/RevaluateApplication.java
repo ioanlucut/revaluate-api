@@ -54,6 +54,7 @@ public class RevaluateApplication extends FallwizardApplication<RevaluateConfigu
                 configuration.getDataSourceFactory().getUser(),
                 configuration.getDataSourceFactory().getPassword());
 
+        flyway.repair();
         flyway.migrate();
     }
 
