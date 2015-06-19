@@ -1,5 +1,4 @@
 ALTER TABLE email
-DROP COLUMN email_status,
 DROP COLUMN sent;
 
 ALTER TABLE email
