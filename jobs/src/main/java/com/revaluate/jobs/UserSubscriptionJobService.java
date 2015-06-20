@@ -17,7 +17,7 @@ import java.util.List;
 public class UserSubscriptionJobService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserSubscriptionJobService.class);
-    public static final int AUTO_SUBSCRIBE_USERS_DELAY = 5000;
+    public static final int AUTO_SUBSCRIBE_USERS_DELAY = 120000;
 
     @Autowired
     private UserAutoSubscriberService userAutoSubscriberService;
