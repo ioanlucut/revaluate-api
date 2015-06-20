@@ -95,8 +95,8 @@ public class PaymentResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(CREATE_PAYMENT_STATUS_SUBSCRIBE_TO_STANDARD_PLAN)
-    public Response createPaymentDetailsAndSubscribeToStandardPlanIfUserEligible(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
-        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.createPaymentStatusAndTryToSubscribeToStandardPlan(paymentDetailsDTO, getCurrentUserId());
+    public Response createPaymentStatusAndSubscribeToStandardPlanIfUserIsEligible(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
+        PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.createPaymentStatusAndSubscribeToStandardPlanIfUserIsEligible(paymentDetailsDTO, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, paymentInsightsDTO);
     }

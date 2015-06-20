@@ -236,15 +236,19 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
     }
 
     @Override
-    public PaymentInsightsDTO createPaymentStatusAndTryToSubscribeToStandardPlan(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
+    public PaymentInsightsDTO createPaymentStatusAndSubscribeToStandardPlanIfUserIsEligible(PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException {
         PaymentStatusDTO paymentStatusDTO = createPaymentStatus(paymentDetailsDTO, userId);
 
-        try {
-            return subscribeToStandardPlan(userId);
-        } catch (PaymentStatusException ex) {
+        //-----------------------------------------------------------------
+        // Activate subscription if user is in trial expired mode to.
+        //-----------------------------------------------------------------
+        User user = userRepository.findOne(userId);
+        if (user.isUserTrialPeriodExpired() && user.getUserSubscriptionStatus() == UserSubscriptionStatus.TRIAL_EXPIRED) {
 
-            return fetchPaymentInsights(paymentStatusDTO.getCustomerId());
+            return subscribeToStandardPlan(userId);
         }
+
+        return fetchPaymentInsights(paymentStatusDTO.getCustomerId());
     }
 
     @Override

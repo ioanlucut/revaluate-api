@@ -28,7 +28,7 @@ public interface PaymentStatusService {
     PaymentStatusDTO createPaymentStatus(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException;
 
     @NotNull
-    PaymentInsightsDTO createPaymentStatusAndTryToSubscribeToStandardPlan(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException;
+    PaymentInsightsDTO createPaymentStatusAndSubscribeToStandardPlanIfUserIsEligible(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO, int userId) throws PaymentStatusException;
 
     void deleteCustomerWithId(@NotEmpty String customerId) throws PaymentStatusException;
 
