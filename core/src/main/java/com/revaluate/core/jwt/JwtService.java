@@ -47,14 +47,6 @@ public class JwtService {
         return signedJWT.serialize();
     }
 
-    public int parseTokenSilent(String token) {
-        try {
-            return tryToParseFromToken(token);
-        } catch (JwtException ex) {
-            return -1;
-        }
-    }
-
     public int parseToken(String token) throws JwtException {
         try {
             return tryToParseFromToken(token);
