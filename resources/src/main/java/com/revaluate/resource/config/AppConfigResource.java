@@ -10,6 +10,7 @@ import com.revaluate.resource.utils.Responses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,9 +18,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Path(AppConfigResource.APP_CONFIG)
 @Component
@@ -28,8 +29,41 @@ public class AppConfigResource extends Resource {
     public static final String APP_CONFIG = "appconfig";
     private static final String FETCH_CONFIG = "fetchConfig";
 
+    public static final Map<String, Object> APP_CONFIGURATION_MAP = new ConcurrentHashMap<>();
+
     @Autowired
     private ColorService colorService;
+
+    @PostConstruct
+    public void fillAppConfiguration() {
+        APP_CONFIGURATION_MAP.put("VERSION", AppConfig.VERSION);
+        APP_CONFIGURATION_MAP.put("TRIAL_DAYS", AppConfig.TRIAL_DATE);
+
+        //-----------------------------------------------------------------
+        // Put also all colors
+        //-----------------------------------------------------------------
+        List<ColorDTO> allColors = colorService.findAllColors();
+        APP_CONFIGURATION_MAP.put("ALL_COLORS", allColors);
+
+        //-----------------------------------------------------------------
+        // Put also all predefined categories
+        //-----------------------------------------------------------------
+        List<String> predefinedCategories = Arrays.asList("Bills", "Food", "Clothes", "Car", "Donations", "Hobby", "Health", "Education", "Investments", "House");
+        APP_CONFIGURATION_MAP.put("PREDEFINED_CATEGORIES", predefinedCategories);
+
+        //-----------------------------------------------------------------
+        // Categories boundaries
+        //-----------------------------------------------------------------
+        APP_CONFIGURATION_MAP.put("MIN_ALLOWED_CATEGORIES", AppConfig.MIN_ALLOWED_CATEGORIES);
+        APP_CONFIGURATION_MAP.put("MAX_ALLOWED_CATEGORIES", AppConfig.MAX_ALLOWED_CATEGORIES);
+
+        //-----------------------------------------------------------------
+        // Others
+        //-----------------------------------------------------------------
+        APP_CONFIGURATION_MAP.put("MIN_EXPENSES_TO_ENABLE_BULK_ACTION", AppConfig.MIN_EXPENSES_TO_ENABLE_BULK_ACTION);
+        APP_CONFIGURATION_MAP.put("IMPORT_MIN_CATEGORIES_TO_SELECT", AppConfig.IMPORT_MIN_CATEGORIES_TO_SELECT);
+        APP_CONFIGURATION_MAP.put("SETUP_MIN_CATEGORIES_TO_SELECT", AppConfig.SETUP_MIN_CATEGORIES_TO_SELECT);
+    }
 
     @GET
     @Public
@@ -37,37 +71,8 @@ public class AppConfigResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(FETCH_CONFIG)
     public Response isUnique() throws UserException {
-        Map<String, Object> appConfig = new HashMap<>();
 
-        appConfig.put("VERSION", AppConfig.VERSION);
-        appConfig.put("TRIAL_DAYS", AppConfig.TRIAL_DATE);
-
-        //-----------------------------------------------------------------
-        // Put also all colors
-        //-----------------------------------------------------------------
-        List<ColorDTO> allColors = colorService.findAllColors();
-        appConfig.put("ALL_COLORS", allColors);
-
-        //-----------------------------------------------------------------
-        // Put also all predefined categories
-        //-----------------------------------------------------------------
-        List<String> predefinedCategories = Arrays.asList("Bills", "Food", "Clothes", "Car", "Donations", "Hobby", "Health", "Education", "Investments", "House");
-        appConfig.put("PREDEFINED_CATEGORIES", predefinedCategories);
-
-        //-----------------------------------------------------------------
-        // Categories boundaries
-        //-----------------------------------------------------------------
-        appConfig.put("MIN_ALLOWED_CATEGORIES", AppConfig.MIN_ALLOWED_CATEGORIES);
-        appConfig.put("MAX_ALLOWED_CATEGORIES", AppConfig.MAX_ALLOWED_CATEGORIES);
-
-        //-----------------------------------------------------------------
-        // Others
-        //-----------------------------------------------------------------
-        appConfig.put("MIN_EXPENSES_TO_ENABLE_BULK_ACTION", AppConfig.MIN_EXPENSES_TO_ENABLE_BULK_ACTION);
-        appConfig.put("IMPORT_MIN_CATEGORIES_TO_SELECT", AppConfig.IMPORT_MIN_CATEGORIES_TO_SELECT);
-        appConfig.put("SETUP_MIN_CATEGORIES_TO_SELECT", AppConfig.SETUP_MIN_CATEGORIES_TO_SELECT);
-
-        return Responses.respond(Response.Status.OK, appConfig);
+        return Responses.respond(Response.Status.OK, APP_CONFIGURATION_MAP);
     }
 
 }
