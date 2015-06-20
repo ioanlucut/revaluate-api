@@ -11,8 +11,8 @@
         <relativePath>../config-build/pom.xml</relativePath>
     </parent>
 
-    <artifactId>emailjob</artifactId>
-    <name>emailjob</name>
+    <artifactId>jobs</artifactId>
+    <name>jobs</name>
 
     <dependencies>
 

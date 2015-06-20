@@ -1,4 +1,4 @@
-package com.revaluate.emailjob;
+package com.revaluate.jobs;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
@@ -30,7 +30,7 @@ public class UserSubscriptionJobService {
         LOGGER.info(String.format("Start batch job %s :", this.getClass().getSimpleName()));
 
         List<User> potentialUsersToBeAutoSubscribed = userRepository.findAllByUserSubscriptionStatusAndEndTrialDateBefore(UserSubscriptionStatus.TRIAL_EXPIRED, LocalDateTime.now());
-        LOGGER.info(String.format("Fetched potential users: %s :", potentialUsersToBeAutoSubscribed));
+        LOGGER.debug(String.format("Fetched potential users: %s :", potentialUsersToBeAutoSubscribed));
 
         //-----------------------------------------------------------------
         // Try to auto subscribe users

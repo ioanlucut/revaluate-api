@@ -1,4 +1,4 @@
-package com.revaluate.emailjob;
+package com.revaluate.jobs;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.payment.exception.PaymentStatusException;
