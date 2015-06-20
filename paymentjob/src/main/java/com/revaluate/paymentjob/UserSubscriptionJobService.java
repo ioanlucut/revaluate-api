@@ -1,4 +1,3 @@
-/*
 package com.revaluate.paymentjob;
 
 import com.revaluate.account.persistence.User;
@@ -44,4 +43,4 @@ public class UserSubscriptionJobService {
                     }
                 });
     }
-}*/
+}
