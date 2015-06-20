@@ -4,6 +4,7 @@ import com.revaluate.account.exception.UserException;
 import com.revaluate.color.service.ColorService;
 import com.revaluate.config.AppConfig;
 import com.revaluate.core.annotations.Public;
+import com.revaluate.currency.service.CurrencyService;
 import com.revaluate.domain.color.ColorDTO;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
@@ -34,6 +35,9 @@ public class AppConfigResource extends Resource {
     @Autowired
     private ColorService colorService;
 
+    @Autowired
+    private CurrencyService currencyService;
+
     @PostConstruct
     public void fillAppConfiguration() {
         APP_CONFIGURATION_MAP.put("VERSION", AppConfig.VERSION);
@@ -63,6 +67,11 @@ public class AppConfigResource extends Resource {
         APP_CONFIGURATION_MAP.put("MIN_EXPENSES_TO_ENABLE_BULK_ACTION", AppConfig.MIN_EXPENSES_TO_ENABLE_BULK_ACTION);
         APP_CONFIGURATION_MAP.put("IMPORT_MIN_CATEGORIES_TO_SELECT", AppConfig.IMPORT_MIN_CATEGORIES_TO_SELECT);
         APP_CONFIGURATION_MAP.put("SETUP_MIN_CATEGORIES_TO_SELECT", AppConfig.SETUP_MIN_CATEGORIES_TO_SELECT);
+
+        //-----------------------------------------------------------------
+        // Currencies
+        //-----------------------------------------------------------------
+        APP_CONFIGURATION_MAP.put("CURRENCIES", currencyService.findAllCurrencies());
     }
 
     @GET
