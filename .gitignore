@@ -1,6 +1,5 @@
 .idea
 target
-revaluate-api.iml
 *.iml
 .DS_Store
 logfile.html

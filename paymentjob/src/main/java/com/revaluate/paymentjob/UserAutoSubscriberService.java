@@ -8,6 +8,5 @@ import javax.validation.constraints.NotNull;
 
 public interface UserAutoSubscriberService {
 
-    @NotNull
     void autoValidate(@Valid @NotNull User user) throws PaymentStatusException;
 }

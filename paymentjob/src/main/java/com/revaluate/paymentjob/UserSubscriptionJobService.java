@@ -27,7 +27,10 @@ public class UserSubscriptionJobService {
 
     @Scheduled(fixedDelay = AUTO_SUBSCRIBE_USERS_DELAY)
     public void activateSubscriptionForUserWithPaymentMethod() {
+        LOGGER.info(String.format("Start batch job %s :", this.getClass().getSimpleName()));
+
         List<User> potentialUsersToBeAutoSubscribed = userRepository.findAllByUserSubscriptionStatusAndEndTrialDateBefore(UserSubscriptionStatus.TRIAL_EXPIRED, LocalDateTime.now());
+        LOGGER.info(String.format("Fetched potential users: %s :", potentialUsersToBeAutoSubscribed));
 
         //-----------------------------------------------------------------
         // Try to auto subscribe users
@@ -42,5 +45,7 @@ public class UserSubscriptionJobService {
                         LOGGER.error(ex.getMessage(), ex);
                     }
                 });
+
+        LOGGER.info(String.format("End batch job %s :", this.getClass().getSimpleName()));
     }
 }
