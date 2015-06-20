@@ -140,11 +140,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO update(UserDTO userDTO, int userId) throws UserException {
-        User foundUser = userRepository.findOne(userId);
-        if (foundUser == null) {
-
-            throw new UserException("User does not exist");
-        }
+        User foundUser = Optional
+                .ofNullable(userRepository.findOne(userId))
+                .orElseThrow(() -> new UserException("User does not exist"));
 
         //-----------------------------------------------------------------
         // Try to find the currency
@@ -165,11 +163,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserDetails(int userId) throws UserException {
-        User foundUser = userRepository.findOne(userId);
-
-        if (foundUser == null) {
-            throw new UserException("Could not retrieve user details.");
-        }
+        User foundUser = Optional
+                .ofNullable(userRepository.findOne(userId))
+                .orElseThrow(() -> new UserException("Could not retrieve user details."));
 
         return dozerBeanMapper.map(foundUser, UserDTO.class);
     }
@@ -268,10 +264,9 @@ public class UserServiceImpl implements UserService {
             throw new UserException("New password should match new password confirmation");
         }
 
-        User existingUser = userRepository.findOne(currentUserId);
-        if (existingUser == null) {
-            throw new UserException("Invalid email or password");
-        }
+        User existingUser = Optional
+                .ofNullable(userRepository.findOne(currentUserId))
+                .orElseThrow(() -> new UserException("Invalid email or password"));
 
         if (!BCrypt.checkpw(updatePasswordDTO.getOldPassword(), existingUser.getPassword())) {
             throw new UserException("Current password is wrong");
@@ -356,10 +351,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateCurrency(UserDTO userDTO, int userId) throws UserException {
-        User foundUser = userRepository.findOne(userId);
-        if (foundUser == null) {
-            throw new UserException("User does not exist");
-        }
+        User foundUser = Optional
+                .ofNullable(userRepository.findOne(userId))
+                .orElseThrow(() -> new UserException("User does not exist"));
 
         //-----------------------------------------------------------------
         // Try to find the currency
@@ -374,11 +368,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void sendFeedback(FeedbackDTO feedbackDTO, int userId) throws UserException {
-        User user = userRepository.findOne(userId);
-
-        if (user == null) {
-            throw new UserException("User does not exist");
-        }
+        User user = Optional
+                .ofNullable(userRepository.findOne(userId))
+                .orElseThrow(() -> new UserException("User does not exist"));
 
         //-----------------------------------------------------------------
         // Generate a feedback email message

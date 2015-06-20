@@ -142,7 +142,7 @@ public class PaymentStatusServiceImpl implements PaymentStatusService {
         User user = userRepository.findOne(userId);
         if (!(user.isUserTrialPeriodExpired() && user.getUserSubscriptionStatus() == UserSubscriptionStatus.TRIAL_EXPIRED)) {
 
-            throw new PaymentStatusException("User has to be in trial expired status in order to activate its subscription");
+            throw new PaymentStatusException(String.format("User has to be in trial expired status in order to activate its subscription, %s", user));
         }
 
         //-----------------------------------------------------------------

@@ -1,11 +1,16 @@
 package com.revaluate.resource.payment;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.revaluate.account.exception.UserException;
+import com.revaluate.account.service.UserService;
+import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.payment.*;
 import com.revaluate.domain.payment.insights.PaymentInsightsDTO;
 import com.revaluate.payment.exception.PaymentStatusException;
 import com.revaluate.payment.service.PaymentStatusService;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
+import com.revaluate.views.Views;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -50,6 +55,9 @@ public class PaymentResource extends Resource {
     @Autowired
     private PaymentStatusService paymentStatusService;
 
+    @Autowired
+    private UserService userService;
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
@@ -87,7 +95,7 @@ public class PaymentResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(CREATE_PAYMENT_STATUS_SUBSCRIBE_TO_STANDARD_PLAN)
-    public Response createPaymentDetails(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
+    public Response createPaymentDetailsAndSubscribeToStandardPlanIfUserEligible(@NotNull @Valid PaymentDetailsDTO paymentDetailsDTO) throws PaymentStatusException {
         PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.createPaymentStatusAndTryToSubscribeToStandardPlan(paymentDetailsDTO, getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, paymentInsightsDTO);
@@ -140,9 +148,11 @@ public class PaymentResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(REMOVE_PAYMENT_METHOD)
-    public Response removePaymentMethod() throws PaymentStatusException {
+    @JsonView({Views.DetailsView.class})
+    public Response removePaymentMethod() throws PaymentStatusException, UserException {
         paymentStatusService.removePaymentMethod(getCurrentUserId());
+        UserDTO userDetailsDTO = userService.getUserDetails(getCurrentUserId());
 
-        return Responses.respond(Response.Status.OK, "Payment method successfully removed");
+        return Responses.respond(Response.Status.OK, userDetailsDTO);
     }
 }
