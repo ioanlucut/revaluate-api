@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService {
         Optional<PaymentStatusDTO> paymentStatusOptional = Optional.empty();
         if (paymentStatusService.isPaymentStatusDefined(userId)) {
 
-            paymentStatusOptional = Optional.of(paymentStatusService.findPaymentStatus(userId));
+            paymentStatusOptional = Optional.ofNullable(paymentStatusService.findPaymentStatus(userId));
         }
 
         //-----------------------------------------------------------------
