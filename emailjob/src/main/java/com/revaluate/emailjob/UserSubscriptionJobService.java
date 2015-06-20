@@ -1,4 +1,4 @@
-package com.revaluate.paymentjob;
+package com.revaluate.emailjob;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
@@ -17,7 +17,7 @@ import java.util.List;
 public class UserSubscriptionJobService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserSubscriptionJobService.class);
-    public static final int AUTO_SUBSCRIBE_USERS_DELAY = 60000;
+    public static final int AUTO_SUBSCRIBE_USERS_DELAY = 5000;
 
     @Autowired
     private UserAutoSubscriberService userAutoSubscriberService;

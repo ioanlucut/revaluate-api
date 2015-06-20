@@ -1,4 +1,4 @@
-package com.revaluate.paymentjob;
+package com.revaluate.emailjob;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;

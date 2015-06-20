@@ -1,12 +1,17 @@
 package com.revaluate.emailjob;
 
+import com.revaluate.account.persistence.User;
+import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.annotations.EmailSenderQualifier;
+import com.revaluate.domain.account.UserSubscriptionStatus;
 import com.revaluate.domain.email.EmailStatus;
 import com.revaluate.email.persistence.EmailFeedback;
 import com.revaluate.email.persistence.EmailFeedbackRepository;
 import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.email.persistence.EmailTokenRepository;
 import com.revaluate.email.service.EmailAsyncSender;
+import com.revaluate.payment.exception.PaymentStatusException;
+import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +24,7 @@ import java.util.List;
 public class ResendEmailJobService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResendEmailJobService.class);
-    public static final int RE_SEND_EMAIL_FIXED_DELAYS = 60000;
+    public static final int RE_SEND_EMAIL_FIXED_DELAYS = 5000;
 
     @Autowired
     @EmailSenderQualifier(value = EmailSenderQualifier.EmailSenderType.TO_USER)
