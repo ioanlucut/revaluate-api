@@ -1,17 +1,12 @@
-package com.revaluate.emailjob;
+package com.revaluate.jobs;
 
-import com.revaluate.account.persistence.User;
-import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.annotations.EmailSenderQualifier;
-import com.revaluate.domain.account.UserSubscriptionStatus;
 import com.revaluate.domain.email.EmailStatus;
 import com.revaluate.email.persistence.EmailFeedback;
 import com.revaluate.email.persistence.EmailFeedbackRepository;
 import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.email.persistence.EmailTokenRepository;
 import com.revaluate.email.service.EmailAsyncSender;
-import com.revaluate.payment.exception.PaymentStatusException;
-import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

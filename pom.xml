@@ -19,7 +19,7 @@
         <module>dtos</module>
         <module>core</module>
         <module>emails</module>
-        <module>emailjob</module>
+        <module>jobs</module>
         <module>importer</module>
         <module>payment</module>
         <module>application</module>

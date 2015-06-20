@@ -1,4 +1,4 @@
-package com.revaluate.emailjob;
+package com.revaluate.jobs;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
@@ -25,16 +25,19 @@ public class UserAutoSubscriberServiceImpl implements UserAutoSubscriberService 
 
     @Override
     public void autoValidate(User user) throws PaymentStatusException {
-        if (paymentStatusService.isPaymentStatusDefined(user.getId())) {
-            LOGGER.info(String.format("Try to auto-subscribe user %s to standard plan", user));
+        if (!paymentStatusService.isPaymentStatusDefined(user.getId())) {
+            LOGGER.debug(String.format("Payment status is not defined for %s", user));
 
-            paymentStatusService.subscribeToStandardPlan(user.getId());
-
-            //-----------------------------------------------------------------
-            // Set user as having the subscription status active
-            //-----------------------------------------------------------------
-            user.setUserSubscriptionStatus(UserSubscriptionStatus.ACTIVE);
-            userRepository.save(user);
+            return;
         }
+
+        LOGGER.info(String.format("Try to auto-subscribe user %s to standard plan", user));
+        paymentStatusService.subscribeToStandardPlan(user.getId());
+
+        //-----------------------------------------------------------------
+        // Set user as having the subscription status active
+        //-----------------------------------------------------------------
+        user.setUserSubscriptionStatus(UserSubscriptionStatus.ACTIVE);
+        userRepository.save(user);
     }
 }
