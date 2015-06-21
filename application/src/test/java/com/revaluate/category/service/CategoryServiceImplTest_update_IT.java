@@ -173,4 +173,34 @@ public class CategoryServiceImplTest_update_IT extends AbstractIntegrationTests 
         categoryService.update(firstCategoryDTO, createdUserDTO.getId());
     }
 
+    @Test
+    public void update_categoryFromUppercaseToLowercase_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category updated DTO with same ID as previous
+        //-----------------------------------------------------------------
+        CategoryDTO firstCategoryToCreateDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("abc").build();
+
+        //-----------------------------------------------------------------
+        // Create first category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = categoryService.create(firstCategoryToCreateDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Update the first category with the name of the secnd one - should break.
+        //-----------------------------------------------------------------
+        categoryDTO.setName("ABC");
+        CategoryDTO updatedCategoryDTO = categoryService.update(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Assertions
+        //-----------------------------------------------------------------
+        assertThat(updatedCategoryDTO, is(notNullValue()));
+        assertThat(updatedCategoryDTO.getName(), is(equalTo(categoryDTO.getName())));
+    }
+
 }

@@ -114,7 +114,7 @@ public class CategoryServiceImpl implements CategoryService {
         //-----------------------------------------------------------------
         // Means that the category name is changed
         //-----------------------------------------------------------------
-        if (!category.getName().equals(categoryDTO.getName()) && !isUnique(categoryDTO.getName(), userId)) {
+        if (!category.getName().equalsIgnoreCase(categoryDTO.getName()) && !isUnique(categoryDTO.getName(), userId)) {
 
             throw new CategoryException("The given category name exists already");
         }
