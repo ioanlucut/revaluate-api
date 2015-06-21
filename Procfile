@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Ddw.server.applicationConnectors[0].port=$PORT -DENVIRONMENT=dev -jar resources/target/resources-1.0.jar server "resources/src/main/resources/config_dev.yaml"
+web: java $JAVA_OPTS -Ddw.server.applicationConnectors[0].port=$PORT -DENVIRONMENT=$HEROKU_ENV -jar resources/target/resources-1.0.jar server "resources/src/main/resources/config_$HEROKU_ENV.yaml"
