@@ -1,7 +1,7 @@
 .idea
 target
 *.iml
-.DS_Store
-logfile.html
+*.DS_Store
+*logfile.html
 mylog.log
 *rebel.xml
