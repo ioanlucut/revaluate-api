@@ -72,6 +72,13 @@ public class AppConfigResource extends Resource {
         // Currencies
         //-----------------------------------------------------------------
         APP_CONFIGURATION_MAP.put("CURRENCIES", currencyService.findAllCurrencies());
+
+        //-----------------------------------------------------------------
+        // Price boundaries
+        //-----------------------------------------------------------------
+
+        APP_CONFIGURATION_MAP.put("VALUE_INTEGER_SIZE", AppConfig.VALUE_INTEGER_SIZE);
+        APP_CONFIGURATION_MAP.put("VALUE_FRACTION_SIZE", AppConfig.VALUE_FRACTION_SIZE);
     }
 
     @GET

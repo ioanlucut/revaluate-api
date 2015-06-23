@@ -5,7 +5,6 @@ import com.revaluate.category.service.CategoryService;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
-import com.revaluate.domain.color.ColorDTOBuilder;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
 import com.revaluate.expense.exception.ExpenseException;
@@ -58,6 +57,44 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(createdExpenseDTO.getDescription(), equalTo(expenseDTO.getDescription()));
         assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
         assertThat(createdExpenseDTO.getSpentDate().getYear(), equalTo(expenseDTO.getSpentDate().getYear()));
+    }
+
+    @Test
+    public void create_testMaxAndMinValues_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create expense
+        //-----------------------------------------------------------------
+
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(0.01).withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+
+        exception.expect(ConstraintViolationException.class);
+        expenseDTO = new ExpenseDTOBuilder().withValue(0.001).withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+
+        expenseDTO = new ExpenseDTOBuilder().withValue(111_111_111_111_111_111_11.11).withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+
+        expenseDTO = new ExpenseDTOBuilder().withValue(899_999_999_999_999_999_99.11).withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+
+        exception.expect(ConstraintViolationException.class);
+        expenseDTO = new ExpenseDTOBuilder().withValue(999_999_999_999_999_999_99.11).withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
     }
 
     @Test
