@@ -2,6 +2,7 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
+import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
 import com.revaluate.domain.currency.CurrencyDTO;
@@ -80,6 +81,48 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         UserDTO userDTOToUpdate = new UserDTOBuilder().withCurrency(currencyDTOToUpdate).build();
         userService.update(userDTOToUpdate, createdUserDTO.getId());
+    }
+
+    @Test
+    public void update_onlyFirstNameAndLastNameAreUpdated_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user and prepare it
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Prepared user
+        //-----------------------------------------------------------------
+        User user = userRepository.findOne(createdUserDTO.getId());
+        user.setEmail("a@b.c");
+        user.setLastName("last");
+        user.setFirstName("first");
+        user.setEmailConfirmed(true);
+        user.setInitiated(true);
+        user.setEnabled(true);
+        User originalUser = userRepository.save(user);
+
+        //-----------------------------------------------------------------
+        // Compute the currency to update
+        //-----------------------------------------------------------------
+        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).withSymbol("E").build();
+        UserDTO userDTOToUpdate = new UserDTOBuilder().withCurrency(currency).withEmail("c@d.e").withFirstName("first2").withLastName("last2").withEmailConfirmed(false).withInitiated(false).build();
+        User mappedUser = userRepository.findOne(createdUserDTO.getId());
+        dozerBeanMapper.map(userDTOToUpdate, mappedUser, "UserDTO__Update");
+
+        //-----------------------------------------------------------------
+        // Those are not updated
+        //-----------------------------------------------------------------
+        assertThat(mappedUser.getEmail(), is(equalTo(originalUser.getEmail())));
+        assertThat(mappedUser.getCurrency().getCurrencyCode(), is(equalTo(originalUser.getCurrency().getCurrencyCode())));
+        assertThat(mappedUser.isEmailConfirmed(), is(equalTo(originalUser.isEmailConfirmed())));
+        assertThat(mappedUser.isInitiated(), is(equalTo(originalUser.isInitiated())));
+
+        //-----------------------------------------------------------------
+        // Only those are updated
+        //-----------------------------------------------------------------
+        assertThat(mappedUser.getFirstName(), is(equalTo(userDTOToUpdate.getFirstName())));
+        assertThat(mappedUser.getLastName(), is(equalTo(userDTOToUpdate.getLastName())));
     }
 
     @Test
