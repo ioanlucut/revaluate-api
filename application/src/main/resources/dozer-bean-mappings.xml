@@ -40,25 +40,17 @@
         </field-exclude>
     </mapping>
 
-    <mapping map-null="false" map-id="UserDTO__Update">
+    <mapping map-null="false" wildcard="false" map-id="UserDTO__Update">
         <class-a>com.revaluate.domain.account.UserDTO</class-a>
         <class-b>com.revaluate.account.persistence.User</class-b>
-        <field-exclude type="one-way">
-            <a>id</a>
-            <b>id</b>
-        </field-exclude>
-        <field-exclude type="one-way">
-            <a>email</a>
-            <b>email</b>
-        </field-exclude>
-        <field-exclude type="one-way">
-            <a>password</a>
-            <b>password</b>
-        </field-exclude>
-        <field-exclude type="one-way">
-            <a>userSubscriptionStatus</a>
-            <b>userSubscriptionStatus</b>
-        </field-exclude>
+        <field>
+            <a>firstName</a>
+            <b>firstName</b>
+        </field>
+        <field>
+            <a>lastName</a>
+            <b>lastName</b>
+        </field>
     </mapping>
 
     <!--Generally, the password should not be sent back to the user-->
