@@ -3,6 +3,8 @@ package com.revaluate.email;
 import com.microtripit.mandrillapp.lutung.controller.MandrillMessagesApi;
 import com.microtripit.mandrillapp.lutung.view.MandrillMessageStatus;
 import com.revaluate.core.bootstrap.ConfigProperties;
+import com.revaluate.domain.contact.ContactDTO;
+import com.revaluate.domain.contact.ContactDTOBuilder;
 import com.revaluate.domain.email.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -115,6 +117,25 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
 
         SendFeedbackTo sendTo = new SendFeedbackToBuilder().withEmail("a@b.c").withEmailId(1).withEmailType(EmailType.FEEDBACK_MESSAGE).withFirstName("a").withId(1).withLastName("").withSubject("subject").withMessage("message").build();
         MandrillEmailStatus feedback = sendEmailService.sendNonAsyncFeedbackEmailTo(sendTo);
+        assertThat(feedback, is(MandrillEmailStatus.SENT));
+    }
+
+    @Test
+    public void sendNonAsyncContactEmail__sentExpected__isOk() throws Exception {
+        MandrillMessagesApi mandrillMessagesApi = mock(MandrillMessagesApi.class);
+
+        MandrillMessageStatus mandrillMessageStatus = mock(MandrillMessageStatus.class);
+        when(mandrillMessageStatus.getStatus()).thenReturn(MandrillEmailStatus.SENT.getStatus());
+
+        when(mandrillMessagesApi.send(anyObject(), eq(Boolean.FALSE))).thenReturn(new MandrillMessageStatus[]{mandrillMessageStatus});
+
+        //-----------------------------------------------------------------
+        // Prepare mocks
+        //-----------------------------------------------------------------
+        when(mandrillService.getApi()).thenReturn(mandrillMessagesApi);
+
+        ContactDTO contactDTO = new ContactDTOBuilder().withEmail("a@b.c").withName("a").withMessage("message").build();
+        MandrillEmailStatus feedback = sendEmailService.sendNonAsyncContactEmail(contactDTO);
         assertThat(feedback, is(MandrillEmailStatus.SENT));
     }
 }

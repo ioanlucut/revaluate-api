@@ -4,16 +4,19 @@ import com.microtripit.mandrillapp.lutung.model.MandrillApiError;
 import com.microtripit.mandrillapp.lutung.view.MandrillMessage;
 import com.microtripit.mandrillapp.lutung.view.MandrillMessageStatus;
 import com.revaluate.core.bootstrap.ConfigProperties;
+import com.revaluate.domain.contact.ContactDTO;
 import com.revaluate.domain.email.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
 import java.util.*;
 
 @Service
+@Validated
 public class SendEmailServiceImpl implements SendEmailService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SendEmailServiceImpl.class);
@@ -21,6 +24,7 @@ public class SendEmailServiceImpl implements SendEmailService {
     private static final String RESET_PASSWORD_LINK = "RESET_PASSWORD_LINK";
     private static final String CONFIRM_EMAIL_LINK = "CONFIRM_EMAIL_LINK";
     private static final String REVALUATE_TEAM_NAME = "Revaluate team";
+    public static final int CONTACT_MESSAGE_TRUNCATE = 20;
 
     @Autowired
     private ConfigProperties configProperties;
@@ -112,7 +116,38 @@ public class SendEmailServiceImpl implements SendEmailService {
         }
     }
 
-    private MandrillEmailStatus interpretEmailStatus(AbstractSendTo sendTo, boolean sendAsync, MandrillMessageStatus[] messageStatusReports) throws SendEmailException {
+    @Override
+    public MandrillEmailStatus sendNonAsyncContactEmail(ContactDTO contactDTO) throws SendEmailException {
+        //-----------------------------------------------------------------
+        // Build the mandrill message
+        //-----------------------------------------------------------------
+        MandrillMessage message = new MandrillMessage();
+
+        message.setFromEmail(contactDTO.getEmail());
+        message.setFromName(contactDTO.getName());
+        message.setAutoText(Boolean.TRUE);
+        message.setSubject(contactDTO.getMessage().length() > CONTACT_MESSAGE_TRUNCATE ? contactDTO.getMessage().substring(0, CONTACT_MESSAGE_TRUNCATE) + "..." : contactDTO.getMessage());
+        message.setText(contactDTO.getMessage());
+
+        //-----------------------------------------------------------------
+        // Build mandrill recipients
+        //-----------------------------------------------------------------
+        List<MandrillMessage.Recipient> recipients = new ArrayList<>();
+        MandrillMessage.Recipient recipient = new MandrillMessage.Recipient();
+        recipient.setEmail(configProperties.getReplyEmailRecipient());
+        recipient.setName(REVALUATE_TEAM_NAME);
+        recipients.add(recipient);
+        message.setTo(recipients);
+
+        try {
+            MandrillMessageStatus[] messageStatusReports = mandrillService.getApi().send(message, Boolean.FALSE);
+            return interpretEmailStatus(contactDTO, Boolean.FALSE, messageStatusReports);
+        } catch (MandrillApiError | IOException ex) {
+            throw new SendEmailException(ex);
+        }
+    }
+
+    private MandrillEmailStatus interpretEmailStatus(Object sendTo, boolean sendAsync, MandrillMessageStatus[] messageStatusReports) throws SendEmailException {
         MandrillMessageStatus messageStatusReport = messageStatusReports[0];
         LOGGER.info(Arrays.toString(messageStatusReports));
 
