@@ -11,4 +11,7 @@ public interface AppConfig {
     int MIN_EXPENSES_TO_ENABLE_BULK_ACTION = 1;
     int IMPORT_MIN_CATEGORIES_TO_SELECT = 1;
     int SETUP_MIN_CATEGORIES_TO_SELECT = 3;
+
+    int VALUE_INTEGER_SIZE = 20;
+    int VALUE_FRACTION_SIZE = 2;
 }

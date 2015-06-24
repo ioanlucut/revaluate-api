@@ -128,10 +128,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO login(LoginDTO loginDTO) throws UserException {
-        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(loginDTO.getEmail());
-        User foundUser = byEmail.orElseThrow(() -> new UserException("Invalid email or password"));
+        User foundUser = userRepository
+                .findOneByEmailIgnoreCase(loginDTO.getEmail())
+                .orElseThrow(() -> new UserException("Invalid email or password"));
 
         if (!BCrypt.checkpw(loginDTO.getPassword(), foundUser.getPassword())) {
+
             throw new UserException("Invalid email or password");
         }
 
@@ -204,14 +206,16 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void validateConfirmationEmailToken(String email, String token) throws UserException {
-        Optional<User> optionalUserFoundByEmail = userRepository.findOneByEmailIgnoreCase(email);
-        User user = optionalUserFoundByEmail.orElseThrow(() -> new UserException("No matching of this email"));
+        User user = userRepository
+                .findOneByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
         // Try to find a matching email token
         //-----------------------------------------------------------------
-        Optional<EmailToken> optionalByUserIdAndTokenValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndToken(EmailType.CREATED_ACCOUNT, user.getId(), token);
-        EmailToken emailEntry = optionalByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Confirmation email token is invalid."));
+        EmailToken emailEntry = emailTokenRepository
+                .findOneByEmailTypeAndUserIdAndToken(EmailType.CREATED_ACCOUNT, user.getId(), token)
+                .orElseThrow(() -> new UserException("Confirmation email token is invalid."));
 
         //-----------------------------------------------------------------
         // If already validated, just return
@@ -242,8 +246,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void requestConfirmationEmail(String email) throws UserException {
-        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(email);
-        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
+        User user = userRepository
+                .findOneByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
         // Generate a new reset email token and save it
@@ -261,6 +266,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updatePassword(UpdatePasswordDTO updatePasswordDTO, int currentUserId) throws UserException {
         if (!updatePasswordDTO.getNewPassword().equals(updatePasswordDTO.getNewPasswordConfirmation())) {
+
             throw new UserException("New password should match new password confirmation");
         }
 
@@ -269,11 +275,11 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserException("Invalid email or password"));
 
         if (!BCrypt.checkpw(updatePasswordDTO.getOldPassword(), existingUser.getPassword())) {
+
             throw new UserException("Current password is wrong");
         }
 
         existingUser.setPassword(BCrypt.hashpw(updatePasswordDTO.getNewPassword(), BCrypt.gensalt()));
-
         User updatedUser = userRepository.save(existingUser);
         return dozerBeanMapper.map(updatedUser, UserDTO.class);
     }
@@ -310,8 +316,9 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Try to find a matching email token
         //-----------------------------------------------------------------
-        Optional<EmailToken> oneByUserIdAndTokenValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndToken(EmailType.RESET_PASSWORD, user.getId(), token);
-        EmailToken emailToken = oneByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Token is invalid."));
+        EmailToken emailToken = emailTokenRepository
+                .findOneByEmailTypeAndUserIdAndToken(EmailType.RESET_PASSWORD, user.getId(), token)
+                .orElseThrow(() -> new UserException("Token is invalid."));
 
         //-----------------------------------------------------------------
         // If already validated, just return
@@ -330,6 +337,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void resetPassword(ResetPasswordDTO resetPasswordDTO, String email, String token) throws UserException {
         if (!resetPasswordDTO.getPassword().equals(resetPasswordDTO.getPasswordConfirmation())) {
+
             throw new UserException("New password should match new password confirmation");
         }
 
@@ -339,8 +347,9 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Try to find a matching email token which is validated
         //-----------------------------------------------------------------
-        Optional<EmailToken> oneByUserIdAndTokenValidatedFalse = emailTokenRepository.findOneByEmailTypeAndUserIdAndTokenAndTokenValidatedTrue(EmailType.RESET_PASSWORD, user.getId(), token);
-        oneByUserIdAndTokenValidatedFalse.orElseThrow(() -> new UserException("Token is invalid."));
+        emailTokenRepository
+                .findOneByEmailTypeAndUserIdAndTokenAndTokenValidatedTrue(EmailType.RESET_PASSWORD, user.getId(), token)
+                .orElseThrow(() -> new UserException("Token is invalid."));
 
         //-----------------------------------------------------------------
         // Finally, reset password and save user
@@ -358,10 +367,11 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Try to find the currency
         //-----------------------------------------------------------------
-        Optional<Currency> byCurrencyCode = currencyRepository.findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode());
-        byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists"));
-        foundUser.setCurrency(byCurrencyCode.get());
+        Currency byCurrencyCode = currencyRepository
+                .findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode())
+                .orElseThrow(() -> new UserException("The given currency does not exists"));
 
+        foundUser.setCurrency(byCurrencyCode);
         User updatedUser = userRepository.save(foundUser);
         return dozerBeanMapper.map(updatedUser, UserDTO.class);
     }
