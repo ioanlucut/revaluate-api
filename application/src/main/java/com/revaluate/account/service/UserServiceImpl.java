@@ -2,6 +2,7 @@ package com.revaluate.account.service;
 
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.User;
+import com.revaluate.account.persistence.UserPartialUpdateEnum;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.utils.TokenGenerator;
 import com.revaluate.category.persistence.CategoryRepository;
@@ -33,8 +34,6 @@ import java.util.Optional;
 @Service
 @Validated
 public class UserServiceImpl implements UserService {
-
-    public static final String USER_DTO__UPDATE = "UserDTO__Update";
 
     @Autowired
     private UserRepository userRepository;
@@ -87,14 +86,15 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Try to find the currency
         //-----------------------------------------------------------------
-        Optional<Currency> byCurrencyCode = currencyRepository.findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode());
-        byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists"));
+        Currency byCurrencyCode = currencyRepository
+                .findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode())
+                .orElseThrow(() -> new UserException("The given currency does not exists"));
 
         User user = dozerBeanMapper.map(userDTO, User.class);
         //-----------------------------------------------------------------
         // Set the found currency
         //-----------------------------------------------------------------
-        user.setCurrency(byCurrencyCode.get());
+        user.setCurrency(byCurrencyCode);
 
         //-----------------------------------------------------------------
         // Hash the password and set
@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO update(UserDTO userDTO, int userId) throws UserException {
+    public UserDTO update(UserDTO userDTO, int userId, UserPartialUpdateEnum userPartialUpdateEnum) throws UserException {
         User foundUser = Optional
                 .ofNullable(userRepository.findOne(userId))
                 .orElseThrow(() -> new UserException("User does not exist"));
@@ -150,14 +150,17 @@ public class UserServiceImpl implements UserService {
         // Try to find the currency
         //-----------------------------------------------------------------
         if (userDTO.getCurrency() != null) {
-            Optional<Currency> byCurrencyCode = currencyRepository.findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode());
-            foundUser.setCurrency(byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists")));
+            Currency currency = currencyRepository
+                    .findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode())
+                    .orElseThrow(() -> new UserException("The given currency does not exists"));
+
+            foundUser.setCurrency(currency);
         }
 
         //-----------------------------------------------------------------
         // Update the user accordingly to DTO
         //-----------------------------------------------------------------
-        dozerBeanMapper.map(userDTO, foundUser, USER_DTO__UPDATE);
+        dozerBeanMapper.map(userDTO, foundUser, userPartialUpdateEnum.getMapId());
 
         User updatedUser = userRepository.save(foundUser);
         return dozerBeanMapper.map(updatedUser, UserDTO.class);
@@ -287,8 +290,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void requestResetPassword(String email) throws UserException {
-        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(email);
-        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
+        User user = userRepository
+                .findOneByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
         // Remove all existing tokens
@@ -310,8 +314,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void validateResetPasswordToken(String email, String token) throws UserException {
-        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(email);
-        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
+        User user = userRepository
+                .findOneByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
         // Try to find a matching email token
@@ -341,8 +346,9 @@ public class UserServiceImpl implements UserService {
             throw new UserException("New password should match new password confirmation");
         }
 
-        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(email);
-        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
+        User user = userRepository
+                .findOneByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
         // Try to find a matching email token which is validated
@@ -370,8 +376,8 @@ public class UserServiceImpl implements UserService {
         Currency byCurrencyCode = currencyRepository
                 .findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode())
                 .orElseThrow(() -> new UserException("The given currency does not exists"));
-
         foundUser.setCurrency(byCurrencyCode);
+
         User updatedUser = userRepository.save(foundUser);
         return dozerBeanMapper.map(updatedUser, UserDTO.class);
     }
