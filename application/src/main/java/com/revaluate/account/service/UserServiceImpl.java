@@ -87,14 +87,15 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Try to find the currency
         //-----------------------------------------------------------------
-        Optional<Currency> byCurrencyCode = currencyRepository.findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode());
-        byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists"));
+        Currency byCurrencyCode = currencyRepository
+                .findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode())
+                .orElseThrow(() -> new UserException("The given currency does not exists"));
 
         User user = dozerBeanMapper.map(userDTO, User.class);
         //-----------------------------------------------------------------
         // Set the found currency
         //-----------------------------------------------------------------
-        user.setCurrency(byCurrencyCode.get());
+        user.setCurrency(byCurrencyCode);
 
         //-----------------------------------------------------------------
         // Hash the password and set
@@ -150,8 +151,11 @@ public class UserServiceImpl implements UserService {
         // Try to find the currency
         //-----------------------------------------------------------------
         if (userDTO.getCurrency() != null) {
-            Optional<Currency> byCurrencyCode = currencyRepository.findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode());
-            foundUser.setCurrency(byCurrencyCode.orElseThrow(() -> new UserException("The given currency does not exists")));
+            Currency currency = currencyRepository
+                    .findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode())
+                    .orElseThrow(() -> new UserException("The given currency does not exists"));
+
+            foundUser.setCurrency(currency);
         }
 
         //-----------------------------------------------------------------
@@ -287,8 +291,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void requestResetPassword(String email) throws UserException {
-        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(email);
-        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
+        User user = userRepository
+                .findOneByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
         // Remove all existing tokens
@@ -310,8 +315,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void validateResetPasswordToken(String email, String token) throws UserException {
-        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(email);
-        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
+        User user = userRepository
+                .findOneByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
         // Try to find a matching email token
@@ -341,8 +347,9 @@ public class UserServiceImpl implements UserService {
             throw new UserException("New password should match new password confirmation");
         }
 
-        Optional<User> byEmail = userRepository.findOneByEmailIgnoreCase(email);
-        User user = byEmail.orElseThrow(() -> new UserException("No matching of this email"));
+        User user = userRepository
+                .findOneByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
         // Try to find a matching email token which is validated
@@ -370,8 +377,8 @@ public class UserServiceImpl implements UserService {
         Currency byCurrencyCode = currencyRepository
                 .findOneByCurrencyCode(userDTO.getCurrency().getCurrencyCode())
                 .orElseThrow(() -> new UserException("The given currency does not exists"));
-
         foundUser.setCurrency(byCurrencyCode);
+
         User updatedUser = userRepository.save(foundUser);
         return dozerBeanMapper.map(updatedUser, UserDTO.class);
     }
