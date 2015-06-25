@@ -42,7 +42,7 @@ public class UserDTO implements Serializable {
     @Size(min = 7, groups = CreateUserGroup.class)
     private String password;
 
-    @NotNull(groups = {CreateUserGroup.class, UpdateUserCurrencyGroup.class})
+    @NotNull(groups = {CreateUserGroup.class, UpdateUserCurrencyGroup.class, UpdateUserInitiatedStatusGroup.class})
     @JsonView({Views.StrictView.class})
     private CurrencyDTO currency;
 
