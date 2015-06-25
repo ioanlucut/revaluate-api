@@ -8,8 +8,8 @@ import org.joda.time.LocalDateTime;
 public class UserDTOBuilder
     implements Cloneable {
   protected UserDTOBuilder self;
-  protected int value$id$int;
-  protected boolean isSet$id$int;
+  protected Integer value$id$java$lang$Integer;
+  protected boolean isSet$id$java$lang$Integer;
   protected String value$firstName$java$lang$String;
   protected boolean isSet$firstName$java$lang$String;
   protected String value$lastName$java$lang$String;
@@ -46,9 +46,9 @@ public class UserDTOBuilder
    * @param value the default value
    * @return this builder
    */
-  public UserDTOBuilder withId(int value) {
-    this.value$id$int = value;
-    this.isSet$id$int = true;
+  public UserDTOBuilder withId(Integer value) {
+    this.value$id$java$lang$Integer = value;
+    this.isSet$id$java$lang$Integer = true;
     return self;
   }
 
@@ -217,8 +217,8 @@ public class UserDTOBuilder
   public UserDTO build() {
     try {
       UserDTO result = new UserDTO();
-      if (isSet$id$int) {
-        result.setId(value$id$int);
+      if (isSet$id$java$lang$Integer) {
+        result.setId(value$id$java$lang$Integer);
       }
       if (isSet$firstName$java$lang$String) {
         result.setFirstName(value$firstName$java$lang$String);

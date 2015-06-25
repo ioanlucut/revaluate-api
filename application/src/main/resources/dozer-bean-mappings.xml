@@ -40,7 +40,7 @@
         </field-exclude>
     </mapping>
 
-    <mapping map-null="false" wildcard="false" map-id="UserDTO__Update">
+    <mapping map-null="false" wildcard="false" map-id="UserDTO__update__account-details">
         <class-a>com.revaluate.domain.account.UserDTO</class-a>
         <class-b>com.revaluate.account.persistence.User</class-b>
         <field>
@@ -50,6 +50,15 @@
         <field>
             <a>lastName</a>
             <b>lastName</b>
+        </field>
+    </mapping>
+
+    <mapping map-null="false" wildcard="false" map-id="UserDTO__update__initiated-status">
+        <class-a>com.revaluate.domain.account.UserDTO</class-a>
+        <class-b>com.revaluate.account.persistence.User</class-b>
+        <field>
+            <a>initiated</a>
+            <b>initiated</b>
         </field>
     </mapping>
 

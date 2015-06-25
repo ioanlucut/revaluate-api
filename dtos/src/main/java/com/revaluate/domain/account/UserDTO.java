@@ -3,7 +3,9 @@ package com.revaluate.domain.account;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.groups.CreateUserGroup;
+import com.revaluate.groups.UpdateUserAccountDetailsGroup;
 import com.revaluate.groups.UpdateUserCurrencyGroup;
+import com.revaluate.groups.UpdateUserInitiatedStatusGroup;
 import com.revaluate.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.Email;
@@ -21,13 +23,13 @@ public class UserDTO implements Serializable {
     private static final long serialVersionUID = -1799428438852023627L;
 
     @JsonView({Views.StrictView.class})
-    private int id;
+    private Integer id;
 
-    @NotBlank(groups = CreateUserGroup.class)
+    @NotBlank(groups = {CreateUserGroup.class, UpdateUserAccountDetailsGroup.class})
     @JsonView({Views.StrictView.class})
     private String firstName;
 
-    @NotBlank(groups = CreateUserGroup.class)
+    @NotBlank(groups = {CreateUserGroup.class, UpdateUserAccountDetailsGroup.class})
     @JsonView({Views.StrictView.class})
     private String lastName;
 
@@ -40,11 +42,12 @@ public class UserDTO implements Serializable {
     @Size(min = 7, groups = CreateUserGroup.class)
     private String password;
 
-    @NotNull(groups = {CreateUserGroup.class, UpdateUserCurrencyGroup.class})
+    @NotNull(groups = {CreateUserGroup.class, UpdateUserCurrencyGroup.class, UpdateUserInitiatedStatusGroup.class})
     @JsonView({Views.StrictView.class})
     private CurrencyDTO currency;
 
     @JsonView({Views.StrictView.class})
+    @NotNull(groups = {UpdateUserInitiatedStatusGroup.class})
     private boolean initiated;
 
     @JsonView({Views.StrictView.class})
@@ -62,11 +65,11 @@ public class UserDTO implements Serializable {
     @JsonView({Views.StrictView.class})
     private UserSubscriptionStatus userSubscriptionStatus;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
