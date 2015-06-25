@@ -2,12 +2,15 @@ package com.revaluate.resource.account;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.revaluate.account.exception.UserException;
+import com.revaluate.account.persistence.UserPartialUpdateEnum;
 import com.revaluate.account.service.UserService;
 import com.revaluate.core.annotations.Public;
 import com.revaluate.core.jwt.JwtException;
 import com.revaluate.domain.account.*;
 import com.revaluate.groups.CreateUserGroup;
+import com.revaluate.groups.UpdateUserAccountDetailsGroup;
 import com.revaluate.groups.UpdateUserCurrencyGroup;
+import com.revaluate.groups.UpdateUserInitiatedStatusGroup;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
 import com.revaluate.views.Views;
@@ -32,6 +35,8 @@ public class UserResource extends Resource {
     private static final String TOKEN = "token";
     private static final String LOGIN_USER = "login";
     private static final String UPDATE_CURRENCY = "updateCurrency";
+    private static final String UPDATE_INITIATED = "updateInitiated";
+    private static final String UPDATE_ACCOUNT_DETAILS = "updateAccountDetails";
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
     private static final String REQUEST_RESET_PASSWORD = "requestResetPassword/{email}";
     private static final String REQUEST_CONFIRMATION_EMAIL = "requestConfirmationEmail/{email}";
@@ -88,8 +93,31 @@ public class UserResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @JsonView({Views.StrictView.class})
-    public Response update(@Valid UserDTO userDTO) throws UserException {
-        UserDTO updatedUserDTO = userService.update(userDTO, getCurrentUserId());
+    @Path(UPDATE_CURRENCY)
+    public Response updateCurrency(@Validated(UpdateUserCurrencyGroup.class) UserDTO userDTO) throws UserException {
+        UserDTO updatedUserDTO = userService.updateCurrency(userDTO, getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, updatedUserDTO);
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @JsonView({Views.StrictView.class})
+    @Path(UPDATE_INITIATED)
+    public Response updateInitiatedStatus(@Validated(UpdateUserInitiatedStatusGroup.class) UserDTO userDTO) throws UserException {
+        UserDTO updatedUserDTO = userService.update(userDTO, getCurrentUserId(), UserPartialUpdateEnum.INITIATED_STATUS);
+
+        return Responses.respond(Response.Status.OK, updatedUserDTO);
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @JsonView({Views.StrictView.class})
+    @Path(UPDATE_ACCOUNT_DETAILS)
+    public Response updateAccountDetails(@Validated(UpdateUserAccountDetailsGroup.class) UserDTO userDTO) throws UserException {
+        UserDTO updatedUserDTO = userService.update(userDTO, getCurrentUserId(), UserPartialUpdateEnum.ACCOUNT_DETAILS);
 
         return Responses.respond(Response.Status.OK, updatedUserDTO);
     }
@@ -178,17 +206,6 @@ public class UserResource extends Resource {
         userService.resetPassword(resetPasswordDTO, email, token);
 
         return Responses.respond(Response.Status.OK, "Password successfully reset.");
-    }
-
-    @PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @JsonView({Views.StrictView.class})
-    @Path(UPDATE_CURRENCY)
-    public Response updateCurrency(@Validated(UpdateUserCurrencyGroup.class) UserDTO userDTO) throws UserException {
-        UserDTO updatedUserDTO = userService.updateCurrency(userDTO, getCurrentUserId());
-
-        return Responses.respond(Response.Status.OK, updatedUserDTO);
     }
 
     @POST

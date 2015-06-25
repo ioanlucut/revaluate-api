@@ -2,6 +2,7 @@ package com.revaluate.account.service;
 
 import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.User;
+import com.revaluate.account.persistence.UserPartialUpdateEnum;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.account.utils.TokenGenerator;
 import com.revaluate.category.persistence.CategoryRepository;
@@ -33,8 +34,6 @@ import java.util.Optional;
 @Service
 @Validated
 public class UserServiceImpl implements UserService {
-
-    public static final String USER_DTO__UPDATE = "UserDTO__Update";
 
     @Autowired
     private UserRepository userRepository;
@@ -142,7 +141,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO update(UserDTO userDTO, int userId) throws UserException {
+    public UserDTO update(UserDTO userDTO, int userId, UserPartialUpdateEnum userPartialUpdateEnum) throws UserException {
         User foundUser = Optional
                 .ofNullable(userRepository.findOne(userId))
                 .orElseThrow(() -> new UserException("User does not exist"));
@@ -161,7 +160,7 @@ public class UserServiceImpl implements UserService {
         //-----------------------------------------------------------------
         // Update the user accordingly to DTO
         //-----------------------------------------------------------------
-        dozerBeanMapper.map(userDTO, foundUser, USER_DTO__UPDATE);
+        dozerBeanMapper.map(userDTO, foundUser, userPartialUpdateEnum.getMapId());
 
         User updatedUser = userRepository.save(foundUser);
         return dozerBeanMapper.map(updatedUser, UserDTO.class);

@@ -1,6 +1,7 @@
 package com.revaluate.account.service;
 
 import com.revaluate.account.exception.UserException;
+import com.revaluate.account.persistence.UserPartialUpdateEnum;
 import com.revaluate.domain.account.*;
 import com.revaluate.groups.CreateUserGroup;
 import com.revaluate.groups.UpdateUserCurrencyGroup;
@@ -23,7 +24,7 @@ public interface UserService {
     UserDTO login(@Valid @NotNull LoginDTO loginDTO) throws UserException;
 
     @NotNull
-    UserDTO update(@Valid @NotNull UserDTO userDTO, int userId) throws UserException;
+    UserDTO update(@Valid @NotNull UserDTO userDTO, int userId, @NotNull UserPartialUpdateEnum userPartialUpdateEnum) throws UserException;
 
     @NotNull
     UserDTO getUserDetails(int userId) throws UserException;
