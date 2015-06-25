@@ -35,7 +35,7 @@ public class UserResource extends Resource {
     private static final String TOKEN = "token";
     private static final String LOGIN_USER = "login";
     private static final String UPDATE_CURRENCY = "updateCurrency";
-    private static final String UPDATE_INITIATED = "updateInitiated";
+    private static final String UPDATE_INITIATED_STATUS = "updateInitiatedStatus";
     private static final String UPDATE_ACCOUNT_DETAILS = "updateAccountDetails";
     private static final String UPDATE_USER_PASSWORD = "updatePassword";
     private static final String REQUEST_RESET_PASSWORD = "requestResetPassword/{email}";
@@ -104,7 +104,7 @@ public class UserResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @JsonView({Views.StrictView.class})
-    @Path(UPDATE_INITIATED)
+    @Path(UPDATE_INITIATED_STATUS)
     public Response updateInitiatedStatus(@Validated(UpdateUserInitiatedStatusGroup.class) UserDTO userDTO) throws UserException {
         UserDTO updatedUserDTO = userService.update(userDTO, getCurrentUserId(), UserPartialUpdateEnum.INITIATED_STATUS);
 
