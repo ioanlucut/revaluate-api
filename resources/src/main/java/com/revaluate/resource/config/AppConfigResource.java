@@ -41,7 +41,7 @@ public class AppConfigResource extends Resource {
     @PostConstruct
     public void fillAppConfiguration() {
         APP_CONFIGURATION_MAP.put("VERSION", AppConfig.VERSION);
-        APP_CONFIGURATION_MAP.put("TRIAL_DAYS", AppConfig.TRIAL_DATE);
+        APP_CONFIGURATION_MAP.put("TRIAL_DAYS", AppConfig.TRIAL_DAYS);
 
         //-----------------------------------------------------------------
         // Put also all colors
