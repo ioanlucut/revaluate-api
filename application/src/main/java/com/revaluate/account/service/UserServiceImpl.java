@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
         // Set status as trial and end trial date.
         //-----------------------------------------------------------------
         user.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL);
-        user.setEndTrialDate(LocalDateTime.now().plusDays(AppConfig.TRIAL_DATE));
+        user.setEndTrialDate(LocalDateTime.now().plusDays(AppConfig.TRIAL_DAYS));
 
         //-----------------------------------------------------------------
         // Save the user

@@ -24,6 +24,8 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
 
 @Path(UserResource.ACCOUNT)
 @Component
@@ -45,6 +47,11 @@ public class UserResource extends Resource {
     private static final String RESET_PASSWORD = "resetPassword/{email}/{token}";
     private static final String SEND_FEEDBACK = "sendFeedback";
 
+    //-----------------------------------------------------------------
+    // Json keys
+    //-----------------------------------------------------------------
+    public static final String IS_UNIQUE_EMAIL_JSON_KEY = "isUniqueEmail";
+
     @Autowired
     private UserService userService;
 
@@ -54,11 +61,10 @@ public class UserResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(IS_UNIQUE_EMAIL)
     public Response isUnique(@QueryParam(EMAIL) @NotBlank @Email String email) throws UserException {
-        if (!userService.isUnique(email)) {
-            throw new UserException("Email is not unique");
-        }
+        Map<String, Boolean> response = new HashMap<>();
+        response.put(IS_UNIQUE_EMAIL_JSON_KEY, userService.isUnique(email));
 
-        return Responses.respond(Response.Status.OK, "Email is unique.");
+        return Responses.respond(Response.Status.OK, response);
     }
 
     @POST
