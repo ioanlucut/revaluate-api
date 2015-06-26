@@ -20,6 +20,9 @@ public interface CategoryService {
     @NotNull
     List<CategoryDTO> bulkCreate(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<CategoryDTO> categoryDTOs, int userId) throws CategoryException;
 
+    @NotNull
+    List<CategoryDTO> setupBulkCreateCategories(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<CategoryDTO> categoryDTOs, int userId) throws CategoryException;
+
     void bulkDelete(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<CategoryDTO> categoryDTOs, int userId) throws CategoryException;
 
     @NotNull
