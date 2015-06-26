@@ -2,7 +2,7 @@ package com.revaluate.config;
 
 public interface AppConfig {
 
-    int TRIAL_DATE = 15;
+    int TRIAL_DAYS = 365;
     String VERSION = "1.0.0";
 
     int MIN_ALLOWED_CATEGORIES = 3;
