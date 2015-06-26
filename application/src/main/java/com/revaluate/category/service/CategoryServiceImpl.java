@@ -91,6 +91,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<CategoryDTO> setupBulkCreateCategories(List<CategoryDTO> categoryDTOs, int userId) throws CategoryException {
+        categoryRepository.removeByUserId(userId);
+
+        return bulkCreate(categoryDTOs, userId);
+    }
+
+    @Override
     public void bulkDelete(List<CategoryDTO> categoryDTOs, int userId) throws CategoryException {
         //-----------------------------------------------------------------
         // Categories have to exist for this user.
