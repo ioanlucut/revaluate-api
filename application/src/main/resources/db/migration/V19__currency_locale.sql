@@ -1,5 +1,5 @@
 ALTER TABLE currencies
-    ADD COLUMN locale character varying(255) NOT NULL;
+    ADD COLUMN locale character varying(255) NOT NULL default '';
 
 /*Make the updates*/
 UPDATE currencies SET locale = 'ar_AE' WHERE  currency_code = 'AED';
