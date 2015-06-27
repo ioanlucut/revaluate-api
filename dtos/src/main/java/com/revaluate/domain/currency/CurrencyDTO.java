@@ -24,9 +24,6 @@ public class CurrencyDTO {
     @JsonView({Views.StrictView.class})
     private int fractionSize;
 
-    @JsonView({Views.StrictView.class})
-    private String locale;
-
     public String getCurrencyCode() {
         return currencyCode;
     }
@@ -67,14 +64,6 @@ public class CurrencyDTO {
         this.fractionSize = fractionSize;
     }
 
-    public String getLocale() {
-        return locale;
-    }
-
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
-
     @Override
     public String toString() {
         return "CurrencyDTO{" +
@@ -82,8 +71,6 @@ public class CurrencyDTO {
                 ", displayName='" + displayName + '\'' +
                 ", symbol='" + symbol + '\'' +
                 ", numericCode=" + numericCode +
-                ", fractionSize=" + fractionSize +
-                ", locale='" + locale + '\'' +
                 '}';
     }
 }
