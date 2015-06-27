@@ -136,7 +136,7 @@ public class AbstractIntegrationTests {
             //-----------------------------------------------------------------
             // Create currency
             //-----------------------------------------------------------------
-            currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(currencyCode).withDisplayName("").withSymbol("$").withNumericCode(0).build();
+            currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(currencyCode).withDisplayName("").withLocale("loc").withSymbol("$").withNumericCode(0).build();
             try {
                 currencyDTO = currencyService.create(currencyDTO);
             } catch (CurrencyException ex) {
