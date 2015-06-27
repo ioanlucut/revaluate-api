@@ -29,7 +29,7 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Compute the currency to update
         //-----------------------------------------------------------------
-        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).withSymbol("E").build();
+        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withLocale("").withDisplayName("").withNumericCode(0).withSymbol("E").build();
         CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
 
         // Update a user
@@ -74,7 +74,7 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Compute the currency to update
         //-----------------------------------------------------------------
-        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).withSymbol("E").build();
+        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withLocale("").withDisplayName("").withNumericCode(0).withSymbol("E").build();
         CurrencyDTO currencyDTOToUpdate = currencyService.create(currency);
 
         //-----------------------------------------------------------------
@@ -106,7 +106,7 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Compute the currency to update
         //-----------------------------------------------------------------
-        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).withSymbol("E").build();
+        CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withLocale("").withDisplayName("").withNumericCode(0).withSymbol("E").build();
         UserDTO userDTOToUpdate = new UserDTOBuilder().withCurrency(currency).withEmail("c@d.e").withFirstName("first2").withLastName("last2").withEmailConfirmed(false).withInitiated(false).build();
         User mappedUser = userRepository.findOne(createdUserDTO.getId());
         dozerBeanMapper.map(userDTOToUpdate, mappedUser, UserPartialUpdateEnum.ACCOUNT_DETAILS.getMapId());

@@ -41,6 +41,10 @@ public class Currency implements Serializable {
     @Column(nullable = false)
     private Integer fractionSize;
 
+    @NotNull
+    @Column(nullable = false)
+    private String locale;
+
     public Integer getId() {
         return id;
     }
@@ -89,6 +93,14 @@ public class Currency implements Serializable {
         this.fractionSize = fractionSize;
     }
 
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
+
     @Override
     public String toString() {
         return "Currency{" +
@@ -97,6 +109,8 @@ public class Currency implements Serializable {
                 ", displayName='" + displayName + '\'' +
                 ", symbol='" + symbol + '\'' +
                 ", numericCode=" + numericCode +
+                ", fractionSize=" + fractionSize +
+                ", locale='" + locale + '\'' +
                 '}';
     }
 }

@@ -14,6 +14,10 @@ public class CurrenciesSymbolGenerator {
 
         System.out.println("----------");
 
+        generateCurrencyLocale();
+
+        System.out.println("----------");
+
         List<String> strings = Arrays.asList("#DD5440", "#E29C45", "#E5C236", "#A1D16C", "#00B16A", "#16A085", "#59ABE3", "#4B77BE", "#2B5496", "#8471B1", "#BC73BF", "#D2527F", "#908E8E", "#6C6C6C", "#383838");
         AtomicInteger atomicInteger = new AtomicInteger(1);
         strings.stream().forEach(s -> {
@@ -49,6 +53,23 @@ public class CurrenciesSymbolGenerator {
                 if (!currencySet.contains(instance.getCurrencyCode())) {
                     currencySet.add(instance.getCurrencyCode());
                     System.out.println(String.format("UPDATE currencies SET fraction_size = '%s' WHERE  currency_code = '%s';", instance.getDefaultFractionDigits(), instance.getCurrencyCode()));
+                }
+            } catch (Exception exc) {
+                // Locale not found
+            }
+        }
+    }
+
+    private static void generateCurrencyLocale() {
+        Set<String> currencySet = new HashSet<>();
+        Locale[] locs = Locale.getAvailableLocales();
+
+        for (Locale loc : locs) {
+            try {
+                Currency instance = Currency.getInstance(loc);
+                if (!currencySet.contains(instance.getCurrencyCode())) {
+                    currencySet.add(instance.getCurrencyCode());
+                    System.out.println(String.format("UPDATE currencies SET locale = '%s' WHERE  currency_code = '%s';", loc, instance.getCurrencyCode()));
                 }
             } catch (Exception exc) {
                 // Locale not found
