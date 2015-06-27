@@ -4,6 +4,7 @@ import com.revaluate.account.exception.UserException;
 import com.revaluate.color.service.ColorService;
 import com.revaluate.config.AppConfig;
 import com.revaluate.core.annotations.Public;
+import com.revaluate.currency.CurrenciesLocaleGenerator;
 import com.revaluate.currency.service.CurrencyService;
 import com.revaluate.domain.color.ColorDTO;
 import com.revaluate.resource.utils.Resource;
@@ -72,11 +73,11 @@ public class AppConfigResource extends Resource {
         // Currencies
         //-----------------------------------------------------------------
         APP_CONFIGURATION_MAP.put("CURRENCIES", currencyService.findAllCurrencies());
+        APP_CONFIGURATION_MAP.put("CURRENCIES_LOCALE_MAP", CurrenciesLocaleGenerator.generateCurrencyLocaleMap());
 
         //-----------------------------------------------------------------
         // Price boundaries
         //-----------------------------------------------------------------
-
         APP_CONFIGURATION_MAP.put("VALUE_INTEGER_SIZE", AppConfig.VALUE_INTEGER_SIZE);
         APP_CONFIGURATION_MAP.put("VALUE_FRACTION_SIZE", AppConfig.VALUE_FRACTION_SIZE);
     }

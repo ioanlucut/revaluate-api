@@ -14,6 +14,10 @@ public class CurrenciesSymbolGenerator {
 
         System.out.println("----------");
 
+        generateCurrencyLocale();
+
+        System.out.println("----------");
+
         List<String> strings = Arrays.asList("#DD5440", "#E29C45", "#E5C236", "#A1D16C", "#00B16A", "#16A085", "#59ABE3", "#4B77BE", "#2B5496", "#8471B1", "#BC73BF", "#D2527F", "#908E8E", "#6C6C6C", "#383838");
         AtomicInteger atomicInteger = new AtomicInteger(1);
         strings.stream().forEach(s -> {
@@ -54,5 +58,23 @@ public class CurrenciesSymbolGenerator {
                 // Locale not found
             }
         }
+    }
+
+    private static void generateCurrencyLocale() {
+        Map<String, List<String>> currencyLocales = new HashMap<>();
+        Locale[] locales = Locale.getAvailableLocales();
+
+        for (Locale locale : locales) {
+            try {
+                Currency instance = Currency.getInstance(locale);
+                List<String> orDefault = currencyLocales.getOrDefault(instance.getCurrencyCode(), new ArrayList<>());
+                orDefault.add(locale.toString());
+                currencyLocales.put(instance.getCurrencyCode(), orDefault);
+            } catch (Exception ex) {
+                // Locale not found
+            }
+        }
+
+        System.out.println(currencyLocales);
     }
 }
