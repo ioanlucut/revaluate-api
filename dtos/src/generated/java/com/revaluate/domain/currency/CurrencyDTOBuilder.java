@@ -16,8 +16,6 @@ public class CurrencyDTOBuilder
   protected boolean isSet$numericCode$int;
   protected int value$fractionSize$int;
   protected boolean isSet$fractionSize$int;
-  protected String value$locale$java$lang$String;
-  protected boolean isSet$locale$java$lang$String;
 
   /**
    * Creates a new {@link CurrencyDTOBuilder}.
@@ -87,18 +85,6 @@ public class CurrencyDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link CurrencyDTO#locale} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public CurrencyDTOBuilder withLocale(String value) {
-    this.value$locale$java$lang$String = value;
-    this.isSet$locale$java$lang$String = true;
-    return self;
-  }
-
-  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -145,9 +131,6 @@ public class CurrencyDTOBuilder
       }
       if (isSet$fractionSize$int) {
         result.setFractionSize(value$fractionSize$int);
-      }
-      if (isSet$locale$java$lang$String) {
-        result.setLocale(value$locale$java$lang$String);
       }
       return result;
     } catch (RuntimeException ex) {
