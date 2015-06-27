@@ -61,19 +61,20 @@ public class CurrenciesSymbolGenerator {
     }
 
     private static void generateCurrencyLocale() {
-        Set<String> currencySet = new HashSet<>();
-        Locale[] locs = Locale.getAvailableLocales();
+        Map<String, List<String>> currencyLocales = new HashMap<>();
+        Locale[] locales = Locale.getAvailableLocales();
 
-        for (Locale loc : locs) {
+        for (Locale locale : locales) {
             try {
-                Currency instance = Currency.getInstance(loc);
-                if (!currencySet.contains(instance.getCurrencyCode())) {
-                    currencySet.add(instance.getCurrencyCode());
-                    System.out.println(String.format("UPDATE currencies SET locale = '%s' WHERE  currency_code = '%s';", loc, instance.getCurrencyCode()));
-                }
-            } catch (Exception exc) {
+                Currency instance = Currency.getInstance(locale);
+                List<String> orDefault = currencyLocales.getOrDefault(instance.getCurrencyCode(), new ArrayList<>());
+                orDefault.add(locale.toString());
+                currencyLocales.put(instance.getCurrencyCode(), orDefault);
+            } catch (Exception ex) {
                 // Locale not found
             }
         }
+
+        System.out.println(currencyLocales);
     }
 }
