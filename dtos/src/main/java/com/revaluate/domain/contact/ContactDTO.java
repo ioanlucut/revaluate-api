@@ -4,6 +4,7 @@ import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -20,6 +21,7 @@ public class ContactDTO implements Serializable {
     private String email;
 
     @NotBlank
+    @Size(min = 1, max = 5000)
     private String message;
 
     public String getName() {
