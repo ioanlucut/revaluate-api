@@ -19,7 +19,7 @@ import java.util.List;
 public class ResendEmailJobService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResendEmailJobService.class);
-    public static final int RE_SEND_EMAIL_FIXED_DELAYS = 60000;
+    public static final int RE_SEND_EMAIL_FIXED_DELAYS = 600000;
 
     @Autowired
     @EmailSenderQualifier(value = EmailSenderQualifier.EmailSenderType.TO_USER)
