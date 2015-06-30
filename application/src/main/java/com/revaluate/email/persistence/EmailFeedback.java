@@ -11,13 +11,14 @@ import javax.persistence.Entity;
 public class EmailFeedback extends Email {
 
     public static final String EMAIL_FEEDBACK = "EMAIL_FEEDBACK";
+    public static final int MESSAGE_WIDTH = 3000;
 
     @NotEmpty
     @Column
     private String subject;
 
     @NotEmpty
-    @Column
+    @Column(length = MESSAGE_WIDTH)
     private String message;
 
     public String getSubject() {

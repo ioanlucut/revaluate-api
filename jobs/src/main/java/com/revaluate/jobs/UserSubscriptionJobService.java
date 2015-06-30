@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+/*@Component*/
 public class UserSubscriptionJobService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserSubscriptionJobService.class);
