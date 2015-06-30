@@ -3,6 +3,7 @@ package com.revaluate.domain.account;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,9 +13,11 @@ public class FeedbackDTO implements Serializable {
     private static final long serialVersionUID = -1799428438852023627L;
 
     @NotBlank
+    @Size(min = 1, max = 255)
     private String subject;
 
     @NotBlank
+    @Size(min = 1, max = 3000)
     private String message;
 
     public String getSubject() {

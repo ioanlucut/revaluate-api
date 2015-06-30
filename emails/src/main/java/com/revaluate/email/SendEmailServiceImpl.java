@@ -148,15 +148,34 @@ public class SendEmailServiceImpl implements SendEmailService {
     }
 
     private MandrillEmailStatus interpretEmailStatus(Object sendTo, boolean sendAsync, MandrillMessageStatus[] messageStatusReports) throws SendEmailException {
-        MandrillMessageStatus messageStatusReport = messageStatusReports[0];
-        LOGGER.info(Arrays.toString(messageStatusReports));
+        if (messageStatusReports == null) {
+            throw new SendEmailException(String.format("Message status reports is null for %s.", sendTo));
+        }
 
+        if (messageStatusReports.length == 0) {
+            throw new SendEmailException(String.format("Message status reports is empty for %s.", sendTo));
+        }
+
+        //-----------------------------------------------------------------
+        // Log the status
+        //-----------------------------------------------------------------
+        Arrays
+                .asList(messageStatusReports)
+                .stream()
+                .forEach(mandrillMessageStatus -> {
+                    LOGGER.info(String.format("Message status report: status %s, reject_reason %s for %s.", mandrillMessageStatus.getStatus(), mandrillMessageStatus.getRejectReason(), sendTo));
+                });
+
+        //-----------------------------------------------------------------
+        // Interpret the message
+        //-----------------------------------------------------------------
+        MandrillMessageStatus messageStatusReport = messageStatusReports[0];
         MandrillEmailStatus mandrillEmailStatus = MandrillEmailStatus.from(messageStatusReport.getStatus());
 
         //-----------------------------------------------------------------
         // If email is required
         //-----------------------------------------------------------------
-        if (MandrillEmailStatus.REJECTED == mandrillEmailStatus) {
+        if (MandrillEmailStatus.REJECTED == mandrillEmailStatus || MandrillEmailStatus.INVALID == mandrillEmailStatus) {
 
             throw new SendEmailException(String.format("Email rejected %s. Cause %s", sendTo, messageStatusReport));
         }
@@ -166,7 +185,7 @@ public class SendEmailServiceImpl implements SendEmailService {
             //-----------------------------------------------------------------
             // Check if email is queued
             //-----------------------------------------------------------------
-            if (MandrillEmailStatus.QUEUED != mandrillEmailStatus) {
+            if (MandrillEmailStatus.QUEUED != mandrillEmailStatus && MandrillEmailStatus.SCHEDULED != mandrillEmailStatus) {
 
                 throw new SendEmailException(String.format("Email not queued %s. Cause %s", sendTo, messageStatusReport));
             }
