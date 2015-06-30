@@ -5,6 +5,8 @@ public enum MandrillEmailStatus {
     SENT("sent"),
     QUEUED("queued"),
     REJECTED("rejected"),
+    SCHEDULED("scheduled"),
+    INVALID("invalid"),
     UNKNOWN("unknown");
 
     private String status;
