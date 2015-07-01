@@ -1,6 +1,7 @@
 package com.revaluate.resource.insight;
 
 import com.revaluate.domain.insights.InsightDTO;
+import com.revaluate.domain.insights.InsightsMonthsPerYearsDTO;
 import com.revaluate.domain.insights.SummaryInsightsDTO;
 import com.revaluate.insights.service.InsightService;
 import com.revaluate.resource.utils.Resource;
@@ -27,6 +28,7 @@ public class InsightResource extends Resource {
     //-----------------------------------------------------------------
     private static final String RETRIEVE_INSIGHTS_FROM_TO = "retrieve_from_to";
     private static final String SUMMARY_INSIGHTS = "summary_insights";
+    private static final String INSIGHTS_MONTHS_PER_YEARS = "insights_months_per_years";
 
     //-----------------------------------------------------------------
     // Path params
@@ -55,6 +57,16 @@ public class InsightResource extends Resource {
         SummaryInsightsDTO summaryInsightsDTO = insightService.computeSummaryInsights(getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, summaryInsightsDTO);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(INSIGHTS_MONTHS_PER_YEARS)
+    public Response getInsightsMonthsPerYearsDTO() {
+        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = insightService.getExistingDaysPerYearsWithExpensesDefined(getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, insightsMonthsPerYearsDTO);
     }
 
 }
