@@ -4,7 +4,6 @@ import org.joda.time.LocalDateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -15,6 +14,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
     Optional<Expense> findOneByIdAndUserId(int expenseId, int userId);
 
     List<Expense> findAllByUserId(int userId);
+
+    @Query("SELECT e.spentDate FROM Expense e WHERE e.user.id = ?1")
+    List<LocalDateTime> selectExistingSpentDates(int userId);
 
     long countByUserId(int userId);
 

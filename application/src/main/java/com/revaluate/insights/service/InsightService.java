@@ -1,6 +1,7 @@
 package com.revaluate.insights.service;
 
 import com.revaluate.domain.insights.InsightDTO;
+import com.revaluate.domain.insights.InsightsMonthsPerYearsDTO;
 import com.revaluate.domain.insights.SummaryInsightsDTO;
 import org.joda.time.LocalDateTime;
 
@@ -13,4 +14,7 @@ public interface InsightService {
 
     @NotNull
     SummaryInsightsDTO computeSummaryInsights(int userId);
+
+    @NotNull
+    InsightsMonthsPerYearsDTO getExistingDaysPerYearsWithExpensesDefined(int userId);
 }

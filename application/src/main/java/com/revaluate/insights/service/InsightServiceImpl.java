@@ -189,4 +189,27 @@ public class InsightServiceImpl implements InsightService {
                 .withLastExistingExpenseDate(LocalDateTime.now())
                 .build();
     }
+
+    @Override
+    public InsightsMonthsPerYearsDTO getExistingDaysPerYearsWithExpensesDefined(int userId) {
+        List<LocalDateTime> existingSpentDates = expenseRepository.selectExistingSpentDates(userId);
+
+        return new InsightsMonthsPerYearsDTOBuilder()
+                .withInsightsMonthsPerYears(
+                        existingSpentDates
+                                .stream()
+                                .collect(Collectors.groupingBy(LocalDateTime::getYear))
+                                .entrySet()
+                                .stream()
+                                .collect(Collectors
+                                        .toMap(Map.Entry::getKey,
+                                                expensesPerYearEntry -> expensesPerYearEntry
+                                                        .getValue()
+                                                        .stream()
+                                                        .map(LocalDateTime::getMonthOfYear)
+                                                        .collect(Collectors.toSet())
+                                        )))
+                .build();
+
+    }
 }
