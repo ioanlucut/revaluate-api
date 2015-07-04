@@ -80,7 +80,8 @@ public class SendEmailServiceImpl implements SendEmailService {
             String confirmEmailLink = String.format(configProperties.getConfirmEmailURLFormat(), configProperties.getWebsiteHost(), sendTo.getEmail(), sendTo.getEmailToken());
             templateContent.put(CONFIRM_EMAIL_LINK, confirmEmailLink);
         }
-        MandrillMessageStatus[] messageStatusReports = mandrillService.getApi().sendTemplate(sendTo.getEmailType().getEmailTemplateName(), templateContent, message, sendAsync);
+        String emailTemplateName = sendTo.getEmailType().getEmailTemplateName();
+        MandrillMessageStatus[] messageStatusReports = mandrillService.getApi().sendTemplate(configProperties.isProduction() ? emailTemplateName : emailTemplateName + "-dev", templateContent, message, sendAsync);
 
         return interpretEmailStatus(sendTo, sendAsync, messageStatusReports);
     }
