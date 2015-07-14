@@ -89,7 +89,7 @@ public class AppConfigResource extends Resource {
     @Path(FETCH_CONFIG)
     public Response isUnique() throws UserException {
 
-        return Responses.respond(Response.Status.OK, APP_CONFIGURATION_MAP);
+        return Responses.responseWithBrowserCaching(Response.Status.OK, APP_CONFIGURATION_MAP);
     }
 
 }
