@@ -13,8 +13,6 @@ import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Map;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
@@ -76,8 +74,8 @@ public class InsightOverviewServiceTestIT extends AbstractIntegrationTests {
         assertThat(insightsOverviewDTO.getInsightsOverview(), is(notNullValue()));
         assertThat(insightsOverviewDTO.getInsightsOverview().size(), is(1));
 
-        assertThat(insightsOverviewDTO.getInsightsOverview().entrySet().stream().map(Map.Entry::getValue).anyMatch(s -> s.getTotalAmountFormatted().equals("3300.00")), is(Boolean.TRUE));
-        assertThat(insightsOverviewDTO.getInsightsOverview().entrySet().stream().map(Map.Entry::getValue).anyMatch(s -> s.getTotalAmount() == 3300.0), is(Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("3300.00")), is(Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 3300.0), is(Boolean.TRUE));
     }
 
     @Test
@@ -125,10 +123,10 @@ public class InsightOverviewServiceTestIT extends AbstractIntegrationTests {
         assertThat(insightsOverviewDTO, is(notNullValue()));
         assertThat(insightsOverviewDTO.getInsightsOverview(), is(notNullValue()));
 
-        assertThat(insightsOverviewDTO.getInsightsOverview().entrySet().stream().map(Map.Entry::getValue).anyMatch(s -> s.getTotalAmountFormatted().equals("300.00")), is(Boolean.TRUE));
-        assertThat(insightsOverviewDTO.getInsightsOverview().entrySet().stream().map(Map.Entry::getValue).anyMatch(s -> s.getTotalAmount() == 300.0), is(Boolean.TRUE));
-        assertThat(insightsOverviewDTO.getInsightsOverview().entrySet().stream().map(Map.Entry::getValue).anyMatch(s -> s.getTotalAmountFormatted().equals("3000.00")), is(Boolean.TRUE));
-        assertThat(insightsOverviewDTO.getInsightsOverview().entrySet().stream().map(Map.Entry::getValue).anyMatch(s -> s.getTotalAmount() == 3000.0), is(Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("300.00")), is(Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 300.0), is(Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("3000.00")), is(Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 3000.0), is(Boolean.TRUE));
     }
 
 }

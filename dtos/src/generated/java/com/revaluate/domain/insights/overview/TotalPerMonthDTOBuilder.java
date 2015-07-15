@@ -6,6 +6,8 @@ import javax.annotation.Generated;
 public class TotalPerMonthDTOBuilder
     implements Cloneable {
   protected TotalPerMonthDTOBuilder self;
+  protected String value$monthYearFormattedDate$java$lang$String;
+  protected boolean isSet$monthYearFormattedDate$java$lang$String;
   protected String value$totalAmountFormatted$java$lang$String;
   protected boolean isSet$totalAmountFormatted$java$lang$String;
   protected double value$totalAmount$double;
@@ -16,6 +18,18 @@ public class TotalPerMonthDTOBuilder
    */
   public TotalPerMonthDTOBuilder() {
     self = (TotalPerMonthDTOBuilder)this;
+  }
+
+  /**
+   * Sets the default value for the {@link TotalPerMonthDTO#monthYearFormattedDate} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public TotalPerMonthDTOBuilder withMonthYearFormattedDate(String value) {
+    this.value$monthYearFormattedDate$java$lang$String = value;
+    this.isSet$monthYearFormattedDate$java$lang$String = true;
+    return self;
   }
 
   /**
@@ -75,6 +89,9 @@ public class TotalPerMonthDTOBuilder
   public TotalPerMonthDTO build() {
     try {
       TotalPerMonthDTO result = new TotalPerMonthDTO();
+      if (isSet$monthYearFormattedDate$java$lang$String) {
+        result.setMonthYearFormattedDate(value$monthYearFormattedDate$java$lang$String);
+      }
       if (isSet$totalAmountFormatted$java$lang$String) {
         result.setTotalAmountFormatted(value$totalAmountFormatted$java$lang$String);
       }
