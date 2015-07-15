@@ -171,45 +171,4 @@ public class InsightServiceImpl implements InsightService {
                 .build();
     }
 
-    @Override
-    public SummaryInsightsDTO computeSummaryInsights(int userId) {
-        Optional<Expense> oneByUserIdOrderBySpentDateAsc = expenseRepository.findFirstByUserIdOrderBySpentDateAsc(userId);
-        Optional<Expense> oneByUserIdOrderBySpentDateDesc = expenseRepository.findFirstByUserIdOrderBySpentDateDesc(userId);
-
-        if (oneByUserIdOrderBySpentDateAsc.isPresent() && oneByUserIdOrderBySpentDateDesc.isPresent()) {
-
-            return new SummaryInsightsDTOBuilder()
-                    .withFirstExistingExpenseDate(oneByUserIdOrderBySpentDateAsc.get().getSpentDate())
-                    .withLastExistingExpenseDate(oneByUserIdOrderBySpentDateDesc.get().getSpentDate())
-                    .build();
-        }
-
-        return new SummaryInsightsDTOBuilder()
-                .withFirstExistingExpenseDate(LocalDateTime.now())
-                .withLastExistingExpenseDate(LocalDateTime.now())
-                .build();
-    }
-
-    @Override
-    public InsightsMonthsPerYearsDTO getExistingDaysPerYearsWithExpensesDefined(int userId) {
-        List<LocalDateTime> existingSpentDates = expenseRepository.selectExistingSpentDates(userId);
-
-        return new InsightsMonthsPerYearsDTOBuilder()
-                .withInsightsMonthsPerYears(
-                        existingSpentDates
-                                .stream()
-                                .collect(Collectors.groupingBy(LocalDateTime::getYear))
-                                .entrySet()
-                                .stream()
-                                .collect(Collectors
-                                        .toMap(Map.Entry::getKey,
-                                                expensesPerYearEntry -> expensesPerYearEntry
-                                                        .getValue()
-                                                        .stream()
-                                                        .map(LocalDateTime::getMonthOfYear)
-                                                        .collect(Collectors.toSet())
-                                        )))
-                .build();
-
-    }
 }

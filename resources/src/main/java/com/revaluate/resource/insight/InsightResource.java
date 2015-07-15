@@ -2,7 +2,9 @@ package com.revaluate.resource.insight;
 
 import com.revaluate.domain.insights.InsightDTO;
 import com.revaluate.domain.insights.InsightsMonthsPerYearsDTO;
-import com.revaluate.domain.insights.SummaryInsightsDTO;
+import com.revaluate.domain.insights.overview.InsightsOverviewDTO;
+import com.revaluate.insights.service.InsightMonthsPerYearService;
+import com.revaluate.insights.service.InsightOverviewService;
 import com.revaluate.insights.service.InsightService;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
@@ -26,9 +28,9 @@ public class InsightResource extends Resource {
     //-----------------------------------------------------------------
     // Sub paths
     //-----------------------------------------------------------------
-    private static final String RETRIEVE_INSIGHTS_FROM_TO = "retrieve_from_to";
-    private static final String SUMMARY_INSIGHTS = "summary_insights";
     private static final String INSIGHTS_MONTHS_PER_YEARS = "insights_months_per_years";
+    private static final String INSIGHTS_MONTHLY_RETRIEVE_FROM_TO = "retrieve_from_to";
+    private static final String INSIGHTS_OVERVIEW_RETRIEVE_FROM_TO = "insights_overview_retrieve_from_to";
 
     //-----------------------------------------------------------------
     // Path params
@@ -39,11 +41,17 @@ public class InsightResource extends Resource {
     @Autowired
     private InsightService insightService;
 
+    @Autowired
+    private InsightMonthsPerYearService insightMonthsPerYearService;
+
+    @Autowired
+    private InsightOverviewService insightOverviewService;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(RETRIEVE_INSIGHTS_FROM_TO)
-    public Response retrieveAllFromTo(@QueryParam(FROM) LocalDateTime from, @QueryParam(TO) LocalDateTime to) {
+    @Path(INSIGHTS_MONTHLY_RETRIEVE_FROM_TO)
+    public Response getMonthlyInsightsFromTo(@QueryParam(FROM) LocalDateTime from, @QueryParam(TO) LocalDateTime to) {
         InsightDTO insightDTO = insightService.fetchInsightAfterBeforePeriod(getCurrentUserId(), from, to);
 
         return Responses.respond(Response.Status.OK, insightDTO);
@@ -52,11 +60,11 @@ public class InsightResource extends Resource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(SUMMARY_INSIGHTS)
-    public Response fetchSummary() {
-        SummaryInsightsDTO summaryInsightsDTO = insightService.computeSummaryInsights(getCurrentUserId());
+    @Path(INSIGHTS_OVERVIEW_RETRIEVE_FROM_TO)
+    public Response getOverviewInsightsFromTo(@QueryParam(FROM) LocalDateTime from, @QueryParam(TO) LocalDateTime to) {
+        InsightsOverviewDTO insightsOverview = insightOverviewService.getInsightsOverviewBetween(getCurrentUserId(), from, to);
 
-        return Responses.respond(Response.Status.OK, summaryInsightsDTO);
+        return Responses.respond(Response.Status.OK, insightsOverview);
     }
 
     @GET
@@ -64,7 +72,7 @@ public class InsightResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(INSIGHTS_MONTHS_PER_YEARS)
     public Response getInsightsMonthsPerYearsDTO() {
-        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = insightService.getExistingDaysPerYearsWithExpensesDefined(getCurrentUserId());
+        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = insightMonthsPerYearService.getExistingDaysPerYearsWithExpensesDefined(getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, insightsMonthsPerYearsDTO);
     }
