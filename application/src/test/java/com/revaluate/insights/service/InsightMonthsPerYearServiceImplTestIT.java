@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
-public class InsightServiceImplTest_getExistingDaysPerYearsWithExpensesDefined_IT extends AbstractIntegrationTests {
+public class InsightMonthsPerYearServiceImplTestIT extends AbstractIntegrationTests {
 
     @Autowired
     private ExpenseService expenseService;
@@ -30,7 +30,7 @@ public class InsightServiceImplTest_getExistingDaysPerYearsWithExpensesDefined_I
     private CategoryService categoryService;
 
     @Autowired
-    private InsightService insightService;
+    private InsightMonthsPerYearService insightMonthsPerYearService;
 
     @Test
     public void getExistingDaysPerYearsWithExpensesDefined_expensesAreProperlyGrouped_isOk() throws Exception {
@@ -73,7 +73,7 @@ public class InsightServiceImplTest_getExistingDaysPerYearsWithExpensesDefined_I
         expenseDTOC = new ExpenseDTOBuilder().withValue(1.55).withDescription("my third expense").withCategory(createdCategoryDTO).withSpentDate(thirdYear.withMonthOfYear(thirdYearSecondMonthOfYear)).build();
         expenseService.create(expenseDTOC, createdUserDTO.getId());
 
-        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = insightService.getExistingDaysPerYearsWithExpensesDefined(userDTO.getId());
+        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = insightMonthsPerYearService.getExistingDaysPerYearsWithExpensesDefined(userDTO.getId());
         Map<Integer, Set<Integer>> existingDaysPerYearsWithExpensesDefined = insightsMonthsPerYearsDTO.getInsightsMonthsPerYears();
 
         //-----------------------------------------------------------------
@@ -94,6 +94,5 @@ public class InsightServiceImplTest_getExistingDaysPerYearsWithExpensesDefined_I
         assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).size(), is(equalTo(2)));
         assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearFirstMonthOfYear), is(true));
         assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearSecondMonthOfYear), is(true));
-
     }
 }
