@@ -44,10 +44,13 @@ public class InsightOverviewServiceImpl implements InsightOverviewService {
         if (allExpenses.isEmpty()) {
 
             return new InsightsOverviewDTOBuilder()
-                    .withInsightsOverview(Collections.emptyMap())
+                    .withInsightsOverview(Collections.emptyList())
                     .build();
         }
 
+        //-----------------------------------------------------------------
+        // First of all, we get all expenses grouped
+        //-----------------------------------------------------------------
         Map<String, TotalPerMonthDTO> insightsOverview = allExpenses
                 .stream()
                 .collect(Collectors
@@ -62,8 +65,23 @@ public class InsightOverviewServiceImpl implements InsightOverviewService {
                                             .build();
                                 })));
 
+        //-----------------------------------------------------------------
+        // Then, we build our list
+        //-----------------------------------------------------------------
+        List<TotalPerMonthDTO> totalPerMonthDTOs = insightsOverview
+                .entrySet()
+                .stream()
+                .peek(stringTotalPerMonthDTOEntry -> {
+                    //-----------------------------------------------------------------
+                    // We need to set the grouping key (aka the grouping month) for every entry
+                    //-----------------------------------------------------------------
+                    stringTotalPerMonthDTOEntry.getValue().setMonthYearFormattedDate(stringTotalPerMonthDTOEntry.getKey());
+                })
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
+
         return new InsightsOverviewDTOBuilder()
-                .withInsightsOverview(insightsOverview)
+                .withInsightsOverview(totalPerMonthDTOs)
                 .build();
     }
 }

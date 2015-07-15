@@ -12,10 +12,21 @@ public class TotalPerMonthDTO implements Serializable {
     private static final long serialVersionUID = -1799428438852023627L;
 
     @NotEmpty
+    private String monthYearFormattedDate;
+
+    @NotEmpty
     private String totalAmountFormatted;
 
     @NotEmpty
     private double totalAmount;
+
+    public String getMonthYearFormattedDate() {
+        return monthYearFormattedDate;
+    }
+
+    public void setMonthYearFormattedDate(String monthYearFormattedDate) {
+        this.monthYearFormattedDate = monthYearFormattedDate;
+    }
 
     public String getTotalAmountFormatted() {
         return totalAmountFormatted;
@@ -39,18 +50,20 @@ public class TotalPerMonthDTO implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         TotalPerMonthDTO that = (TotalPerMonthDTO) o;
         return Objects.equals(totalAmount, that.totalAmount) &&
+                Objects.equals(monthYearFormattedDate, that.monthYearFormattedDate) &&
                 Objects.equals(totalAmountFormatted, that.totalAmountFormatted);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(totalAmountFormatted, totalAmount);
+        return Objects.hash(monthYearFormattedDate, totalAmountFormatted, totalAmount);
     }
 
     @Override
     public String toString() {
         return "TotalPerMonthDTO{" +
-                "totalAmountFormatted='" + totalAmountFormatted + '\'' +
+                "monthYearFormattedDate='" + monthYearFormattedDate + '\'' +
+                ", totalAmountFormatted='" + totalAmountFormatted + '\'' +
                 ", totalAmount=" + totalAmount +
                 '}';
     }

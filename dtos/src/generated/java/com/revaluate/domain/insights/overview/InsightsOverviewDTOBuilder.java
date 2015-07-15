@@ -1,14 +1,14 @@
 package com.revaluate.domain.insights.overview;
 
-import java.util.Map;
+import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
 public class InsightsOverviewDTOBuilder
     implements Cloneable {
   protected InsightsOverviewDTOBuilder self;
-  protected Map<String, TotalPerMonthDTO> value$insightsOverview$java$util$Map;
-  protected boolean isSet$insightsOverview$java$util$Map;
+  protected List<TotalPerMonthDTO> value$insightsOverview$java$util$List;
+  protected boolean isSet$insightsOverview$java$util$List;
 
   /**
    * Creates a new {@link InsightsOverviewDTOBuilder}.
@@ -23,9 +23,9 @@ public class InsightsOverviewDTOBuilder
    * @param value the default value
    * @return this builder
    */
-  public InsightsOverviewDTOBuilder withInsightsOverview(Map<String, TotalPerMonthDTO> value) {
-    this.value$insightsOverview$java$util$Map = value;
-    this.isSet$insightsOverview$java$util$Map = true;
+  public InsightsOverviewDTOBuilder withInsightsOverview(List<TotalPerMonthDTO> value) {
+    this.value$insightsOverview$java$util$List = value;
+    this.isSet$insightsOverview$java$util$List = true;
     return self;
   }
 
@@ -62,8 +62,8 @@ public class InsightsOverviewDTOBuilder
   public InsightsOverviewDTO build() {
     try {
       InsightsOverviewDTO result = new InsightsOverviewDTO();
-      if (isSet$insightsOverview$java$util$Map) {
-        result.setInsightsOverview(value$insightsOverview$java$util$Map);
+      if (isSet$insightsOverview$java$util$List) {
+        result.setInsightsOverview(value$insightsOverview$java$util$List);
       }
       return result;
     } catch (RuntimeException ex) {
