@@ -2,6 +2,7 @@ package com.revaluate.resource.insight;
 
 import com.revaluate.domain.insights.InsightDTO;
 import com.revaluate.domain.insights.InsightsMonthsPerYearsDTO;
+import com.revaluate.insights.service.InsightMonthsPerYearService;
 import com.revaluate.insights.service.InsightService;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
@@ -37,6 +38,9 @@ public class InsightResource extends Resource {
     @Autowired
     private InsightService insightService;
 
+    @Autowired
+    private InsightMonthsPerYearService insightMonthsPerYearService;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
@@ -52,7 +56,7 @@ public class InsightResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(INSIGHTS_MONTHS_PER_YEARS)
     public Response getInsightsMonthsPerYearsDTO() {
-        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = insightService.getExistingDaysPerYearsWithExpensesDefined(getCurrentUserId());
+        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = insightMonthsPerYearService.getExistingDaysPerYearsWithExpensesDefined(getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, insightsMonthsPerYearsDTO);
     }
