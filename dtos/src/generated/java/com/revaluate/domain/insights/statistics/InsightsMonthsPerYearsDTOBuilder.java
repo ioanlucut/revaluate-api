@@ -1,4 +1,4 @@
-package com.revaluate.domain.insights;
+package com.revaluate.domain.insights.statistics;
 
 import java.util.Map;
 import java.util.Set;

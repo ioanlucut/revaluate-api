@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
-public class InsightOverviewServiceTestIT extends AbstractIntegrationTests {
+public class OverviewInsightsServiceServiceIT extends AbstractIntegrationTests {
 
     @Autowired
     private ExpenseService expenseService;
@@ -26,7 +26,7 @@ public class InsightOverviewServiceTestIT extends AbstractIntegrationTests {
     private CategoryService categoryService;
 
     @Autowired
-    private InsightOverviewService insightOverviewService;
+    private OverviewInsightsService overviewInsightsService;
 
     @Test
     public void fetchInsight_fromOneMonthValidDetailsAfterBefore_isOk() throws Exception {
@@ -65,7 +65,7 @@ public class InsightOverviewServiceTestIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTOB, createdUserDTO.getId());
         LocalDateTime before = LocalDateTime.now().plusMinutes(1);
 
-        InsightsOverviewDTO insightsOverviewDTO = insightOverviewService.getInsightsOverviewBetween(userDTO.getId(), after, before);
+        InsightsOverviewDTO insightsOverviewDTO = overviewInsightsService.getInsightsOverviewBetween(userDTO.getId(), after, before);
 
         //-----------------------------------------------------------------
         // Assert insight is ok
@@ -115,7 +115,7 @@ public class InsightOverviewServiceTestIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTOB, createdUserDTO.getId());
         LocalDateTime before = LocalDateTime.now().plusMinutes(1);
 
-        InsightsOverviewDTO insightsOverviewDTO = insightOverviewService.getInsightsOverviewBetween(userDTO.getId(), after, before);
+        InsightsOverviewDTO insightsOverviewDTO = overviewInsightsService.getInsightsOverviewBetween(userDTO.getId(), after, before);
 
         //-----------------------------------------------------------------
         // Assert insight is ok

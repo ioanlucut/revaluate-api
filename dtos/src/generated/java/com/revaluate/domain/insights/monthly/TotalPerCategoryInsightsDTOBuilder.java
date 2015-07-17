@@ -1,13 +1,13 @@
-package com.revaluate.domain.insights;
+package com.revaluate.domain.insights.monthly;
 
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
 import javax.annotation.Generated;
 
 @Generated("PojoBuilder")
-public class TotalPerCategoryInsightDTOBuilder
+public class TotalPerCategoryInsightsDTOBuilder
     implements Cloneable {
-  protected TotalPerCategoryInsightDTOBuilder self;
+  protected TotalPerCategoryInsightsDTOBuilder self;
   protected CategoryDTO value$categoryDTO$com$revaluate$domain$category$CategoryDTO;
   protected boolean isSet$categoryDTO$com$revaluate$domain$category$CategoryDTO;
   protected ExpenseDTO value$biggestExpense$com$revaluate$domain$expense$ExpenseDTO;
@@ -20,67 +20,67 @@ public class TotalPerCategoryInsightDTOBuilder
   protected boolean isSet$totalAmount$double;
 
   /**
-   * Creates a new {@link TotalPerCategoryInsightDTOBuilder}.
+   * Creates a new {@link TotalPerCategoryInsightsDTOBuilder}.
    */
-  public TotalPerCategoryInsightDTOBuilder() {
-    self = (TotalPerCategoryInsightDTOBuilder)this;
+  public TotalPerCategoryInsightsDTOBuilder() {
+    self = (TotalPerCategoryInsightsDTOBuilder)this;
   }
 
   /**
-   * Sets the default value for the {@link TotalPerCategoryInsightDTO#categoryDTO} property.
+   * Sets the default value for the {@link TotalPerCategoryInsightsDTO#categoryDTO} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public TotalPerCategoryInsightDTOBuilder withCategoryDTO(CategoryDTO value) {
+  public TotalPerCategoryInsightsDTOBuilder withCategoryDTO(CategoryDTO value) {
     this.value$categoryDTO$com$revaluate$domain$category$CategoryDTO = value;
     this.isSet$categoryDTO$com$revaluate$domain$category$CategoryDTO = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link TotalPerCategoryInsightDTO#biggestExpense} property.
+   * Sets the default value for the {@link TotalPerCategoryInsightsDTO#biggestExpense} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public TotalPerCategoryInsightDTOBuilder withBiggestExpense(ExpenseDTO value) {
+  public TotalPerCategoryInsightsDTOBuilder withBiggestExpense(ExpenseDTO value) {
     this.value$biggestExpense$com$revaluate$domain$expense$ExpenseDTO = value;
     this.isSet$biggestExpense$com$revaluate$domain$expense$ExpenseDTO = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link TotalPerCategoryInsightDTO#numberOfTransactions} property.
+   * Sets the default value for the {@link TotalPerCategoryInsightsDTO#numberOfTransactions} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public TotalPerCategoryInsightDTOBuilder withNumberOfTransactions(int value) {
+  public TotalPerCategoryInsightsDTOBuilder withNumberOfTransactions(int value) {
     this.value$numberOfTransactions$int = value;
     this.isSet$numberOfTransactions$int = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link TotalPerCategoryInsightDTO#totalAmountFormatted} property.
+   * Sets the default value for the {@link TotalPerCategoryInsightsDTO#totalAmountFormatted} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public TotalPerCategoryInsightDTOBuilder withTotalAmountFormatted(String value) {
+  public TotalPerCategoryInsightsDTOBuilder withTotalAmountFormatted(String value) {
     this.value$totalAmountFormatted$java$lang$String = value;
     this.isSet$totalAmountFormatted$java$lang$String = true;
     return self;
   }
 
   /**
-   * Sets the default value for the {@link TotalPerCategoryInsightDTO#totalAmount} property.
+   * Sets the default value for the {@link TotalPerCategoryInsightsDTO#totalAmount} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public TotalPerCategoryInsightDTOBuilder withTotalAmount(double value) {
+  public TotalPerCategoryInsightsDTOBuilder withTotalAmount(double value) {
     this.value$totalAmount$double = value;
     this.isSet$totalAmount$double = true;
     return self;
@@ -94,7 +94,7 @@ public class TotalPerCategoryInsightDTOBuilder
   @Override
   public Object clone() {
     try {
-      TotalPerCategoryInsightDTOBuilder result = (TotalPerCategoryInsightDTOBuilder)super.clone();
+      TotalPerCategoryInsightsDTOBuilder result = (TotalPerCategoryInsightsDTOBuilder)super.clone();
       result.self = result;
       return result;
     } catch (CloneNotSupportedException e) {
@@ -107,18 +107,18 @@ public class TotalPerCategoryInsightDTOBuilder
    *
    * @return the clone
    */
-  public TotalPerCategoryInsightDTOBuilder but() {
-    return (TotalPerCategoryInsightDTOBuilder)clone();
+  public TotalPerCategoryInsightsDTOBuilder but() {
+    return (TotalPerCategoryInsightsDTOBuilder)clone();
   }
 
   /**
-   * Creates a new {@link TotalPerCategoryInsightDTO} based on this builder's settings.
+   * Creates a new {@link TotalPerCategoryInsightsDTO} based on this builder's settings.
    *
-   * @return the created TotalPerCategoryInsightDTO
+   * @return the created TotalPerCategoryInsightsDTO
    */
-  public TotalPerCategoryInsightDTO build() {
+  public TotalPerCategoryInsightsDTO build() {
     try {
-      TotalPerCategoryInsightDTO result = new TotalPerCategoryInsightDTO();
+      TotalPerCategoryInsightsDTO result = new TotalPerCategoryInsightsDTO();
       if (isSet$categoryDTO$com$revaluate$domain$category$CategoryDTO) {
         result.setCategoryDTO(value$categoryDTO$com$revaluate$domain$category$CategoryDTO);
       }
