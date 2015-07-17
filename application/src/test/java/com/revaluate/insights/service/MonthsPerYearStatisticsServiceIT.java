@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
-public class MonthsPerYearStatisticsServiceServiceIT extends AbstractIntegrationTests {
+public class MonthsPerYearStatisticsServiceIT extends AbstractIntegrationTests {
 
     @Autowired
     private ExpenseService expenseService;

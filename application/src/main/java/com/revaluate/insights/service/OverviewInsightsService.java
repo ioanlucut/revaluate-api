@@ -8,5 +8,5 @@ import javax.validation.constraints.NotNull;
 public interface OverviewInsightsService {
 
     @NotNull
-    InsightsOverviewDTO getInsightsOverviewBetween(int userId, @NotNull LocalDateTime after, @NotNull LocalDateTime before);
+    InsightsOverviewDTO getOverviewInsightsBetween(int userId, @NotNull LocalDateTime after, @NotNull LocalDateTime before);
 }

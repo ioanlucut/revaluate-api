@@ -7,6 +7,7 @@ import com.revaluate.domain.insights.overview.TotalPerMonthDTOBuilder;
 import com.revaluate.expense.persistence.Expense;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import org.joda.time.LocalDateTime;
+import org.joda.time.YearMonth;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Validated
@@ -31,12 +33,14 @@ public class OverviewInsightsServiceImpl implements OverviewInsightsService {
 
     public static final String INSIGHT_OVERVIEW_MONTH_FORMAT_DATE_PATTERN = "yyyy-MM";
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern(INSIGHT_OVERVIEW_MONTH_FORMAT_DATE_PATTERN);
+    public static final double NO_AMOUNT_VALUE = BigDecimal.ZERO.doubleValue();
+    public static final String NO_AMOUNT_VALUE_FORMATTED = DECIMAL_FORMAT.format(BigDecimal.ZERO);
 
     @Autowired
     private ExpenseRepository expenseRepository;
 
     @Override
-    public InsightsOverviewDTO getInsightsOverviewBetween(int userId, LocalDateTime after, LocalDateTime before) {
+    public InsightsOverviewDTO getOverviewInsightsBetween(int userId, LocalDateTime after, LocalDateTime before) {
         List<Expense> allExpenses = expenseRepository.findAllByUserIdAndSpentDateAfterAndSpentDateBefore(userId, after, before);
 
         //-----------------------------------------------------------------
@@ -46,6 +50,8 @@ public class OverviewInsightsServiceImpl implements OverviewInsightsService {
 
             return new InsightsOverviewDTOBuilder()
                     .withInsightsOverview(Collections.emptyList())
+                    .withFrom(after)
+                    .withTo(before)
                     .build();
         }
 
@@ -56,7 +62,7 @@ public class OverviewInsightsServiceImpl implements OverviewInsightsService {
                 .stream()
                 .collect(Collectors
                         .groupingBy(expense -> DATE_TIME_FORMATTER.print(expense.getSpentDate()),
-                                Collectors.collectingAndThen(Collectors.mapping(Expense::getValue, Collectors.reducing(BigDecimal::add)), bigDecimal -> bigDecimal)));
+                                Collectors.mapping(Expense::getValue, Collectors.reducing(BigDecimal::add))));
 
         //-----------------------------------------------------------------
         // Then, we build our list
@@ -77,8 +83,27 @@ public class OverviewInsightsServiceImpl implements OverviewInsightsService {
                 })
                 .collect(Collectors.toList());
 
+        List<YearMonth> allYearMonths = InsightsUtils
+                .yearMonthsBetween(after, before);
+
+        Stream<TotalPerMonthDTO> emptyMonths = allYearMonths
+                .stream()
+                .map(DATE_TIME_FORMATTER::print)
+                .filter(formattedDate -> totalPerMonthDTOs
+                        .stream()
+                        .noneMatch(totalPerMonthDTO -> totalPerMonthDTO.getMonthYearFormattedDate().equals(formattedDate)))
+                .map(formattedDate -> new TotalPerMonthDTOBuilder()
+                        .withTotalAmount(NO_AMOUNT_VALUE)
+                        .withTotalAmountFormatted(NO_AMOUNT_VALUE_FORMATTED)
+                        .withMonthYearFormattedDate(formattedDate)
+                        .build());
+
+        List<TotalPerMonthDTO> allCombined = Stream
+                .concat(totalPerMonthDTOs.stream(), emptyMonths)
+                .collect(Collectors.toList());
+
         return new InsightsOverviewDTOBuilder()
-                .withInsightsOverview(totalPerMonthDTOs)
+                .withInsightsOverview(allCombined)
                 .withNumberOfTransactions(allExpenses.size())
                 .withTotalAmountSpent(InsightsUtils.totalOf(allExpenses).doubleValue())
                 .withFrom(after)
