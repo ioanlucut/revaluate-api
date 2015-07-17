@@ -62,7 +62,7 @@ public class InsightResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(INSIGHTS_OVERVIEW_RETRIEVE_FROM_TO)
     public Response getOverviewInsightsFromTo(@QueryParam(FROM) LocalDateTime from, @QueryParam(TO) LocalDateTime to) {
-        InsightsOverviewDTO insightsOverview = overviewInsightsService.getInsightsOverviewBetween(getCurrentUserId(), from, to);
+        InsightsOverviewDTO insightsOverview = overviewInsightsService.getOverviewInsightsBetween(getCurrentUserId(), from, to);
 
         return Responses.respond(Response.Status.OK, insightsOverview);
     }
