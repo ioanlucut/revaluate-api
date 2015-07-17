@@ -18,6 +18,7 @@ import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,19 +52,11 @@ public class OverviewInsightsServiceImpl implements OverviewInsightsService {
         //-----------------------------------------------------------------
         // First of all, we get all expenses grouped
         //-----------------------------------------------------------------
-        Map<String, TotalPerMonthDTO> insightsOverview = allExpenses
+        Map<String, Optional<BigDecimal>> insightsOverview = allExpenses
                 .stream()
                 .collect(Collectors
                         .groupingBy(expense -> DATE_TIME_FORMATTER.print(expense.getSpentDate()),
-                                Collectors.collectingAndThen(Collectors.mapping(Expense::getValue, Collectors.reducing(BigDecimal::add)), bigDecimal -> {
-                                    BigDecimal totalExpenseAsBigDecimal = bigDecimal.isPresent() ? bigDecimal.get() : BigDecimal.ZERO;
-                                    BigDecimal totalExpenseAsBigDecimalScaled = totalExpenseAsBigDecimal.setScale(DIGITS_SCALE, BigDecimal.ROUND_DOWN);
-
-                                    return new TotalPerMonthDTOBuilder()
-                                            .withTotalAmount(totalExpenseAsBigDecimalScaled.doubleValue())
-                                            .withTotalAmountFormatted(DECIMAL_FORMAT.format(totalExpenseAsBigDecimalScaled))
-                                            .build();
-                                })));
+                                Collectors.collectingAndThen(Collectors.mapping(Expense::getValue, Collectors.reducing(BigDecimal::add)), bigDecimal -> bigDecimal)));
 
         //-----------------------------------------------------------------
         // Then, we build our list
@@ -71,17 +64,25 @@ public class OverviewInsightsServiceImpl implements OverviewInsightsService {
         List<TotalPerMonthDTO> totalPerMonthDTOs = insightsOverview
                 .entrySet()
                 .stream()
-                .peek(stringTotalPerMonthDTOEntry -> {
-                    //-----------------------------------------------------------------
-                    // We need to set the grouping key (aka the grouping month) for every entry
-                    //-----------------------------------------------------------------
-                    stringTotalPerMonthDTOEntry.getValue().setMonthYearFormattedDate(stringTotalPerMonthDTOEntry.getKey());
+                .filter(stringOptionalEntry -> stringOptionalEntry.getValue().isPresent())
+                .map(entry -> {
+                    BigDecimal totalExpenseAsBigDecimal = entry.getValue().get();
+                    BigDecimal totalExpenseAsBigDecimalScaled = totalExpenseAsBigDecimal.setScale(DIGITS_SCALE, BigDecimal.ROUND_DOWN);
+
+                    return new TotalPerMonthDTOBuilder()
+                            .withTotalAmount(totalExpenseAsBigDecimalScaled.doubleValue())
+                            .withTotalAmountFormatted(DECIMAL_FORMAT.format(totalExpenseAsBigDecimalScaled))
+                            .withMonthYearFormattedDate(entry.getKey())
+                            .build();
                 })
-                .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
 
         return new InsightsOverviewDTOBuilder()
                 .withInsightsOverview(totalPerMonthDTOs)
+                .withNumberOfTransactions(allExpenses.size())
+                .withTotalAmountSpent(InsightsUtils.totalOf(allExpenses).doubleValue())
+                .withFrom(after)
+                .withTo(before)
                 .build();
     }
 }
