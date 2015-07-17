@@ -5,6 +5,7 @@ import com.revaluate.domain.expense.ExpenseDTO;
 import java.util.List;
 import javax.annotation.Generated;
 import org.joda.time.LocalDateTime;
+import org.joda.time.YearMonth;
 
 @Generated("PojoBuilder")
 public class InsightsMonthlyDTOBuilder
@@ -18,6 +19,8 @@ public class InsightsMonthlyDTOBuilder
   protected boolean isSet$totalAmountSpent$double;
   protected long value$numberOfTransactions$long;
   protected boolean isSet$numberOfTransactions$long;
+  protected YearMonth value$yearMonth$org$joda$time$YearMonth;
+  protected boolean isSet$yearMonth$org$joda$time$YearMonth;
   protected List<TotalPerCategoryInsightsDTO> value$totalPerCategoryInsightsDTOs$java$util$List;
   protected boolean isSet$totalPerCategoryInsightsDTOs$java$util$List;
   protected CategoryDTO value$highestAmountCategory$com$revaluate$domain$category$CategoryDTO;
@@ -83,6 +86,18 @@ public class InsightsMonthlyDTOBuilder
   public InsightsMonthlyDTOBuilder withNumberOfTransactions(long value) {
     this.value$numberOfTransactions$long = value;
     this.isSet$numberOfTransactions$long = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link InsightsMonthlyDTO#yearMonth} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public InsightsMonthlyDTOBuilder withYearMonth(YearMonth value) {
+    this.value$yearMonth$org$joda$time$YearMonth = value;
+    this.isSet$yearMonth$org$joda$time$YearMonth = true;
     return self;
   }
 
@@ -202,6 +217,9 @@ public class InsightsMonthlyDTOBuilder
       }
       if (isSet$numberOfTransactions$long) {
         result.setNumberOfTransactions(value$numberOfTransactions$long);
+      }
+      if (isSet$yearMonth$org$joda$time$YearMonth) {
+        result.setYearMonth(value$yearMonth$org$joda$time$YearMonth);
       }
       if (isSet$totalPerCategoryInsightsDTOs$java$util$List) {
         result.setTotalPerCategoryInsightsDTOs(value$totalPerCategoryInsightsDTOs$java$util$List);

@@ -34,6 +34,11 @@ public class MonthlyInsightsServiceImpl implements MonthlyInsightsService {
     public InsightsMonthlyDTO fetchMonthlyInsightsAfterBeforePeriod(int userId, LocalDateTime after, LocalDateTime before) {
         List<Expense> allExpenses = expenseRepository.findAllByUserIdAndSpentDateAfterAndSpentDateBefore(userId, after, before);
 
+        return this.computeMonthlyInsightsAfterBeforePeriod(allExpenses, after, before);
+    }
+
+    @Override
+    public InsightsMonthlyDTO computeMonthlyInsightsAfterBeforePeriod(List<Expense> allExpenses, LocalDateTime after, LocalDateTime before) {
         //-----------------------------------------------------------------
         // No results, return empty insight
         //-----------------------------------------------------------------

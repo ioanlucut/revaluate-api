@@ -4,6 +4,7 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.insights.AbstractInsightDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
+import org.joda.time.YearMonth;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -14,6 +15,9 @@ import java.util.Objects;
 public class InsightsMonthlyDTO extends AbstractInsightDTO implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
+
+    @NotNull
+    private YearMonth yearMonth;
 
     @NotNull
     private List<TotalPerCategoryInsightsDTO> totalPerCategoryInsightsDTOs;
@@ -29,6 +33,14 @@ public class InsightsMonthlyDTO extends AbstractInsightDTO implements Serializab
 
     private double differenceBetweenLastMonth;
     private double differencePercentageBetweenLastMonth;
+
+    public YearMonth getYearMonth() {
+        return yearMonth;
+    }
+
+    public void setYearMonth(YearMonth yearMonth) {
+        this.yearMonth = yearMonth;
+    }
 
     public List<TotalPerCategoryInsightsDTO> getTotalPerCategoryInsightsDTOs() {
         return totalPerCategoryInsightsDTOs;
@@ -85,6 +97,7 @@ public class InsightsMonthlyDTO extends AbstractInsightDTO implements Serializab
         InsightsMonthlyDTO that = (InsightsMonthlyDTO) o;
         return Objects.equals(totalAmountSpent, that.totalAmountSpent) &&
                 Objects.equals(numberOfTransactions, that.numberOfTransactions) &&
+                Objects.equals(yearMonth, that.yearMonth) &&
                 Objects.equals(differenceBetweenLastMonth, that.differenceBetweenLastMonth) &&
                 Objects.equals(differencePercentageBetweenLastMonth, that.differencePercentageBetweenLastMonth) &&
                 Objects.equals(from, that.from) &&
@@ -97,12 +110,13 @@ public class InsightsMonthlyDTO extends AbstractInsightDTO implements Serializab
 
     @Override
     public int hashCode() {
-        return Objects.hash(from, to, totalPerCategoryInsightsDTOs, highestAmountCategory, categoryWithTheMostTransactionsInsightsDTO, biggestExpense, totalAmountSpent, numberOfTransactions, differenceBetweenLastMonth, differencePercentageBetweenLastMonth);
+        return Objects.hash(yearMonth, from, to, totalPerCategoryInsightsDTOs, highestAmountCategory, categoryWithTheMostTransactionsInsightsDTO, biggestExpense, totalAmountSpent, numberOfTransactions, differenceBetweenLastMonth, differencePercentageBetweenLastMonth);
     }
 
     @Override
     public String toString() {
         return "InsightsMonthlyDTO{" +
+                "yearMonth=" + yearMonth +
                 "from=" + from +
                 ", to=" + to +
                 ", totalPerCategoryInsightsDTOs=" + totalPerCategoryInsightsDTOs +
