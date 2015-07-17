@@ -1,9 +1,9 @@
-package com.revaluate.domain.insights;
+package com.revaluate.domain.insights.monthly;
 
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
+import com.revaluate.domain.insights.AbstractInsightDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import org.joda.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -11,18 +11,12 @@ import java.util.List;
 import java.util.Objects;
 
 @GeneratePojoBuilder
-public class InsightDTO implements Serializable {
+public class InsightsMonthlyDTO extends AbstractInsightDTO implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
     @NotNull
-    private LocalDateTime from;
-
-    @NotNull
-    private LocalDateTime to;
-
-    @NotNull
-    private List<TotalPerCategoryInsightDTO> totalPerCategoryInsightDTOs;
+    private List<TotalPerCategoryInsightsDTO> totalPerCategoryInsightsDTOs;
 
     @NotNull
     private CategoryDTO highestAmountCategory;
@@ -33,34 +27,16 @@ public class InsightDTO implements Serializable {
     @NotNull
     private ExpenseDTO biggestExpense;
 
-    private double totalAmountSpent;
-    private long numberOfTransactions;
     private long totalNumberOfTransactions;
     private double differenceBetweenLastMonth;
     private double differencePercentageBetweenLastMonth;
 
-    public LocalDateTime getFrom() {
-        return from;
+    public List<TotalPerCategoryInsightsDTO> getTotalPerCategoryInsightsDTOs() {
+        return totalPerCategoryInsightsDTOs;
     }
 
-    public void setFrom(LocalDateTime from) {
-        this.from = from;
-    }
-
-    public LocalDateTime getTo() {
-        return to;
-    }
-
-    public void setTo(LocalDateTime to) {
-        this.to = to;
-    }
-
-    public List<TotalPerCategoryInsightDTO> getTotalPerCategoryInsightDTOs() {
-        return totalPerCategoryInsightDTOs;
-    }
-
-    public void setTotalPerCategoryInsightDTOs(List<TotalPerCategoryInsightDTO> totalPerCategoryInsightDTOs) {
-        this.totalPerCategoryInsightDTOs = totalPerCategoryInsightDTOs;
+    public void setTotalPerCategoryInsightsDTOs(List<TotalPerCategoryInsightsDTO> totalPerCategoryInsightsDTOs) {
+        this.totalPerCategoryInsightsDTOs = totalPerCategoryInsightsDTOs;
     }
 
     public CategoryDTO getHighestAmountCategory() {
@@ -85,22 +61,6 @@ public class InsightDTO implements Serializable {
 
     public void setBiggestExpense(ExpenseDTO biggestExpense) {
         this.biggestExpense = biggestExpense;
-    }
-
-    public double getTotalAmountSpent() {
-        return totalAmountSpent;
-    }
-
-    public void setTotalAmountSpent(double totalAmountSpent) {
-        this.totalAmountSpent = totalAmountSpent;
-    }
-
-    public long getNumberOfTransactions() {
-        return numberOfTransactions;
-    }
-
-    public void setNumberOfTransactions(long numberOfTransactions) {
-        this.numberOfTransactions = numberOfTransactions;
     }
 
     public long getTotalNumberOfTransactions() {
@@ -131,7 +91,7 @@ public class InsightDTO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        InsightDTO that = (InsightDTO) o;
+        InsightsMonthlyDTO that = (InsightsMonthlyDTO) o;
         return Objects.equals(totalAmountSpent, that.totalAmountSpent) &&
                 Objects.equals(numberOfTransactions, that.numberOfTransactions) &&
                 Objects.equals(totalNumberOfTransactions, that.totalNumberOfTransactions) &&
@@ -139,7 +99,7 @@ public class InsightDTO implements Serializable {
                 Objects.equals(differencePercentageBetweenLastMonth, that.differencePercentageBetweenLastMonth) &&
                 Objects.equals(from, that.from) &&
                 Objects.equals(to, that.to) &&
-                Objects.equals(totalPerCategoryInsightDTOs, that.totalPerCategoryInsightDTOs) &&
+                Objects.equals(totalPerCategoryInsightsDTOs, that.totalPerCategoryInsightsDTOs) &&
                 Objects.equals(highestAmountCategory, that.highestAmountCategory) &&
                 Objects.equals(categoryWithTheMostTransactionsInsightsDTO, that.categoryWithTheMostTransactionsInsightsDTO) &&
                 Objects.equals(biggestExpense, that.biggestExpense);
@@ -147,15 +107,15 @@ public class InsightDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(from, to, totalPerCategoryInsightDTOs, highestAmountCategory, categoryWithTheMostTransactionsInsightsDTO, biggestExpense, totalAmountSpent, numberOfTransactions, totalNumberOfTransactions, differenceBetweenLastMonth, differencePercentageBetweenLastMonth);
+        return Objects.hash(from, to, totalPerCategoryInsightsDTOs, highestAmountCategory, categoryWithTheMostTransactionsInsightsDTO, biggestExpense, totalAmountSpent, numberOfTransactions, totalNumberOfTransactions, differenceBetweenLastMonth, differencePercentageBetweenLastMonth);
     }
 
     @Override
     public String toString() {
-        return "InsightDTO{" +
+        return "InsightsMonthlyDTO{" +
                 "from=" + from +
                 ", to=" + to +
-                ", totalPerCategoryInsightDTOs=" + totalPerCategoryInsightDTOs +
+                ", totalPerCategoryInsightsDTOs=" + totalPerCategoryInsightsDTOs +
                 ", highestAmountCategory=" + highestAmountCategory +
                 ", categoryWithTheMostTransactionsInsightsDTO=" + categoryWithTheMostTransactionsInsightsDTO +
                 ", biggestExpense=" + biggestExpense +

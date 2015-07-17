@@ -1,4 +1,4 @@
-package com.revaluate.domain.insights;
+package com.revaluate.domain.insights.monthly;
 
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @GeneratePojoBuilder
-public class TotalPerCategoryInsightDTO implements Serializable {
+public class TotalPerCategoryInsightsDTO implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
@@ -73,7 +73,7 @@ public class TotalPerCategoryInsightDTO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TotalPerCategoryInsightDTO that = (TotalPerCategoryInsightDTO) o;
+        TotalPerCategoryInsightsDTO that = (TotalPerCategoryInsightsDTO) o;
         return Objects.equals(numberOfTransactions, that.numberOfTransactions) &&
                 Objects.equals(totalAmount, that.totalAmount) &&
                 Objects.equals(categoryDTO, that.categoryDTO) &&
@@ -88,7 +88,7 @@ public class TotalPerCategoryInsightDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "TotalPerCategoryInsightDTO{" +
+        return "TotalPerCategoryInsightsDTO{" +
                 "categoryDTO=" + categoryDTO +
                 ", biggestExpense=" + biggestExpense +
                 ", numberOfTransactions=" + numberOfTransactions +

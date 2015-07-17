@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Validated
-public class InsightOverviewServiceImpl implements InsightOverviewService {
+public class OverviewInsightsServiceImpl implements OverviewInsightsService {
 
     public static final int DIGITS_SCALE = 2;
     public static final String PATTERN = "0.00";

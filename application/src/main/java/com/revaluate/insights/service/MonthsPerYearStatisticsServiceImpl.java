@@ -1,7 +1,7 @@
 package com.revaluate.insights.service;
 
-import com.revaluate.domain.insights.InsightsMonthsPerYearsDTO;
-import com.revaluate.domain.insights.InsightsMonthsPerYearsDTOBuilder;
+import com.revaluate.domain.insights.statistics.InsightsMonthsPerYearsDTO;
+import com.revaluate.domain.insights.statistics.InsightsMonthsPerYearsDTOBuilder;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Validated
-public class InsightMonthsPerYearServiceImpl implements InsightMonthsPerYearService {
+public class MonthsPerYearStatisticsServiceImpl implements MonthsPerYearStatisticsService {
 
     @Autowired
     private ExpenseRepository expenseRepository;
