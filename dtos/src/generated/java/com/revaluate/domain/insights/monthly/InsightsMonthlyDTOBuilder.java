@@ -26,8 +26,6 @@ public class InsightsMonthlyDTOBuilder
   protected boolean isSet$categoryWithTheMostTransactionsInsightsDTO$com$revaluate$domain$insights$monthly$CategoryWithTheMostTransactionsInsightsDTO;
   protected ExpenseDTO value$biggestExpense$com$revaluate$domain$expense$ExpenseDTO;
   protected boolean isSet$biggestExpense$com$revaluate$domain$expense$ExpenseDTO;
-  protected long value$totalNumberOfTransactions$long;
-  protected boolean isSet$totalNumberOfTransactions$long;
   protected double value$differenceBetweenLastMonth$double;
   protected boolean isSet$differenceBetweenLastMonth$double;
   protected double value$differencePercentageBetweenLastMonth$double;
@@ -137,18 +135,6 @@ public class InsightsMonthlyDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link InsightsMonthlyDTO#totalNumberOfTransactions} property.
-   *
-   * @param value the default value
-   * @return this builder
-   */
-  public InsightsMonthlyDTOBuilder withTotalNumberOfTransactions(long value) {
-    this.value$totalNumberOfTransactions$long = value;
-    this.isSet$totalNumberOfTransactions$long = true;
-    return self;
-  }
-
-  /**
    * Sets the default value for the {@link InsightsMonthlyDTO#differenceBetweenLastMonth} property.
    *
    * @param value the default value
@@ -228,9 +214,6 @@ public class InsightsMonthlyDTOBuilder
       }
       if (isSet$biggestExpense$com$revaluate$domain$expense$ExpenseDTO) {
         result.setBiggestExpense(value$biggestExpense$com$revaluate$domain$expense$ExpenseDTO);
-      }
-      if (isSet$totalNumberOfTransactions$long) {
-        result.setTotalNumberOfTransactions(value$totalNumberOfTransactions$long);
       }
       if (isSet$differenceBetweenLastMonth$double) {
         result.setDifferenceBetweenLastMonth(value$differenceBetweenLastMonth$double);

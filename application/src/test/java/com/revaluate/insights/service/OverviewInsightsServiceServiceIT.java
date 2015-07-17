@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
-public class InsightOverviewServiceTestIT extends AbstractIntegrationTests {
+public class OverviewInsightsServiceServiceIT extends AbstractIntegrationTests {
 
     @Autowired
     private ExpenseService expenseService;

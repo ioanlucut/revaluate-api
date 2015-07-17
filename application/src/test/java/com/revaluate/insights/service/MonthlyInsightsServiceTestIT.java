@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
-public class InsightServiceImplTestIT extends AbstractIntegrationTests {
+public class MonthlyInsightsServiceTestIT extends AbstractIntegrationTests {
 
     @Autowired
     private ExpenseService expenseService;
@@ -81,7 +81,6 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name2") && s.getTotalAmountFormatted().equals("30.10")), is(Boolean.TRUE));
 
         assertThat(insightsMonthlyDTO.getNumberOfTransactions(), is(4L));
-        assertThat(insightsMonthlyDTO.getTotalNumberOfTransactions(), is(4L));
         assertThat(insightsMonthlyDTO.getTotalAmountSpent(), is(40.20));
     }
 

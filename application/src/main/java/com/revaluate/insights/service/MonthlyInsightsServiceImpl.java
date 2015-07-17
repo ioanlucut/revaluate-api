@@ -42,7 +42,6 @@ public class MonthlyInsightsServiceImpl implements MonthlyInsightsService {
                     .withFrom(after)
                     .withTo(before)
                     .withTotalPerCategoryInsightsDTOs(Collections.emptyList())
-                    .withTotalNumberOfTransactions(expenseRepository.countByUserId(userId))
                     .build();
         }
 
@@ -148,7 +147,6 @@ public class MonthlyInsightsServiceImpl implements MonthlyInsightsService {
                 .withFrom(after)
                 .withTo(before)
                 .withNumberOfTransactions(allExpenses.size())
-                .withTotalNumberOfTransactions(expenseRepository.countByUserId(userId))
                 .withTotalAmountSpent(InsightsUtils.totalOf(allExpenses).doubleValue())
                 .withTotalPerCategoryInsightsDTOs(totalPerCategoriesDTOs)
                 .withBiggestExpense(biggestExpenseOverallOptional.isPresent() ? biggestExpenseOverallOptional.get().getBiggestExpense() : null)

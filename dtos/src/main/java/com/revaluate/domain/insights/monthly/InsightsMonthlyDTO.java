@@ -27,7 +27,6 @@ public class InsightsMonthlyDTO extends AbstractInsightDTO implements Serializab
     @NotNull
     private ExpenseDTO biggestExpense;
 
-    private long totalNumberOfTransactions;
     private double differenceBetweenLastMonth;
     private double differencePercentageBetweenLastMonth;
 
@@ -63,14 +62,6 @@ public class InsightsMonthlyDTO extends AbstractInsightDTO implements Serializab
         this.biggestExpense = biggestExpense;
     }
 
-    public long getTotalNumberOfTransactions() {
-        return totalNumberOfTransactions;
-    }
-
-    public void setTotalNumberOfTransactions(long totalNumberOfTransactions) {
-        this.totalNumberOfTransactions = totalNumberOfTransactions;
-    }
-
     public double getDifferenceBetweenLastMonth() {
         return differenceBetweenLastMonth;
     }
@@ -94,7 +85,6 @@ public class InsightsMonthlyDTO extends AbstractInsightDTO implements Serializab
         InsightsMonthlyDTO that = (InsightsMonthlyDTO) o;
         return Objects.equals(totalAmountSpent, that.totalAmountSpent) &&
                 Objects.equals(numberOfTransactions, that.numberOfTransactions) &&
-                Objects.equals(totalNumberOfTransactions, that.totalNumberOfTransactions) &&
                 Objects.equals(differenceBetweenLastMonth, that.differenceBetweenLastMonth) &&
                 Objects.equals(differencePercentageBetweenLastMonth, that.differencePercentageBetweenLastMonth) &&
                 Objects.equals(from, that.from) &&
@@ -107,7 +97,7 @@ public class InsightsMonthlyDTO extends AbstractInsightDTO implements Serializab
 
     @Override
     public int hashCode() {
-        return Objects.hash(from, to, totalPerCategoryInsightsDTOs, highestAmountCategory, categoryWithTheMostTransactionsInsightsDTO, biggestExpense, totalAmountSpent, numberOfTransactions, totalNumberOfTransactions, differenceBetweenLastMonth, differencePercentageBetweenLastMonth);
+        return Objects.hash(from, to, totalPerCategoryInsightsDTOs, highestAmountCategory, categoryWithTheMostTransactionsInsightsDTO, biggestExpense, totalAmountSpent, numberOfTransactions, differenceBetweenLastMonth, differencePercentageBetweenLastMonth);
     }
 
     @Override
@@ -121,7 +111,6 @@ public class InsightsMonthlyDTO extends AbstractInsightDTO implements Serializab
                 ", biggestExpense=" + biggestExpense +
                 ", totalAmountSpent=" + totalAmountSpent +
                 ", numberOfTransactions=" + numberOfTransactions +
-                ", totalNumberOfTransactions=" + totalNumberOfTransactions +
                 ", differenceBetweenLastMonth=" + differenceBetweenLastMonth +
                 ", differencePercentageBetweenLastMonth=" + differencePercentageBetweenLastMonth +
                 '}';
