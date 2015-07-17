@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
-public class OverviewInsightsServiceServiceIT extends AbstractIntegrationTests {
+public class OverviewInsightsServiceIT extends AbstractIntegrationTests {
 
     @Autowired
     private ExpenseService expenseService;
@@ -65,7 +65,7 @@ public class OverviewInsightsServiceServiceIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTOB, createdUserDTO.getId());
         LocalDateTime before = LocalDateTime.now().plusMinutes(1);
 
-        InsightsOverviewDTO insightsOverviewDTO = overviewInsightsService.getInsightsOverviewBetween(userDTO.getId(), after, before);
+        InsightsOverviewDTO insightsOverviewDTO = overviewInsightsService.getOverviewInsightsBetween(userDTO.getId(), after, before);
 
         //-----------------------------------------------------------------
         // Assert insight is ok
@@ -76,6 +76,8 @@ public class OverviewInsightsServiceServiceIT extends AbstractIntegrationTests {
 
         assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("3300.00")), is(Boolean.TRUE));
         assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 3300.0), is(Boolean.TRUE));
+
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(0));
     }
 
     @Test
@@ -115,7 +117,7 @@ public class OverviewInsightsServiceServiceIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTOB, createdUserDTO.getId());
         LocalDateTime before = LocalDateTime.now().plusMinutes(1);
 
-        InsightsOverviewDTO insightsOverviewDTO = overviewInsightsService.getInsightsOverviewBetween(userDTO.getId(), after, before);
+        InsightsOverviewDTO insightsOverviewDTO = overviewInsightsService.getOverviewInsightsBetween(userDTO.getId(), after, before);
 
         //-----------------------------------------------------------------
         // Assert insight is ok
@@ -127,6 +129,45 @@ public class OverviewInsightsServiceServiceIT extends AbstractIntegrationTests {
         assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 300.0), is(Boolean.TRUE));
         assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("3000.00")), is(Boolean.TRUE));
         assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 3000.0), is(Boolean.TRUE));
+
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(0));
+    }
+
+    @Test
+    public void fetchInsight_fromTwoDifferentMonthsWithGapsValidDetailsAfterBefore_isOk() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Add expense time
+        //-----------------------------------------------------------------
+        LocalDateTime after = LocalDateTime.now().minusMonths(5).minusSeconds(1);
+
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(1).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+
+        ExpenseDTO expenseDTOB = new ExpenseDTOBuilder().withValue(2).withDescription("my second expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusMonths(2)).build();
+        expenseService.create(expenseDTOB, createdUserDTO.getId());
+
+        expenseDTOB = new ExpenseDTOBuilder().withValue(3).withDescription("my second expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusMonths(5)).build();
+        expenseService.create(expenseDTOB, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Add end expense time
+        //-----------------------------------------------------------------
+        LocalDateTime before = LocalDateTime.now().plusMinutes(1);
+        InsightsOverviewDTO insightsOverviewDTO = overviewInsightsService.getOverviewInsightsBetween(userDTO.getId(), after, before);
+
+        //-----------------------------------------------------------------
+        // Assert insight is ok
+        //-----------------------------------------------------------------
+        assertThat(insightsOverviewDTO, is(notNullValue()));
+        assertThat(insightsOverviewDTO.getInsightsOverview(), is(notNullValue()));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(3L));
     }
 
 }
