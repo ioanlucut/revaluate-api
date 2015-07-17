@@ -1,12 +1,17 @@
 package com.revaluate.insights.service;
 
+import com.revaluate.category.persistence.Category;
+import com.revaluate.domain.category.CategoryDTO;
+import com.revaluate.domain.expense.ExpenseDTO;
+import com.revaluate.domain.insights.monthly.*;
 import com.revaluate.expense.persistence.Expense;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Months;
 import org.joda.time.YearMonth;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.text.DecimalFormat;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
