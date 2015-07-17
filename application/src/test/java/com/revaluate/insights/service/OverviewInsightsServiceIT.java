@@ -77,7 +77,7 @@ public class OverviewInsightsServiceIT extends AbstractIntegrationTests {
         assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("3300.00")), is(Boolean.TRUE));
         assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 3300.0), is(Boolean.TRUE));
 
-        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(0));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(0L));
     }
 
     @Test
@@ -130,7 +130,7 @@ public class OverviewInsightsServiceIT extends AbstractIntegrationTests {
         assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("3000.00")), is(Boolean.TRUE));
         assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 3000.0), is(Boolean.TRUE));
 
-        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(0));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(1L));
     }
 
     @Test
