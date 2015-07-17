@@ -7,7 +7,7 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
-import com.revaluate.domain.insights.InsightDTO;
+import com.revaluate.domain.insights.monthly.InsightsMonthlyDTO;
 import com.revaluate.expense.service.ExpenseService;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
@@ -27,10 +27,10 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
     private CategoryService categoryService;
 
     @Autowired
-    private InsightService insightService;
+    private MonthlyInsightsService monthlyInsightsService;
 
     @Test
-    public void fetchInsight_validDetailsAfterBefore_isOk() throws Exception {
+    public void fetchMonthlyInsightsAfterBeforePeriod_validDetailsAfterBefore_isOk() throws Exception {
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
@@ -66,27 +66,27 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTOB, createdUserDTO.getId());
         LocalDateTime before = LocalDateTime.now().plusMinutes(1);
 
-        InsightDTO insightDTO = insightService.fetchInsightAfterBeforePeriod(userDTO.getId(), after, before);
+        InsightsMonthlyDTO insightsMonthlyDTO = monthlyInsightsService.fetchMonthlyInsightsAfterBeforePeriod(userDTO.getId(), after, before);
 
         //-----------------------------------------------------------------
         // Assert insight is ok
         //-----------------------------------------------------------------
-        assertThat(insightDTO, is(notNullValue()));
-        assertThat(insightDTO.getFrom(), is(notNullValue()));
-        assertThat(insightDTO.getTo(), is(notNullValue()));
+        assertThat(insightsMonthlyDTO, is(notNullValue()));
+        assertThat(insightsMonthlyDTO.getFrom(), is(notNullValue()));
+        assertThat(insightsMonthlyDTO.getTo(), is(notNullValue()));
 
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs(), is(notNullValue()));
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs().size(), is(2));
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name") && s.getTotalAmountFormatted().equals("10.10")), is(Boolean.TRUE));
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name2") && s.getTotalAmountFormatted().equals("30.10")), is(Boolean.TRUE));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs(), is(notNullValue()));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().size(), is(2));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name") && s.getTotalAmountFormatted().equals("10.10")), is(Boolean.TRUE));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name2") && s.getTotalAmountFormatted().equals("30.10")), is(Boolean.TRUE));
 
-        assertThat(insightDTO.getNumberOfTransactions(), is(4L));
-        assertThat(insightDTO.getTotalNumberOfTransactions(), is(4L));
-        assertThat(insightDTO.getTotalAmountSpent(), is(40.20));
+        assertThat(insightsMonthlyDTO.getNumberOfTransactions(), is(4L));
+        assertThat(insightsMonthlyDTO.getTotalNumberOfTransactions(), is(4L));
+        assertThat(insightsMonthlyDTO.getTotalAmountSpent(), is(40.20));
     }
 
     @Test
-    public void fetchInsight_notEqualNumberOfExpensesPerCategories_isOk() throws Exception {
+    public void fetchMonthlyInsightsAfterBeforePeriod_notEqualNumberOfExpensesPerCategories_isOk() throws Exception {
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
@@ -120,21 +120,21 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTO, createdUserDTO.getId());
         LocalDateTime before = LocalDateTime.now().plusMinutes(1);
 
-        InsightDTO insightDTO = insightService.fetchInsightAfterBeforePeriod(userDTO.getId(), after, before);
+        InsightsMonthlyDTO insightsMonthlyDTO = monthlyInsightsService.fetchMonthlyInsightsAfterBeforePeriod(userDTO.getId(), after, before);
 
         //-----------------------------------------------------------------
         // Assert insight is ok
         //-----------------------------------------------------------------
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs(), is(notNullValue()));
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs().size(), is(2));
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name") && s.getTotalAmountFormatted().equals("10.10")), is(Boolean.TRUE));
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name2") && s.getTotalAmountFormatted().equals("12.55")), is(Boolean.TRUE));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs(), is(notNullValue()));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().size(), is(2));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name") && s.getTotalAmountFormatted().equals("10.10")), is(Boolean.TRUE));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name2") && s.getTotalAmountFormatted().equals("12.55")), is(Boolean.TRUE));
 
-        assertThat(insightDTO.getNumberOfTransactions(), is(3L));
-        assertThat(insightDTO.getTotalAmountSpent(), is(22.65));
+        assertThat(insightsMonthlyDTO.getNumberOfTransactions(), is(3L));
+        assertThat(insightsMonthlyDTO.getTotalAmountSpent(), is(22.65));
     }
     @Test
-    public void fetchInsight_differentTotalAmount_isSortedOk() throws Exception {
+    public void fetchMonthlyInsightsAfterBeforePeriod_differentTotalAmount_isSortedOk() throws Exception {
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
@@ -187,22 +187,22 @@ public class InsightServiceImplTestIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTO, createdUserDTO.getId());
 
         LocalDateTime before = LocalDateTime.now().plusMinutes(1);
-        InsightDTO insightDTO = insightService.fetchInsightAfterBeforePeriod(userDTO.getId(), after, before);
+        InsightsMonthlyDTO insightsMonthlyDTO = monthlyInsightsService.fetchMonthlyInsightsAfterBeforePeriod(userDTO.getId(), after, before);
 
         //-----------------------------------------------------------------
         // Assert insight is ok
         //-----------------------------------------------------------------
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs(), is(notNullValue()));
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs().size(), is(3));
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs().get(0).getCategoryDTO().getColor().getColor(), is(THIRD_VALID_COLOR.getColor()));
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs().get(1).getCategoryDTO().getColor().getColor(), is(FIRST_VALID_COLOR.getColor()));
-        assertThat(insightDTO.getTotalPerCategoryInsightDTOs().get(2).getCategoryDTO().getColor().getColor(), is(SECOND_VALID_COLOR.getColor()));
-        assertThat(insightDTO.getBiggestExpense().getValue(), is(400.0));
-        assertThat(insightDTO.getHighestAmountCategory().getName(), is(equalTo("name3")));
-        assertThat(insightDTO.getCategoryWithTheMostTransactionsInsightsDTO(), is(notNullValue()));
-        assertThat(insightDTO.getCategoryWithTheMostTransactionsInsightsDTO().getCategoryDTO().getName(), is(equalTo("name3")));
-        assertThat(insightDTO.getCategoryWithTheMostTransactionsInsightsDTO().getNumberOfTransactions(), is(3));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs(), is(notNullValue()));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().size(), is(3));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().get(0).getCategoryDTO().getColor().getColor(), is(THIRD_VALID_COLOR.getColor()));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().get(1).getCategoryDTO().getColor().getColor(), is(FIRST_VALID_COLOR.getColor()));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().get(2).getCategoryDTO().getColor().getColor(), is(SECOND_VALID_COLOR.getColor()));
+        assertThat(insightsMonthlyDTO.getBiggestExpense().getValue(), is(400.0));
+        assertThat(insightsMonthlyDTO.getHighestAmountCategory().getName(), is(equalTo("name3")));
+        assertThat(insightsMonthlyDTO.getCategoryWithTheMostTransactionsInsightsDTO(), is(notNullValue()));
+        assertThat(insightsMonthlyDTO.getCategoryWithTheMostTransactionsInsightsDTO().getCategoryDTO().getName(), is(equalTo("name3")));
+        assertThat(insightsMonthlyDTO.getCategoryWithTheMostTransactionsInsightsDTO().getNumberOfTransactions(), is(3));
 
-        assertThat(insightDTO.getNumberOfTransactions(), is(7L));
+        assertThat(insightsMonthlyDTO.getNumberOfTransactions(), is(7L));
     }
 }

@@ -26,7 +26,7 @@ public class InsightOverviewServiceTestIT extends AbstractIntegrationTests {
     private CategoryService categoryService;
 
     @Autowired
-    private InsightOverviewService insightOverviewService;
+    private OverviewInsightsService overviewInsightsService;
 
     @Test
     public void fetchInsight_fromOneMonthValidDetailsAfterBefore_isOk() throws Exception {
@@ -65,7 +65,7 @@ public class InsightOverviewServiceTestIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTOB, createdUserDTO.getId());
         LocalDateTime before = LocalDateTime.now().plusMinutes(1);
 
-        InsightsOverviewDTO insightsOverviewDTO = insightOverviewService.getInsightsOverviewBetween(userDTO.getId(), after, before);
+        InsightsOverviewDTO insightsOverviewDTO = overviewInsightsService.getInsightsOverviewBetween(userDTO.getId(), after, before);
 
         //-----------------------------------------------------------------
         // Assert insight is ok
@@ -115,7 +115,7 @@ public class InsightOverviewServiceTestIT extends AbstractIntegrationTests {
         expenseService.create(expenseDTOB, createdUserDTO.getId());
         LocalDateTime before = LocalDateTime.now().plusMinutes(1);
 
-        InsightsOverviewDTO insightsOverviewDTO = insightOverviewService.getInsightsOverviewBetween(userDTO.getId(), after, before);
+        InsightsOverviewDTO insightsOverviewDTO = overviewInsightsService.getInsightsOverviewBetween(userDTO.getId(), after, before);
 
         //-----------------------------------------------------------------
         // Assert insight is ok

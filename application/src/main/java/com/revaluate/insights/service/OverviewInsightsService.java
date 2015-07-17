@@ -5,7 +5,7 @@ import org.joda.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
-public interface InsightOverviewService {
+public interface OverviewInsightsService {
 
     @NotNull
     InsightsOverviewDTO getInsightsOverviewBetween(int userId, @NotNull LocalDateTime after, @NotNull LocalDateTime before);
