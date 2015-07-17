@@ -111,11 +111,6 @@ public class MonthlyInsightsServiceImpl implements MonthlyInsightsService {
                 .sorted(totalPerCategoryInsightDTOComparator.reversed())
                 .collect(Collectors.toList());
 
-        BigDecimal totalExpenses = allExpenses
-                .stream()
-                .map(Expense::getValue)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
         //-----------------------------------------------------------------
         // Compute biggest expense overall
         //-----------------------------------------------------------------
@@ -154,7 +149,7 @@ public class MonthlyInsightsServiceImpl implements MonthlyInsightsService {
                 .withTo(before)
                 .withNumberOfTransactions(allExpenses.size())
                 .withTotalNumberOfTransactions(expenseRepository.countByUserId(userId))
-                .withTotalAmountSpent(totalExpenses.doubleValue())
+                .withTotalAmountSpent(InsightsUtils.totalOf(allExpenses).doubleValue())
                 .withTotalPerCategoryInsightsDTOs(totalPerCategoriesDTOs)
                 .withBiggestExpense(biggestExpenseOverallOptional.isPresent() ? biggestExpenseOverallOptional.get().getBiggestExpense() : null)
                 .withCategoryWithTheMostTransactionsInsightsDTO(
