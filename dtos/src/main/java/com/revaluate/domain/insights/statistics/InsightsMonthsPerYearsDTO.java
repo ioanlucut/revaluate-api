@@ -1,4 +1,4 @@
-package com.revaluate.domain.insights;
+package com.revaluate.domain.insights.statistics;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 

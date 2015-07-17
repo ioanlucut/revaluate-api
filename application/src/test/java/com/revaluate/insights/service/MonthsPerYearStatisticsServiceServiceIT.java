@@ -7,7 +7,7 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
-import com.revaluate.domain.insights.InsightsMonthsPerYearsDTO;
+import com.revaluate.domain.insights.statistics.InsightsMonthsPerYearsDTO;
 import com.revaluate.expense.service.ExpenseService;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
-public class InsightMonthsPerYearServiceImplTestIT extends AbstractIntegrationTests {
+public class MonthsPerYearStatisticsServiceServiceIT extends AbstractIntegrationTests {
 
     @Autowired
     private ExpenseService expenseService;
@@ -30,7 +30,7 @@ public class InsightMonthsPerYearServiceImplTestIT extends AbstractIntegrationTe
     private CategoryService categoryService;
 
     @Autowired
-    private InsightMonthsPerYearService insightMonthsPerYearService;
+    private MonthsPerYearStatisticsService monthsPerYearStatisticsService;
 
     @Test
     public void getExistingDaysPerYearsWithExpensesDefined_expensesAreProperlyGrouped_isOk() throws Exception {
@@ -73,7 +73,7 @@ public class InsightMonthsPerYearServiceImplTestIT extends AbstractIntegrationTe
         expenseDTOC = new ExpenseDTOBuilder().withValue(1.55).withDescription("my third expense").withCategory(createdCategoryDTO).withSpentDate(thirdYear.withMonthOfYear(thirdYearSecondMonthOfYear)).build();
         expenseService.create(expenseDTOC, createdUserDTO.getId());
 
-        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = insightMonthsPerYearService.getExistingDaysPerYearsWithExpensesDefined(userDTO.getId());
+        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = monthsPerYearStatisticsService.getExistingDaysPerYearsWithExpensesDefined(userDTO.getId());
         Map<Integer, Set<Integer>> existingDaysPerYearsWithExpensesDefined = insightsMonthsPerYearsDTO.getInsightsMonthsPerYears();
 
         //-----------------------------------------------------------------
