@@ -1,11 +1,13 @@
 package com.revaluate.resource.insight;
 
 import com.revaluate.domain.insights.monthly.InsightsMonthlyDTO;
-import com.revaluate.domain.insights.statistics.InsightsMonthsPerYearsDTO;
 import com.revaluate.domain.insights.overview.InsightsOverviewDTO;
+import com.revaluate.domain.insights.progress.ProgressInsightsDTO;
+import com.revaluate.domain.insights.statistics.InsightsMonthsPerYearsDTO;
+import com.revaluate.insights.service.MonthlyInsightsService;
 import com.revaluate.insights.service.MonthsPerYearStatisticsService;
 import com.revaluate.insights.service.OverviewInsightsService;
-import com.revaluate.insights.service.MonthlyInsightsService;
+import com.revaluate.insights.service.ProgressInsightsService;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
 import org.joda.time.LocalDateTime;
@@ -16,9 +18,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path(InsightResource.INSIGHTS)
+@Path(InsightsResource.INSIGHTS)
 @Component
-public class InsightResource extends Resource {
+public class InsightsResource extends Resource {
 
     //-----------------------------------------------------------------
     // Path
@@ -31,6 +33,7 @@ public class InsightResource extends Resource {
     private static final String INSIGHTS_MONTHS_PER_YEARS = "insights_months_per_years";
     private static final String INSIGHTS_MONTHLY_RETRIEVE_FROM_TO = "retrieve_from_to";
     private static final String INSIGHTS_OVERVIEW_RETRIEVE_FROM_TO = "insights_overview_retrieve_from_to";
+    private static final String INSIGHTS_PROGRESS_RETRIEVE_FROM_TO = "insights_progress_retrieve_from_to";
 
     //-----------------------------------------------------------------
     // Path params
@@ -43,6 +46,9 @@ public class InsightResource extends Resource {
 
     @Autowired
     private MonthsPerYearStatisticsService monthsPerYearStatisticsService;
+
+    @Autowired
+    private ProgressInsightsService progressInsightsService;
 
     @Autowired
     private OverviewInsightsService overviewInsightsService;
@@ -65,6 +71,16 @@ public class InsightResource extends Resource {
         InsightsOverviewDTO insightsOverview = overviewInsightsService.getOverviewInsightsBetween(getCurrentUserId(), from, to);
 
         return Responses.respond(Response.Status.OK, insightsOverview);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(INSIGHTS_PROGRESS_RETRIEVE_FROM_TO)
+    public Response fetchProgressInsightsBetween(@QueryParam(FROM) LocalDateTime from, @QueryParam(TO) LocalDateTime to) {
+        ProgressInsightsDTO progressInsights = progressInsightsService.fetchProgressInsightsBetween(getCurrentUserId(), from, to);
+
+        return Responses.respond(Response.Status.OK, progressInsights);
     }
 
     @GET
