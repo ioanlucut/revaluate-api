@@ -8,18 +8,13 @@ import com.revaluate.expense.persistence.Expense;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import org.joda.time.LocalDateTime;
 import org.joda.time.YearMonth;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,8 +26,6 @@ public class OverviewInsightsServiceImpl implements OverviewInsightsService {
     public static final String PATTERN = "0.00";
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(PATTERN);
 
-    public static final String INSIGHT_OVERVIEW_MONTH_FORMAT_DATE_PATTERN = "yyyy-MM";
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern(INSIGHT_OVERVIEW_MONTH_FORMAT_DATE_PATTERN);
     public static final double NO_AMOUNT_VALUE = BigDecimal.ZERO.doubleValue();
     public static final String NO_AMOUNT_VALUE_FORMATTED = DECIMAL_FORMAT.format(BigDecimal.ZERO);
 
@@ -58,10 +51,10 @@ public class OverviewInsightsServiceImpl implements OverviewInsightsService {
         //-----------------------------------------------------------------
         // First of all, we get all expenses grouped
         //-----------------------------------------------------------------
-        Map<String, Optional<BigDecimal>> insightsOverview = allExpenses
+        Map<YearMonth, Optional<BigDecimal>> insightsOverview = allExpenses
                 .stream()
                 .collect(Collectors
-                        .groupingBy(expense -> DATE_TIME_FORMATTER.print(expense.getSpentDate()),
+                        .groupingBy(expense -> new YearMonth(expense.getSpentDate().getYear(), expense.getSpentDate().getMonthOfYear()),
                                 Collectors.mapping(Expense::getValue, Collectors.reducing(BigDecimal::add))));
 
         //-----------------------------------------------------------------
@@ -78,7 +71,7 @@ public class OverviewInsightsServiceImpl implements OverviewInsightsService {
                     return new TotalPerMonthDTOBuilder()
                             .withTotalAmount(totalExpenseAsBigDecimalScaled.doubleValue())
                             .withTotalAmountFormatted(DECIMAL_FORMAT.format(totalExpenseAsBigDecimalScaled))
-                            .withMonthYearFormattedDate(entry.getKey())
+                            .withYearMonth(entry.getKey())
                             .build();
                 })
                 .collect(Collectors.toList());
@@ -88,18 +81,23 @@ public class OverviewInsightsServiceImpl implements OverviewInsightsService {
 
         Stream<TotalPerMonthDTO> emptyMonths = allYearMonths
                 .stream()
-                .map(DATE_TIME_FORMATTER::print)
-                .filter(formattedDate -> totalPerMonthDTOs
+                .filter(yearMonthCandidate -> totalPerMonthDTOs
                         .stream()
-                        .noneMatch(totalPerMonthDTO -> totalPerMonthDTO.getMonthYearFormattedDate().equals(formattedDate)))
-                .map(formattedDate -> new TotalPerMonthDTOBuilder()
+                        .noneMatch(totalPerMonthDTO -> totalPerMonthDTO.getYearMonth().equals(yearMonthCandidate)))
+                .map(yearMonth -> new TotalPerMonthDTOBuilder()
                         .withTotalAmount(NO_AMOUNT_VALUE)
                         .withTotalAmountFormatted(NO_AMOUNT_VALUE_FORMATTED)
-                        .withMonthYearFormattedDate(formattedDate)
+                        .withYearMonth(yearMonth)
                         .build());
+
+        //-----------------------------------------------------------------
+        // Total per month comparator
+        //-----------------------------------------------------------------
+        Comparator<TotalPerMonthDTO> totalPerMonthDTOComparator = (o1, o2) -> o1.getYearMonth().compareTo(o2.getYearMonth());
 
         List<TotalPerMonthDTO> allCombined = Stream
                 .concat(totalPerMonthDTOs.stream(), emptyMonths)
+                .sorted(totalPerMonthDTOComparator)
                 .collect(Collectors.toList());
 
         return new InsightsOverviewDTOBuilder()

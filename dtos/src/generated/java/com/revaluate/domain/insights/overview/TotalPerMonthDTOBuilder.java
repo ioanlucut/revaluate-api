@@ -1,13 +1,14 @@
 package com.revaluate.domain.insights.overview;
 
 import javax.annotation.Generated;
+import org.joda.time.YearMonth;
 
 @Generated("PojoBuilder")
 public class TotalPerMonthDTOBuilder
     implements Cloneable {
   protected TotalPerMonthDTOBuilder self;
-  protected String value$monthYearFormattedDate$java$lang$String;
-  protected boolean isSet$monthYearFormattedDate$java$lang$String;
+  protected YearMonth value$yearMonth$org$joda$time$YearMonth;
+  protected boolean isSet$yearMonth$org$joda$time$YearMonth;
   protected String value$totalAmountFormatted$java$lang$String;
   protected boolean isSet$totalAmountFormatted$java$lang$String;
   protected double value$totalAmount$double;
@@ -21,14 +22,14 @@ public class TotalPerMonthDTOBuilder
   }
 
   /**
-   * Sets the default value for the {@link TotalPerMonthDTO#monthYearFormattedDate} property.
+   * Sets the default value for the {@link TotalPerMonthDTO#yearMonth} property.
    *
    * @param value the default value
    * @return this builder
    */
-  public TotalPerMonthDTOBuilder withMonthYearFormattedDate(String value) {
-    this.value$monthYearFormattedDate$java$lang$String = value;
-    this.isSet$monthYearFormattedDate$java$lang$String = true;
+  public TotalPerMonthDTOBuilder withYearMonth(YearMonth value) {
+    this.value$yearMonth$org$joda$time$YearMonth = value;
+    this.isSet$yearMonth$org$joda$time$YearMonth = true;
     return self;
   }
 
@@ -89,8 +90,8 @@ public class TotalPerMonthDTOBuilder
   public TotalPerMonthDTO build() {
     try {
       TotalPerMonthDTO result = new TotalPerMonthDTO();
-      if (isSet$monthYearFormattedDate$java$lang$String) {
-        result.setMonthYearFormattedDate(value$monthYearFormattedDate$java$lang$String);
+      if (isSet$yearMonth$org$joda$time$YearMonth) {
+        result.setYearMonth(value$yearMonth$org$joda$time$YearMonth);
       }
       if (isSet$totalAmountFormatted$java$lang$String) {
         result.setTotalAmountFormatted(value$totalAmountFormatted$java$lang$String);
