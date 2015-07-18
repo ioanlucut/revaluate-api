@@ -2,6 +2,7 @@ package com.revaluate.insights.service;
 
 import com.revaluate.domain.insights.monthly.InsightsMonthlyDTO;
 import com.revaluate.domain.insights.monthly.InsightsMonthlyDTOBuilder;
+import com.revaluate.domain.insights.overview.TotalPerMonthDTO;
 import com.revaluate.domain.insights.progress.ProgressInsightsDTO;
 import com.revaluate.domain.insights.progress.ProgressInsightsDTOBuilder;
 import com.revaluate.expense.persistence.Expense;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -88,8 +90,14 @@ public class ProgressInsightsServiceImpl implements ProgressInsightsService {
                         .withYearMonth(emptyMonthEntry)
                         .build());
 
+        //-----------------------------------------------------------------
+        // Total per month comparator
+        //-----------------------------------------------------------------
+        Comparator<InsightsMonthlyDTO> insightsMonthlyDTOComparator = (o1, o2) -> o1.getYearMonth().compareTo(o2.getYearMonth());
+
         List<InsightsMonthlyDTO> allCombined = Stream
                 .concat(insightMonthlyDTOs.stream(), emptyMonths)
+                .sorted(insightsMonthlyDTOComparator)
                 .collect(Collectors.toList());
 
         return new ProgressInsightsDTOBuilder()
