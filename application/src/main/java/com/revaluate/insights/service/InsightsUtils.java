@@ -24,14 +24,14 @@ public interface InsightsUtils {
 
     static List<YearMonth> yearMonthsBetween(LocalDateTime after, LocalDateTime before) {
         DateTime afterAsDateTime = after.toDateTime().withTimeAtStartOfDay();
-        DateTime beforeAsDateTime = before.toDateTime().withTimeAtStartOfDay();
-        Months months = Months.monthsBetween(afterAsDateTime, beforeAsDateTime);
+        DateTime beforeAsDateTimeExclusive = before.toDateTime().withTimeAtStartOfDay();
+        Months months = Months.monthsBetween(afterAsDateTime, beforeAsDateTimeExclusive);
         AtomicReference<DateTime> afterReference = new AtomicReference<>(afterAsDateTime);
 
         return IntStream
                 .range(0, months.getMonths())
                 .mapToObj(monthIndex -> {
-                    DateTime andUpdate = afterReference.updateAndGet(dateTime -> dateTime.plusMonths(1));
+                    DateTime andUpdate = afterReference.getAndUpdate(dateTime -> dateTime.plusMonths(1));
 
                     return new YearMonth(andUpdate.getYear(), andUpdate.getMonthOfYear());
                 })
