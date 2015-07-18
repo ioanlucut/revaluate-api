@@ -97,7 +97,7 @@ public class ProgressInsightsServiceImpl implements ProgressInsightsService {
 
         List<InsightsMonthlyDTO> allCombined = Stream
                 .concat(insightMonthlyDTOs.stream(), emptyMonths)
-                .sorted(insightsMonthlyDTOComparator.reversed())
+                .sorted(insightsMonthlyDTOComparator)
                 .collect(Collectors.toList());
 
         return new ProgressInsightsDTOBuilder()
