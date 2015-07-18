@@ -2,7 +2,9 @@ package com.revaluate.domain.insights.overview;
 
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.YearMonth;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,8 +13,8 @@ public class TotalPerMonthDTO implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
-    @NotEmpty
-    private String monthYearFormattedDate;
+    @NotNull
+    private YearMonth yearMonth;
 
     @NotEmpty
     private String totalAmountFormatted;
@@ -20,12 +22,12 @@ public class TotalPerMonthDTO implements Serializable {
     @NotEmpty
     private double totalAmount;
 
-    public String getMonthYearFormattedDate() {
-        return monthYearFormattedDate;
+    public YearMonth getYearMonth() {
+        return yearMonth;
     }
 
-    public void setMonthYearFormattedDate(String monthYearFormattedDate) {
-        this.monthYearFormattedDate = monthYearFormattedDate;
+    public void setYearMonth(YearMonth yearMonth) {
+        this.yearMonth = yearMonth;
     }
 
     public String getTotalAmountFormatted() {
@@ -47,22 +49,22 @@ public class TotalPerMonthDTO implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof TotalPerMonthDTO)) return false;
         TotalPerMonthDTO that = (TotalPerMonthDTO) o;
         return Objects.equals(totalAmount, that.totalAmount) &&
-                Objects.equals(monthYearFormattedDate, that.monthYearFormattedDate) &&
+                Objects.equals(yearMonth, that.yearMonth) &&
                 Objects.equals(totalAmountFormatted, that.totalAmountFormatted);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(monthYearFormattedDate, totalAmountFormatted, totalAmount);
+        return Objects.hash(yearMonth, totalAmountFormatted, totalAmount);
     }
 
     @Override
     public String toString() {
         return "TotalPerMonthDTO{" +
-                "monthYearFormattedDate='" + monthYearFormattedDate + '\'' +
+                "yearMonth=" + yearMonth +
                 ", totalAmountFormatted='" + totalAmountFormatted + '\'' +
                 ", totalAmount=" + totalAmount +
                 '}';
