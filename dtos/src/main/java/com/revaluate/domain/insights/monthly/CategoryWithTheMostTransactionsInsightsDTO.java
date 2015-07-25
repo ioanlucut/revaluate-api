@@ -1,4 +1,4 @@
-package com.revaluate.domain.insights;
+package com.revaluate.domain.insights.monthly;
 
 import com.revaluate.domain.category.CategoryDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;

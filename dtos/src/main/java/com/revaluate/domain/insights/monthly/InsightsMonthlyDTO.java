@@ -1,9 +1,10 @@
-package com.revaluate.domain.insights;
+package com.revaluate.domain.insights.monthly;
 
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
+import com.revaluate.domain.insights.AbstractInsightDTO;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
-import org.joda.time.LocalDateTime;
+import org.joda.time.YearMonth;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -11,18 +12,15 @@ import java.util.List;
 import java.util.Objects;
 
 @GeneratePojoBuilder
-public class InsightDTO implements Serializable {
+public class InsightsMonthlyDTO extends AbstractInsightDTO implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
     @NotNull
-    private LocalDateTime from;
+    private YearMonth yearMonth;
 
     @NotNull
-    private LocalDateTime to;
-
-    @NotNull
-    private List<TotalPerCategoryInsightDTO> totalPerCategoryInsightDTOs;
+    private List<TotalPerCategoryInsightsDTO> totalPerCategoryInsightsDTOs;
 
     @NotNull
     private CategoryDTO highestAmountCategory;
@@ -33,34 +31,23 @@ public class InsightDTO implements Serializable {
     @NotNull
     private ExpenseDTO biggestExpense;
 
-    private double totalAmountSpent;
-    private long numberOfTransactions;
-    private long totalNumberOfTransactions;
     private double differenceBetweenLastMonth;
     private double differencePercentageBetweenLastMonth;
 
-    public LocalDateTime getFrom() {
-        return from;
+    public YearMonth getYearMonth() {
+        return yearMonth;
     }
 
-    public void setFrom(LocalDateTime from) {
-        this.from = from;
+    public void setYearMonth(YearMonth yearMonth) {
+        this.yearMonth = yearMonth;
     }
 
-    public LocalDateTime getTo() {
-        return to;
+    public List<TotalPerCategoryInsightsDTO> getTotalPerCategoryInsightsDTOs() {
+        return totalPerCategoryInsightsDTOs;
     }
 
-    public void setTo(LocalDateTime to) {
-        this.to = to;
-    }
-
-    public List<TotalPerCategoryInsightDTO> getTotalPerCategoryInsightDTOs() {
-        return totalPerCategoryInsightDTOs;
-    }
-
-    public void setTotalPerCategoryInsightDTOs(List<TotalPerCategoryInsightDTO> totalPerCategoryInsightDTOs) {
-        this.totalPerCategoryInsightDTOs = totalPerCategoryInsightDTOs;
+    public void setTotalPerCategoryInsightsDTOs(List<TotalPerCategoryInsightsDTO> totalPerCategoryInsightsDTOs) {
+        this.totalPerCategoryInsightsDTOs = totalPerCategoryInsightsDTOs;
     }
 
     public CategoryDTO getHighestAmountCategory() {
@@ -87,30 +74,6 @@ public class InsightDTO implements Serializable {
         this.biggestExpense = biggestExpense;
     }
 
-    public double getTotalAmountSpent() {
-        return totalAmountSpent;
-    }
-
-    public void setTotalAmountSpent(double totalAmountSpent) {
-        this.totalAmountSpent = totalAmountSpent;
-    }
-
-    public long getNumberOfTransactions() {
-        return numberOfTransactions;
-    }
-
-    public void setNumberOfTransactions(long numberOfTransactions) {
-        this.numberOfTransactions = numberOfTransactions;
-    }
-
-    public long getTotalNumberOfTransactions() {
-        return totalNumberOfTransactions;
-    }
-
-    public void setTotalNumberOfTransactions(long totalNumberOfTransactions) {
-        this.totalNumberOfTransactions = totalNumberOfTransactions;
-    }
-
     public double getDifferenceBetweenLastMonth() {
         return differenceBetweenLastMonth;
     }
@@ -131,15 +94,15 @@ public class InsightDTO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        InsightDTO that = (InsightDTO) o;
+        InsightsMonthlyDTO that = (InsightsMonthlyDTO) o;
         return Objects.equals(totalAmountSpent, that.totalAmountSpent) &&
                 Objects.equals(numberOfTransactions, that.numberOfTransactions) &&
-                Objects.equals(totalNumberOfTransactions, that.totalNumberOfTransactions) &&
+                Objects.equals(yearMonth, that.yearMonth) &&
                 Objects.equals(differenceBetweenLastMonth, that.differenceBetweenLastMonth) &&
                 Objects.equals(differencePercentageBetweenLastMonth, that.differencePercentageBetweenLastMonth) &&
                 Objects.equals(from, that.from) &&
                 Objects.equals(to, that.to) &&
-                Objects.equals(totalPerCategoryInsightDTOs, that.totalPerCategoryInsightDTOs) &&
+                Objects.equals(totalPerCategoryInsightsDTOs, that.totalPerCategoryInsightsDTOs) &&
                 Objects.equals(highestAmountCategory, that.highestAmountCategory) &&
                 Objects.equals(categoryWithTheMostTransactionsInsightsDTO, that.categoryWithTheMostTransactionsInsightsDTO) &&
                 Objects.equals(biggestExpense, that.biggestExpense);
@@ -147,21 +110,21 @@ public class InsightDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(from, to, totalPerCategoryInsightDTOs, highestAmountCategory, categoryWithTheMostTransactionsInsightsDTO, biggestExpense, totalAmountSpent, numberOfTransactions, totalNumberOfTransactions, differenceBetweenLastMonth, differencePercentageBetweenLastMonth);
+        return Objects.hash(yearMonth, from, to, totalPerCategoryInsightsDTOs, highestAmountCategory, categoryWithTheMostTransactionsInsightsDTO, biggestExpense, totalAmountSpent, numberOfTransactions, differenceBetweenLastMonth, differencePercentageBetweenLastMonth);
     }
 
     @Override
     public String toString() {
-        return "InsightDTO{" +
+        return "InsightsMonthlyDTO{" +
+                "yearMonth=" + yearMonth +
                 "from=" + from +
                 ", to=" + to +
-                ", totalPerCategoryInsightDTOs=" + totalPerCategoryInsightDTOs +
+                ", totalPerCategoryInsightsDTOs=" + totalPerCategoryInsightsDTOs +
                 ", highestAmountCategory=" + highestAmountCategory +
                 ", categoryWithTheMostTransactionsInsightsDTO=" + categoryWithTheMostTransactionsInsightsDTO +
                 ", biggestExpense=" + biggestExpense +
                 ", totalAmountSpent=" + totalAmountSpent +
                 ", numberOfTransactions=" + numberOfTransactions +
-                ", totalNumberOfTransactions=" + totalNumberOfTransactions +
                 ", differenceBetweenLastMonth=" + differenceBetweenLastMonth +
                 ", differencePercentageBetweenLastMonth=" + differencePercentageBetweenLastMonth +
                 '}';

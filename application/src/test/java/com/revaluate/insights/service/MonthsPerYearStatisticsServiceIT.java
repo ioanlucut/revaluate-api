@@ -7,8 +7,7 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
-import com.revaluate.domain.insights.InsightsMonthsPerYearsDTO;
-import com.revaluate.domain.insights.SummaryInsightsDTO;
+import com.revaluate.domain.insights.statistics.InsightsMonthsPerYearsDTO;
 import com.revaluate.expense.service.ExpenseService;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
@@ -22,7 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
-public class InsightServiceImplTest_fetchSummaryInsight_IT extends AbstractIntegrationTests {
+public class MonthsPerYearStatisticsServiceIT extends AbstractIntegrationTests {
 
     @Autowired
     private ExpenseService expenseService;
@@ -31,40 +30,7 @@ public class InsightServiceImplTest_fetchSummaryInsight_IT extends AbstractInteg
     private CategoryService categoryService;
 
     @Autowired
-    private InsightService insightService;
-
-    @Test
-    public void fetchInsight_validDetailsAfterBefore_isOk() throws Exception {
-        //-----------------------------------------------------------------
-        // Create user
-        //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO();
-
-        //-----------------------------------------------------------------
-        // Create category 1
-        //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
-        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
-
-        //-----------------------------------------------------------------
-        // Create expense 1
-        //-----------------------------------------------------------------
-        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
-        expenseService.create(expenseDTO, createdUserDTO.getId());
-        ExpenseDTO expenseDTOB = new ExpenseDTOBuilder().withValue(7.55).withDescription("my second expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().plusYears(3)).build();
-        expenseService.create(expenseDTOB, createdUserDTO.getId());
-        ExpenseDTO expenseDTOC = new ExpenseDTOBuilder().withValue(1.55).withDescription("my third expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().plusYears(2)).build();
-        expenseService.create(expenseDTOC, createdUserDTO.getId());
-
-        SummaryInsightsDTO summaryInsightsDTO = insightService.computeSummaryInsights(userDTO.getId());
-
-        //-----------------------------------------------------------------
-        // Assert insight is ok
-        //-----------------------------------------------------------------
-        assertThat(summaryInsightsDTO, is(notNullValue()));
-        assertThat(summaryInsightsDTO.getFirstExistingExpenseDate().getYear(), is(expenseDTO.getSpentDate().getYear()));
-        assertThat(summaryInsightsDTO.getLastExistingExpenseDate().getYear(), is(expenseDTOB.getSpentDate().getYear()));
-    }
+    private MonthsPerYearStatisticsService monthsPerYearStatisticsService;
 
     @Test
     public void getExistingDaysPerYearsWithExpensesDefined_expensesAreProperlyGrouped_isOk() throws Exception {
@@ -107,7 +73,7 @@ public class InsightServiceImplTest_fetchSummaryInsight_IT extends AbstractInteg
         expenseDTOC = new ExpenseDTOBuilder().withValue(1.55).withDescription("my third expense").withCategory(createdCategoryDTO).withSpentDate(thirdYear.withMonthOfYear(thirdYearSecondMonthOfYear)).build();
         expenseService.create(expenseDTOC, createdUserDTO.getId());
 
-        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = insightService.getExistingDaysPerYearsWithExpensesDefined(userDTO.getId());
+        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = monthsPerYearStatisticsService.getExistingDaysPerYearsWithExpensesDefined(userDTO.getId());
         Map<Integer, Set<Integer>> existingDaysPerYearsWithExpensesDefined = insightsMonthsPerYearsDTO.getInsightsMonthsPerYears();
 
         //-----------------------------------------------------------------
@@ -128,6 +94,5 @@ public class InsightServiceImplTest_fetchSummaryInsight_IT extends AbstractInteg
         assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).size(), is(equalTo(2)));
         assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearFirstMonthOfYear), is(true));
         assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearSecondMonthOfYear), is(true));
-
     }
 }
