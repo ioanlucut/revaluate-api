@@ -29,12 +29,11 @@ import java.util.Map;
 public class UserResource extends Resource {
 
     public static final String ACCOUNT = "account";
-    public static final String CREATE_VIA_OAUTH = "createViaOauth";
     private static final String IS_UNIQUE_EMAIL = "isUniqueEmail";
     private static final String EMAIL = "email";
     private static final String TOKEN = "token";
     private static final String LOGIN_USER = "login";
-    private static final String LOGIN_USER_VIA_OAUTH = "loginViaOauth/{email}";
+    private static final String CONNECT_USER_VIA_OAUTH = "connectViaOauth/{email}";
     private static final String UPDATE_CURRENCY = "updateCurrency";
     private static final String UPDATE_INITIATED_STATUS = "updateInitiatedStatus";
     private static final String UPDATE_ACCOUNT_DETAILS = "updateAccountDetails";
@@ -81,18 +80,6 @@ public class UserResource extends Resource {
     @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @JsonView({Views.StrictView.class})
-    @Path(CREATE_VIA_OAUTH)
-    public Response createViaOauth(@Validated(CreateViaOauthUserGroup.class) UserDTO userDTO) throws UserException {
-        UserDTO createdUserDTO = userService.createViaOauth(userDTO);
-
-        return Responses.respond(Response.Status.OK, createdUserDTO);
-    }
-
-    @POST
-    @Public
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
     @Path(LOGIN_USER)
     @JsonView({Views.StrictView.class})
     public Response login(@Valid LoginDTO loginDTO) throws UserException {
@@ -110,14 +97,21 @@ public class UserResource extends Resource {
     @Public
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(LOGIN_USER_VIA_OAUTH)
+    @Path(CONNECT_USER_VIA_OAUTH)
     @JsonView({Views.StrictView.class})
-    public Response loginViaOauth(@PathParam(EMAIL) @NotBlank @Email String email) throws UserException {
-        UserDTO foundUserDTO = userService.loginViaOauth(email);
-        try {
-            String jwtToken = jwtService.tryToGetUserToken(foundUserDTO.getId());
+    public Response connectViaOauth(@PathParam(EMAIL) @NotBlank @Email String email, @Validated(CreateViaOauthUserGroup.class) UserDTO userDTO) throws UserException {
+        UserDTO connectedUser = userService.isUnique(email)
+                ? userService.createViaOauth(userDTO)
+                : userService.loginViaOauth(email);
 
-            return Response.status(Response.Status.OK).entity(foundUserDTO).header(configProperties.getAuthTokenHeaderKey(), jwtToken).build();
+        try {
+            String jwtToken = jwtService.tryToGetUserToken(connectedUser.getId());
+
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(connectedUser)
+                    .header(configProperties.getAuthTokenHeaderKey(), jwtToken)
+                    .build();
         } catch (JwtException ex) {
             throw new UserException(ex.getMessage(), ex);
         }
