@@ -132,6 +132,51 @@ public class MonthlyInsightsServiceTestIT extends AbstractIntegrationTests {
         assertThat(insightsMonthlyDTO.getNumberOfTransactions(), is(3L));
         assertThat(insightsMonthlyDTO.getTotalAmountSpent(), is(22.65));
     }
+
+    @Test
+    public void fetchMonthlyInsightsAfterBeforePeriod_emptyCategoriesAreShown_isOk() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category 1
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create expense 1
+        //-----------------------------------------------------------------
+        LocalDateTime after = LocalDateTime.now().minusSeconds(1);
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(3).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        ExpenseDTO expenseDTOB = new ExpenseDTOBuilder().withValue(5).withDescription("my second expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        expenseService.create(expenseDTOB, createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create category 2 (it will be empty)
+        //-----------------------------------------------------------------
+        categoryDTO = new CategoryDTOBuilder().withColor(SECOND_VALID_COLOR).withName("name2").build();
+        createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        LocalDateTime before = LocalDateTime.now().plusMinutes(1);
+
+        InsightsMonthlyDTO insightsMonthlyDTO = monthlyInsightsService.fetchMonthlyInsightsAfterBeforePeriod(userDTO.getId(), after, before);
+
+        //-----------------------------------------------------------------
+        // Assert insight is ok
+        //-----------------------------------------------------------------
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs(), is(notNullValue()));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().size(), is(2));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name") && s.getTotalAmountFormatted().equals("8.00")), is(Boolean.TRUE));
+        assertThat(insightsMonthlyDTO.getTotalPerCategoryInsightsDTOs().stream().anyMatch(s -> s.getCategoryDTO().getName().equals("name2") && s.getTotalAmountFormatted().equals("0.00")), is(Boolean.TRUE));
+
+        assertThat(insightsMonthlyDTO.getNumberOfTransactions(), is(2L));
+        assertThat(insightsMonthlyDTO.getTotalAmountSpent(), is(8.0));
+    }
+
     @Test
     public void fetchMonthlyInsightsAfterBeforePeriod_differentTotalAmount_isSortedOk() throws Exception {
         //-----------------------------------------------------------------
