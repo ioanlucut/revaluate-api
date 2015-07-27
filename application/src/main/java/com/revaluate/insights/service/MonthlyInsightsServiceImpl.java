@@ -1,6 +1,7 @@
 package com.revaluate.insights.service;
 
 import com.revaluate.category.persistence.Category;
+import com.revaluate.category.service.CategoryService;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.insights.monthly.*;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Validated
@@ -28,17 +30,21 @@ public class MonthlyInsightsServiceImpl implements MonthlyInsightsService {
     private ExpenseRepository expenseRepository;
 
     @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
     private DozerBeanMapper dozerBeanMapper;
 
     @Override
     public InsightsMonthlyDTO fetchMonthlyInsightsAfterBeforePeriod(int userId, LocalDateTime after, LocalDateTime before) {
         List<Expense> allExpenses = expenseRepository.findAllByUserIdAndSpentDateAfterAndSpentDateBefore(userId, after, before);
+        List<CategoryDTO> categories = categoryService.findAllCategoriesFor(userId);
 
-        return this.computeMonthlyInsightsAfterBeforePeriod(allExpenses, after, before);
+        return this.computeMonthlyInsightsAfterBeforePeriod(categories, allExpenses, after, before);
     }
 
     @Override
-    public InsightsMonthlyDTO computeMonthlyInsightsAfterBeforePeriod(List<Expense> allExpenses, LocalDateTime after, LocalDateTime before) {
+    public InsightsMonthlyDTO computeMonthlyInsightsAfterBeforePeriod(List<CategoryDTO> categories, List<Expense> allExpenses, LocalDateTime after, LocalDateTime before) {
         //-----------------------------------------------------------------
         // No results, return empty insight
         //-----------------------------------------------------------------
@@ -112,7 +118,6 @@ public class MonthlyInsightsServiceImpl implements MonthlyInsightsService {
                             .withNumberOfTransactions(categoryListEntry.getValue().size())
                             .build();
                 })
-                .sorted(totalPerCategoryInsightDTOComparator.reversed())
                 .collect(Collectors.toList());
 
         //-----------------------------------------------------------------
@@ -145,6 +150,21 @@ public class MonthlyInsightsServiceImpl implements MonthlyInsightsService {
                 .sorted(highestAmountCategoryComparator.reversed())
                 .findFirst();
 
+        Stream<TotalPerCategoryInsightsDTO> emptyTotalPerCategoryInsightsDTOStream = categories
+                .stream()
+                .filter(categoryCandidate -> totalPerCategoriesDTOs
+                        .stream()
+                        .noneMatch(totalPerCategoryDTO -> totalPerCategoryDTO.getCategoryDTO().getId() == categoryCandidate.getId()))
+                .map(category -> new TotalPerCategoryInsightsDTOBuilder()
+                        .withCategoryDTO(category)
+                        .withTotalAmountFormatted("0.00")
+                        .build());
+
+        List<TotalPerCategoryInsightsDTO> allCombined = Stream
+                .concat(totalPerCategoriesDTOs.stream(), emptyTotalPerCategoryInsightsDTOStream)
+                .sorted(totalPerCategoryInsightDTOComparator.reversed())
+                .collect(Collectors.toList());
+
         //-----------------------------------------------------------------
         // Return the insight DTO
         //-----------------------------------------------------------------
@@ -153,7 +173,7 @@ public class MonthlyInsightsServiceImpl implements MonthlyInsightsService {
                 .withTo(before)
                 .withNumberOfTransactions(allExpenses.size())
                 .withTotalAmountSpent(InsightsUtils.totalOf(allExpenses).doubleValue())
-                .withTotalPerCategoryInsightsDTOs(totalPerCategoriesDTOs)
+                .withTotalPerCategoryInsightsDTOs(allCombined)
                 .withBiggestExpense(biggestExpenseOverallOptional.isPresent() ? biggestExpenseOverallOptional.get().getBiggestExpense() : null)
                 .withCategoryWithTheMostTransactionsInsightsDTO(
                         mostNumberOfTransactionsOptional.isPresent()
