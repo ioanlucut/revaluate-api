@@ -2,10 +2,7 @@ package com.revaluate.domain.account;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.revaluate.domain.currency.CurrencyDTO;
-import com.revaluate.groups.CreateUserGroup;
-import com.revaluate.groups.UpdateUserAccountDetailsGroup;
-import com.revaluate.groups.UpdateUserCurrencyGroup;
-import com.revaluate.groups.UpdateUserInitiatedStatusGroup;
+import com.revaluate.groups.*;
 import com.revaluate.views.Views;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.hibernate.validator.constraints.Email;
@@ -25,16 +22,16 @@ public class UserDTO implements Serializable {
     @JsonView({Views.StrictView.class})
     private Integer id;
 
-    @NotBlank(groups = {CreateUserGroup.class, UpdateUserAccountDetailsGroup.class})
+    @NotBlank(groups = {CreateViaOauthUserGroup.class, CreateUserGroup.class, UpdateUserAccountDetailsGroup.class})
     @JsonView({Views.StrictView.class})
     private String firstName;
 
-    @NotBlank(groups = {CreateUserGroup.class, UpdateUserAccountDetailsGroup.class})
+    @NotBlank(groups = {CreateViaOauthUserGroup.class, CreateUserGroup.class, UpdateUserAccountDetailsGroup.class})
     @JsonView({Views.StrictView.class})
     private String lastName;
 
-    @Email(groups = CreateUserGroup.class)
-    @NotBlank(groups = CreateUserGroup.class)
+    @Email(groups = {CreateViaOauthUserGroup.class, CreateUserGroup.class})
+    @NotBlank(groups = {CreateViaOauthUserGroup.class, CreateUserGroup.class})
     @JsonView({Views.StrictView.class})
     private String email;
 
@@ -42,7 +39,7 @@ public class UserDTO implements Serializable {
     @Size(min = 7, groups = CreateUserGroup.class)
     private String password;
 
-    @NotNull(groups = {CreateUserGroup.class, UpdateUserCurrencyGroup.class, UpdateUserInitiatedStatusGroup.class})
+    @NotNull(groups = {CreateViaOauthUserGroup.class, CreateUserGroup.class, UpdateUserCurrencyGroup.class, UpdateUserInitiatedStatusGroup.class})
     @JsonView({Views.StrictView.class})
     private CurrencyDTO currency;
 
@@ -52,6 +49,9 @@ public class UserDTO implements Serializable {
 
     @JsonView({Views.StrictView.class})
     private boolean emailConfirmed;
+
+    @JsonView({Views.StrictView.class})
+    private boolean connectedViaOauth;
 
     @JsonView({Views.StrictView.class})
     private LocalDateTime createdDate;
@@ -129,6 +129,14 @@ public class UserDTO implements Serializable {
         this.emailConfirmed = emailConfirmed;
     }
 
+    public boolean isConnectedViaOauth() {
+        return connectedViaOauth;
+    }
+
+    public void setConnectedViaOauth(boolean connectedViaOauth) {
+        this.connectedViaOauth = connectedViaOauth;
+    }
+
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -164,11 +172,12 @@ public class UserDTO implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof UserDTO)) return false;
         UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(id, userDTO.id) &&
-                Objects.equals(initiated, userDTO.initiated) &&
+        return Objects.equals(initiated, userDTO.initiated) &&
                 Objects.equals(emailConfirmed, userDTO.emailConfirmed) &&
+                Objects.equals(connectedViaOauth, userDTO.connectedViaOauth) &&
+                Objects.equals(id, userDTO.id) &&
                 Objects.equals(firstName, userDTO.firstName) &&
                 Objects.equals(lastName, userDTO.lastName) &&
                 Objects.equals(email, userDTO.email) &&
@@ -182,7 +191,7 @@ public class UserDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, password, currency, initiated, emailConfirmed, createdDate, modifiedDate, endTrialDate, userSubscriptionStatus);
+        return Objects.hash(id, firstName, lastName, email, password, currency, initiated, emailConfirmed, connectedViaOauth, createdDate, modifiedDate, endTrialDate, userSubscriptionStatus);
     }
 
     @Override
@@ -196,6 +205,7 @@ public class UserDTO implements Serializable {
                 ", currency=" + currency +
                 ", initiated=" + initiated +
                 ", emailConfirmed=" + emailConfirmed +
+                ", connectedViaOauth=" + connectedViaOauth +
                 ", createdDate=" + createdDate +
                 ", modifiedDate=" + modifiedDate +
                 ", endTrialDate=" + endTrialDate +
