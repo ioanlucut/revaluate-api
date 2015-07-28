@@ -41,8 +41,7 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotNull
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
     /**
@@ -55,11 +54,15 @@ public class User implements Serializable {
      */
     private boolean initiated;
 
-
     /**
      * Is user email confirmed ?.
      */
     private boolean emailConfirmed;
+
+    /**
+     * If user is connected via oauth.
+     */
+    private boolean connectedViaOauth;
 
     @NotNull
     @ManyToOne(optional = false)
@@ -202,6 +205,14 @@ public class User implements Serializable {
         return LocalDateTime.now().isAfter(endTrialDate);
     }
 
+    public boolean isConnectedViaOauth() {
+        return connectedViaOauth;
+    }
+
+    public void setConnectedViaOauth(boolean connectedViaOauth) {
+        this.connectedViaOauth = connectedViaOauth;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -213,6 +224,7 @@ public class User implements Serializable {
                 ", enabled=" + enabled +
                 ", initiated=" + initiated +
                 ", emailConfirmed=" + emailConfirmed +
+                ", connectedViaOauth=" + connectedViaOauth +
                 ", currency=" + currency +
                 ", createdDate=" + createdDate +
                 ", modifiedDate=" + modifiedDate +
