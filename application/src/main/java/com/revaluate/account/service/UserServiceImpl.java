@@ -19,9 +19,12 @@ import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.email.persistence.EmailTokenRepository;
 import com.revaluate.email.service.EmailAsyncSender;
 import com.revaluate.expense.persistence.ExpenseRepository;
+import com.revaluate.groups.CreateViaOauthUserGroup;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import com.revaluate.payment.service.PaymentStatusService;
 import org.dozer.DozerBeanMapper;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.LocalDateTime;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
@@ -75,9 +80,7 @@ public class UserServiceImpl implements UserService {
         return !userRepository.findOneByEmailIgnoreCase(email).isPresent();
     }
 
-    @Override
-    @Transactional
-    public UserDTO create(UserDTO userDTO) throws UserException {
+    private User prepareCandidateUser(UserDTO userDTO) throws UserException {
         if (!isUnique(userDTO.getEmail())) {
 
             throw new UserException("Email is not unique");
@@ -97,15 +100,22 @@ public class UserServiceImpl implements UserService {
         user.setCurrency(byCurrencyCode);
 
         //-----------------------------------------------------------------
-        // Hash the password and set
-        //-----------------------------------------------------------------
-        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-
-        //-----------------------------------------------------------------
         // Set status as trial and end trial date.
         //-----------------------------------------------------------------
         user.setUserSubscriptionStatus(UserSubscriptionStatus.TRIAL);
         user.setEndTrialDate(LocalDateTime.now().plusDays(AppConfig.TRIAL_DAYS));
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public UserDTO create(UserDTO userDTO) throws UserException {
+        User user = prepareCandidateUser(userDTO);
+
+        //-----------------------------------------------------------------
+        // Hash the password and set
+        //-----------------------------------------------------------------
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 
         //-----------------------------------------------------------------
         // Save the user
@@ -127,6 +137,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO createViaOauth(UserDTO userDTO) throws UserException {
+        User user = prepareCandidateUser(userDTO);
+
+        //-----------------------------------------------------------------
+        // Users coming via OAUTH do not have to confirm they email
+        //-----------------------------------------------------------------
+        user.setEmailConfirmed(Boolean.TRUE);
+
+        //-----------------------------------------------------------------
+        // Set this flag to be able to know if user comes via OAUTH
+        //-----------------------------------------------------------------
+        user.setConnectedViaOauth(Boolean.TRUE);
+
+        //-----------------------------------------------------------------
+        // Save the user
+        //-----------------------------------------------------------------
+        User savedUser = userRepository.save(user);
+
+        return dozerBeanMapper.map(savedUser, UserDTO.class);
+    }
+
+    @Override
     public UserDTO login(LoginDTO loginDTO) throws UserException {
         User foundUser = userRepository
                 .findOneByEmailIgnoreCase(loginDTO.getEmail())
@@ -135,6 +167,20 @@ public class UserServiceImpl implements UserService {
         if (!BCrypt.checkpw(loginDTO.getPassword(), foundUser.getPassword())) {
 
             throw new UserException("Invalid email or password");
+        }
+
+        return dozerBeanMapper.map(foundUser, UserDTO.class);
+    }
+
+    @Override
+    public UserDTO loginViaOauth(String email) throws UserException {
+        User foundUser = userRepository
+                .findOneByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserException("Invalid email or password"));
+
+        if (!foundUser.isConnectedViaOauth()) {
+
+            throw new UserException("User is not using oauth");
         }
 
         return dozerBeanMapper.map(foundUser, UserDTO.class);

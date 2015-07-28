@@ -24,6 +24,8 @@ public class UserDTOBuilder
   protected boolean isSet$initiated$boolean;
   protected boolean value$emailConfirmed$boolean;
   protected boolean isSet$emailConfirmed$boolean;
+  protected boolean value$connectedViaOauth$boolean;
+  protected boolean isSet$connectedViaOauth$boolean;
   protected LocalDateTime value$createdDate$org$joda$time$LocalDateTime;
   protected boolean isSet$createdDate$org$joda$time$LocalDateTime;
   protected LocalDateTime value$modifiedDate$org$joda$time$LocalDateTime;
@@ -137,6 +139,18 @@ public class UserDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link UserDTO#connectedViaOauth} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public UserDTOBuilder withConnectedViaOauth(boolean value) {
+    this.value$connectedViaOauth$boolean = value;
+    this.isSet$connectedViaOauth$boolean = true;
+    return self;
+  }
+
+  /**
    * Sets the default value for the {@link UserDTO#createdDate} property.
    *
    * @param value the default value
@@ -240,6 +254,9 @@ public class UserDTOBuilder
       }
       if (isSet$emailConfirmed$boolean) {
         result.setEmailConfirmed(value$emailConfirmed$boolean);
+      }
+      if (isSet$connectedViaOauth$boolean) {
+        result.setConnectedViaOauth(value$connectedViaOauth$boolean);
       }
       if (isSet$createdDate$org$joda$time$LocalDateTime) {
         result.setCreatedDate(value$createdDate$org$joda$time$LocalDateTime);
