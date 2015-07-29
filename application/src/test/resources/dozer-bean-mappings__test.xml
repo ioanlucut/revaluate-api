@@ -60,6 +60,10 @@
             <a>initiated</a>
             <b>initiated</b>
         </field>
+        <field>
+            <a>userType</a>
+            <b>userType</b>
+        </field>
     </mapping>
     <!--Generally, the password should not be sent back to the user-->
     <mapping>
