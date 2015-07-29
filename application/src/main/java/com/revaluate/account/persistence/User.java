@@ -2,6 +2,7 @@ package com.revaluate.account.persistence;
 
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.domain.account.UserSubscriptionStatus;
+import com.revaluate.domain.account.UserType;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -25,6 +26,10 @@ public class User implements Serializable {
             initialValue = User.SEQ_INITIAL_VALUE)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
     private Integer id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserType userType;
 
     @NotNull
     @Column(nullable = false)
@@ -101,6 +106,14 @@ public class User implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     public String getFirstName() {
@@ -230,6 +243,7 @@ public class User implements Serializable {
                 ", modifiedDate=" + modifiedDate +
                 ", endTrialDate=" + endTrialDate +
                 ", userSubscriptionStatus=" + userSubscriptionStatus +
+                ", userType=" + userType +
                 '}';
     }
 }
