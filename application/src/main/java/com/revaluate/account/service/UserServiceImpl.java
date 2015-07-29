@@ -19,12 +19,9 @@ import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.email.persistence.EmailTokenRepository;
 import com.revaluate.email.service.EmailAsyncSender;
 import com.revaluate.expense.persistence.ExpenseRepository;
-import com.revaluate.groups.CreateViaOauthUserGroup;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import com.revaluate.payment.service.PaymentStatusService;
 import org.dozer.DozerBeanMapper;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.LocalDateTime;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
@@ -113,6 +108,11 @@ public class UserServiceImpl implements UserService {
         User user = prepareCandidateUser(userDTO);
 
         //-----------------------------------------------------------------
+        // Standard user type
+        //-----------------------------------------------------------------
+        user.setUserType(UserType.SIGN_UP);
+
+        //-----------------------------------------------------------------
         // Hash the password and set
         //-----------------------------------------------------------------
         user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
@@ -173,7 +173,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO loginViaOauth(String email) throws UserException {
+    public UserDTO loginViaOauth(String email, UserType userType) throws UserException {
         User foundUser = userRepository
                 .findOneByEmailIgnoreCase(email)
                 .orElseThrow(() -> new UserException("Invalid email or password"));
@@ -181,6 +181,11 @@ public class UserServiceImpl implements UserService {
         if (!foundUser.isConnectedViaOauth()) {
 
             throw new UserException("User is not using oauth");
+        }
+
+        if (foundUser.getUserType() != userType) {
+
+            throw new UserException("Oauth provider is not proper");
         }
 
         return dozerBeanMapper.map(foundUser, UserDTO.class);

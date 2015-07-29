@@ -5,6 +5,7 @@ import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserSubscriptionStatus;
+import com.revaluate.domain.account.UserType;
 import org.junit.Test;
 
 import java.util.Optional;
@@ -20,12 +21,26 @@ public class UserServiceImplTest_loginViaOauth_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE);
+        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
 
         //-----------------------------------------------------------------
         // Try to login
         //-----------------------------------------------------------------
-        userService.loginViaOauth(createdUserDTO.getEmail());
+        userService.loginViaOauth(createdUserDTO.getEmail(), UserType.OAUTH_FACEBOOK);
+    }
+
+    @Test
+    public void loginViaOauth_happyFlowButAnotherProvider_exceptionThrown() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
+
+        //-----------------------------------------------------------------
+        // Try to login
+        //-----------------------------------------------------------------
+        exception.expect(UserException.class);
+        userService.loginViaOauth(createdUserDTO.getEmail(), UserType.OAUTH_GOOGLE);
     }
 
     @Test
@@ -33,13 +48,13 @@ public class UserServiceImplTest_loginViaOauth_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE);
+        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
 
         //-----------------------------------------------------------------
         // Try to login
         //-----------------------------------------------------------------
         exception.expect(UserException.class);
-        userService.loginViaOauth(createdUserDTO.getEmail() + "x");
+        userService.loginViaOauth(createdUserDTO.getEmail() + "x", UserType.OAUTH_FACEBOOK);
     }
 
     @Test
@@ -47,14 +62,14 @@ public class UserServiceImplTest_loginViaOauth_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE);
+        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
 
         assertThat(createdUserDTO.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
 
         //-----------------------------------------------------------------
         // Try to login
         //-----------------------------------------------------------------
-        userService.loginViaOauth(createdUserDTO.getEmail());
+        userService.loginViaOauth(createdUserDTO.getEmail(), UserType.OAUTH_FACEBOOK);
 
         //-----------------------------------------------------------------
         // Check payment status
