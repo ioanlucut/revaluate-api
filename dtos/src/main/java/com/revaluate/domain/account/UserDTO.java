@@ -26,6 +26,10 @@ public class UserDTO implements Serializable {
     @JsonView({Views.StrictView.class})
     private String firstName;
 
+    @NotNull(groups = {CreateViaOauthUserGroup.class})
+    @JsonView({Views.StrictView.class})
+    private UserType userType;
+
     @NotBlank(groups = {CreateViaOauthUserGroup.class, CreateUserGroup.class, UpdateUserAccountDetailsGroup.class})
     @JsonView({Views.StrictView.class})
     private String lastName;
@@ -79,6 +83,14 @@ public class UserDTO implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     public String getLastName() {
@@ -179,6 +191,7 @@ public class UserDTO implements Serializable {
                 Objects.equals(connectedViaOauth, userDTO.connectedViaOauth) &&
                 Objects.equals(id, userDTO.id) &&
                 Objects.equals(firstName, userDTO.firstName) &&
+                Objects.equals(userType, userDTO.userType) &&
                 Objects.equals(lastName, userDTO.lastName) &&
                 Objects.equals(email, userDTO.email) &&
                 Objects.equals(password, userDTO.password) &&
@@ -191,7 +204,7 @@ public class UserDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, password, currency, initiated, emailConfirmed, connectedViaOauth, createdDate, modifiedDate, endTrialDate, userSubscriptionStatus);
+        return Objects.hash(id, firstName, userType, lastName, email, password, currency, initiated, emailConfirmed, connectedViaOauth, createdDate, modifiedDate, endTrialDate, userSubscriptionStatus);
     }
 
     @Override
@@ -199,6 +212,7 @@ public class UserDTO implements Serializable {
         return "UserDTO{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
+                ", userType=" + userType +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

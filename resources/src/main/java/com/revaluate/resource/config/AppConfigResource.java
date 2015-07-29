@@ -6,6 +6,7 @@ import com.revaluate.config.AppConfig;
 import com.revaluate.core.annotations.Public;
 import com.revaluate.currency.CurrenciesLocaleGenerator;
 import com.revaluate.currency.service.CurrencyService;
+import com.revaluate.domain.account.UserType;
 import com.revaluate.domain.color.ColorDTO;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
@@ -23,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Path(AppConfigResource.APP_CONFIG)
 @Component
@@ -49,6 +51,11 @@ public class AppConfigResource extends Resource {
         //-----------------------------------------------------------------
         List<ColorDTO> allColors = colorService.findAllColors();
         APP_CONFIGURATION_MAP.put("ALL_COLORS", allColors);
+
+        //-----------------------------------------------------------------
+        // Put also all colors
+        //-----------------------------------------------------------------
+        APP_CONFIGURATION_MAP.put("USER_TYPES", Arrays.stream(UserType.values()).collect(Collectors.toList()));
 
         //-----------------------------------------------------------------
         // Put also all predefined categories

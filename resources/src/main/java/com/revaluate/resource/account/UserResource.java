@@ -102,7 +102,7 @@ public class UserResource extends Resource {
     public Response connectViaOauth(@PathParam(EMAIL) @NotBlank @Email String email, @Validated(CreateViaOauthUserGroup.class) UserDTO userDTO) throws UserException {
         UserDTO connectedUser = userService.isUnique(email)
                 ? userService.createViaOauth(userDTO)
-                : userService.loginViaOauth(email);
+                : userService.loginViaOauth(email, userDTO.getUserType());
 
         try {
             String jwtToken = jwtService.tryToGetUserToken(connectedUser.getId());
