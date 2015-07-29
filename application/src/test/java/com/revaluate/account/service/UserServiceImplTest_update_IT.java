@@ -6,6 +6,7 @@ import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserPartialUpdateEnum;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
+import com.revaluate.domain.account.UserType;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.currency.CurrencyDTOBuilder;
 import org.joda.money.CurrencyUnit;
@@ -107,7 +108,7 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         // Compute the currency to update
         //-----------------------------------------------------------------
         CurrencyDTO currency = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.GBP.getCurrencyCode()).withDisplayName("").withNumericCode(0).withSymbol("E").build();
-        UserDTO userDTOToUpdate = new UserDTOBuilder().withCurrency(currency).withEmail("c@d.e").withFirstName("first2").withLastName("last2").withEmailConfirmed(false).withInitiated(false).build();
+        UserDTO userDTOToUpdate = new UserDTOBuilder().withCurrency(currency).withEmail("c@d.e").withFirstName("first2").withLastName("last2").withEmailConfirmed(false).withInitiated(false).withUserType(UserType.OAUTH_GOOGLE).build();
         User mappedUser = userRepository.findOne(createdUserDTO.getId());
         dozerBeanMapper.map(userDTOToUpdate, mappedUser, UserPartialUpdateEnum.ACCOUNT_DETAILS.getMapId());
 
@@ -118,6 +119,7 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         assertThat(mappedUser.getCurrency().getCurrencyCode(), is(equalTo(originalUser.getCurrency().getCurrencyCode())));
         assertThat(mappedUser.isEmailConfirmed(), is(equalTo(originalUser.isEmailConfirmed())));
         assertThat(mappedUser.isInitiated(), is(equalTo(originalUser.isInitiated())));
+        assertThat(mappedUser.getUserType(), is(equalTo(originalUser.getUserType())));
 
         //-----------------------------------------------------------------
         // Only those are updated

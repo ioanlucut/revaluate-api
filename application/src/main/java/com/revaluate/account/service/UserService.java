@@ -29,7 +29,7 @@ public interface UserService {
     UserDTO login(@Valid @NotNull LoginDTO loginDTO) throws UserException;
 
     @NotNull
-    UserDTO loginViaOauth(@Valid @Email @NotBlank String email) throws UserException;
+    UserDTO loginViaOauth(@Valid @Email @NotBlank String email, @NotNull UserType userType) throws UserException;
 
     @NotNull
     UserDTO update(@Valid @NotNull UserDTO userDTO, int userId, @NotNull UserPartialUpdateEnum userPartialUpdateEnum) throws UserException;

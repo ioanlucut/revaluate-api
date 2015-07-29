@@ -6,6 +6,7 @@ import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
 import com.revaluate.domain.account.UserSubscriptionStatus;
+import com.revaluate.domain.account.UserType;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.email.EmailType;
 import com.revaluate.email.persistence.EmailToken;
@@ -25,7 +26,7 @@ public class UserServiceImplTest_createViaOauth_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE);
+        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
 
         assertThat(createdUserDTO, is(notNullValue()));
         assertThat(createdUserDTO.getEmail(), equalTo(createdUserDTO.getEmail()));
@@ -35,6 +36,7 @@ public class UserServiceImplTest_createViaOauth_IT extends AbstractIntegrationTe
         assertThat(createdUserDTO.getId(), not(equalTo(0)));
         assertThat(createdUserDTO.isInitiated(), is(false));
         assertThat(createdUserDTO.isEmailConfirmed(), is(true));
+        assertThat(createdUserDTO.getUserType(), is(equalTo(UserType.OAUTH_FACEBOOK)));
         assertThat(createdUserDTO.isConnectedViaOauth(), is(true));
 
         //-----------------------------------------------------------------
@@ -51,7 +53,7 @@ public class UserServiceImplTest_createViaOauth_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE);
+        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
 
         //-----------------------------------------------------------------
         // Assert that trial status is set
@@ -64,13 +66,13 @@ public class UserServiceImplTest_createViaOauth_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
-        createUserDTO(Boolean.TRUE);
+        createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
 
         //-----------------------------------------------------------------
         // Try to create again the user with same email
         //-----------------------------------------------------------------
         exception.expect(UserException.class);
-        createUserDTO(Boolean.TRUE);
+        createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
     }
 
     @Test
@@ -78,13 +80,13 @@ public class UserServiceImplTest_createViaOauth_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
-        createUserDTO(Boolean.TRUE, "a@a.a");
+        createUserDTO(Boolean.TRUE, "a@a.a", UserType.OAUTH_FACEBOOK);
 
         //-----------------------------------------------------------------
         // Try to create again the user with same email but uppercase
         //-----------------------------------------------------------------
         exception.expect(UserException.class);
-        createUserDTO(Boolean.TRUE, "A@A.A");
+        createUserDTO(Boolean.TRUE, "A@A.A", UserType.OAUTH_FACEBOOK);
     }
 
     @Test
@@ -92,13 +94,13 @@ public class UserServiceImplTest_createViaOauth_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
-        createUserDTO(Boolean.TRUE, "a@a.a");
+        createUserDTO(Boolean.TRUE, "a@a.a", UserType.OAUTH_FACEBOOK);
 
         //-----------------------------------------------------------------
         // Try to create again the user with same email but uppercase
         //-----------------------------------------------------------------
         exception.expect(ConstraintViolationException.class);
-        createUserDTO(Boolean.TRUE, " a@a.a    ");
+        createUserDTO(Boolean.TRUE, " a@a.a    ", UserType.OAUTH_FACEBOOK);
     }
 
     @Test
