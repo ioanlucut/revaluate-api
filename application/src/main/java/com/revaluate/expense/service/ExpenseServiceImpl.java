@@ -98,6 +98,13 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    public List<ExpenseDTO> findAllExpensesWithCategoryIdAfterBefore(int userId, int categoryId, LocalDateTime after, LocalDateTime before) {
+        List<Expense> expenses = expenseRepository.findAllByUserIdAndCategoryIdAndSpentDateAfterAndSpentDateBefore(userId, categoryId, after, before);
+
+        return collectAndGet(expenses);
+    }
+
+    @Override
     public List<ExpenseDTO> findAllExpensesWithCategoryIdFor(int categoryId, int userId) {
         List<Expense> expenses = expenseRepository.findAllByUserIdAndCategoryId(userId, categoryId);
 
