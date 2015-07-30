@@ -493,6 +493,52 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(allExpensesFor.size(), is(equalTo(7)));
     }
 
+    @Test
+    public void findAllExpensesWithCategoryIdAfterBefore_ofExistingUserBetweenTwoDatesAndACategory_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO createdCategoryDTO = categoryService.create(new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build(), createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create second category
+        //-----------------------------------------------------------------
+        CategoryDTO secondCreatedCategoryDTO = categoryService.create(new CategoryDTOBuilder().withColor(SECOND_VALID_COLOR).withName("name2").build(), createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Create expense
+        //-----------------------------------------------------------------
+        ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+        ExpenseDTO expenseDTOOfTheSecondCategory = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(secondCreatedCategoryDTO).withSpentDate(LocalDateTime.now()).build();
+
+        LocalDateTime before = LocalDateTime.now().minusSeconds(1);
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTOOfTheSecondCategory, createdUserDTO.getId());
+        expenseService.create(expenseDTOOfTheSecondCategory, createdUserDTO.getId());
+        expenseService.create(expenseDTOOfTheSecondCategory, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        expenseService.create(expenseDTO, createdUserDTO.getId());
+        LocalDateTime after = LocalDateTime.now();
+
+        //-----------------------------------------------------------------
+        // Find created expenses + asserts (should be only with the first category)
+        //-----------------------------------------------------------------
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesWithCategoryIdAfterBefore(createdUserDTO.getId(), createdCategoryDTO.getId(), before, after);
+        allExpensesFor.stream().forEach(expenseDTOCandidate -> assertThat(expenseDTOCandidate.getCategory().getName(), is(equalTo(createdCategoryDTO.getName()))));
+        assertThat(allExpensesFor, is(notNullValue()));
+        assertThat(allExpensesFor.size(), is(equalTo(7)));
+        assertThat(expenseService.findAllExpensesAfterBefore(createdUserDTO.getId(), before, after).size(), is(equalTo(10)));
+    }
+
     //-----------------------------------------------------------------
     // Find all expenses work - AFTER a date
     //-----------------------------------------------------------------
