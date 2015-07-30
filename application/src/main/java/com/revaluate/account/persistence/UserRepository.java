@@ -1,6 +1,7 @@
 package com.revaluate.account.persistence;
 
 import com.revaluate.domain.account.UserSubscriptionStatus;
+import com.revaluate.domain.account.UserType;
 import org.joda.time.LocalDateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,7 +12,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findOneByEmailIgnoreCase(String email);
 
-    List<User> findByEmailIgnoreCase(String email);
+    Optional<User> findOneByEmailIgnoreCaseAndUserType(String email, UserType userType);
+
+    Optional<User> findOneById(int userId);
 
     List<User> findAllByUserSubscriptionStatusAndEndTrialDateBefore(UserSubscriptionStatus userSubscriptionStatus, LocalDateTime before);
 }
