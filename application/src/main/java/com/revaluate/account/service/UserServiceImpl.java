@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO login(LoginDTO loginDTO) throws UserException {
         User foundUser = userRepository
-                .findOneByEmailIgnoreCase(loginDTO.getEmail())
+                .findOneByEmailIgnoreCaseAndUserType(loginDTO.getEmail(), UserType.SIGN_UP)
                 .orElseThrow(() -> new UserException("Invalid email or password"));
 
         if (!BCrypt.checkpw(loginDTO.getPassword(), foundUser.getPassword())) {
@@ -193,8 +193,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO update(UserDTO userDTO, int userId, UserPartialUpdateEnum userPartialUpdateEnum) throws UserException {
-        User foundUser = Optional
-                .ofNullable(userRepository.findOne(userId))
+        User foundUser = userRepository
+                .findOneById(userId)
                 .orElseThrow(() -> new UserException("User does not exist"));
 
         //-----------------------------------------------------------------
@@ -219,8 +219,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserDetails(int userId) throws UserException {
-        User foundUser = Optional
-                .ofNullable(userRepository.findOne(userId))
+        User foundUser = userRepository
+                .findOneById(userId)
                 .orElseThrow(() -> new UserException("Could not retrieve user details."));
 
         return dozerBeanMapper.map(foundUser, UserDTO.class);
@@ -261,7 +261,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void validateConfirmationEmailToken(String email, String token) throws UserException {
         User user = userRepository
-                .findOneByEmailIgnoreCase(email)
+                .findOneByEmailIgnoreCaseAndUserType(email, UserType.SIGN_UP)
                 .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
@@ -301,7 +301,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void requestConfirmationEmail(String email) throws UserException {
         User user = userRepository
-                .findOneByEmailIgnoreCase(email)
+                .findOneByEmailIgnoreCaseAndUserType(email, UserType.SIGN_UP)
                 .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
@@ -318,14 +318,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updatePassword(UpdatePasswordDTO updatePasswordDTO, int currentUserId) throws UserException {
+    public UserDTO updatePassword(UpdatePasswordDTO updatePasswordDTO, int userId) throws UserException {
         if (!updatePasswordDTO.getNewPassword().equals(updatePasswordDTO.getNewPasswordConfirmation())) {
 
             throw new UserException("New password should match new password confirmation");
         }
 
-        User existingUser = Optional
-                .ofNullable(userRepository.findOne(currentUserId))
+        User existingUser = userRepository
+                .findOneById(userId)
                 .orElseThrow(() -> new UserException("Invalid email or password"));
 
         if (!BCrypt.checkpw(updatePasswordDTO.getOldPassword(), existingUser.getPassword())) {
@@ -342,7 +342,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void requestResetPassword(String email) throws UserException {
         User user = userRepository
-                .findOneByEmailIgnoreCase(email)
+                .findOneByEmailIgnoreCaseAndUserType(email, UserType.SIGN_UP)
                 .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
@@ -366,7 +366,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void validateResetPasswordToken(String email, String token) throws UserException {
         User user = userRepository
-                .findOneByEmailIgnoreCase(email)
+                .findOneByEmailIgnoreCaseAndUserType(email, UserType.SIGN_UP)
                 .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
@@ -398,7 +398,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userRepository
-                .findOneByEmailIgnoreCase(email)
+                .findOneByEmailIgnoreCaseAndUserType(email, UserType.SIGN_UP)
                 .orElseThrow(() -> new UserException("No matching of this email"));
 
         //-----------------------------------------------------------------
@@ -417,8 +417,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateCurrency(UserDTO userDTO, int userId) throws UserException {
-        User foundUser = Optional
-                .ofNullable(userRepository.findOne(userId))
+        User foundUser = userRepository
+                .findOneById(userId)
                 .orElseThrow(() -> new UserException("User does not exist"));
 
         //-----------------------------------------------------------------
@@ -435,8 +435,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void sendFeedback(FeedbackDTO feedbackDTO, int userId) throws UserException {
-        User user = Optional
-                .ofNullable(userRepository.findOne(userId))
+        User user = userRepository
+                .findOneById(userId)
                 .orElseThrow(() -> new UserException("User does not exist"));
 
         //-----------------------------------------------------------------
