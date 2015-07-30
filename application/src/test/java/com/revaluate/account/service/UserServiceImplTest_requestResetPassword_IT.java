@@ -2,10 +2,11 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.account.UserType;
 import com.revaluate.domain.email.EmailType;
+import com.revaluate.email.persistence.EmailToken;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
@@ -33,6 +34,18 @@ public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegra
         User foundUser = userRepository.findOne(createdUserDTO.getId());
         List<EmailToken> emails = emailTokenRepository.findAllByEmailTypeAndUserId(EmailType.RESET_PASSWORD, foundUser.getId());
         assertThat(emails.size(), is(1));
+    }
+
+    @Test
+    public void requestResetPassword_oauthUserIsNotAllowed_exceptionThrown() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
+
+        // Reset password
+        exception.expect(UserException.class);
+        userService.requestResetPassword(createdUserDTO.getEmail());
     }
 
     @Test

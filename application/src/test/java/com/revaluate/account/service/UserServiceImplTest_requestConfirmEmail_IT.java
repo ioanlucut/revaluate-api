@@ -2,10 +2,11 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.account.UserType;
 import com.revaluate.domain.email.EmailType;
+import com.revaluate.email.persistence.EmailToken;
 import org.junit.Test;
 
 import java.util.List;
@@ -30,6 +31,17 @@ public class UserServiceImplTest_requestConfirmEmail_IT extends AbstractIntegrat
         User foundUser = userRepository.findOne(createdUserDTO.getId());
         List<EmailToken> emails = emailTokenRepository.findAllByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, foundUser.getId());
         assertThat(emails.size(), is(2));
+    }
+
+    @Test
+    public void requestConfirmationEmail_oauthUserIsNotAllowed_exceptionThrown() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
+
+        exception.expect(UserException.class);
+        userService.requestConfirmationEmail(createdUserDTO.getEmail());
     }
 
     @Test
