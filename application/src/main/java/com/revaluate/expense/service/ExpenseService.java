@@ -34,6 +34,9 @@ public interface ExpenseService {
     List<ExpenseDTO> findAllExpensesAfterBefore(int userId, LocalDateTime after, LocalDateTime before);
 
     @NotNull
+    List<ExpenseDTO> findAllExpensesWithCategoryIdAfterBefore(int userId, int categoryId, LocalDateTime after, LocalDateTime before);
+
+    @NotNull
     List<ExpenseDTO> findAllExpensesWithCategoryIdFor(int categoryId, int userId);
 
     @NotNull
