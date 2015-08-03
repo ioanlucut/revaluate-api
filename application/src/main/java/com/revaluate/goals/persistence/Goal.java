@@ -1,9 +1,9 @@
-package com.revaluate.expense.persistence;
+package com.revaluate.goals.persistence;
 
 import com.revaluate.account.persistence.User;
 import com.revaluate.category.persistence.Category;
+import com.revaluate.domain.goal.GoalTarget;
 import org.joda.time.LocalDateTime;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -12,22 +12,22 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "expenses")
-@EntityListeners({AuditingEntityListener.class})
-public class Expense implements Serializable {
+@Table(name = "goals")
+public class Goal implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
+
     public static final String USER_ID = "user_id";
     public static final String CATEGORY_ID = "category_id";
-    protected static final String SEQ_NAME = "expenses_id_seq";
-    protected static final String SEQ_GENERATOR_NAME = "expenses_seq_generator";
+    protected static final String SEQ_NAME = "goals_id_seq";
+    protected static final String SEQ_GENERATOR_NAME = "goals_seq_generator";
     protected static final int ALLOCATION_SIZE = 1;
 
     @Id
-    @Column(name = "expense_id", updatable = false)
-    @SequenceGenerator(name = Expense.SEQ_GENERATOR_NAME,
-            sequenceName = Expense.SEQ_NAME,
-            allocationSize = Expense.ALLOCATION_SIZE)
+    @Column(name = "goal_id", updatable = false)
+    @SequenceGenerator(name = Goal.SEQ_GENERATOR_NAME,
+            sequenceName = Goal.SEQ_NAME,
+            allocationSize = Goal.ALLOCATION_SIZE)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
     private Integer id;
 
@@ -35,7 +35,9 @@ public class Expense implements Serializable {
     @Digits(integer = 20, fraction = 2)
     private BigDecimal value;
 
-    private String description;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private GoalTarget goalTarget;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = USER_ID, nullable = false)
@@ -47,7 +49,11 @@ public class Expense implements Serializable {
 
     @NotNull
     @Column(nullable = false)
-    private LocalDateTime spentDate;
+    private LocalDateTime startDate;
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime endDate;
 
     @NotNull
     @Column(nullable = false)
@@ -83,12 +89,12 @@ public class Expense implements Serializable {
         this.value = value;
     }
 
-    public String getDescription() {
-        return description;
+    public GoalTarget getGoalTarget() {
+        return goalTarget;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setGoalTarget(GoalTarget goalTarget) {
+        this.goalTarget = goalTarget;
     }
 
     public User getUser() {
@@ -107,12 +113,20 @@ public class Expense implements Serializable {
         this.category = category;
     }
 
-    public LocalDateTime getSpentDate() {
-        return spentDate;
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
-    public void setSpentDate(LocalDateTime spentDate) {
-        this.spentDate = spentDate;
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 
     public LocalDateTime getCreatedDate() {
@@ -133,13 +147,14 @@ public class Expense implements Serializable {
 
     @Override
     public String toString() {
-        return "Expense{" +
+        return "Goal{" +
                 "id=" + id +
                 ", value=" + value +
-                ", description='" + description + '\'' +
+                ", goalTarget=" + goalTarget +
                 ", user=" + user +
                 ", category=" + category +
-                ", spentDate=" + spentDate +
+                ", fromDate=" + startDate +
+                ", toDate=" + endDate +
                 ", createdDate=" + createdDate +
                 ", modifiedDate=" + modifiedDate +
                 '}';

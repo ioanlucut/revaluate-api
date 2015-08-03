@@ -21,6 +21,7 @@ import com.revaluate.email.persistence.EmailRepository;
 import com.revaluate.email.persistence.EmailTokenRepository;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.expense.service.ExpenseService;
+import com.revaluate.goals.persistence.GoalRepository;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import org.dozer.DozerBeanMapper;
 import org.joda.money.CurrencyUnit;
@@ -88,6 +89,9 @@ public class AbstractIntegrationTests {
     protected ExpenseRepository expenseRepository;
 
     @Autowired
+    protected GoalRepository goalRepository;
+
+    @Autowired
     protected CategoryService categoryService;
 
     @Autowired
@@ -118,6 +122,7 @@ public class AbstractIntegrationTests {
         paymentStatusRepository.deleteAll();
         emailRepository.deleteAll();
         expenseRepository.deleteAll();
+        goalRepository.deleteAll();
         categoryRepository.deleteAll();
         userRepository.deleteAll();
         currencyRepository.deleteAll();
