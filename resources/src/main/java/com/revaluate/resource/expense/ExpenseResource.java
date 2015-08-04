@@ -32,12 +32,14 @@ public class ExpenseResource extends Resource {
     private static final String REMOVE_EXPENSE = "{expenseId}";
     private static final String RETRIEVE_EXPENSES = "retrieve";
     private static final String RETRIEVE_EXPENSES_FROM_TO = "retrieve_from_to";
+    private static final String RETRIEVE_EXPENSES_OF_CATEGORY_FROM_TO = "retrieve_from_to_of_category/{categoryId}";
     private static final String BULK_DELETE = "bulkDelete";
 
     //-----------------------------------------------------------------
     // Path params
     //-----------------------------------------------------------------
     private static final String EXPENSE_ID = "expenseId";
+    private static final String CATEGORY_ID = "categoryId";
     public static final String FROM = "from";
     public static final String TO = "to";
 
@@ -92,6 +94,16 @@ public class ExpenseResource extends Resource {
         List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesAfterBefore(getCurrentUserId(), from, to);
 
         return Responses.respond(Response.Status.OK, allExpensesFor);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(RETRIEVE_EXPENSES_OF_CATEGORY_FROM_TO)
+    public Response retrieveAllOfCategoryFromTo(@PathParam(CATEGORY_ID) @NotNull int categoryId, @QueryParam(FROM) LocalDateTime from, @QueryParam(TO) LocalDateTime to) {
+        List<ExpenseDTO> allExpensesOfThisCategory = expenseService.findAllExpensesWithCategoryIdAfterBefore(getCurrentUserId(), categoryId, from, to);
+
+        return Responses.respond(Response.Status.OK, allExpensesOfThisCategory);
     }
 
     @PUT

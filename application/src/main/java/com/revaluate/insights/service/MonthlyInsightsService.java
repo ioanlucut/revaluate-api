@@ -1,5 +1,6 @@
 package com.revaluate.insights.service;
 
+import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.insights.monthly.InsightsMonthlyDTO;
 import com.revaluate.expense.persistence.Expense;
 import org.joda.time.LocalDateTime;
@@ -13,5 +14,5 @@ public interface MonthlyInsightsService {
     InsightsMonthlyDTO fetchMonthlyInsightsAfterBeforePeriod(int userId, @NotNull LocalDateTime after, @NotNull LocalDateTime before);
 
     @NotNull
-    InsightsMonthlyDTO computeMonthlyInsightsAfterBeforePeriod(List<Expense> allExpenses, LocalDateTime after, LocalDateTime before);
+    InsightsMonthlyDTO computeMonthlyInsightsAfterBeforePeriod(List<CategoryDTO> categories, List<Expense> allExpenses, LocalDateTime after, LocalDateTime before);
 }

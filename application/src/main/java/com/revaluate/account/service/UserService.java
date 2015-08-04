@@ -4,6 +4,7 @@ import com.revaluate.account.exception.UserException;
 import com.revaluate.account.persistence.UserPartialUpdateEnum;
 import com.revaluate.domain.account.*;
 import com.revaluate.groups.CreateUserGroup;
+import com.revaluate.groups.CreateViaOauthUserGroup;
 import com.revaluate.groups.UpdateUserCurrencyGroup;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -21,7 +22,14 @@ public interface UserService {
     UserDTO create(@Valid @NotNull UserDTO userDTO) throws UserException;
 
     @NotNull
+    @Validated(value = CreateViaOauthUserGroup.class)
+    UserDTO createViaOauth(@Valid @NotNull UserDTO userDTO) throws UserException;
+
+    @NotNull
     UserDTO login(@Valid @NotNull LoginDTO loginDTO) throws UserException;
+
+    @NotNull
+    UserDTO loginViaOauth(@Valid @Email @NotBlank String email, @NotNull UserType userType) throws UserException;
 
     @NotNull
     UserDTO update(@Valid @NotNull UserDTO userDTO, int userId, @NotNull UserPartialUpdateEnum userPartialUpdateEnum) throws UserException;

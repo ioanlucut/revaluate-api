@@ -12,6 +12,8 @@ public class UserDTOBuilder
   protected boolean isSet$id$java$lang$Integer;
   protected String value$firstName$java$lang$String;
   protected boolean isSet$firstName$java$lang$String;
+  protected UserType value$userType$com$revaluate$domain$account$UserType;
+  protected boolean isSet$userType$com$revaluate$domain$account$UserType;
   protected String value$lastName$java$lang$String;
   protected boolean isSet$lastName$java$lang$String;
   protected String value$email$java$lang$String;
@@ -24,6 +26,8 @@ public class UserDTOBuilder
   protected boolean isSet$initiated$boolean;
   protected boolean value$emailConfirmed$boolean;
   protected boolean isSet$emailConfirmed$boolean;
+  protected boolean value$connectedViaOauth$boolean;
+  protected boolean isSet$connectedViaOauth$boolean;
   protected LocalDateTime value$createdDate$org$joda$time$LocalDateTime;
   protected boolean isSet$createdDate$org$joda$time$LocalDateTime;
   protected LocalDateTime value$modifiedDate$org$joda$time$LocalDateTime;
@@ -61,6 +65,18 @@ public class UserDTOBuilder
   public UserDTOBuilder withFirstName(String value) {
     this.value$firstName$java$lang$String = value;
     this.isSet$firstName$java$lang$String = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link UserDTO#userType} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public UserDTOBuilder withUserType(UserType value) {
+    this.value$userType$com$revaluate$domain$account$UserType = value;
+    this.isSet$userType$com$revaluate$domain$account$UserType = true;
     return self;
   }
 
@@ -133,6 +149,18 @@ public class UserDTOBuilder
   public UserDTOBuilder withEmailConfirmed(boolean value) {
     this.value$emailConfirmed$boolean = value;
     this.isSet$emailConfirmed$boolean = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link UserDTO#connectedViaOauth} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public UserDTOBuilder withConnectedViaOauth(boolean value) {
+    this.value$connectedViaOauth$boolean = value;
+    this.isSet$connectedViaOauth$boolean = true;
     return self;
   }
 
@@ -223,6 +251,9 @@ public class UserDTOBuilder
       if (isSet$firstName$java$lang$String) {
         result.setFirstName(value$firstName$java$lang$String);
       }
+      if (isSet$userType$com$revaluate$domain$account$UserType) {
+        result.setUserType(value$userType$com$revaluate$domain$account$UserType);
+      }
       if (isSet$lastName$java$lang$String) {
         result.setLastName(value$lastName$java$lang$String);
       }
@@ -240,6 +271,9 @@ public class UserDTOBuilder
       }
       if (isSet$emailConfirmed$boolean) {
         result.setEmailConfirmed(value$emailConfirmed$boolean);
+      }
+      if (isSet$connectedViaOauth$boolean) {
+        result.setConnectedViaOauth(value$connectedViaOauth$boolean);
       }
       if (isSet$createdDate$org$joda$time$LocalDateTime) {
         result.setCreatedDate(value$createdDate$org$joda$time$LocalDateTime);

@@ -12,6 +12,7 @@ import com.revaluate.currency.persistence.CurrencyRepository;
 import com.revaluate.currency.service.CurrencyService;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
+import com.revaluate.domain.account.UserType;
 import com.revaluate.domain.color.ColorDTO;
 import com.revaluate.domain.color.ColorDTOBuilder;
 import com.revaluate.domain.currency.CurrencyDTO;
@@ -127,6 +128,10 @@ public class AbstractIntegrationTests {
     //-----------------------------------------------------------------
 
     protected UserDTO createUserDTO(String email, String currencyCode) throws UserException {
+        return createUserDTO(false, email, currencyCode, UserType.SIGN_UP);
+    }
+
+    protected UserDTO createUserDTO(boolean viaOauth, String email, String currencyCode, UserType userType) throws UserException {
         Optional<Currency> oneByCurrencyCode = currencyRepository.findOneByCurrencyCode(currencyCode);
 
         CurrencyDTO currencyDTO;
@@ -144,26 +149,49 @@ public class AbstractIntegrationTests {
             }
         }
 
-        return createUserDTO(email, currencyDTO);
+        return createUserDTO(viaOauth, email, currencyDTO, userType);
     }
 
     public UserDTO createUserDTO(String email, CurrencyDTO currencyDTO) throws UserException {
+        return createUserDTO(false, email, currencyDTO, UserType.SIGN_UP);
+    }
+
+    public UserDTO createUserDTO(boolean viaOauth, String email, CurrencyDTO currencyDTO, UserType userType) throws UserException {
         //-----------------------------------------------------------------
         // Compute the user
         //-----------------------------------------------------------------
-        userDTO = new UserDTOBuilder().withEmail(email).withFirstName("fn").withLastName("ln").withPassword(TEST_PASSWORD).withCurrency(currencyDTO).build();
-        UserDTO createdCategoryDTO = userService.create(userDTO);
-        userDTO.setId(createdCategoryDTO.getId());
+        UserDTOBuilder userDTOBuilder = new UserDTOBuilder().withEmail(email).withFirstName("fn").withLastName("ln").withUserType(userType).withCurrency(currencyDTO);
 
-        return createdCategoryDTO;
+        if (!viaOauth) {
+            userDTOBuilder.withPassword(TEST_PASSWORD);
+        }
+        userDTO = userDTOBuilder.build();
+
+        UserDTO userDTO;
+        if (viaOauth) {
+            userDTO = userService.createViaOauth(this.userDTO);
+        } else {
+            userDTO = userService.create(this.userDTO);
+        }
+        this.userDTO.setId(userDTO.getId());
+
+        return userDTO;
+    }
+
+    protected UserDTO createUserDTO(boolean viaOauth, UserType userType) throws com.revaluate.account.exception.UserException {
+        return createUserDTO(viaOauth, TEST_EMAIL, CurrencyUnit.EUR.getCurrencyCode(), userType);
     }
 
     protected UserDTO createUserDTO() throws com.revaluate.account.exception.UserException {
-        return createUserDTO(TEST_EMAIL, CurrencyUnit.EUR.getCurrencyCode());
+        return createUserDTO(false, UserType.SIGN_UP);
+    }
+
+    protected UserDTO createUserDTO(boolean viaOauth, String email, UserType userType) throws com.revaluate.account.exception.UserException {
+        return createUserDTO(viaOauth, email, CurrencyUnit.EUR.getCurrencyCode(), userType);
     }
 
     protected UserDTO createUserDTO(String email) throws com.revaluate.account.exception.UserException {
-        return createUserDTO(email, CurrencyUnit.EUR.getCurrencyCode());
+        return createUserDTO(false, email, CurrencyUnit.EUR.getCurrencyCode(), UserType.SIGN_UP);
     }
 
     protected void setFieldViaReflection(Class<?> clazz, Object target, String name, Object value) {
