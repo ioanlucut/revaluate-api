@@ -2,6 +2,7 @@ package com.revaluate.account.persistence;
 
 import com.revaluate.currency.persistence.Currency;
 import com.revaluate.domain.account.UserSubscriptionStatus;
+import com.revaluate.domain.account.UserType;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -26,6 +27,10 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
     private Integer id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserType userType;
+
     @NotNull
     @Column(nullable = false)
     private String firstName;
@@ -41,8 +46,7 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotNull
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
     /**
@@ -55,11 +59,15 @@ public class User implements Serializable {
      */
     private boolean initiated;
 
-
     /**
      * Is user email confirmed ?.
      */
     private boolean emailConfirmed;
+
+    /**
+     * If user is connected via oauth.
+     */
+    private boolean connectedViaOauth;
 
     @NotNull
     @ManyToOne(optional = false)
@@ -98,6 +106,14 @@ public class User implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
     public String getFirstName() {
@@ -202,6 +218,14 @@ public class User implements Serializable {
         return LocalDateTime.now().isAfter(endTrialDate);
     }
 
+    public boolean isConnectedViaOauth() {
+        return connectedViaOauth;
+    }
+
+    public void setConnectedViaOauth(boolean connectedViaOauth) {
+        this.connectedViaOauth = connectedViaOauth;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -213,11 +237,13 @@ public class User implements Serializable {
                 ", enabled=" + enabled +
                 ", initiated=" + initiated +
                 ", emailConfirmed=" + emailConfirmed +
+                ", connectedViaOauth=" + connectedViaOauth +
                 ", currency=" + currency +
                 ", createdDate=" + createdDate +
                 ", modifiedDate=" + modifiedDate +
                 ", endTrialDate=" + endTrialDate +
                 ", userSubscriptionStatus=" + userSubscriptionStatus +
+                ", userType=" + userType +
                 '}';
     }
 }

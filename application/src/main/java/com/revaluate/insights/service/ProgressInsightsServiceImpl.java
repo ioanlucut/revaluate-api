@@ -1,8 +1,9 @@
 package com.revaluate.insights.service;
 
+import com.revaluate.category.service.CategoryService;
+import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.insights.monthly.InsightsMonthlyDTO;
 import com.revaluate.domain.insights.monthly.InsightsMonthlyDTOBuilder;
-import com.revaluate.domain.insights.overview.TotalPerMonthDTO;
 import com.revaluate.domain.insights.progress.ProgressInsightsDTO;
 import com.revaluate.domain.insights.progress.ProgressInsightsDTOBuilder;
 import com.revaluate.expense.persistence.Expense;
@@ -27,6 +28,9 @@ public class ProgressInsightsServiceImpl implements ProgressInsightsService {
 
     @Autowired
     private ExpenseRepository expenseRepository;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private MonthlyInsightsService monthlyInsightsService;
@@ -55,6 +59,7 @@ public class ProgressInsightsServiceImpl implements ProgressInsightsService {
                 .collect(Collectors
                         .groupingBy(expense -> YearMonth.fromDateFields(expense.getSpentDate().toDate())));
 
+        List<CategoryDTO> categories = categoryService.findAllCategoriesFor(userId);
 
         //-----------------------------------------------------------------
         // Then, we build our list
@@ -68,7 +73,7 @@ public class ProgressInsightsServiceImpl implements ProgressInsightsService {
                     DateTime to = from.plusDays(1).withTimeAtStartOfDay();
 
                     InsightsMonthlyDTO insightsMonthlyDTO = monthlyInsightsService
-                            .computeMonthlyInsightsAfterBeforePeriod(entry.getValue(), LocalDateTime.fromDateFields(from.toDate()), LocalDateTime.fromDateFields(to.toDate()));
+                            .computeMonthlyInsightsAfterBeforePeriod(categories, entry.getValue(), LocalDateTime.fromDateFields(from.toDate()), LocalDateTime.fromDateFields(to.toDate()));
                     insightsMonthlyDTO.setYearMonth(yearMonth);
 
                     return insightsMonthlyDTO;

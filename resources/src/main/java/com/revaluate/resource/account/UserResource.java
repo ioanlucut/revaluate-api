@@ -7,10 +7,7 @@ import com.revaluate.account.service.UserService;
 import com.revaluate.core.annotations.Public;
 import com.revaluate.core.jwt.JwtException;
 import com.revaluate.domain.account.*;
-import com.revaluate.groups.CreateUserGroup;
-import com.revaluate.groups.UpdateUserAccountDetailsGroup;
-import com.revaluate.groups.UpdateUserCurrencyGroup;
-import com.revaluate.groups.UpdateUserInitiatedStatusGroup;
+import com.revaluate.groups.*;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
 import com.revaluate.views.Views;
@@ -36,6 +33,7 @@ public class UserResource extends Resource {
     private static final String EMAIL = "email";
     private static final String TOKEN = "token";
     private static final String LOGIN_USER = "login";
+    private static final String CONNECT_USER_VIA_OAUTH = "connectViaOauth/{email}";
     private static final String UPDATE_CURRENCY = "updateCurrency";
     private static final String UPDATE_INITIATED_STATUS = "updateInitiatedStatus";
     private static final String UPDATE_ACCOUNT_DETAILS = "updateAccountDetails";
@@ -90,6 +88,30 @@ public class UserResource extends Resource {
             String jwtToken = jwtService.tryToGetUserToken(foundUserDTO.getId());
 
             return Response.status(Response.Status.OK).entity(foundUserDTO).header(configProperties.getAuthTokenHeaderKey(), jwtToken).build();
+        } catch (JwtException ex) {
+            throw new UserException(ex.getMessage(), ex);
+        }
+    }
+
+    @POST
+    @Public
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(CONNECT_USER_VIA_OAUTH)
+    @JsonView({Views.StrictView.class})
+    public Response connectViaOauth(@PathParam(EMAIL) @NotBlank @Email String email, @Validated(CreateViaOauthUserGroup.class) UserDTO userDTO) throws UserException {
+        UserDTO connectedUser = userService.isUnique(email)
+                ? userService.createViaOauth(userDTO)
+                : userService.loginViaOauth(email, userDTO.getUserType());
+
+        try {
+            String jwtToken = jwtService.tryToGetUserToken(connectedUser.getId());
+
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(connectedUser)
+                    .header(configProperties.getAuthTokenHeaderKey(), jwtToken)
+                    .build();
         } catch (JwtException ex) {
             throw new UserException(ex.getMessage(), ex);
         }
