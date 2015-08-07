@@ -33,7 +33,7 @@ public class CategoryResource extends Resource {
     // Sub paths
     //-----------------------------------------------------------------
     private static final String IS_UNIQUE_CATEGORY = "isUniqueCategory";
-    private static final String RETRIEVE_EXPENSES = "retrieve";
+    private static final String RETRIEVE_CATEGORIES = "retrieve";
     private static final String REMOVE_CATEGORY = "{categoryId}";
     private static final String BULK_CREATE = "bulkCreate";
     private static final String SETUP_BULK_CREATE_CATEGORIES = "setupBulkCreateCategories";
@@ -97,7 +97,7 @@ public class CategoryResource extends Resource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path(RETRIEVE_EXPENSES)
+    @Path(RETRIEVE_CATEGORIES)
     public Response retrieveAll() {
         List<CategoryDTO> allCategoriesFor = categoryService.findAllCategoriesFor(getCurrentUserId());
 
