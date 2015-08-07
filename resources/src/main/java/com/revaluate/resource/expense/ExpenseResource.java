@@ -34,7 +34,7 @@ public class ExpenseResource extends Resource {
     //-----------------------------------------------------------------
     private static final String REMOVE_EXPENSE = "{expenseId}";
     private static final String RETRIEVE_EXPENSES = "retrieve";
-    private static final String RETRIEVE_EXPENSES_GROUPED = "retrieveGrouped";
+    private static final String RETRIEVE_EXPENSES_GROUPED = "retrieve_grouped";
     private static final String RETRIEVE_EXPENSES_FROM_TO = "retrieve_from_to";
     private static final String RETRIEVE_EXPENSES_OF_CATEGORY_FROM_TO = "retrieve_from_to_of_category/{categoryId}";
     private static final String BULK_DELETE = "bulkDelete";
