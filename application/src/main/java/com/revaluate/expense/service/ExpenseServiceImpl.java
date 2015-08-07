@@ -4,13 +4,16 @@ import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.category.persistence.Category;
 import com.revaluate.category.persistence.CategoryRepository;
-import com.revaluate.domain.expense.ExpenseDTO;
+import com.revaluate.domain.expense.*;
 import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.expense.persistence.Expense;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import org.dozer.DozerBeanMapper;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -18,6 +21,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -70,10 +74,14 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<ExpenseDTO> findAllExpensesFor(int userId) {
-        List<Expense> expenses = expenseRepository.findAllByUserId(userId);
+    public List<ExpenseDTO> findAllExpensesFor(int userId, Optional<PageRequest> pageRequest) {
+        if (pageRequest.isPresent()) {
+            Page<Expense> expenses = expenseRepository.findAllByUserId(userId, pageRequest.get());
 
-        return collectAndGet(expenses);
+            return collectAndGet(expenses.getContent());
+        }
+
+        return collectAndGet(expenseRepository.findAllByUserId(userId));
     }
 
     @Override
@@ -95,6 +103,37 @@ public class ExpenseServiceImpl implements ExpenseService {
         List<Expense> expenses = expenseRepository.findAllByUserIdAndSpentDateAfterAndSpentDateBefore(userId, after, before);
 
         return collectAndGet(expenses);
+    }
+
+    @Override
+    public ExpensesQueryResponseDTO findExpensesGroupBySpentDate(int userId, PageRequest pageRequest) {
+        List<ExpenseDTO> allExpensesOf = findAllExpensesFor(userId, Optional.of(pageRequest));
+        List<GroupedExpensesDTO> groupedExpensesDTOs = groupBySpentDateAndCollect(allExpensesOf);
+
+        int totalSize = (int) expenseRepository.countByUserId(userId);
+        return new ExpensesQueryResponseDTOBuilder()
+                .withGroupedExpensesDTOList(groupedExpensesDTOs)
+                .withCurrentPage(pageRequest.getPageNumber())
+                .withCurrentSize(groupedExpensesDTOs.size())
+                .withTotalSize(totalSize)
+                .build();
+    }
+
+    private List<GroupedExpensesDTO> groupBySpentDateAndCollect(List<ExpenseDTO> allExpensesAfterBefore) {
+        Map<LocalDate, List<ExpenseDTO>> groupedExpenses = allExpensesAfterBefore
+                .stream()
+                .collect(Collectors
+                        .groupingBy(expense -> LocalDate.fromDateFields(expense.getSpentDate().toDate())));
+
+        return groupedExpenses
+                .entrySet()
+                .stream()
+                .map(localDateListEntry ->
+                        new GroupedExpensesDTOBuilder()
+                                .withExpenseDTOs(localDateListEntry.getValue())
+                                .withLocalDate(localDateListEntry.getKey())
+                                .build())
+                .collect(Collectors.toList());
     }
 
     @Override

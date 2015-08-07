@@ -13,10 +13,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolationException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -37,7 +34,7 @@ public class ExpenseServiceImplTest_bulkDelete_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        int firstSize = expenseService.findAllExpensesFor(createdUserDTO.getId()).size();
+        int firstSize = expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size();
 
         //-----------------------------------------------------------------
         // Create category
@@ -53,7 +50,7 @@ public class ExpenseServiceImplTest_bulkDelete_IT extends AbstractIntegrationTes
         ExpenseDTO expenseDTOB = new ExpenseDTOBuilder().withValue(3.55).withDescription("my second expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
         ExpenseDTO expenseDTOBCreated = expenseService.create(expenseDTOB, createdUserDTO.getId());
 
-        int creationSize = expenseService.findAllExpensesFor(createdUserDTO.getId()).size();
+        int creationSize = expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size();
         assertThat(firstSize, is(equalTo(creationSize - 2)));
 
         //-----------------------------------------------------------------
@@ -61,7 +58,7 @@ public class ExpenseServiceImplTest_bulkDelete_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         expenseService.bulkDelete(Arrays.asList(expenseDTOCreated, expenseDTOBCreated), createdUserDTO.getId());
 
-        int postBulkDeleteSize = expenseService.findAllExpensesFor(createdUserDTO.getId()).size();
+        int postBulkDeleteSize = expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size();
         assertThat(postBulkDeleteSize, is(equalTo(firstSize)));
     }
 
