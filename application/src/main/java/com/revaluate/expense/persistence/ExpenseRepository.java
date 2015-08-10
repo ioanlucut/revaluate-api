@@ -1,6 +1,8 @@
 package com.revaluate.expense.persistence;
 
 import org.joda.time.LocalDateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +16,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
     Optional<Expense> findOneByIdAndUserId(int expenseId, int userId);
 
     List<Expense> findAllByUserId(int userId);
+
+    Page<Expense> findAllByUserId(int userId, Pageable pageable);
 
     @Query("SELECT e.spentDate FROM Expense e WHERE e.user.id = ?1")
     List<LocalDateTime> selectExistingSpentDates(int userId);
