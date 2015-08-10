@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -435,7 +436,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Find created epenses + asserts
         //-----------------------------------------------------------------
-        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId());
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty());
         assertThat(allExpensesFor, is(notNullValue()));
         assertThat(allExpensesFor.size(), is(equalTo(2)));
     }
@@ -450,7 +451,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Find created epenses + asserts
         //-----------------------------------------------------------------
-        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId());
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty());
         assertThat(allExpensesFor, is(notNullValue()));
         assertThat(allExpensesFor.size(), is(equalTo(0)));
     }
