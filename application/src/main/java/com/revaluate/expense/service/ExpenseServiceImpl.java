@@ -114,7 +114,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         return new ExpensesQueryResponseDTOBuilder()
                 .withGroupedExpensesDTOList(groupedExpensesDTOs)
                 .withCurrentPage(pageRequest.getPageNumber())
-                .withCurrentSize(groupedExpensesDTOs.size())
+                .withCurrentSize(allExpensesOf.size())
                 .withTotalSize(totalSize)
                 .build();
     }

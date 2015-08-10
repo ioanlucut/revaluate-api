@@ -63,7 +63,7 @@ public class ExpenseServiceImplTest_findExpensesGroupBySpentDate_IT extends Abst
         ExpensesQueryResponseDTO expensesAfterBeforeAndGroupBySpentDate = expenseService.findExpensesGroupBySpentDate(createdUserDTO.getId(), new PageRequest(0, 10));
         assertThat(expensesAfterBeforeAndGroupBySpentDate.getGroupedExpensesDTOList().size(), is(7));
         assertThat(expensesAfterBeforeAndGroupBySpentDate.getCurrentPage(), is(0));
-        assertThat(expensesAfterBeforeAndGroupBySpentDate.getCurrentSize(), is(7));
+        assertThat(expensesAfterBeforeAndGroupBySpentDate.getCurrentSize(), is(8));
 
         expensesAfterBeforeAndGroupBySpentDate = expenseService.findExpensesGroupBySpentDate(createdUserDTO.getId(), new PageRequest(1, 10));
         assertThat(expensesAfterBeforeAndGroupBySpentDate.getGroupedExpensesDTOList().size(), is(0));
