@@ -1,14 +1,17 @@
 package com.revaluate.expense.service;
 
 import com.revaluate.domain.expense.ExpenseDTO;
+import com.revaluate.domain.expense.ExpensesQueryResponseDTO;
 import com.revaluate.expense.exception.ExpenseException;
 import org.joda.time.LocalDateTime;
+import org.springframework.data.domain.PageRequest;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Optional;
 
 public interface ExpenseService {
 
@@ -22,7 +25,7 @@ public interface ExpenseService {
     ExpenseDTO update(@Valid ExpenseDTO expenseDTO, int userId) throws ExpenseException;
 
     @NotNull
-    List<ExpenseDTO> findAllExpensesFor(int userId);
+    List<ExpenseDTO> findAllExpensesFor(int userId, Optional<PageRequest> pageRequest);
 
     @NotNull
     List<ExpenseDTO> findAllExpensesAfter(int userId, LocalDateTime after);
@@ -32,6 +35,9 @@ public interface ExpenseService {
 
     @NotNull
     List<ExpenseDTO> findAllExpensesAfterBefore(int userId, LocalDateTime after, LocalDateTime before);
+
+    @NotNull
+    ExpensesQueryResponseDTO findExpensesGroupBySpentDate(int userId, PageRequest pageRequest);
 
     @NotNull
     List<ExpenseDTO> findAllExpensesWithCategoryIdAfterBefore(int userId, int categoryId, LocalDateTime after, LocalDateTime before);
