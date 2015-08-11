@@ -40,6 +40,15 @@
         </field-exclude>
     </mapping>
 
+    <mapping map-null="false">
+        <class-a>com.revaluate.domain.goal.GoalDTO</class-a>
+        <class-b>com.revaluate.goals.persistence.Goal</class-b>
+        <field-exclude type="one-way">
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>
+    </mapping>
+
     <mapping map-null="false" wildcard="false" map-id="UserDTO__update__account-details">
         <class-a>com.revaluate.domain.account.UserDTO</class-a>
         <class-b>com.revaluate.account.persistence.User</class-b>
