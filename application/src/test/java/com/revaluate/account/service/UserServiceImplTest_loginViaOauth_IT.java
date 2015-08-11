@@ -30,7 +30,7 @@ public class UserServiceImplTest_loginViaOauth_IT extends AbstractIntegrationTes
     }
 
     @Test
-    public void loginViaOauth_happyFlowButAnotherProvider_exceptionThrown() throws Exception {
+    public void loginViaOauth_happyFlowButAnotherProvider_ok() throws Exception {
         //-----------------------------------------------------------------
         // Create first user
         //-----------------------------------------------------------------
@@ -39,7 +39,36 @@ public class UserServiceImplTest_loginViaOauth_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         // Try to login
         //-----------------------------------------------------------------
+        userService.loginViaOauth(createdUserDTO.getEmail(), UserType.OAUTH_GOOGLE);
+    }
+
+    @Test
+    public void loginViaOauth_withSignUpUserButEmailNotConfirmed_exceptionThrown() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Try to login
+        //-----------------------------------------------------------------
         exception.expect(UserException.class);
+        userService.loginViaOauth(createdUserDTO.getEmail(), UserType.OAUTH_GOOGLE);
+    }
+
+    @Test
+    public void loginViaOauth_withSignUpUserButEmailConfirmed_ok() throws Exception {
+        //-----------------------------------------------------------------
+        // Create first user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+        User user = userRepository.findOneById(createdUserDTO.getId()).get();
+        user.setEmailConfirmed(Boolean.TRUE);
+        userRepository.save(user);
+
+        //-----------------------------------------------------------------
+        // Try to login
+        //-----------------------------------------------------------------
         userService.loginViaOauth(createdUserDTO.getEmail(), UserType.OAUTH_GOOGLE);
     }
 
