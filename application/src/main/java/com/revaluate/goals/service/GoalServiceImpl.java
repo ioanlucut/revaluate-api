@@ -40,8 +40,7 @@ public class GoalServiceImpl implements GoalService {
         Optional<Category> categoryByName = categoryRepository.findOneByIdAndUserId(goal.getCategory().getId(), userId);
         Category categoryFound = categoryByName.orElseThrow(() -> new GoalException("Category doesn't exist"));
 
-        User foundUser = userRepository.findOne(userId);
-        goal.setUser(foundUser);
+        goal.setUser(userRepository.findOne(userId));
         goal.setCategory(categoryFound);
         Goal savedGoal = goalRepository.save(goal);
 
@@ -119,6 +118,9 @@ public class GoalServiceImpl implements GoalService {
     }
 
     private List<GoalDTO> collectAndGet(List<Goal> goals) {
-        return goals.stream().map(category -> dozerBeanMapper.map(category, GoalDTO.class)).collect(Collectors.toList());
+        return goals
+                .stream()
+                .map(category -> dozerBeanMapper.map(category, GoalDTO.class))
+                .collect(Collectors.toList());
     }
 }
