@@ -2,12 +2,12 @@ CREATE TABLE goals (
     goal_id integer NOT NULL,
     value numeric(11,2) NOT NULL,
     category_id integer,
-    user_id integer NOT NULL
+    user_id integer NOT NULL,
     start_date timestamp without time zone NOT NULL,
     end_date timestamp without time zone NOT NULL,
     created_date timestamp without time zone NOT NULL,
     modified_date timestamp without time zone NOT NULL,
-    goal_target CHARACTER VARYING(255) NOT NULL;
+    goal_target CHARACTER VARYING(255) NOT NULL
 );
 
 CREATE SEQUENCE goals_id_seq
