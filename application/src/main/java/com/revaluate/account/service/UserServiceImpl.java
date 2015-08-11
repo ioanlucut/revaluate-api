@@ -178,14 +178,9 @@ public class UserServiceImpl implements UserService {
                 .findOneByEmailIgnoreCase(email)
                 .orElseThrow(() -> new UserException("Invalid email or password"));
 
-        if (!foundUser.isConnectedViaOauth()) {
+        if (!foundUser.isConnectedViaOauth() && !foundUser.isEmailConfirmed()) {
 
-            throw new UserException("User is not using oauth");
-        }
-
-        if (foundUser.getUserType() != userType) {
-
-            throw new UserException("Oauth provider is not proper");
+            throw new UserException("User is not using oauth and does not have email confirmed");
         }
 
         return dozerBeanMapper.map(foundUser, UserDTO.class);
