@@ -27,12 +27,6 @@ public interface GoalService {
     @NotNull
     List<GoalDTO> findAllGoalsAfterBefore(int userId, LocalDateTime after, LocalDateTime before);
 
-    @NotNull
-    List<GoalDTO> findAllGoalsWithCategoryIdAfterBefore(int userId, int categoryId, LocalDateTime after, LocalDateTime before);
-
-    @NotNull
-    List<GoalDTO> findAllGoalsWithCategoryIdFor(int categoryId, int userId);
-
     void bulkDelete(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<GoalDTO> GoalDTOs, int userId) throws GoalException;
 
     void remove(@Min(1) int expenseId, int userId) throws GoalException;

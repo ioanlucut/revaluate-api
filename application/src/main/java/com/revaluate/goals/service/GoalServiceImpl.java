@@ -1,6 +1,5 @@
 package com.revaluate.goals.service;
 
-import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.category.persistence.Category;
 import com.revaluate.category.persistence.CategoryRepository;
@@ -75,20 +74,6 @@ public class GoalServiceImpl implements GoalService {
     @Override
     public List<GoalDTO> findAllGoalsAfterBefore(int userId, LocalDateTime after, LocalDateTime before) {
         List<Goal> goals = goalRepository.findAllByUserIdAndStartDateAfterAndEndDateBefore(userId, after, before);
-
-        return collectAndGet(goals);
-    }
-
-    @Override
-    public List<GoalDTO> findAllGoalsWithCategoryIdAfterBefore(int userId, int categoryId, LocalDateTime after, LocalDateTime before) {
-        List<Goal> goals = goalRepository.findAllByUserIdAndCategoryIdAndStartDateAfterAndEndDateBefore(userId, categoryId, after, before);
-
-        return collectAndGet(goals);
-    }
-
-    @Override
-    public List<GoalDTO> findAllGoalsWithCategoryIdFor(int categoryId, int userId) {
-        List<Goal> goals = goalRepository.findAllByUserIdAndCategoryId(userId, categoryId);
 
         return collectAndGet(goals);
     }

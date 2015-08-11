@@ -126,66 +126,6 @@ public class GoalServiceImplTest_findAll_IT extends AbstractIntegrationTests {
         assertThat(allGoalsFor.size(), is(equalTo(7)));
     }
 
-    @Test
-    public void findAllGoalsWithCategoryIdAfterBefore_ofExistingUserBetweenTwoDatesAndACategory_ok() throws Exception {
-        //-----------------------------------------------------------------
-        // Create first user
-        //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO();
-
-        //-----------------------------------------------------------------
-        // Create category
-        //-----------------------------------------------------------------
-        CategoryDTO createdCategoryDTO = categoryService.create(new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build(), createdUserDTO.getId());
-
-        //-----------------------------------------------------------------
-        // Create second category
-        //-----------------------------------------------------------------
-        CategoryDTO secondCreatedCategoryDTO = categoryService.create(new CategoryDTOBuilder().withColor(SECOND_VALID_COLOR).withName("name2").build(), createdUserDTO.getId());
-
-        //-----------------------------------------------------------------
-        // Create goal
-        //-----------------------------------------------------------------
-        LocalDateTime startDate = LocalDateTime.now().minusSeconds(1);
-        LocalDateTime endDate = LocalDateTime.now().plusHours(1);
-
-        GoalDTO goalDTO = new GoalDTOBuilder()
-                .withValue(2.55)
-                .withGoalTarget(GoalTarget.MORE_THAN)
-                .withCategory(createdCategoryDTO)
-                .withStartDate(startDate)
-                .withEndDate(endDate)
-                .build();
-
-        GoalDTO goalDTOOfTheSecondCategory = new GoalDTOBuilder()
-                .withValue(2.55)
-                .withGoalTarget(GoalTarget.MORE_THAN)
-                .withCategory(secondCreatedCategoryDTO)
-                .withStartDate(startDate)
-                .withEndDate(endDate)
-                .build();
-
-        goalService.create(goalDTO, createdUserDTO.getId());
-        goalService.create(goalDTO, createdUserDTO.getId());
-        goalService.create(goalDTO, createdUserDTO.getId());
-        goalService.create(goalDTO, createdUserDTO.getId());
-        goalService.create(goalDTOOfTheSecondCategory, createdUserDTO.getId());
-        goalService.create(goalDTOOfTheSecondCategory, createdUserDTO.getId());
-        goalService.create(goalDTOOfTheSecondCategory, createdUserDTO.getId());
-        goalService.create(goalDTO, createdUserDTO.getId());
-        goalService.create(goalDTO, createdUserDTO.getId());
-        goalService.create(goalDTO, createdUserDTO.getId());
-
-        //-----------------------------------------------------------------
-        // Find created goals + asserts (should be only with the first category)
-        //-----------------------------------------------------------------
-        List<GoalDTO> allGoalsFor = goalService.findAllGoalsWithCategoryIdAfterBefore(createdUserDTO.getId(), createdCategoryDTO.getId(), startDate.minusMinutes(1), endDate.plusMinutes(1));
-        allGoalsFor.stream().forEach(goalDTOCandidate -> assertThat(goalDTOCandidate.getCategory().getName(), is(equalTo(createdCategoryDTO.getName()))));
-        assertThat(allGoalsFor, is(notNullValue()));
-        assertThat(allGoalsFor.size(), is(equalTo(7)));
-        assertThat(goalService.findAllGoalsAfterBefore(createdUserDTO.getId(), startDate.minusMinutes(1), endDate.plusMinutes(1)).size(), is(equalTo(10)));
-    }
-
     //-----------------------------------------------------------------
     // Find all goals work - AFTER a date
     //-----------------------------------------------------------------
