@@ -4,6 +4,7 @@ import com.revaluate.account.persistence.User;
 import com.revaluate.category.persistence.Category;
 import com.revaluate.domain.goal.GoalTarget;
 import org.joda.time.LocalDateTime;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "goals")
+@EntityListeners({AuditingEntityListener.class})
 public class Goal implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
