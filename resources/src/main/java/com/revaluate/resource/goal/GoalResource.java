@@ -32,7 +32,6 @@ public class GoalResource extends Resource {
     private static final String REMOVE_GOAL = "{goalId}";
     private static final String RETRIEVE_GOALS = "retrieve";
     private static final String RETRIEVE_GOALS_FROM_TO = "retrieve_from_to";
-    private static final String RETRIEVE_GOALS_OF_CATEGORY_FROM_TO = "retrieve_from_to_of_category/{categoryId}";
     private static final String BULK_DELETE = "bulkDelete";
 
     //-----------------------------------------------------------------
@@ -94,16 +93,6 @@ public class GoalResource extends Resource {
         List<GoalDTO> allGoalsFor = goalService.findAllGoalsAfterBefore(getCurrentUserId(), from, to);
 
         return Responses.respond(Response.Status.OK, allGoalsFor);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path(RETRIEVE_GOALS_OF_CATEGORY_FROM_TO)
-    public Response retrieveAllOfCategoryFromTo(@PathParam(CATEGORY_ID) @NotNull int categoryId, @QueryParam(FROM) LocalDateTime from, @QueryParam(TO) LocalDateTime to) {
-        List<GoalDTO> allGoalsOfThisCategory = goalService.findAllGoalsWithCategoryIdAfterBefore(getCurrentUserId(), categoryId, from, to);
-
-        return Responses.respond(Response.Status.OK, allGoalsOfThisCategory);
     }
 
     @PUT
