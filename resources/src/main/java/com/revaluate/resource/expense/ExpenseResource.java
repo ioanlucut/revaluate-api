@@ -10,6 +10,7 @@ import com.revaluate.resource.utils.Responses;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
@@ -48,6 +49,12 @@ public class ExpenseResource extends Resource {
     public static final String TO = "to";
     public static final String PAGE = "page";
     public static final String SIZE = "size";
+
+    //-----------------------------------------------------------------
+    // Other constants
+    //-----------------------------------------------------------------
+    public static final String EXPENSE_SPENT_DATE_COLUMN = "spentDate";
+    public static final String EXPENSE_CREATED_DATE_COLUMN = "createdDate";
 
     @Autowired
     private ExpenseService expenseService;
@@ -97,7 +104,11 @@ public class ExpenseResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(RETRIEVE_EXPENSES_GROUPED)
     public Response retrieveAllGrouped(@QueryParam(PAGE) int page, @QueryParam(SIZE) int size) {
-        ExpensesQueryResponseDTO expensesAfterBeforeAndGroupBySpentDate = expenseService.findExpensesGroupBySpentDate(getCurrentUserId(), new PageRequest(page, size));
+        ExpensesQueryResponseDTO expensesAfterBeforeAndGroupBySpentDate = expenseService.findExpensesGroupBySpentDate(getCurrentUserId(),
+                new PageRequest(page, size, new Sort(
+                        new Sort.Order(Sort.Direction.DESC, EXPENSE_SPENT_DATE_COLUMN),
+                        new Sort.Order(Sort.Direction.DESC, EXPENSE_CREATED_DATE_COLUMN)
+                )));
 
         return Responses.respond(Response.Status.OK, expensesAfterBeforeAndGroupBySpentDate);
     }
