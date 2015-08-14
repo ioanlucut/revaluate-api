@@ -11,9 +11,9 @@ import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
 public class ExpenseServiceImplTest_findExpensesGroupBySpentDate_IT extends AbstractIntegrationTests {
@@ -60,12 +60,20 @@ public class ExpenseServiceImplTest_findExpensesGroupBySpentDate_IT extends Abst
         //-----------------------------------------------------------------
         // Find created expenses + asserts
         //-----------------------------------------------------------------
-        ExpensesQueryResponseDTO expensesAfterBeforeAndGroupBySpentDate = expenseService.findExpensesGroupBySpentDate(createdUserDTO.getId(), new PageRequest(0, 10));
+        ExpensesQueryResponseDTO expensesAfterBeforeAndGroupBySpentDate = expenseService.findExpensesGroupBySpentDate(createdUserDTO.getId(),
+                new PageRequest(0, 10, new Sort(
+                        new Sort.Order(Sort.Direction.DESC, "spentDate"),
+                        new Sort.Order(Sort.Direction.DESC, "createdDate")
+                )));
         assertThat(expensesAfterBeforeAndGroupBySpentDate.getGroupedExpensesDTOList().size(), is(7));
         assertThat(expensesAfterBeforeAndGroupBySpentDate.getCurrentPage(), is(0));
         assertThat(expensesAfterBeforeAndGroupBySpentDate.getCurrentSize(), is(8));
 
-        expensesAfterBeforeAndGroupBySpentDate = expenseService.findExpensesGroupBySpentDate(createdUserDTO.getId(), new PageRequest(1, 10));
+        expensesAfterBeforeAndGroupBySpentDate = expenseService.findExpensesGroupBySpentDate(createdUserDTO.getId(),
+                new PageRequest(1, 10, new Sort(
+                        new Sort.Order(Sort.Direction.DESC, "spentDate"),
+                        new Sort.Order(Sort.Direction.DESC, "createdDate")
+                )));
         assertThat(expensesAfterBeforeAndGroupBySpentDate.getGroupedExpensesDTOList().size(), is(0));
         assertThat(expensesAfterBeforeAndGroupBySpentDate.getCurrentPage(), is(1));
         assertThat(expensesAfterBeforeAndGroupBySpentDate.getCurrentSize(), is(0));
