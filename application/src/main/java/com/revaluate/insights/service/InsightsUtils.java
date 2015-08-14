@@ -1,10 +1,7 @@
 package com.revaluate.insights.service;
 
 import com.revaluate.expense.persistence.Expense;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDateTime;
-import org.joda.time.Months;
-import org.joda.time.YearMonth;
+import org.joda.time.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -34,6 +31,22 @@ public interface InsightsUtils {
                     DateTime andUpdate = afterReference.getAndUpdate(dateTime -> dateTime.plusMonths(1));
 
                     return new YearMonth(andUpdate.getYear(), andUpdate.getMonthOfYear());
+                })
+                .collect(Collectors.toList());
+    }
+
+    static List<MonthDay> monthDaysBetween(LocalDateTime after, LocalDateTime before) {
+        DateTime afterAsDateTime = after.toDateTime().withTimeAtStartOfDay();
+        DateTime beforeAsDateTimeExclusive = before.toDateTime().withTimeAtStartOfDay();
+        Days days = Days.daysBetween(afterAsDateTime, beforeAsDateTimeExclusive);
+        AtomicReference<DateTime> afterReference = new AtomicReference<>(afterAsDateTime);
+
+        return IntStream
+                .range(0, days.getDays())
+                .mapToObj(monthIndex -> {
+                    DateTime andUpdate = afterReference.getAndUpdate(dateTime -> dateTime.plusDays(1));
+
+                    return new MonthDay(andUpdate.getMonthOfYear(), andUpdate.getDayOfMonth());
                 })
                 .collect(Collectors.toList());
     }
