@@ -16,4 +16,12 @@ public class InsightsUtilsTest {
 
         assertThat(InsightsUtils.yearMonthsBetween(after, before).size(), is(3));
     }
+
+    @Test
+    public void testMonthDaysBetween() throws Exception {
+        LocalDateTime after = ISODateTimeFormat.dateTimeNoMillis().parseLocalDateTime("2015-07-01T00:00:00Z");
+        LocalDateTime before = ISODateTimeFormat.dateTimeNoMillis().parseLocalDateTime("2015-08-01T00:00:00Z");
+
+        assertThat(InsightsUtils.monthDaysBetween(after, before).size(), is(31));
+    }
 }

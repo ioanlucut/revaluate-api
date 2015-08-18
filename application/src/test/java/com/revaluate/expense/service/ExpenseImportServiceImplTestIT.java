@@ -20,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -137,7 +138,7 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
                 });
 
         List<ExpenseDTO> expenseDTOs = expenseImportService.importExpenses(expensesImportDTO, createdUserDTO.getId());
-        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId());
+        List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty());
 
         //-----------------------------------------------------------------
         // Assert imported expenses
