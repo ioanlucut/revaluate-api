@@ -1,13 +1,11 @@
 package com.revaluate.resource.insight;
 
+import com.revaluate.domain.insights.daily.InsightsDailyDTO;
 import com.revaluate.domain.insights.monthly.InsightsMonthlyDTO;
 import com.revaluate.domain.insights.overview.InsightsOverviewDTO;
 import com.revaluate.domain.insights.progress.ProgressInsightsDTO;
 import com.revaluate.domain.insights.statistics.InsightsMonthsPerYearsDTO;
-import com.revaluate.insights.service.MonthlyInsightsService;
-import com.revaluate.insights.service.MonthsPerYearStatisticsService;
-import com.revaluate.insights.service.OverviewInsightsService;
-import com.revaluate.insights.service.ProgressInsightsService;
+import com.revaluate.insights.service.*;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
 import org.joda.time.LocalDateTime;
@@ -33,6 +31,7 @@ public class InsightsResource extends Resource {
     private static final String INSIGHTS_MONTHS_PER_YEARS = "insights_months_per_years";
     private static final String INSIGHTS_MONTHLY_RETRIEVE_FROM_TO = "retrieve_from_to";
     private static final String INSIGHTS_OVERVIEW_RETRIEVE_FROM_TO = "insights_overview_retrieve_from_to";
+    private static final String INSIGHTS_DAILY_RETRIEVE_FROM_TO = "insights_daily_retrieve_from_to";
     private static final String INSIGHTS_PROGRESS_RETRIEVE_FROM_TO = "insights_progress_retrieve_from_to";
 
     //-----------------------------------------------------------------
@@ -53,6 +52,9 @@ public class InsightsResource extends Resource {
     @Autowired
     private OverviewInsightsService overviewInsightsService;
 
+    @Autowired
+    private DailyInsightsService dailyInsightsService;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
@@ -71,6 +73,16 @@ public class InsightsResource extends Resource {
         InsightsOverviewDTO insightsOverview = overviewInsightsService.getOverviewInsightsBetween(getCurrentUserId(), from, to);
 
         return Responses.respond(Response.Status.OK, insightsOverview);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(INSIGHTS_DAILY_RETRIEVE_FROM_TO)
+    public Response getDailyInsightsFromTo(@QueryParam(FROM) LocalDateTime from, @QueryParam(TO) LocalDateTime to) {
+        InsightsDailyDTO insightsDailyDTO = dailyInsightsService.fetchDailyInsightsAfterBeforePeriod(getCurrentUserId(), from, to);
+
+        return Responses.respond(Response.Status.OK, insightsDailyDTO);
     }
 
     @GET
