@@ -19,6 +19,8 @@ public class GoalStatusDTO implements Serializable {
     @NotNull
     private InsightsDailyDTO insightsDaily;
 
+    private boolean goalAccomplished;
+
     public double getCurrentValue() {
         return currentValue;
     }
@@ -35,18 +37,27 @@ public class GoalStatusDTO implements Serializable {
         this.insightsDaily = insightsDaily;
     }
 
+    public boolean isGoalAccomplished() {
+        return goalAccomplished;
+    }
+
+    public void setGoalAccomplished(boolean goalAccomplished) {
+        this.goalAccomplished = goalAccomplished;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof GoalStatusDTO)) return false;
         GoalStatusDTO that = (GoalStatusDTO) o;
         return Objects.equals(currentValue, that.currentValue) &&
+                Objects.equals(goalAccomplished, that.goalAccomplished) &&
                 Objects.equals(insightsDaily, that.insightsDaily);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(currentValue, insightsDaily);
+        return Objects.hash(currentValue, insightsDaily, goalAccomplished);
     }
 
     @Override
@@ -54,6 +65,7 @@ public class GoalStatusDTO implements Serializable {
         return "GoalStatusDTO{" +
                 "currentValue=" + currentValue +
                 ", insightsDaily=" + insightsDaily +
+                ", goalAccomplished=" + goalAccomplished +
                 '}';
     }
 }

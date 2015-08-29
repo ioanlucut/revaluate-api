@@ -79,7 +79,7 @@ public class GoalStatusServiceImplTest_IT extends AbstractIntegrationTests {
         // Create goal
         //-----------------------------------------------------------------
         GoalDTO goalDTO = new GoalDTOBuilder()
-                .withValue(2.55)
+                .withValue(3100)
                 .withGoalTarget(GoalTarget.MORE_THAN)
                 .withCategory(createdCategoryDTO)
                 .withStartDate(after)
@@ -99,6 +99,7 @@ public class GoalStatusServiceImplTest_IT extends AbstractIntegrationTests {
         assertThat(goalStatusDTO.getInsightsDaily(), is(notNullValue()));
         assertThat(goalStatusDTO.getInsightsDaily().getTotalPerDayDTOs(), is(notNullValue()));
         assertThat(goalStatusDTO.getInsightsDaily().getTotalPerDayDTOs().size(), is(greaterThan(0)));
+        assertThat(goalStatusDTO.isGoalAccomplished(), is(Boolean.FALSE));
     }
 
 }

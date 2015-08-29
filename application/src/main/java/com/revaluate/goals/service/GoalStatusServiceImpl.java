@@ -28,10 +28,25 @@ public class GoalStatusServiceImpl implements GoalStatusService {
     public GoalStatusDTO computeGoalStatusFor(int userId, Goal goal) {
         List<Expense> concernedExpenses = expenseRepository.findAllByUserIdAndCategoryIdAndSpentDateAfterAndSpentDateBefore(userId, goal.getCategory().getId(), goal.getStartDate(), goal.getEndDate());
         InsightsDailyDTO insightsDailyOfThisGoal = dailyInsightsService.computeDailyInsightsAfterBeforePeriod(userId, concernedExpenses, goal.getStartDate(), goal.getEndDate());
+        double totalSpent = InsightsUtils.totalOf(concernedExpenses).doubleValue();
 
         return new GoalStatusDTOBuilder()
-                .withCurrentValue(InsightsUtils.totalOf(concernedExpenses).doubleValue())
+                .withCurrentValue(totalSpent)
                 .withInsightsDaily(insightsDailyOfThisGoal)
+                .withGoalAccomplished(getGoalAccomplishedStatus(goal, totalSpent))
                 .build();
+    }
+
+    private boolean getGoalAccomplishedStatus(Goal goal, double totalSpent) {
+        switch (goal.getGoalTarget()) {
+            case LESS_THAN: {
+                return totalSpent < goal.getValue().doubleValue();
+            }
+            case MORE_THAN: {
+                return totalSpent > goal.getValue().doubleValue();
+            }
+        }
+
+        return Boolean.FALSE;
     }
 }
