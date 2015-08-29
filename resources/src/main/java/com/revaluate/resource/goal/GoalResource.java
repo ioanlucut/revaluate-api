@@ -38,7 +38,6 @@ public class GoalResource extends Resource {
     // Path params
     //-----------------------------------------------------------------
     private static final String GOAL_ID = "goalId";
-    private static final String CATEGORY_ID = "categoryId";
     public static final String FROM = "from";
     public static final String TO = "to";
 

@@ -1,4 +1,4 @@
-package com.revaluate.insights.service;
+package com.revaluate.statistics;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.category.service.CategoryService;
@@ -7,8 +7,9 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
-import com.revaluate.domain.insights.statistics.InsightsMonthsPerYearsDTO;
+import com.revaluate.domain.insights.statistics.MonthsPerYearsDTO;
 import com.revaluate.expense.service.ExpenseService;
+import com.revaluate.statistics.MonthsPerYearStatisticsService;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
-public class MonthsPerYearStatisticsServiceIT extends AbstractIntegrationTests {
+public class MonthsPerYearStatisticsServiceTest_getExistingDaysPerYearsWithExpensesDefined_IT extends AbstractIntegrationTests {
 
     @Autowired
     private ExpenseService expenseService;
@@ -73,8 +74,8 @@ public class MonthsPerYearStatisticsServiceIT extends AbstractIntegrationTests {
         expenseDTOC = new ExpenseDTOBuilder().withValue(1.55).withDescription("my third expense").withCategory(createdCategoryDTO).withSpentDate(thirdYear.withMonthOfYear(thirdYearSecondMonthOfYear)).build();
         expenseService.create(expenseDTOC, createdUserDTO.getId());
 
-        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = monthsPerYearStatisticsService.getExistingDaysPerYearsWithExpensesDefined(userDTO.getId());
-        Map<Integer, Set<Integer>> existingDaysPerYearsWithExpensesDefined = insightsMonthsPerYearsDTO.getInsightsMonthsPerYears();
+        MonthsPerYearsDTO monthsPerYearsDTO = monthsPerYearStatisticsService.getExistingDaysPerYearsWithExpensesDefined(userDTO.getId());
+        Map<Integer, Set<Integer>> existingDaysPerYearsWithExpensesDefined = monthsPerYearsDTO.getMonthsPerYears();
 
         //-----------------------------------------------------------------
         // Assert grouping is ok
