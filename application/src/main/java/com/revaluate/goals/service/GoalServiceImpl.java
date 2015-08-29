@@ -31,6 +31,9 @@ public class GoalServiceImpl implements GoalService {
     private CategoryRepository categoryRepository;
 
     @Autowired
+    private GoalStatusService goalStatusService;
+
+    @Autowired
     private DozerBeanMapper dozerBeanMapper;
 
     @Override
@@ -43,7 +46,14 @@ public class GoalServiceImpl implements GoalService {
         goal.setCategory(categoryFound);
         Goal savedGoal = goalRepository.save(goal);
 
-        return dozerBeanMapper.map(savedGoal, GoalDTO.class);
+        return computeGoalDTO(savedGoal, userId);
+    }
+
+    private GoalDTO computeGoalDTO(Goal goal, int userId) {
+        GoalDTO goalDTO = dozerBeanMapper.map(goal, GoalDTO.class);
+        goalDTO.setGoalStatusDTO(goalStatusService.computeGoalStatusFor(userId, goal));
+
+        return goalDTO;
     }
 
     @Override
@@ -61,21 +71,21 @@ public class GoalServiceImpl implements GoalService {
         dozerBeanMapper.map(goalDTO, foundGoal);
 
         Goal savedGoal = goalRepository.save(foundGoal);
-        return dozerBeanMapper.map(savedGoal, GoalDTO.class);
+        return computeGoalDTO(savedGoal, userId);
     }
 
     @Override
     public List<GoalDTO> findAllGoalsFor(int userId) {
         List<Goal> goals = goalRepository.findAllByUserId(userId);
 
-        return collectAndGet(goals);
+        return collectAndGet(goals, userId);
     }
 
     @Override
     public List<GoalDTO> findAllGoalsAfterBefore(int userId, LocalDateTime after, LocalDateTime before) {
         List<Goal> goals = goalRepository.findAllByUserIdAndStartDateAfterAndEndDateBefore(userId, after, before);
 
-        return collectAndGet(goals);
+        return collectAndGet(goals, userId);
     }
 
     @Override
@@ -102,10 +112,10 @@ public class GoalServiceImpl implements GoalService {
         goalRepository.delete(goalId);
     }
 
-    private List<GoalDTO> collectAndGet(List<Goal> goals) {
+    private List<GoalDTO> collectAndGet(List<Goal> goals, int userId) {
         return goals
                 .stream()
-                .map(category -> dozerBeanMapper.map(category, GoalDTO.class))
+                .map(goal -> this.computeGoalDTO(goal, userId))
                 .collect(Collectors.toList());
     }
 }
