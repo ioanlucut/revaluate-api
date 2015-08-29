@@ -11,6 +11,8 @@ public class GoalStatusDTOBuilder
   protected boolean isSet$currentValue$double;
   protected InsightsDailyDTO value$insightsDaily$com$revaluate$domain$insights$daily$InsightsDailyDTO;
   protected boolean isSet$insightsDaily$com$revaluate$domain$insights$daily$InsightsDailyDTO;
+  protected boolean value$goalAccomplished$boolean;
+  protected boolean isSet$goalAccomplished$boolean;
 
   /**
    * Creates a new {@link GoalStatusDTOBuilder}.
@@ -40,6 +42,18 @@ public class GoalStatusDTOBuilder
   public GoalStatusDTOBuilder withInsightsDaily(InsightsDailyDTO value) {
     this.value$insightsDaily$com$revaluate$domain$insights$daily$InsightsDailyDTO = value;
     this.isSet$insightsDaily$com$revaluate$domain$insights$daily$InsightsDailyDTO = true;
+    return self;
+  }
+
+  /**
+   * Sets the default value for the {@link GoalStatusDTO#goalAccomplished} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public GoalStatusDTOBuilder withGoalAccomplished(boolean value) {
+    this.value$goalAccomplished$boolean = value;
+    this.isSet$goalAccomplished$boolean = true;
     return self;
   }
 
@@ -81,6 +95,9 @@ public class GoalStatusDTOBuilder
       }
       if (isSet$insightsDaily$com$revaluate$domain$insights$daily$InsightsDailyDTO) {
         result.setInsightsDaily(value$insightsDaily$com$revaluate$domain$insights$daily$InsightsDailyDTO);
+      }
+      if (isSet$goalAccomplished$boolean) {
+        result.setGoalAccomplished(value$goalAccomplished$boolean);
       }
       return result;
     } catch (RuntimeException ex) {
