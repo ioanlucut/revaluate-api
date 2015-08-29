@@ -31,6 +31,8 @@ public class GoalDTO implements Serializable {
     @NotNull
     private LocalDateTime endDate;
 
+    private GoalStatusDTO goalStatusDTO;
+
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -82,6 +84,14 @@ public class GoalDTO implements Serializable {
         this.endDate = endDate;
     }
 
+    public GoalStatusDTO getGoalStatusDTO() {
+        return goalStatusDTO;
+    }
+
+    public void setGoalStatusDTO(GoalStatusDTO goalStatusDTO) {
+        this.goalStatusDTO = goalStatusDTO;
+    }
+
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -109,13 +119,14 @@ public class GoalDTO implements Serializable {
                 Objects.equals(category, goalDTO.category) &&
                 Objects.equals(startDate, goalDTO.startDate) &&
                 Objects.equals(endDate, goalDTO.endDate) &&
+                Objects.equals(goalStatusDTO, goalDTO.goalStatusDTO) &&
                 Objects.equals(createdDate, goalDTO.createdDate) &&
                 Objects.equals(modifiedDate, goalDTO.modifiedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, value, goalTarget, category, startDate, endDate, createdDate, modifiedDate);
+        return Objects.hash(id, value, goalTarget, category, startDate, endDate, goalStatusDTO, createdDate, modifiedDate);
     }
 
     @Override
@@ -127,6 +138,7 @@ public class GoalDTO implements Serializable {
                 ", category=" + category +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", goalStatusDTO=" + goalStatusDTO +
                 ", createdDate=" + createdDate +
                 ", modifiedDate=" + modifiedDate +
                 '}';
