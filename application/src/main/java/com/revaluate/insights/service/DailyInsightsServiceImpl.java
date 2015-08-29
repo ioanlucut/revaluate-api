@@ -31,6 +31,11 @@ public class DailyInsightsServiceImpl implements DailyInsightsService {
     public InsightsDailyDTO fetchDailyInsightsAfterBeforePeriod(int userId, LocalDateTime after, LocalDateTime before) {
         List<Expense> allExpenses = expenseRepository.findAllByUserIdAndSpentDateAfterAndSpentDateBefore(userId, after, before);
 
+        return this.computeDailyInsightsAfterBeforePeriod(userId, allExpenses, after, before);
+    }
+
+    @Override
+    public InsightsDailyDTO computeDailyInsightsAfterBeforePeriod(int userId, List<Expense> allExpenses, LocalDateTime after, LocalDateTime before) {
         //-----------------------------------------------------------------
         // No results, return empty insight overview
         //-----------------------------------------------------------------
@@ -46,7 +51,7 @@ public class DailyInsightsServiceImpl implements DailyInsightsService {
         //-----------------------------------------------------------------
         // First of all, we get all expenses grouped
         //-----------------------------------------------------------------
-        Map<MonthDay, Optional<BigDecimal>> insightsOverview = allExpenses
+        Map<MonthDay, Optional<BigDecimal>> groupedPerMonthDay = allExpenses
                 .stream()
                 .collect(Collectors
                         .groupingBy(expense -> new MonthDay(expense.getSpentDate().getMonthOfYear(), expense.getSpentDate().getDayOfMonth()),
@@ -55,7 +60,7 @@ public class DailyInsightsServiceImpl implements DailyInsightsService {
         //-----------------------------------------------------------------
         // Then, we build our list
         //-----------------------------------------------------------------
-        List<TotalPerDayDTO> TotalPerDayDTOs = insightsOverview
+        List<TotalPerDayDTO> totalPerDayDTOs = groupedPerMonthDay
                 .entrySet()
                 .stream()
                 .filter(stringOptionalEntry -> stringOptionalEntry.getValue().isPresent())
@@ -75,7 +80,7 @@ public class DailyInsightsServiceImpl implements DailyInsightsService {
 
         Stream<TotalPerDayDTO> emptyMonths = allMonthDays
                 .stream()
-                .filter(monthDayCandidate -> TotalPerDayDTOs
+                .filter(monthDayCandidate -> totalPerDayDTOs
                         .stream()
                         .noneMatch(TotalPerDayDTO -> TotalPerDayDTO.getMonthDay().equals(monthDayCandidate)))
                 .map(monthDay -> new TotalPerDayDTOBuilder()
@@ -89,7 +94,7 @@ public class DailyInsightsServiceImpl implements DailyInsightsService {
         Comparator<TotalPerDayDTO> TotalPerDayDTOComparator = (o1, o2) -> o1.getMonthDay().compareTo(o2.getMonthDay());
 
         List<TotalPerDayDTO> allCombined = Stream
-                .concat(TotalPerDayDTOs.stream(), emptyMonths)
+                .concat(totalPerDayDTOs.stream(), emptyMonths)
                 .sorted(TotalPerDayDTOComparator)
                 .collect(Collectors.toList());
 

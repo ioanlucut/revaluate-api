@@ -4,10 +4,11 @@ import com.revaluate.domain.insights.daily.InsightsDailyDTO;
 import com.revaluate.domain.insights.monthly.InsightsMonthlyDTO;
 import com.revaluate.domain.insights.overview.InsightsOverviewDTO;
 import com.revaluate.domain.insights.progress.ProgressInsightsDTO;
-import com.revaluate.domain.insights.statistics.InsightsMonthsPerYearsDTO;
+import com.revaluate.domain.insights.statistics.MonthsPerYearsDTO;
 import com.revaluate.insights.service.*;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
+import com.revaluate.statistics.MonthsPerYearStatisticsService;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -100,9 +101,9 @@ public class InsightsResource extends Resource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(INSIGHTS_MONTHS_PER_YEARS)
     public Response getInsightsMonthsPerYearsDTO() {
-        InsightsMonthsPerYearsDTO insightsMonthsPerYearsDTO = monthsPerYearStatisticsService.getExistingDaysPerYearsWithExpensesDefined(getCurrentUserId());
+        MonthsPerYearsDTO monthsPerYearsDTO = monthsPerYearStatisticsService.getExistingDaysPerYearsWithExpensesDefined(getCurrentUserId());
 
-        return Responses.respond(Response.Status.OK, insightsMonthsPerYearsDTO);
+        return Responses.respond(Response.Status.OK, monthsPerYearsDTO);
     }
 
 }
