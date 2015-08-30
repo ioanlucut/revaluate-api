@@ -14,4 +14,8 @@ public interface AppConfig {
 
     int VALUE_INTEGER_SIZE = 20;
     int VALUE_FRACTION_SIZE = 2;
+
+    int MIN_ALLOWED_GOALS = 0;
+    int MAX_ALLOWED_GOALS = 50;
+    int MIN_GOALS_TO_ENABLE_BULK_ACTION = 1;
 }
