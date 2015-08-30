@@ -73,6 +73,7 @@ public class AppConfigResource extends Resource {
         // Others
         //-----------------------------------------------------------------
         APP_CONFIGURATION_MAP.put("MIN_EXPENSES_TO_ENABLE_BULK_ACTION", AppConfig.MIN_EXPENSES_TO_ENABLE_BULK_ACTION);
+        APP_CONFIGURATION_MAP.put("MIN_GOALS_TO_ENABLE_BULK_ACTION", AppConfig.MIN_GOALS_TO_ENABLE_BULK_ACTION);
         APP_CONFIGURATION_MAP.put("IMPORT_MIN_CATEGORIES_TO_SELECT", AppConfig.IMPORT_MIN_CATEGORIES_TO_SELECT);
         APP_CONFIGURATION_MAP.put("SETUP_MIN_CATEGORIES_TO_SELECT", AppConfig.SETUP_MIN_CATEGORIES_TO_SELECT);
 
@@ -87,6 +88,13 @@ public class AppConfigResource extends Resource {
         //-----------------------------------------------------------------
         APP_CONFIGURATION_MAP.put("VALUE_INTEGER_SIZE", AppConfig.VALUE_INTEGER_SIZE);
         APP_CONFIGURATION_MAP.put("VALUE_FRACTION_SIZE", AppConfig.VALUE_FRACTION_SIZE);
+
+        //-----------------------------------------------------------------
+        // Goals boundaries
+        //-----------------------------------------------------------------
+        APP_CONFIGURATION_MAP.put("MIN_ALLOWED_GOALS", AppConfig.MIN_ALLOWED_GOALS);
+        APP_CONFIGURATION_MAP.put("MAX_ALLOWED_GOALS", AppConfig.MAX_ALLOWED_GOALS);
+
     }
 
     @GET
