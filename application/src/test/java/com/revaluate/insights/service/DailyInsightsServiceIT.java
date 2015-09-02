@@ -79,7 +79,7 @@ public class DailyInsightsServiceIT extends AbstractIntegrationTests {
         assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().anyMatch(s -> s.getTotalAmount() == 3000.0), is(Boolean.TRUE));
         assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().anyMatch(s -> s.getTotalAmount() == 300.0), is(Boolean.TRUE));
 
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(greaterThanOrEqualTo(29L)));
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(greaterThanOrEqualTo(28L)));
     }
 
     @Test
