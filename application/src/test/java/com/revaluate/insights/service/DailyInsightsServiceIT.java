@@ -79,7 +79,30 @@ public class DailyInsightsServiceIT extends AbstractIntegrationTests {
         assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().anyMatch(s -> s.getTotalAmount() == 3000.0), is(Boolean.TRUE));
         assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().anyMatch(s -> s.getTotalAmount() == 300.0), is(Boolean.TRUE));
 
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(greaterThanOrEqualTo(29L)));
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(greaterThanOrEqualTo(28L)));
+    }
+
+    @Test
+    public void fetchDailyInsightsAfterBeforePeriod_withNoExpenses_isOk() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create expense 1
+        //-----------------------------------------------------------------
+        LocalDateTime after = LocalDateTime.now();
+        LocalDateTime before = LocalDateTime.now().plusMonths(1);
+
+        InsightsDailyDTO insightsDailyDTO = dailyInsightsService.fetchDailyInsightsAfterBeforePeriod(createdUserDTO.getId(), after, before);
+
+        //-----------------------------------------------------------------
+        // Assert insight is ok
+        //-----------------------------------------------------------------
+        assertThat(insightsDailyDTO, is(notNullValue()));
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs(), is(notNullValue()));
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs().size(), is(greaterThanOrEqualTo(30)));
     }
 
 }

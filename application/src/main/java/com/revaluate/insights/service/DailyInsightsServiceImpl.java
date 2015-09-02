@@ -37,18 +37,6 @@ public class DailyInsightsServiceImpl implements DailyInsightsService {
     @Override
     public InsightsDailyDTO computeDailyInsightsAfterBeforePeriod(int userId, List<Expense> allExpenses, LocalDateTime after, LocalDateTime before) {
         //-----------------------------------------------------------------
-        // No results, return empty insight overview
-        //-----------------------------------------------------------------
-        if (allExpenses.isEmpty()) {
-
-            return new InsightsDailyDTOBuilder()
-                    .withTotalPerDayDTOs(Collections.emptyList())
-                    .withFrom(after)
-                    .withTo(before)
-                    .build();
-        }
-
-        //-----------------------------------------------------------------
         // First of all, we get all expenses grouped
         //-----------------------------------------------------------------
         Map<MonthDay, Optional<BigDecimal>> groupedPerMonthDay = allExpenses
