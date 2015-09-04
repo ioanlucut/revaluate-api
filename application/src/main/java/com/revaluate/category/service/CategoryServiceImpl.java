@@ -7,6 +7,7 @@ import com.revaluate.category.persistence.Category;
 import com.revaluate.category.persistence.CategoryRepository;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.expense.persistence.ExpenseRepository;
+import com.revaluate.goals.persistence.GoalRepository;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private ExpenseRepository expenseRepository;
+
+    @Autowired
+    private GoalRepository goalRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -146,13 +150,19 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void remove(int categoryId, int userId) throws CategoryException {
-        Optional<Category> categoryById = categoryRepository.findOneByIdAndUserId(categoryId, userId);
-        categoryById.orElseThrow(() -> new CategoryException("The given category does not exists"));
+        categoryRepository
+                .findOneByIdAndUserId(categoryId, userId)
+                .orElseThrow(() -> new CategoryException("The given category does not exists"));
 
         //-----------------------------------------------------------------
         // We delete all expenses of this category
         //-----------------------------------------------------------------
         expenseRepository.removeByCategoryId(categoryId);
+
+        //-----------------------------------------------------------------
+        // We delete all goals of this category
+        //-----------------------------------------------------------------
+        goalRepository.removeByCategoryId(categoryId);
 
         categoryRepository.delete(categoryId);
     }
