@@ -73,7 +73,6 @@ public class AppConfigResource extends Resource {
         // Others
         //-----------------------------------------------------------------
         APP_CONFIGURATION_MAP.put("MIN_EXPENSES_TO_ENABLE_BULK_ACTION", AppConfig.MIN_EXPENSES_TO_ENABLE_BULK_ACTION);
-        APP_CONFIGURATION_MAP.put("MIN_GOALS_TO_ENABLE_BULK_ACTION", AppConfig.MIN_GOALS_TO_ENABLE_BULK_ACTION);
         APP_CONFIGURATION_MAP.put("IMPORT_MIN_CATEGORIES_TO_SELECT", AppConfig.IMPORT_MIN_CATEGORIES_TO_SELECT);
         APP_CONFIGURATION_MAP.put("SETUP_MIN_CATEGORIES_TO_SELECT", AppConfig.SETUP_MIN_CATEGORIES_TO_SELECT);
 
