@@ -8,6 +8,9 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
+import com.revaluate.domain.goal.GoalDTO;
+import com.revaluate.domain.goal.GoalDTOBuilder;
+import com.revaluate.domain.goal.GoalTarget;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
 
@@ -142,5 +145,37 @@ public class CategoryServiceImplTest_remove_IT extends AbstractIntegrationTests 
         categoryService.remove(createdCategoryDTO.getId(), userDTO.getId());
         assertThat(expenseService.findAllExpensesWithCategoryIdFor(createdCategoryDTO.getId(), userDTO.getId()).size(), is(0));
         assertThat(categoryService.findAllCategoriesFor(userDTO.getId()).size(), is(0));
+    }
+
+    @Test
+    public void remove_removeACategoryWithGoalsUsingThisCategory_removesEverything() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+        assertThat(categoryService.findAllCategoriesFor(userDTO.getId()).size(), is(1));
+
+        //-----------------------------------------------------------------
+        // Create goal
+        //-----------------------------------------------------------------
+        GoalDTO goalDTO = new GoalDTOBuilder()
+                .withValue(0.01)
+                .withGoalTarget(GoalTarget.MORE_THAN)
+                .withCategory(createdCategoryDTO)
+                .withStartDate(LocalDateTime.now().minusYears(3))
+                .withEndDate(LocalDateTime.now())
+                .build();
+
+        goalService.create(goalDTO, createdUserDTO.getId());
+        assertThat(goalService.findAllGoalsFor(createdUserDTO.getId()).size(), is(1));
+
+        categoryService.remove(createdCategoryDTO.getId(), userDTO.getId());
+        assertThat(goalService.findAllGoalsFor(createdUserDTO.getId()).size(), is(0));
     }
 }
