@@ -37,6 +37,11 @@ public class GoalServiceImpl implements GoalService {
     private DozerBeanMapper dozerBeanMapper;
 
     @Override
+    public boolean isUniqueGoalWithCategoryBetween(int userId, int categoryId, LocalDateTime after, LocalDateTime before) {
+        return goalRepository.findAllByUserIdAndCategoryIdAndStartDateAfterAndEndDateBefore(userId, categoryId, after, before).isEmpty();
+    }
+
+    @Override
     public GoalDTO create(GoalDTO goalDTO, int userId) throws GoalException {
         Goal goal = dozerBeanMapper.map(goalDTO, Goal.class);
         Optional<Category> categoryByName = categoryRepository.findOneByIdAndUserId(goal.getCategory().getId(), userId);
