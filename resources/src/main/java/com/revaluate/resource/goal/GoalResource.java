@@ -59,7 +59,7 @@ public class GoalResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(IS_UNIQUE_GOAL_CATEGORY)
-    public Response isUniqueGoalCategory(@PathParam(CATEGORY_ID) @NotNull int categoryId, @QueryParam(FROM) LocalDateTime from, @QueryParam(TO) LocalDateTime to) throws CategoryException {
+    public Response isUniqueGoalCategory(@PathParam(CATEGORY_ID) @NotNull int categoryId, @QueryParam(FROM) @NotNull LocalDateTime from, @QueryParam(TO) @NotNull LocalDateTime to) throws CategoryException {
         Map<String, Boolean> response = new HashMap<>();
         response.put(IS_UNIQUE_GOAL_CATEGORY_JSON_KEY, goalService.isUniqueGoalWithCategoryBetween(getCurrentUserId(), categoryId, from, to));
 
@@ -110,7 +110,7 @@ public class GoalResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(RETRIEVE_GOALS_FROM_TO)
-    public Response retrieveAllFromTo(@QueryParam(FROM) LocalDateTime from, @QueryParam(TO) LocalDateTime to) {
+    public Response retrieveAllFromTo(@QueryParam(FROM) @NotNull LocalDateTime from, @QueryParam(TO) @NotNull LocalDateTime to) {
         List<GoalDTO> allGoalsFor = goalService.findAllGoalsAfterBefore(getCurrentUserId(), from, to);
 
         return Responses.respond(Response.Status.OK, allGoalsFor);
