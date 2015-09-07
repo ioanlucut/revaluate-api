@@ -87,6 +87,13 @@ public class AppConfigResource extends Resource {
         //-----------------------------------------------------------------
         APP_CONFIGURATION_MAP.put("VALUE_INTEGER_SIZE", AppConfig.VALUE_INTEGER_SIZE);
         APP_CONFIGURATION_MAP.put("VALUE_FRACTION_SIZE", AppConfig.VALUE_FRACTION_SIZE);
+
+        //-----------------------------------------------------------------
+        // Goals boundaries
+        //-----------------------------------------------------------------
+        APP_CONFIGURATION_MAP.put("MIN_ALLOWED_GOALS", AppConfig.MIN_ALLOWED_GOALS);
+        APP_CONFIGURATION_MAP.put("MAX_ALLOWED_GOALS", AppConfig.MAX_ALLOWED_GOALS);
+
     }
 
     @GET

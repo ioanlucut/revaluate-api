@@ -58,6 +58,7 @@ public class GoalServiceImplTest_create_IT extends AbstractIntegrationTests {
         // Assert created goal is ok
         //-----------------------------------------------------------------
         assertThat(createdGoalDTO, is(notNullValue()));
+        assertThat(createdGoalDTO.getGoalStatusDTO(), is(notNullValue()));
         assertThat(createdGoalDTO.getId(), not(equalTo(0)));
         assertThat(createdGoalDTO.getCategory(), equalTo(goalDTO.getCategory()));
         assertThat(createdGoalDTO.getGoalTarget(), equalTo(GoalTarget.MORE_THAN));

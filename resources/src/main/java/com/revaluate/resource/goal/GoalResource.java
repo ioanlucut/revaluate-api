@@ -1,5 +1,6 @@
 package com.revaluate.resource.goal;
 
+import com.revaluate.category.exception.CategoryException;
 import com.revaluate.core.annotations.PaymentRequired;
 import com.revaluate.domain.goal.GoalDTO;
 import com.revaluate.goals.exception.GoalException;
@@ -15,7 +16,9 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Path(GoalResource.GOALS)
 @Component
@@ -33,17 +36,35 @@ public class GoalResource extends Resource {
     private static final String RETRIEVE_GOALS = "retrieve";
     private static final String RETRIEVE_GOALS_FROM_TO = "retrieve_from_to";
     private static final String BULK_DELETE = "bulkDelete";
+    private static final String IS_UNIQUE_GOAL_CATEGORY = "isUnique/{categoryId}";
 
     //-----------------------------------------------------------------
     // Path params
     //-----------------------------------------------------------------
     private static final String GOAL_ID = "goalId";
-    private static final String CATEGORY_ID = "categoryId";
     public static final String FROM = "from";
     public static final String TO = "to";
+    private static final String CATEGORY_ID = "categoryId";
+
+    //-----------------------------------------------------------------
+    // Json keys
+    //-----------------------------------------------------------------
+    public static final String IS_UNIQUE_GOAL_CATEGORY_JSON_KEY = "isUniqueGoalCategory";
+
 
     @Autowired
     private GoalService goalService;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path(IS_UNIQUE_GOAL_CATEGORY)
+    public Response isUniqueGoalCategory(@PathParam(CATEGORY_ID) @NotNull int categoryId, @QueryParam(FROM) @NotNull LocalDateTime from, @QueryParam(TO) @NotNull LocalDateTime to) throws CategoryException {
+        Map<String, Boolean> response = new HashMap<>();
+        response.put(IS_UNIQUE_GOAL_CATEGORY_JSON_KEY, goalService.isUniqueGoalWithCategoryBetween(getCurrentUserId(), categoryId, from, to));
+
+        return Responses.respond(Response.Status.OK, response);
+    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -89,7 +110,7 @@ public class GoalResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     @Path(RETRIEVE_GOALS_FROM_TO)
-    public Response retrieveAllFromTo(@QueryParam(FROM) LocalDateTime from, @QueryParam(TO) LocalDateTime to) {
+    public Response retrieveAllFromTo(@QueryParam(FROM) @NotNull LocalDateTime from, @QueryParam(TO) @NotNull LocalDateTime to) {
         List<GoalDTO> allGoalsFor = goalService.findAllGoalsAfterBefore(getCurrentUserId(), from, to);
 
         return Responses.respond(Response.Status.OK, allGoalsFor);

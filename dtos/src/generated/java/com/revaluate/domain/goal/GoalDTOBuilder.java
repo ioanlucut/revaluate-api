@@ -20,6 +20,8 @@ public class GoalDTOBuilder
   protected boolean isSet$startDate$org$joda$time$LocalDateTime;
   protected LocalDateTime value$endDate$org$joda$time$LocalDateTime;
   protected boolean isSet$endDate$org$joda$time$LocalDateTime;
+  protected GoalStatusDTO value$goalStatusDTO$com$revaluate$domain$goal$GoalStatusDTO;
+  protected boolean isSet$goalStatusDTO$com$revaluate$domain$goal$GoalStatusDTO;
   protected LocalDateTime value$createdDate$org$joda$time$LocalDateTime;
   protected boolean isSet$createdDate$org$joda$time$LocalDateTime;
   protected LocalDateTime value$modifiedDate$org$joda$time$LocalDateTime;
@@ -105,6 +107,18 @@ public class GoalDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link GoalDTO#goalStatusDTO} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public GoalDTOBuilder withGoalStatusDTO(GoalStatusDTO value) {
+    this.value$goalStatusDTO$com$revaluate$domain$goal$GoalStatusDTO = value;
+    this.isSet$goalStatusDTO$com$revaluate$domain$goal$GoalStatusDTO = true;
+    return self;
+  }
+
+  /**
    * Sets the default value for the {@link GoalDTO#createdDate} property.
    *
    * @param value the default value
@@ -178,6 +192,9 @@ public class GoalDTOBuilder
       }
       if (isSet$endDate$org$joda$time$LocalDateTime) {
         result.setEndDate(value$endDate$org$joda$time$LocalDateTime);
+      }
+      if (isSet$goalStatusDTO$com$revaluate$domain$goal$GoalStatusDTO) {
+        result.setGoalStatusDTO(value$goalStatusDTO$com$revaluate$domain$goal$GoalStatusDTO);
       }
       if (isSet$createdDate$org$joda$time$LocalDateTime) {
         result.setCreatedDate(value$createdDate$org$joda$time$LocalDateTime);
