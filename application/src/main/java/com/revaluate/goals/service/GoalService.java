@@ -15,6 +15,8 @@ public interface GoalService {
     int MIN_SIZE_LIST = 1;
     int MAX_SIZE_LIST = 1000;
 
+    boolean isUniqueGoalWithCategoryBetween(int userId, int categoryId, LocalDateTime after, LocalDateTime before);
+
     @NotNull
     GoalDTO create(@Valid GoalDTO GoalDTO, int userId) throws GoalException;
 

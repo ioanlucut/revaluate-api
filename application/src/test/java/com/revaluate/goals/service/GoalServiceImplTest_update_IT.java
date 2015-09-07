@@ -75,6 +75,7 @@ public class GoalServiceImplTest_update_IT extends AbstractIntegrationTests {
         // Assert updated goal is ok, and updated only concerned values
         //-----------------------------------------------------------------
         assertThat(updatedGoalDTO.getId(), is(equalTo(createdGoalDTO.getId())));
+        assertThat(createdGoalDTO.getGoalStatusDTO(), is(notNullValue()));
         assertThat(updatedGoalDTO.getCategory().getColor(), equalTo(createdGoalDTO.getCategory().getColor()));
         assertThat(updatedGoalDTO.getCategory().getName(), equalTo(createdGoalDTO.getCategory().getName()));
         assertThat(updatedGoalDTO.getCategory().getId(), equalTo(createdGoalDTO.getCategory().getId()));
