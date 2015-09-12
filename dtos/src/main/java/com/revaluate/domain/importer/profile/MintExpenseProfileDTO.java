@@ -5,7 +5,7 @@ import com.revaluate.domain.importer.column.MintColumns;
 
 public class MintExpenseProfileDTO extends ExpenseProfileDTO {
 
-    public static final String MINT_SPENT_DATE_FORMAT = "dd/MM/YYY";
+    public static final String MINT_SPENT_DATE_FORMAT = "MM/dd/YYY";
 
     public MintExpenseProfileDTO() {
         expenseColumnMatchingMap.put(ExpenseColumn.AMOUNT, MintColumns.AMOUNT.getImportColumnName());
