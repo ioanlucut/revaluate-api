@@ -21,10 +21,12 @@
         <module>emails</module>
         <module>jobs</module>
         <module>importer</module>
+        <module>slack</module>
         <module>payment</module>
         <module>application</module>
         <module>resources</module>
         <module>e2e-tests</module>
+        <module>slack</module>
     </modules>
 
 </project>
