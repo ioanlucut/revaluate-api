@@ -63,5 +63,5 @@
         GET     /expenses/retrieve (com.revaluate.resource.expense.ExpenseResource)
         GET     /expenses/retrieve_from_to (com.revaluate.resource.expense.ExpenseResource)
         POST    /expenses/create (com.revaluate.resource.expense.ExpenseResource)
-        POST    /expenses/update (com.revaluate.resource.expense.ExpenseResource)
+        POST    /expenses/update (com.revaluate.resource.expense.ExpenseResource) 
  
