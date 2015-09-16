@@ -33,7 +33,7 @@ public class SlackResource extends Resource {
     @POST
     @Public
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
     public Response create(@Valid SlackDTO slackDTO) throws SlackException {
         SlackAnswerDTO answer = slackService.answer(slackDTO);
 
