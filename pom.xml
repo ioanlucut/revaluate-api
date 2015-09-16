@@ -26,7 +26,6 @@
         <module>application</module>
         <module>resources</module>
         <module>e2e-tests</module>
-        <module>slack</module>
     </modules>
 
 </project>
