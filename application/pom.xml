@@ -50,6 +50,12 @@
 
         <dependency>
             <groupId>com.revaluate</groupId>
+            <artifactId>slack</artifactId>
+            <version>${global.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.revaluate</groupId>
             <artifactId>payment</artifactId>
             <version>${global.version}</version>
         </dependency>
