@@ -8,12 +8,15 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+/**
+ * Should always respond with 200.
+ */
 @Component
 @Provider
 public class SlackExceptionExceptionMapper implements ExceptionMapper<SlackException> {
 
     public Response toResponse(SlackException ex) {
 
-        return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
+        return Responses.respond(Response.Status.OK, ex.getMessage());
     }
 }
