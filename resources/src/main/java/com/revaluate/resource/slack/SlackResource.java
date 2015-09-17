@@ -1,13 +1,12 @@
 package com.revaluate.resource.slack;
 
+import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.annotations.Public;
-import com.revaluate.domain.slack.SlackAnswerDTO;
 import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.domain.slack.SlackDTOBuilder;
+import com.revaluate.expense.service.SlackService;
 import com.revaluate.resource.utils.Resource;
-import com.revaluate.resource.utils.Responses;
 import com.revaluate.slack.SlackException;
-import com.revaluate.slack.SlackService;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,6 +42,9 @@ public class SlackResource extends Resource {
 
     @Autowired
     private SlackService slackService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GET
     @Public
@@ -93,10 +95,10 @@ public class SlackResource extends Resource {
                 .withCommand(command)
                 .withText(text)
                 .build();
-        SlackAnswerDTO answer = slackService.answer(request);
+        Integer id = userRepository.findOneByEmailIgnoreCase("ioan.lucut88@gmail.com").orElseThrow(() -> new SlackException("Shit..")).getId();
+        String answer = slackService.answer(request, id);
 
-        return Responses.respond(Response.Status.OK, answer);
+        return Response.status(Response.Status.OK).entity(answer).build();
     }
-
 
 }
