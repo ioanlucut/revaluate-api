@@ -1,6 +1,5 @@
 package com.revaluate.mapper;
 
-import com.revaluate.resource.utils.Responses;
 import com.revaluate.slack.SlackException;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +16,6 @@ public class SlackExceptionExceptionMapper implements ExceptionMapper<SlackExcep
 
     public Response toResponse(SlackException ex) {
 
-        return Responses.respond(Response.Status.OK, ex.getMessage());
+        return Response.status(Response.Status.OK).entity(ex.getMessage()).build();
     }
 }
