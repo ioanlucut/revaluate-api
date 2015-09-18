@@ -93,7 +93,8 @@ public class SlackServiceImpl implements SlackService {
             } else {
                 handleDate(expenseDTOBuilder, thirdCandidate);
             }
-
+        } else {
+            expenseDTOBuilder.withSpentDate(LocalDateTime.now());
         }
 
         ExpenseDTO buildExpenseDTO = expenseDTOBuilder.build();
