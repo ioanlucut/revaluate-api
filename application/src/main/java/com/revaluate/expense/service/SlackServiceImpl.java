@@ -1,6 +1,8 @@
 package com.revaluate.expense.service;
 
 import com.google.common.base.Splitter;
+import com.revaluate.account.persistence.User;
+import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.category.persistence.Category;
 import com.revaluate.category.persistence.CategoryRepository;
 import com.revaluate.category.service.CategoryService;
@@ -8,7 +10,6 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
 import com.revaluate.domain.slack.SlackDTO;
-import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.slack.SlackException;
 import org.dozer.DozerBeanMapper;
 import org.joda.time.LocalDateTime;
@@ -22,9 +23,8 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,33 +36,7 @@ public class SlackServiceImpl implements SlackService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SlackServiceImpl.class);
 
-    private static final Map<String, String> DATE_FORMAT_REGEXPS = new HashMap<String, String>() {{
-        put("^\\d{8}$", "yyyyMMdd");
-        put("^\\d{1,2}-\\d{1,2}-\\d{4}$", "dd-MM-yyyy");
-        put("^\\d{4}-\\d{1,2}-\\d{1,2}$", "yyyy-MM-dd");
-        put("^\\d{1,2}/\\d{1,2}/\\d{4}$", "MM/dd/yyyy");
-        put("^\\d{4}/\\d{1,2}/\\d{1,2}$", "yyyy/MM/dd");
-        put("^\\d{1,2}\\s[a-z]{3}\\s\\d{4}$", "dd MMM yyyy");
-        put("^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}$", "dd MMMM yyyy");
-        put("^\\d{12}$", "yyyyMMddHHmm");
-        put("^\\d{8}\\s\\d{4}$", "yyyyMMdd HHmm");
-        put("^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}$", "dd-MM-yyyy HH:mm");
-        put("^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}$", "yyyy-MM-dd HH:mm");
-        put("^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}$", "MM/dd/yyyy HH:mm");
-        put("^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}$", "yyyy/MM/dd HH:mm");
-        put("^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}$", "dd MMM yyyy HH:mm");
-        put("^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}$", "dd MMMM yyyy HH:mm");
-        put("^\\d{14}$", "yyyyMMddHHmmss");
-        put("^\\d{8}\\s\\d{6}$", "yyyyMMdd HHmmss");
-        put("^\\d{1,2}-\\d{1,2}-\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$", "dd-MM-yyyy HH:mm:ss");
-        put("^\\d{4}-\\d{1,2}-\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$", "yyyy-MM-dd HH:mm:ss");
-        put("^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$", "MM/dd/yyyy HH:mm:ss");
-        put("^\\d{4}/\\d{1,2}/\\d{1,2}\\s\\d{1,2}:\\d{2}:\\d{2}$", "yyyy/MM/dd HH:mm:ss");
-        put("^\\d{1,2}\\s[a-z]{3}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$", "dd MMM yyyy HH:mm:ss");
-        put("^\\d{1,2}\\s[a-z]{4,}\\s\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$", "dd MMMM yyyy HH:mm:ss");
-    }};
     public static final int MAX_DESC_LENGTH = 100;
-
 
     @Autowired
     private CategoryService categoryService;
@@ -73,6 +47,8 @@ public class SlackServiceImpl implements SlackService {
     @Autowired
     private ExpenseService expenseService;
 
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private DozerBeanMapper dozerBeanMapper;
@@ -110,7 +86,7 @@ public class SlackServiceImpl implements SlackService {
 
             String thirdCandidate = tokens.get(2);
 
-            Optional<String> dateFormat = determineDateFormat(thirdCandidate);
+            Optional<String> dateFormat = ExpensesUtils.determineDateFormat(thirdCandidate);
             if (!dateFormat.isPresent()) {
                 handleDescription(expenseDTOBuilder, thirdCandidate);
                 expenseDTOBuilder.withSpentDate(LocalDateTime.now());
@@ -123,14 +99,19 @@ public class SlackServiceImpl implements SlackService {
         ExpenseDTO buildExpenseDTO = expenseDTOBuilder.build();
 
         try {
-            expenseService.create(buildExpenseDTO, userId);
-        } catch (ExpenseException ex) {
+            ExpenseDTO expenseDTO = expenseService.create(buildExpenseDTO, userId);
+            User user = userRepository.findOneById(userId).orElseThrow(() -> new SlackException("Do we know you?"));
+
+            String expenseAddedFormat = ":white_check_mark: Yay! Done adding _Spent %s ( %s ) on %s_ ! Checkout <https://www.revaluate.io/expenses|dashboard> for more details!";
+            return String.format(expenseAddedFormat,
+                    ExpensesUtils.format(BigDecimal.valueOf(expenseDTO.getValue()), user.getCurrency()),
+                    expenseDTO.getDescription(),
+                    ExpensesUtils.formatDate(expenseDTO.getSpentDate()));
+        } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             throw new SlackException("Upps, we had a problem trying to save your expense.");
         }
-
-        return "Yay! Expense added! :white_check_mark: GO to <https://revaluate.io/expenses|dashboard> for details!";
     }
 
     private void handleDescription(ExpenseDTOBuilder expenseDTOBuilder, String description) throws SlackException {
@@ -141,7 +122,7 @@ public class SlackServiceImpl implements SlackService {
     }
 
     private void handleDate(ExpenseDTOBuilder expenseDTOBuilder, String dateCandidate) throws SlackException {
-        Optional<String> dateFormat = determineDateFormat(dateCandidate);
+        Optional<String> dateFormat = ExpensesUtils.determineDateFormat(dateCandidate);
         if (!dateFormat.isPresent()) {
             throw new SlackException("Date format is not known");
         }
@@ -162,7 +143,7 @@ public class SlackServiceImpl implements SlackService {
                     .map(categoryDTO -> String.format("_%s_", categoryDTO.getName()))
                     .collect(Collectors.joining(", "));
 
-            throw new SlackException(categoryPossibilities);
+            throw new SlackException(String.format("We do not recognize %s as category. You dispose only of: %s", categoryCandidate, categoryPossibilities));
         }
 
         return dozerBeanMapper.map(optionalCategory.get(), CategoryDTO.class);
@@ -170,11 +151,10 @@ public class SlackServiceImpl implements SlackService {
 
     private double getPrice(String price) throws SlackException {
         String priceMatch = getPriceMatch(price);
-        String filteredPrice = priceMatch.replaceAll(",", "");
 
         try {
-            return Double.parseDouble(filteredPrice);
-        } catch (NumberFormatException ex) {
+            return ExpensesUtils.parseCurrency(priceMatch).doubleValue();
+        } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             throw new SlackException("Hey, the price format is wrong.");
@@ -189,23 +169,6 @@ public class SlackServiceImpl implements SlackService {
         }
 
         throw new SlackException("No price found");
-    }
-
-    /**
-     * Determine SimpleDateFormat pattern matching with the given date string. Returns null if
-     * format is unknown. You can simply extend DateUtil with more formats if needed.
-     *
-     * @param dateString The date string to determine the SimpleDateFormat pattern for.
-     * @return The matching SimpleDateFormat pattern, or null if format is unknown.
-     * @see SimpleDateFormat
-     */
-    public Optional<String> determineDateFormat(String dateString) {
-        for (String regexp : DATE_FORMAT_REGEXPS.keySet()) {
-            if (dateString.toLowerCase().matches(regexp)) {
-                return Optional.ofNullable(DATE_FORMAT_REGEXPS.get(regexp));
-            }
-        }
-        return Optional.empty(); // Unknown format.
     }
 
 }

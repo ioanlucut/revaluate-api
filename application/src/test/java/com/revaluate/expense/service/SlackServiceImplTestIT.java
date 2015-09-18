@@ -11,7 +11,12 @@ import com.revaluate.expense.persistence.ExpenseRepository;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -98,7 +103,6 @@ public class SlackServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(answer, is(notNullValue()));
         List<Expense> allByUserId = expenseRepository.findAllByUserId(userDTO.getId());
         assertThat(allByUserId.size(), is(equalTo(1)));
-
-        System.out.println(allByUserId);
     }
+
 }
