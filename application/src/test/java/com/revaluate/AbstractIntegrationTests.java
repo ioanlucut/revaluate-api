@@ -23,7 +23,7 @@ import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.expense.service.ExpenseService;
 import com.revaluate.goals.persistence.GoalRepository;
 import com.revaluate.goals.service.GoalService;
-import com.revaluate.oauth_integr.persistence.OauthIntegrationSlackRepository;
+import com.revaluate.app_integration.persistence.AppIntegrationSlackRepository;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import org.dozer.DozerBeanMapper;
 import org.joda.money.CurrencyUnit;
@@ -73,7 +73,7 @@ public class AbstractIntegrationTests {
     protected UserRepository userRepository;
 
     @Autowired
-    protected OauthIntegrationSlackRepository oauthIntegrationSlackRepository;
+    protected AppIntegrationSlackRepository appIntegrationSlackRepository;
 
     @Autowired
     protected UserService userService;
@@ -132,7 +132,7 @@ public class AbstractIntegrationTests {
         expenseRepository.deleteAll();
         goalRepository.deleteAll();
         categoryRepository.deleteAll();
-        oauthIntegrationSlackRepository.deleteAll();
+        appIntegrationSlackRepository.deleteAll();
         userRepository.deleteAll();
         currencyRepository.deleteAll();
     }

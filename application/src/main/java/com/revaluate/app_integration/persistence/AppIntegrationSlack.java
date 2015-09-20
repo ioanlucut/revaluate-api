@@ -1,4 +1,4 @@
-package com.revaluate.oauth_integr.persistence;
+package com.revaluate.app_integration.persistence;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -7,8 +7,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = OauthIntegrationSlack.OAUTH_SLACK)
-public class OauthIntegrationSlack extends OauthIntegration {
+@DiscriminatorValue(value = AppIntegrationSlack.OAUTH_SLACK)
+public class AppIntegrationSlack extends AppIntegration {
 
     public static final String OAUTH_SLACK = "OAUTH_SLACK";
 
