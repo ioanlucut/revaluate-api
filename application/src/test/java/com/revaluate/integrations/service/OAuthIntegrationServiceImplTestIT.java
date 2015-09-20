@@ -81,7 +81,12 @@ public class OAuthIntegrationServiceImplTestIT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         // Throw OauthIntegrationException
         //-----------------------------------------------------------------
+        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(new SlackTokenIssuingResponseDTOBuilder().withAccessToken("dsa").withScope("client").build());
+        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(new SlackIdentityResponseDTOBuilder().withOk("ok").withTeamId("teamId").withUserId("userId").build());
         oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
+
+        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(new SlackTokenIssuingResponseDTOBuilder().withAccessToken("dsa").withScope("client").build());
+        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(new SlackIdentityResponseDTOBuilder().withOk("ok").withTeamId("teamId2").withUserId("userId3").build());
         oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
 
         List<OauthIntegrationSlack> allByOauthIntegrationTypeAndUserId = oauthIntegrationSlackRepository.findAllByOauthIntegrationTypeAndUserId(OauthIntegrationType.SLACK, userDTO.getId());
