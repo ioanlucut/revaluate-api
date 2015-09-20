@@ -1,6 +1,5 @@
 package com.revaluate.resource.oauth;
 
-import com.revaluate.core.annotations.Public;
 import com.revaluate.integrations.exception.OauthIntegrationException;
 import com.revaluate.integrations.service.OauthIntegrationService;
 import com.revaluate.resource.utils.Resource;
@@ -34,7 +33,6 @@ public class OauthResource extends Resource {
     private OauthIntegrationService oauthIntegrationService;
 
     @GET
-    @Public
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(@NotEmpty @QueryParam(CODE) String code, @NotEmpty @QueryParam(REDIRECT_URI) String redirectUri) throws OauthIntegrationException {
 

@@ -3,6 +3,7 @@ package com.revaluate.integrations.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.google.common.base.Splitter;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.domain.account.OauthIntegrationScopeType;
@@ -13,6 +14,7 @@ import com.revaluate.integrations.exception.OauthIntegrationException;
 import com.revaluate.integrations.persistence.OauthIntegrationSlack;
 import com.revaluate.integrations.persistence.OauthIntegrationSlackRepository;
 import org.apache.commons.lang3.StringUtils;
+import org.glassfish.jersey.client.ClientConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -65,7 +68,17 @@ public class OauthIntegrationServiceImpl implements OauthIntegrationService {
             OauthIntegrationSlack oAuthIntegrationSlack = new OauthIntegrationSlack();
             oAuthIntegrationSlack.setOauthIntegrationType(OauthIntegrationType.SLACK);
             oAuthIntegrationSlack.setAccessToken(accessTokenFrom.getAccessToken());
-            oAuthIntegrationSlack.setOauthIntegrationScopeType(OauthIntegrationScopeType.fromString(accessTokenFrom.getScope()));
+
+            String allowScope = accessTokenFrom.getScope();
+            Splitter splitter = Splitter.on(',').omitEmptyStrings().trimResults();
+            List<String> scopeAsString = splitter.splitToList(allowScope);
+            scopeAsString
+                    .stream()
+                    .filter(s -> OauthIntegrationScopeType.CLIENT.name().toLowerCase().equals(s))
+                    .findFirst()
+                    .orElseThrow(() -> new OauthIntegrationException("The access scope should be client"));
+
+            oAuthIntegrationSlack.setOauthIntegrationScopeType(OauthIntegrationScopeType.CLIENT);
             oAuthIntegrationSlack.setSlackTeamId(identityOf.getTeamId());
             oAuthIntegrationSlack.setSlackUserId(identityOf.getUserId());
             oAuthIntegrationSlack.setUser(foundUser);
@@ -126,10 +139,8 @@ public class OauthIntegrationServiceImpl implements OauthIntegrationService {
     }
 
     private Client buildClient() {
-        Client client = ClientBuilder.newClient();
+        final JacksonJsonProvider jacksonJsonProvider = new JacksonJaxbJsonProvider().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        JacksonJsonProvider jacksonJsonProvider = new JacksonJaxbJsonProvider().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        client.register(jacksonJsonProvider);
-        return client;
+        return ClientBuilder.newClient(new ClientConfig(jacksonJsonProvider));
     }
 }
