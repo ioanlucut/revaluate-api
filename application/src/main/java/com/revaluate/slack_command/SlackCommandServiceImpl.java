@@ -1,4 +1,4 @@
-package com.revaluate.expense.service;
+package com.revaluate.slack_command;
 
 import com.google.common.base.Splitter;
 import com.revaluate.account.persistence.User;
@@ -10,6 +10,8 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
 import com.revaluate.domain.slack.SlackDTO;
+import com.revaluate.expense.service.ExpenseService;
+import com.revaluate.expense.service.ExpensesUtils;
 import com.revaluate.slack.SlackException;
 import org.dozer.DozerBeanMapper;
 import org.joda.time.LocalDateTime;
@@ -32,9 +34,9 @@ import java.util.stream.Collectors;
 
 @Service
 @Validated
-public class SlackServiceImpl implements SlackService {
+public class SlackCommandServiceImpl implements SlackCommandService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SlackServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SlackCommandServiceImpl.class);
 
     public static final int MAX_DESC_LENGTH = 100;
 

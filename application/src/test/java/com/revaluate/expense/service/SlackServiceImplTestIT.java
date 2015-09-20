@@ -8,15 +8,11 @@ import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.domain.slack.SlackDTOBuilder;
 import com.revaluate.expense.persistence.Expense;
 import com.revaluate.expense.persistence.ExpenseRepository;
+import com.revaluate.slack_command.SlackCommandService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.List;
-import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -29,7 +25,7 @@ public class SlackServiceImplTestIT extends AbstractIntegrationTests {
     private ExpenseRepository expenseRepository;
 
     @Autowired
-    private SlackService slackService;
+    private SlackCommandService slackService;
 
     @Test
     public void create_expenseThroughSlack_ok() throws Exception {
