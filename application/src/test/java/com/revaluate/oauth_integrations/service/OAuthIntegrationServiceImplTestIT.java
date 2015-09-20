@@ -1,4 +1,4 @@
-package com.revaluate.integrations.service;
+package com.revaluate.oauth_integrations.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.persistence.UserRepository;
@@ -6,9 +6,10 @@ import com.revaluate.domain.oauth.OauthIntegrationType;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.slack.SlackIdentityResponseDTOBuilder;
 import com.revaluate.domain.slack.SlackTokenIssuingResponseDTOBuilder;
-import com.revaluate.integrations.exception.OauthIntegrationException;
-import com.revaluate.integrations.persistence.OauthIntegrationSlack;
-import com.revaluate.integrations.persistence.OauthIntegrationSlackRepository;
+import com.revaluate.oauth_integr.exception.OauthIntegrationException;
+import com.revaluate.oauth_integr.persistence.OauthIntegrationSlack;
+import com.revaluate.oauth_integr.persistence.OauthIntegrationSlackRepository;
+import com.revaluate.oauth_integr.service.OauthIntegrationServiceImpl;
 import com.revaluate.resource.payment.PaymentException;
 import org.junit.Test;
 import org.mockito.Mockito;

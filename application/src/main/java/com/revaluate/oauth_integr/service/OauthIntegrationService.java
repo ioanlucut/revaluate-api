@@ -1,6 +1,6 @@
-package com.revaluate.integrations.service;
+package com.revaluate.oauth_integr.service;
 
-import com.revaluate.integrations.exception.OauthIntegrationException;
+import com.revaluate.oauth_integr.exception.OauthIntegrationException;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public interface OauthIntegrationService {

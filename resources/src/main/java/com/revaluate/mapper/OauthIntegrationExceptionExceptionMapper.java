@@ -1,6 +1,6 @@
 package com.revaluate.mapper;
 
-import com.revaluate.integrations.exception.OauthIntegrationException;
+import com.revaluate.oauth_integr.exception.OauthIntegrationException;
 import com.revaluate.resource.utils.Responses;
 import org.springframework.stereotype.Component;
 
