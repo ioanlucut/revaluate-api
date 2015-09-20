@@ -1,8 +1,8 @@
 package com.revaluate.integrations.persistence;
 
 import com.revaluate.account.persistence.User;
-import com.revaluate.domain.account.OauthIntegrationScopeType;
-import com.revaluate.domain.account.OauthIntegrationType;
+import com.revaluate.domain.oauth.OauthIntegrationScopeType;
+import com.revaluate.domain.oauth.OauthIntegrationType;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;

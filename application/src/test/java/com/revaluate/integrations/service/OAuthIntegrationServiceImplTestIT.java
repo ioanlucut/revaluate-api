@@ -2,7 +2,7 @@ package com.revaluate.integrations.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.persistence.UserRepository;
-import com.revaluate.domain.account.OauthIntegrationType;
+import com.revaluate.domain.oauth.OauthIntegrationType;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.slack.SlackIdentityResponseDTOBuilder;
 import com.revaluate.domain.slack.SlackTokenIssuingResponseDTOBuilder;
