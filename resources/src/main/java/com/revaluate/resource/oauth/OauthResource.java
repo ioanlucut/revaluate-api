@@ -1,7 +1,7 @@
 package com.revaluate.resource.oauth;
 
-import com.revaluate.integrations.exception.OauthIntegrationException;
-import com.revaluate.integrations.service.OauthIntegrationService;
+import com.revaluate.oauth_integr.exception.OauthIntegrationException;
+import com.revaluate.oauth_integr.service.OauthIntegrationService;
 import com.revaluate.resource.utils.Resource;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
