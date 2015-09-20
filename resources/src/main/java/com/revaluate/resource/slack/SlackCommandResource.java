@@ -1,11 +1,11 @@
 package com.revaluate.resource.slack;
 
 import com.revaluate.core.annotations.Public;
-import com.revaluate.domain.oauth.OauthIntegrationType;
+import com.revaluate.domain.app_integration.AppIntegrationType;
 import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.domain.slack.SlackDTOBuilder;
-import com.revaluate.oauth_integr.persistence.OauthIntegrationSlack;
-import com.revaluate.oauth_integr.persistence.OauthIntegrationSlackRepository;
+import com.revaluate.app_integration.persistence.AppIntegrationSlack;
+import com.revaluate.app_integration.persistence.AppIntegrationSlackRepository;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.slack.SlackException;
 import com.revaluate.slack_command.SlackCommandService;
@@ -46,7 +46,7 @@ public class SlackCommandResource extends Resource {
     private SlackCommandService slackService;
 
     @Autowired
-    private OauthIntegrationSlackRepository oauthIntegrationSlackRepository;
+    private AppIntegrationSlackRepository oauthIntegrationSlackRepository;
 
     @GET
     @Public
@@ -98,8 +98,8 @@ public class SlackCommandResource extends Resource {
                 .withText(text)
                 .build();
 
-        OauthIntegrationSlack oneBySlackUserId = oauthIntegrationSlackRepository
-                .findOneByOauthIntegrationTypeAndSlackUserIdAndSlackTeamId(OauthIntegrationType.SLACK, request.getUserId(), request.getTeamId())
+        AppIntegrationSlack oneBySlackUserId = oauthIntegrationSlackRepository
+                .findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType.SLACK, request.getUserId(), request.getTeamId())
                 .orElseThrow(() -> new SlackException("Sorry, do we know you?.."));
 
         Integer matchingUserId = oneBySlackUserId.getUser().getId();

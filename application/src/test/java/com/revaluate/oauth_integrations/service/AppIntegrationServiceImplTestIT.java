@@ -2,14 +2,14 @@ package com.revaluate.oauth_integrations.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.persistence.UserRepository;
-import com.revaluate.domain.oauth.OauthIntegrationType;
+import com.revaluate.domain.app_integration.AppIntegrationType;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.slack.SlackIdentityResponseDTOBuilder;
 import com.revaluate.domain.slack.SlackTokenIssuingResponseDTOBuilder;
-import com.revaluate.oauth_integr.exception.OauthIntegrationException;
-import com.revaluate.oauth_integr.persistence.OauthIntegrationSlack;
-import com.revaluate.oauth_integr.persistence.OauthIntegrationSlackRepository;
-import com.revaluate.oauth_integr.service.OauthIntegrationServiceImpl;
+import com.revaluate.app_integration.exception.AppIntegrationException;
+import com.revaluate.app_integration.persistence.AppIntegrationSlack;
+import com.revaluate.app_integration.persistence.AppIntegrationSlackRepository;
+import com.revaluate.app_integration.service.AppIntegrationServiceImpl;
 import com.revaluate.resource.payment.PaymentException;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -23,10 +23,10 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
-public class OAuthIntegrationServiceImplTestIT extends AbstractIntegrationTests {
+public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
 
     @Autowired
-    private OauthIntegrationSlackRepository oauthIntegrationSlackRepository;
+    private AppIntegrationSlackRepository oauthIntegrationSlackRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -38,15 +38,15 @@ public class OAuthIntegrationServiceImplTestIT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        OauthIntegrationServiceImpl oauthIntegrationServiceMock = Mockito.spy(new OauthIntegrationServiceImpl());
+        AppIntegrationServiceImpl oauthIntegrationServiceMock = Mockito.spy(new AppIntegrationServiceImpl());
         prepare(oauthIntegrationServiceMock);
 
         //-----------------------------------------------------------------
         // Throw OauthIntegrationException
         //-----------------------------------------------------------------
-        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenThrow(new OauthIntegrationException());
+        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenThrow(new AppIntegrationException());
 
-        exception.expect(OauthIntegrationException.class);
+        exception.expect(AppIntegrationException.class);
         oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
     }
 
@@ -57,15 +57,15 @@ public class OAuthIntegrationServiceImplTestIT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        OauthIntegrationServiceImpl oauthIntegrationServiceMock = Mockito.spy(new OauthIntegrationServiceImpl());
+        AppIntegrationServiceImpl oauthIntegrationServiceMock = Mockito.spy(new AppIntegrationServiceImpl());
         prepare(oauthIntegrationServiceMock);
 
         //-----------------------------------------------------------------
         // Throw OauthIntegrationException
         //-----------------------------------------------------------------
-        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenThrow(new OauthIntegrationException());
+        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenThrow(new AppIntegrationException());
 
-        exception.expect(OauthIntegrationException.class);
+        exception.expect(AppIntegrationException.class);
         oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
     }
 
@@ -76,7 +76,7 @@ public class OAuthIntegrationServiceImplTestIT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        OauthIntegrationServiceImpl oauthIntegrationServiceMock = Mockito.spy(new OauthIntegrationServiceImpl());
+        AppIntegrationServiceImpl oauthIntegrationServiceMock = Mockito.spy(new AppIntegrationServiceImpl());
         prepare(oauthIntegrationServiceMock);
 
         //-----------------------------------------------------------------
@@ -90,12 +90,12 @@ public class OAuthIntegrationServiceImplTestIT extends AbstractIntegrationTests 
         when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(new SlackIdentityResponseDTOBuilder().withOk("ok").withTeamId("teamId2").withUserId("userId3").build());
         oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
 
-        List<OauthIntegrationSlack> allByOauthIntegrationTypeAndUserId = oauthIntegrationSlackRepository.findAllByOauthIntegrationTypeAndUserId(OauthIntegrationType.SLACK, userDTO.getId());
-        assertThat(allByOauthIntegrationTypeAndUserId, is(notNullValue()));
-        assertThat(allByOauthIntegrationTypeAndUserId.size(), is(2));
+        List<AppIntegrationSlack> allByAppIntegrationTypeAndUserId = oauthIntegrationSlackRepository.findAllByAppIntegrationTypeAndUserId(AppIntegrationType.SLACK, userDTO.getId());
+        assertThat(allByAppIntegrationTypeAndUserId, is(notNullValue()));
+        assertThat(allByAppIntegrationTypeAndUserId.size(), is(2));
     }
 
-    private void prepare(OauthIntegrationServiceImpl oauthIntegrationServiceMock) throws PaymentException {
+    private void prepare(AppIntegrationServiceImpl oauthIntegrationServiceMock) throws PaymentException {
         setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "userRepository", userRepository);
         setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "oauthIntegrationSlackRepository", oauthIntegrationSlackRepository);
     }

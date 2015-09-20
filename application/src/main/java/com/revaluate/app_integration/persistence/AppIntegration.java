@@ -1,8 +1,8 @@
-package com.revaluate.integrations.persistence;
+package com.revaluate.app_integration.persistence;
 
 import com.revaluate.account.persistence.User;
-import com.revaluate.domain.oauth.OauthIntegrationScopeType;
-import com.revaluate.domain.oauth.OauthIntegrationType;
+import com.revaluate.domain.app_integration.AppIntegrationScopeType;
+import com.revaluate.domain.app_integration.AppIntegrationType;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -10,23 +10,23 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@SequenceGenerator(name = OauthIntegration.SEQ_GENERATOR_NAME,
-        sequenceName = OauthIntegration.SEQ_NAME,
-        initialValue = OauthIntegration.SEQ_INITIAL_VALUE,
-        allocationSize = OauthIntegration.ALLOCATION_SIZE)
-@Table(name = "oauth_integration")
+@SequenceGenerator(name = AppIntegration.SEQ_GENERATOR_NAME,
+        sequenceName = AppIntegration.SEQ_NAME,
+        initialValue = AppIntegration.SEQ_INITIAL_VALUE,
+        allocationSize = AppIntegration.ALLOCATION_SIZE)
+@Table(name = "app_integration")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = OauthIntegration.OAUTH_INTEGRATION_TYPE)
-public class OauthIntegration implements Serializable {
+@DiscriminatorColumn(name = AppIntegration.APP_INTEGRATION_TYPE)
+public class AppIntegration implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
     public static final String USER_ID = "user_id";
-    protected static final String SEQ_NAME = "oauth_integration_id_seq";
-    protected static final String SEQ_GENERATOR_NAME = "oauth_integration_seq_generator";
+    protected static final String SEQ_NAME = "app_integration_id_seq";
+    protected static final String SEQ_GENERATOR_NAME = "app_integration_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 1;
     protected static final int ALLOCATION_SIZE = 1;
-    public static final String OAUTH_INTEGRATION_TYPE = "discriminator_oauth_type";
+    public static final String APP_INTEGRATION_TYPE = "discriminator_app_type";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
@@ -34,11 +34,11 @@ public class OauthIntegration implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OauthIntegrationType oauthIntegrationType;
+    private AppIntegrationType AppIntegrationType;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OauthIntegrationScopeType oauthIntegrationScopeType;
+    private AppIntegrationScopeType appIntegrationScopeType;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = USER_ID, nullable = false)
@@ -75,20 +75,20 @@ public class OauthIntegration implements Serializable {
         this.id = id;
     }
 
-    public OauthIntegrationType getOauthIntegrationType() {
-        return oauthIntegrationType;
+    public AppIntegrationType getAppIntegrationType() {
+        return AppIntegrationType;
     }
 
-    public void setOauthIntegrationType(OauthIntegrationType oauthIntegrationType) {
-        this.oauthIntegrationType = oauthIntegrationType;
+    public void setAppIntegrationType(AppIntegrationType AppIntegrationType) {
+        this.AppIntegrationType = AppIntegrationType;
     }
 
-    public OauthIntegrationScopeType getOauthIntegrationScopeType() {
-        return oauthIntegrationScopeType;
+    public AppIntegrationScopeType getAppIntegrationScopeType() {
+        return appIntegrationScopeType;
     }
 
-    public void setOauthIntegrationScopeType(OauthIntegrationScopeType oauthIntegrationScopeType) {
-        this.oauthIntegrationScopeType = oauthIntegrationScopeType;
+    public void setAppIntegrationScopeType(AppIntegrationScopeType appIntegrationScopeType) {
+        this.appIntegrationScopeType = appIntegrationScopeType;
     }
 
     public User getUser() {

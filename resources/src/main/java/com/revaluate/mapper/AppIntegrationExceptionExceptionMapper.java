@@ -1,6 +1,6 @@
 package com.revaluate.mapper;
 
-import com.revaluate.oauth_integr.exception.OauthIntegrationException;
+import com.revaluate.app_integration.exception.AppIntegrationException;
 import com.revaluate.resource.utils.Responses;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +10,9 @@ import javax.ws.rs.ext.Provider;
 
 @Component
 @Provider
-public class OauthIntegrationExceptionExceptionMapper implements ExceptionMapper<OauthIntegrationException> {
+public class AppIntegrationExceptionExceptionMapper implements ExceptionMapper<AppIntegrationException> {
 
-    public Response toResponse(OauthIntegrationException ex) {
+    public Response toResponse(AppIntegrationException ex) {
 
         return Responses.respond(Response.Status.BAD_REQUEST, ex.getMessage());
     }

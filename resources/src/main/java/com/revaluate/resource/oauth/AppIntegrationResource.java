@@ -1,7 +1,7 @@
 package com.revaluate.resource.oauth;
 
-import com.revaluate.oauth_integr.exception.OauthIntegrationException;
-import com.revaluate.oauth_integr.service.OauthIntegrationService;
+import com.revaluate.app_integration.exception.AppIntegrationException;
+import com.revaluate.app_integration.service.AppIntegrationService;
 import com.revaluate.resource.utils.Resource;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path(OauthResource.OAUTH)
+@Path(AppIntegrationResource.OAUTH)
 @Component
-public class OauthResource extends Resource {
+public class AppIntegrationResource extends Resource {
 
     //-----------------------------------------------------------------
     // Path
@@ -30,11 +30,11 @@ public class OauthResource extends Resource {
     public static final String REDIRECT_URI = "redirect_uri";
 
     @Autowired
-    private OauthIntegrationService oauthIntegrationService;
+    private AppIntegrationService oauthIntegrationService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(@NotEmpty @QueryParam(CODE) String code, @NotEmpty @QueryParam(REDIRECT_URI) String redirectUri) throws OauthIntegrationException {
+    public Response create(@NotEmpty @QueryParam(CODE) String code, @NotEmpty @QueryParam(REDIRECT_URI) String redirectUri) throws AppIntegrationException {
 
         oauthIntegrationService.createOauthIntegrationSlack(code, redirectUri, getCurrentUserId());
 
