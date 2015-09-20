@@ -1,12 +1,14 @@
 package com.revaluate.resource.slack;
 
-import com.revaluate.account.persistence.UserRepository;
 import com.revaluate.core.annotations.Public;
+import com.revaluate.domain.account.OauthIntegrationType;
 import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.domain.slack.SlackDTOBuilder;
-import com.revaluate.expense.service.SlackService;
+import com.revaluate.integrations.persistence.OauthIntegrationSlack;
+import com.revaluate.integrations.persistence.OauthIntegrationSlackRepository;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.slack.SlackException;
+import com.revaluate.slack_command.SlackCommandService;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,9 +20,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path(SlackResource.SLACK)
+@Path(SlackCommandResource.SLACK)
 @Component
-public class SlackResource extends Resource {
+public class SlackCommandResource extends Resource {
 
     //-----------------------------------------------------------------
     // Path
@@ -41,10 +43,10 @@ public class SlackResource extends Resource {
     public static final String TEXT = "text";
 
     @Autowired
-    private SlackService slackService;
+    private SlackCommandService slackService;
 
     @Autowired
-    private UserRepository userRepository;
+    private OauthIntegrationSlackRepository oauthIntegrationSlackRepository;
 
     @GET
     @Public
@@ -95,8 +97,13 @@ public class SlackResource extends Resource {
                 .withCommand(command)
                 .withText(text)
                 .build();
-        Integer id = userRepository.findOneByEmailIgnoreCase("ioan.lucut88@gmail.com").orElseThrow(() -> new SlackException("Shit..")).getId();
-        String answer = slackService.answer(request, id);
+
+        OauthIntegrationSlack oneBySlackUserId = oauthIntegrationSlackRepository
+                .findOneByOauthIntegrationTypeAndSlackUserIdAndSlackTeamId(OauthIntegrationType.SLACK, request.getUserId(), request.getTeamId())
+                .orElseThrow(() -> new SlackException("Sorry, do we know you?.."));
+
+        Integer matchingUserId = oneBySlackUserId.getUser().getId();
+        String answer = slackService.answer(request, matchingUserId);
 
         return Response.status(Response.Status.OK).entity(answer).build();
     }
