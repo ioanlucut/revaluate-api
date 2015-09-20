@@ -1,7 +1,7 @@
 package com.revaluate.resource.slack;
 
 import com.revaluate.core.annotations.Public;
-import com.revaluate.domain.account.OauthIntegrationType;
+import com.revaluate.domain.oauth.OauthIntegrationType;
 import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.domain.slack.SlackDTOBuilder;
 import com.revaluate.integrations.persistence.OauthIntegrationSlack;
