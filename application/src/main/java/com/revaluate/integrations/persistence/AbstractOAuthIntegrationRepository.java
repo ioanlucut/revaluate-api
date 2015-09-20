@@ -14,7 +14,7 @@ import java.util.Optional;
 @NoRepositoryBean
 public interface AbstractOauthIntegrationRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
 
-    Optional<T> findOneByOauthIntegrationTypeAndSlackUserIdAndSlackTeamIdAndUserId(OauthIntegrationType oauthIntegrationType, String slackUserId, String slackTeamId, int userId);
+    Optional<T> findOneByOauthIntegrationTypeAndSlackUserIdAndSlackTeamId(OauthIntegrationType oauthIntegrationType, String slackUserId, String slackTeamId);
 
     //-----------------------------------------------------------------
     // Find all by type and user id
