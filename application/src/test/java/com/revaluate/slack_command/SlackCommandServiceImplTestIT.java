@@ -43,6 +43,8 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         SlackDTO request = buildDummyRequestWithText("add 123.22 name xx");
         String answer = slackCommandService.answer(request, userDTO.getId());
+        request = buildDummyRequestWithText("categories");
+        answer = slackCommandService.answer(request, userDTO.getId());
 
         //-----------------------------------------------------------------
         // Assert created expense is ok
