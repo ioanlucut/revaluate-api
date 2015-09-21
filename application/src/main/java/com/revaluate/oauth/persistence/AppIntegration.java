@@ -14,7 +14,7 @@ import java.io.Serializable;
         sequenceName = AppIntegration.SEQ_NAME,
         initialValue = AppIntegration.SEQ_INITIAL_VALUE,
         allocationSize = AppIntegration.ALLOCATION_SIZE)
-@Table(name = "oauth")
+@Table(name = "app_integration")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = AppIntegration.APP_INTEGRATION_TYPE)
 public class AppIntegration implements Serializable {
