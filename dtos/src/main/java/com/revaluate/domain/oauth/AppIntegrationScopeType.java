@@ -1,4 +1,4 @@
-package com.revaluate.domain.app_integration;
+package com.revaluate.domain.oauth;
 
 import java.util.Arrays;
 

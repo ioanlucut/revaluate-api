@@ -1,4 +1,4 @@
-package com.revaluate.app_integration.service;
+package com.revaluate.oauth.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
@@ -6,13 +6,13 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.common.base.Splitter;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
-import com.revaluate.domain.app_integration.AppIntegrationScopeType;
-import com.revaluate.domain.app_integration.AppIntegrationType;
+import com.revaluate.domain.oauth.AppIntegrationScopeType;
+import com.revaluate.domain.oauth.AppIntegrationType;
 import com.revaluate.domain.slack.SlackIdentityResponseDTO;
 import com.revaluate.domain.slack.SlackTokenIssuingResponseDTO;
-import com.revaluate.app_integration.exception.AppIntegrationException;
-import com.revaluate.app_integration.persistence.AppIntegrationSlack;
-import com.revaluate.app_integration.persistence.AppIntegrationSlackRepository;
+import com.revaluate.oauth.exception.AppIntegrationException;
+import com.revaluate.oauth.persistence.AppIntegrationSlack;
+import com.revaluate.oauth.persistence.AppIntegrationSlackRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.client.ClientConfig;
 import org.slf4j.Logger;

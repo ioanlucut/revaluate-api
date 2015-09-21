@@ -1,4 +1,4 @@
-package com.revaluate.app_integration.persistence;
+package com.revaluate.oauth.persistence;
 
 import org.hibernate.validator.constraints.NotEmpty;
 

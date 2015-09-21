@@ -1,4 +1,4 @@
-package com.revaluate.app_integration.exception;
+package com.revaluate.oauth.exception;
 
 public class AppIntegrationException extends Exception {
 

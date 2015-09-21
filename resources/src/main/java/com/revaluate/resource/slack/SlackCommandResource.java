@@ -1,11 +1,11 @@
 package com.revaluate.resource.slack;
 
 import com.revaluate.core.annotations.Public;
-import com.revaluate.domain.app_integration.AppIntegrationType;
+import com.revaluate.domain.oauth.AppIntegrationType;
 import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.domain.slack.SlackDTOBuilder;
-import com.revaluate.app_integration.persistence.AppIntegrationSlack;
-import com.revaluate.app_integration.persistence.AppIntegrationSlackRepository;
+import com.revaluate.oauth.persistence.AppIntegrationSlack;
+import com.revaluate.oauth.persistence.AppIntegrationSlackRepository;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.slack.SlackException;
 import com.revaluate.slack_command.SlackCommandService;
