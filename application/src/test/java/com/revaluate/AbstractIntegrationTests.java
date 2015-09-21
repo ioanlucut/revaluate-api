@@ -23,7 +23,7 @@ import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.expense.service.ExpenseService;
 import com.revaluate.goals.persistence.GoalRepository;
 import com.revaluate.goals.service.GoalService;
-import com.revaluate.app_integration.persistence.AppIntegrationSlackRepository;
+import com.revaluate.oauth.persistence.AppIntegrationSlackRepository;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
 import org.dozer.DozerBeanMapper;
 import org.joda.money.CurrencyUnit;

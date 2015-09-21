@@ -1,6 +1,6 @@
-package com.revaluate.app_integration.persistence;
+package com.revaluate.oauth.persistence;
 
-import com.revaluate.domain.app_integration.AppIntegrationType;
+import com.revaluate.domain.oauth.AppIntegrationType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,12 +14,12 @@ import java.util.Optional;
 @NoRepositoryBean
 public interface AbstractAppIntegrationRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
 
-    Optional<T> findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType AppIntegrationType, String slackUserId, String slackTeamId);
+    Optional<T> findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType appIntegrationType, String slackUserId, String slackTeamId);
 
     //-----------------------------------------------------------------
     // Find all by type and user id
     //-----------------------------------------------------------------
-    List<T> findAllByAppIntegrationTypeAndUserId(AppIntegrationType AppIntegrationType, int userId);
+    List<T> findAllByAppIntegrationTypeAndUserId(AppIntegrationType appIntegrationType, int userId);
 
     @Modifying
     @Transactional
@@ -28,6 +28,6 @@ public interface AbstractAppIntegrationRepository<T, ID extends Serializable> ex
 
     @Modifying
     @Transactional
-    @Query("delete from AppIntegration u where u.AppIntegrationType = ?1 and u.user.id = ?2")
+    @Query("delete from AppIntegration u where u.appIntegrationType = ?1 and u.user.id = ?2")
     void deleteAllByAppIntegrationTypeAndUserId(AppIntegrationType AppIntegrationType, int userId);
 }

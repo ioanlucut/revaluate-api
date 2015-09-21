@@ -1,8 +1,8 @@
-package com.revaluate.app_integration.persistence;
+package com.revaluate.oauth.persistence;
 
 import com.revaluate.account.persistence.User;
-import com.revaluate.domain.app_integration.AppIntegrationScopeType;
-import com.revaluate.domain.app_integration.AppIntegrationType;
+import com.revaluate.domain.oauth.AppIntegrationScopeType;
+import com.revaluate.domain.oauth.AppIntegrationType;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -14,7 +14,7 @@ import java.io.Serializable;
         sequenceName = AppIntegration.SEQ_NAME,
         initialValue = AppIntegration.SEQ_INITIAL_VALUE,
         allocationSize = AppIntegration.ALLOCATION_SIZE)
-@Table(name = "app_integration")
+@Table(name = "oauth")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = AppIntegration.APP_INTEGRATION_TYPE)
 public class AppIntegration implements Serializable {
@@ -34,7 +34,7 @@ public class AppIntegration implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AppIntegrationType AppIntegrationType;
+    private AppIntegrationType appIntegrationType;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -76,11 +76,11 @@ public class AppIntegration implements Serializable {
     }
 
     public AppIntegrationType getAppIntegrationType() {
-        return AppIntegrationType;
+        return appIntegrationType;
     }
 
     public void setAppIntegrationType(AppIntegrationType AppIntegrationType) {
-        this.AppIntegrationType = AppIntegrationType;
+        this.appIntegrationType = AppIntegrationType;
     }
 
     public AppIntegrationScopeType getAppIntegrationScopeType() {
@@ -121,5 +121,18 @@ public class AppIntegration implements Serializable {
 
     public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    @Override
+    public String toString() {
+        return "AppIntegration{" +
+                "id=" + id +
+                ", appIntegrationType=" + appIntegrationType +
+                ", appIntegrationScopeType=" + appIntegrationScopeType +
+                ", user=" + user +
+                ", accessToken='" + accessToken + '\'' +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
+                '}';
     }
 }
