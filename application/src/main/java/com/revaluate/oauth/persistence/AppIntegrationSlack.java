@@ -13,11 +13,9 @@ public class AppIntegrationSlack extends AppIntegration {
     public static final String OAUTH_SLACK = "OAUTH_SLACK";
 
     @NotEmpty
-    @Column(nullable = false, unique = true)
     private String slackUserId;
 
     @NotEmpty
-    @Column(nullable = false, unique = true)
     private String slackTeamId;
 
     public String getSlackUserId() {
