@@ -1,5 +1,7 @@
 package com.revaluate.slack_command;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
 import com.google.common.base.Splitter;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
@@ -13,10 +15,12 @@ import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.expense.service.ExpenseService;
 import com.revaluate.expense.service.ExpensesUtils;
 import com.revaluate.slack.SlackException;
+import com.revaluate.slack_command.commands.CommandAddExpense;
+import com.revaluate.slack_command.commands.CommandCategories;
+import com.revaluate.slack_command.commands.CommandHelp;
+import org.apache.commons.lang3.StringUtils;
 import org.dozer.DozerBeanMapper;
 import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,45 +63,97 @@ public class SlackCommandServiceImpl implements SlackCommandService {
     public String answer(@NotNull @Valid SlackDTO slackDTO, int userId) throws SlackException {
         LOGGER.info(String.format("SlackDTO: %s :", slackDTO));
 
-        ExpenseDTOBuilder expenseDTOBuilder = new ExpenseDTOBuilder();
         Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults();
+
         List<String> tokens = splitter.splitToList(slackDTO.getText());
 
         if (tokens.isEmpty()) {
             throw new SlackException("Hey, what's up?");
         }
 
-        if (tokens.size() == 1) {
-            throw new SlackException("Sorry, but the format is not proper.");
+        String[] tokensAsArray = tokens.toArray(new String[tokens.size()]);
+
+        JCommander jCommander = new JCommander();
+
+        CommandAddExpense add = new CommandAddExpense();
+        jCommander.addCommand("add", add);
+
+        CommandCategories categories = new CommandCategories();
+        jCommander.addCommand("categories", categories);
+
+        CommandHelp help = new CommandHelp();
+        jCommander.addCommand("help", help);
+
+        try {
+            jCommander.parse(tokensAsArray);
+        } catch (ParameterException ex) {
+
+            return getUsage(jCommander);
         }
 
-        // First is expected as price
-        double price = getPrice(tokens.stream().findFirst().orElse("Hey, no price ?"));
-        expenseDTOBuilder.withValue(price);
+        if (StringUtils.isBlank(jCommander.getParsedCommand())) {
 
-        // Second is expected as category
-        CategoryDTO category = getCategory(userId, tokens.get(1));
-        expenseDTOBuilder.withCategory(category);
+            return getUsage(jCommander);
+        }
 
-        // In this case we can have description and date
-        if (tokens.size() == 4) {
-            handleDescription(expenseDTOBuilder, tokens.get(2));
-            handleDate(expenseDTOBuilder, tokens.get(3));
-        } else if (tokens.size() == 3) {
-            // We do not know if this is description or date, but let's guess
+        String parsedCommand = jCommander.getParsedCommand();
 
-            String thirdCandidate = tokens.get(2);
+        switch (parsedCommand) {
+            case "help": {
 
-            Optional<String> dateFormat = ExpensesUtils.determineDateFormat(thirdCandidate);
-            if (!dateFormat.isPresent()) {
-                handleDescription(expenseDTOBuilder, thirdCandidate);
-                expenseDTOBuilder.withSpentDate(LocalDateTime.now());
-            } else {
-                handleDate(expenseDTOBuilder, thirdCandidate);
+                return getUsage(jCommander);
             }
-        } else {
-            expenseDTOBuilder.withSpentDate(LocalDateTime.now());
+            case "add": {
+
+                if (add.getExpenseDetails().size() < 2) {
+
+                    return getUsage(jCommander);
+                }
+
+                return handleAddExpense(userId, add.getExpenseDetails());
+            }
+            case "categories": {
+
+                return String.format("You dispose of the following categories: \n %s", getCategoriesJoined(userId));
+            }
+            default: {
+                return getUsage(jCommander);
+            }
         }
+    }
+
+    private String handleAddExpense(int userId, List<String> expenseDetails) throws SlackException {
+        ExpenseDTOBuilder expenseDTOBuilder = new ExpenseDTOBuilder();
+
+        //-----------------------------------------------------------------
+        // First token is expected as price
+        //-----------------------------------------------------------------
+
+        double price = getPrice(expenseDetails.stream().findFirst().orElse("The price is missing."));
+        expenseDTOBuilder
+                .withValue(price);
+
+        //-----------------------------------------------------------------
+        // Second is expected as category
+        //-----------------------------------------------------------------
+        CategoryDTO category = getCategory(userId, expenseDetails.get(1));
+        expenseDTOBuilder
+                .withCategory(category);
+
+
+        //-----------------------------------------------------------------
+        // In this case we have description
+        //-----------------------------------------------------------------
+        if (expenseDetails.size() > 2) {
+            String description = expenseDetails.stream().skip(2).collect(Collectors.joining(" "));
+            handleDescription(expenseDTOBuilder, description);
+        }
+
+        //-----------------------------------------------------------------
+        // Set the spent date as now
+        //-----------------------------------------------------------------
+        expenseDTOBuilder
+                .withSpentDate(LocalDateTime.now());
 
         ExpenseDTO buildExpenseDTO = expenseDTOBuilder.build();
 
@@ -121,35 +177,29 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         if (description.length() > MAX_DESC_LENGTH) {
             throw new SlackException("Description length is too big. It can be maximum: " + MAX_DESC_LENGTH);
         }
-        expenseDTOBuilder.withDescription(description);
-    }
 
-    private void handleDate(ExpenseDTOBuilder expenseDTOBuilder, String dateCandidate) throws SlackException {
-        Optional<String> dateFormat = ExpensesUtils.determineDateFormat(dateCandidate);
-        if (!dateFormat.isPresent()) {
-            throw new SlackException("Date format is not known");
-        }
-
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(dateFormat.get());
-        LocalDateTime asLocalDate = dateTimeFormatter.withOffsetParsed().parseLocalDateTime(dateCandidate);
-        expenseDTOBuilder.withSpentDate(asLocalDate);
+        expenseDTOBuilder
+                .withDescription(description);
     }
 
     private CategoryDTO getCategory(int userId, String categoryCandidate) throws SlackException {
         Optional<Category> optionalCategory = categoryRepository.findOneByNameIgnoreCaseAndUserId(categoryCandidate, userId);
 
         if (!optionalCategory.isPresent()) {
-            List<CategoryDTO> allCategoriesFor = categoryService.findAllCategoriesFor(userId);
 
-            String categoryPossibilities = allCategoriesFor
-                    .stream()
-                    .map(categoryDTO -> String.format("_%s_", categoryDTO.getName()))
-                    .collect(Collectors.joining(", "));
-
-            throw new SlackException(String.format("We do not recognize %s as category. You dispose only of: %s", categoryCandidate, categoryPossibilities));
+            throw new SlackException(String.format("We do not recognize %s as category. You dispose only of: \n %s", categoryCandidate, getCategoriesJoined(userId)));
         }
 
         return dozerBeanMapper.map(optionalCategory.get(), CategoryDTO.class);
+    }
+
+    private String getCategoriesJoined(int userId) throws SlackException {
+        List<CategoryDTO> allCategoriesFor = categoryService.findAllCategoriesFor(userId);
+
+        return allCategoriesFor
+                .stream()
+                .map(categoryDTO -> String.format("_%s_", categoryDTO.getName()))
+                .collect(Collectors.joining("\n, "));
     }
 
     private double getPrice(String price) throws SlackException {
@@ -160,7 +210,7 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
-            throw new SlackException("Hey, the price format is wrong.");
+            throw new SlackException("The price format is wrong.");
         }
     }
 
@@ -171,7 +221,15 @@ public class SlackCommandServiceImpl implements SlackCommandService {
             return m.group();
         }
 
-        throw new SlackException("No price found");
+        throw new SlackException("No valid price was identified.");
     }
+
+    private static String getUsage(JCommander jCommander) {
+        StringBuilder sb = new StringBuilder();
+        jCommander.usage(sb);
+
+        return sb.toString();
+    }
+
 
 }
