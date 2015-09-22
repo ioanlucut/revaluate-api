@@ -100,7 +100,8 @@ public class SlackCommandResource extends Resource {
 
         AppIntegrationSlack oneBySlackUserId = oauthIntegrationSlackRepository
                 .findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType.SLACK, request.getUserId(), request.getTeamId())
-                .orElseThrow(() -> new SlackException("Sorry, do we know you?.."));
+                .orElseThrow(() -> new SlackException("We couldn't recognize you. You have to authenticate your Slack " +
+                        "account with Revaluate, therefore you can do it at <https://www.revaluate.io|revaluate.io>"));
 
         Integer matchingUserId = oneBySlackUserId.getUser().getId();
         String answer = slackService.answer(request, matchingUserId);
