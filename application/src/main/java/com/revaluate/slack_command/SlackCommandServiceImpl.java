@@ -133,7 +133,7 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         // First token is expected as price
         //-----------------------------------------------------------------
 
-        double price = getPrice(expenseDetails.stream().findFirst().orElse("The price is missing."));
+        double price = getPrice(expenseDetails.get(0));
         expenseDTOBuilder
                 .withValue(price);
 
