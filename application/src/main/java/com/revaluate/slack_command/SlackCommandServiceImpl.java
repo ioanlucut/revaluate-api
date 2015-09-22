@@ -44,6 +44,9 @@ public class SlackCommandServiceImpl implements SlackCommandService {
 
     public static final int MAX_DESC_LENGTH = 100;
 
+    public static final String ADDED_FORMAT = ":white_check_mark: Yay! Added: %s - %s: %s";
+    public static final String NO_DESCRIPTION = "_none_";
+
     @Autowired
     private CategoryService categoryService;
 
@@ -67,13 +70,8 @@ public class SlackCommandServiceImpl implements SlackCommandService {
 
         List<String> tokens = splitter.splitToList(slackDTO.getText());
 
-        if (tokens.isEmpty()) {
-            throw new SlackException("Hey, what's up?");
-        }
-
-        String[] tokensAsArray = tokens.toArray(new String[tokens.size()]);
-
         JCommander jCommander = new JCommander();
+        jCommander.setProgramName("Revaluate");
 
         CommandAddExpense add = new CommandAddExpense();
         jCommander.addCommand("add", add);
@@ -84,16 +82,22 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         CommandHelp help = new CommandHelp();
         jCommander.addCommand("help", help);
 
+        if (tokens.isEmpty()) {
+            return getUsage(jCommander, Boolean.TRUE);
+        }
+
+        String[] tokensAsArray = tokens.toArray(new String[tokens.size()]);
+
         try {
             jCommander.parse(tokensAsArray);
         } catch (ParameterException ex) {
 
-            return getUsage(jCommander);
+            return getUsage(jCommander, Boolean.TRUE);
         }
 
         if (StringUtils.isBlank(jCommander.getParsedCommand())) {
 
-            return getUsage(jCommander);
+            return getUsage(jCommander, Boolean.TRUE);
         }
 
         String parsedCommand = jCommander.getParsedCommand();
@@ -107,17 +111,17 @@ public class SlackCommandServiceImpl implements SlackCommandService {
 
                 if (add.getExpenseDetails().size() < 2) {
 
-                    return getUsage(jCommander);
+                    return getUsage(jCommander, Boolean.TRUE);
                 }
 
                 return handleAddExpense(userId, add.getExpenseDetails());
             }
             case "categories": {
 
-                return String.format("You dispose of the following categories: \n %s", getCategoriesJoined(userId));
+                return String.format("You dispose of the following categories: \n%s", getCategoriesJoined(userId));
             }
             default: {
-                return getUsage(jCommander);
+                return getUsage(jCommander, Boolean.TRUE);
             }
         }
     }
@@ -158,14 +162,15 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         ExpenseDTO buildExpenseDTO = expenseDTOBuilder.build();
 
         try {
+            User user = userRepository
+                    .findOneById(userId)
+                    .orElseThrow(() -> new SlackException("We couldn't recognize your credentials. You can authenticate at <https://www.revaluate.io|revaluate.io>"));
             ExpenseDTO expenseDTO = expenseService.create(buildExpenseDTO, userId);
-            User user = userRepository.findOneById(userId).orElseThrow(() -> new SlackException("Do we know you?"));
 
-            String expenseAddedFormat = ":white_check_mark: Yay! Done adding _Spent %s ( %s ) on %s_ ! Checkout <https://www.revaluate.io/expenses|dashboard> for more details!";
-            return String.format(expenseAddedFormat,
+            return String.format(ADDED_FORMAT,
                     ExpensesUtils.format(BigDecimal.valueOf(expenseDTO.getValue()), user.getCurrency()),
-                    expenseDTO.getDescription(),
-                    ExpensesUtils.formatDate(expenseDTO.getSpentDate()));
+                    expenseDTO.getCategory().getName(),
+                    StringUtils.isBlank(expenseDTO.getDescription()) ? NO_DESCRIPTION : expenseDTO.getDescription());
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
@@ -175,7 +180,7 @@ public class SlackCommandServiceImpl implements SlackCommandService {
 
     private void handleDescription(ExpenseDTOBuilder expenseDTOBuilder, String description) throws SlackException {
         if (description.length() > MAX_DESC_LENGTH) {
-            throw new SlackException("Description length is too big. It can be maximum: " + MAX_DESC_LENGTH);
+            throw new SlackException(String.format("Description length is too big. It can be maximum %s characters.", MAX_DESC_LENGTH));
         }
 
         expenseDTOBuilder
@@ -198,8 +203,8 @@ public class SlackCommandServiceImpl implements SlackCommandService {
 
         return allCategoriesFor
                 .stream()
-                .map(categoryDTO -> String.format("_%s_", categoryDTO.getName()))
-                .collect(Collectors.joining("\n, "));
+                .map(categoryDTO -> String.format("%s", categoryDTO.getName()))
+                .collect(Collectors.joining("\n"));
     }
 
     private double getPrice(String price) throws SlackException {
@@ -225,11 +230,17 @@ public class SlackCommandServiceImpl implements SlackCommandService {
     }
 
     private static String getUsage(JCommander jCommander) {
+        return getUsage(jCommander, Boolean.FALSE);
+    }
+
+    private static String getUsage(JCommander jCommander, boolean badAttempt) {
         StringBuilder sb = new StringBuilder();
+        if (badAttempt) {
+            sb.append("The format is wrong. \n\n");
+        }
         jCommander.usage(sb);
 
         return sb.toString();
     }
-
 
 }

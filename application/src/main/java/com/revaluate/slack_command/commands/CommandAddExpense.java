@@ -5,10 +5,10 @@ import com.beust.jcommander.Parameters;
 
 import java.util.List;
 
-@Parameters(commandDescription = "Add expense")
+@Parameters(commandDescription = "Add expense", commandNames = {"a"})
 public class CommandAddExpense {
 
-    @Parameter(description = "The expense details")
+    @Parameter(description = "Expense details with format [price] [category] [description]", required = true)
     private List<String> expenseDetails;
 
     public List<String> getExpenseDetails() {

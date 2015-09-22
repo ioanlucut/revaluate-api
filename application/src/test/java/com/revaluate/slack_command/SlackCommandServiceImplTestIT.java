@@ -16,7 +16,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
 public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
@@ -27,36 +26,134 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
     @Autowired
     private SlackCommandService slackCommandService;
 
+    public static final String USAGE = "Usage: Revaluate [options] [command] [command options]\n" +
+            "  Commands:\n" +
+            "    add      Add expense\n" +
+            "      Usage: add [options] Expense details with format [price] [category] [description]\n" +
+            "\n" +
+            "    categories      Categories\n" +
+            "      Usage: categories [options]\n" +
+            "\n" +
+            "    help      Help\n" +
+            "      Usage: help [options]";
+
+    public static final String USAGE_BAD_ATTEMPT = "The format is wrong. \n\n" +
+            "Usage: Revaluate [options] [command] [command options]\n" +
+            "  Commands:\n" +
+            "    add      Add expense\n" +
+            "      Usage: add [options] Expense details with format [price] [category] [description]\n" +
+            "\n" +
+            "    categories      Categories\n" +
+            "      Usage: categories [options]\n" +
+            "\n" +
+            "    help      Help\n" +
+            "      Usage: help [options]";
+
     @Test
-    public void create_expenseThroughSlack_ok() throws Exception {
-
-        //-----------------------------------------------------------------
-        // Create user
-        //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO();
-
-        //-----------------------------------------------------------------
-        // Create category
-        //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
-        categoryService.create(categoryDTO, createdUserDTO.getId());
+    public void add_expenseHappyFlow_ok() throws Exception {
+        UserDTO createdUserDTO = createUserWithCategory("name");
 
         SlackDTO request = buildDummyRequestWithText("add 123.22 name xx");
-        String answer = slackCommandService.answer(request, userDTO.getId());
-        request = buildDummyRequestWithText("categories");
-        answer = slackCommandService.answer(request, userDTO.getId());
+        String answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(":white_check_mark: Yay! Added: 12.322,00 € - name: xx")));
+
+        request = buildDummyRequestWithText("add 123.22 name");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(":white_check_mark: Yay! Added: 12.322,00 € - name: _none_")));
 
         //-----------------------------------------------------------------
         // Assert created expense is ok
         //-----------------------------------------------------------------
-        assertThat(answer, is(notNullValue()));
-        List<Expense> allByUserId = expenseRepository.findAllByUserId(userDTO.getId());
-        assertThat(allByUserId.size(), is(equalTo(1)));
+        List<Expense> allByUserId = expenseRepository.findAllByUserId(createdUserDTO.getId());
+        assertThat(allByUserId.size(), is(equalTo(2)));
     }
 
     @Test
-    public void create_expenseThroughSlackWithYear_ok() throws Exception {
+    public void add_expense_nonHappyFlow_ok() throws Exception {
+        UserDTO createdUserDTO = createUserWithCategory("name");
 
+        SlackDTO request = buildDummyRequestWithText("add");
+        String answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+
+        request = buildDummyRequestWithText("add 42.22");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+
+        request = buildDummyRequestWithText("add 42,22.2");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+
+        request = buildDummyRequestWithText("add   ");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+
+        request = buildDummyRequestWithText("notKnown   ");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+
+        request = buildDummyRequestWithText("");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+
+        request = buildDummyRequestWithText("help");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE)));
+
+        request = buildDummyRequestWithText("help   ");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE)));
+
+        request = buildDummyRequestWithText("help   ");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE)));
+
+        exception.expect(SlackException.class);
+        exception.expectMessage("Description length is too big. It can be maximum 100 characters.");
+        request = buildDummyRequestWithText("add 42.22 name AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBB");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE)));
+    }
+
+    @Test
+    public void add_expense_unknownCategory_nonHappyFlow_ok() throws Exception {
+        UserDTO createdUserDTO = createUserWithCategory("name");
+
+        exception.expect(SlackException.class);
+        exception.expectMessage("We do not recognize NNN as category. You dispose only of: \n" +
+                " name");
+        SlackDTO request = buildDummyRequestWithText("add 42.22 NNN ABCDEFG");
+        slackCommandService.answer(request, createdUserDTO.getId());
+    }
+
+    @Test
+    public void categories_ok() throws Exception {
+        UserDTO createdUserDTO = createUserWithCategory("name");
+
+        SlackDTO request = buildDummyRequestWithText("categories");
+        String answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo("You dispose of the following categories: \n" +
+                "name")));
+
+        request = buildDummyRequestWithText("categories asdadasdas");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+    }
+
+    @Test
+    public void help_ok() throws Exception {
+        UserDTO createdUserDTO = createUserWithCategory("name");
+
+        SlackDTO request = buildDummyRequestWithText("help");
+        String answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE)));
+
+        request = buildDummyRequestWithText("help asdadasdas");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+    }
+
+    public UserDTO createUserWithCategory(String categoryName) throws Exception {
         //-----------------------------------------------------------------
         // Create user
         //-----------------------------------------------------------------
@@ -65,30 +162,10 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Create category
         //-----------------------------------------------------------------
-        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName(categoryName).build();
         categoryService.create(categoryDTO, createdUserDTO.getId());
 
-        SlackDTO request = buildDummyRequestWithText("add 123.22 name xx 10-07-1988");
-        String answer = slackCommandService.answer(request, userDTO.getId());
-
-        //-----------------------------------------------------------------
-        // Assert created expense is ok
-        //-----------------------------------------------------------------
-        assertThat(answer, is(notNullValue()));
-        List<Expense> allByUserId = expenseRepository.findAllByUserId(userDTO.getId());
-        assertThat(allByUserId.size(), is(equalTo(1)));
-    }
-
-    @Test
-    public void test_wrongSituations() throws Exception {
-
-        //-----------------------------------------------------------------
-        // Create user
-        //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO();
-
-        exception.expect(SlackException.class);
-        slackCommandService.answer(buildDummyRequestWithText(""), createdUserDTO.getId());
+        return createdUserDTO;
     }
 
     public static SlackDTO buildDummyRequestWithText(String text) {
