@@ -1,22 +1,18 @@
 package com.revaluate.oauth.service;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.common.base.Splitter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
+import com.revaluate.domain.oauth.AppIntegrationDTO;
 import com.revaluate.domain.oauth.AppIntegrationScopeType;
 import com.revaluate.domain.oauth.AppIntegrationType;
-import com.revaluate.domain.slack.SlackIdentityResponseDTO;
-import com.revaluate.domain.slack.SlackTokenIssuingResponseDTO;
 import com.revaluate.oauth.exception.AppIntegrationException;
 import com.revaluate.oauth.persistence.AppIntegrationSlack;
 import com.revaluate.oauth.persistence.AppIntegrationSlackRepository;
 import org.apache.commons.lang3.StringUtils;
-import org.glassfish.jersey.client.ClientConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -26,15 +22,15 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
 @Validated
 public class AppIntegrationServiceImpl implements AppIntegrationService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AppIntegrationServiceImpl.class);
 
     public static final String CLIENT_ID = "2151987168.10687444405";
     public static final String CLIENT_SECRET = "9efca5a3f6c459259e950c715c3433e2";
@@ -48,50 +44,59 @@ public class AppIntegrationServiceImpl implements AppIntegrationService {
     @Autowired
     private AppIntegrationSlackRepository oauthIntegrationSlackRepository;
 
+    @Autowired
+    private DozerBeanMapper dozerBeanMapper;
+
     @Override
-    public void createOauthIntegrationSlack(String code, String redirectUri, int userId) throws AppIntegrationException {
+    public AppIntegrationDTO createOauthIntegrationSlack(String code, String redirectUri, int userId) throws AppIntegrationException {
         User foundUser = userRepository.findOne(userId);
 
-        try {
-            SlackTokenIssuingResponseDTO accessTokenFrom = getAccessTokenFrom(code, redirectUri);
-            if (StringUtils.isBlank(accessTokenFrom.getAccessToken()) || StringUtils.isBlank(accessTokenFrom.getScope())) {
+        Map<String, String> accessTokenFrom = getAccessTokenFrom(code, redirectUri);
+        String accessToken = accessTokenFrom.get("access_token");
+        String scope = accessTokenFrom.get("scope");
 
-                throw new AppIntegrationException("Access token could not have been retrieved");
-            }
+        if (StringUtils.isBlank(accessToken) || StringUtils.isBlank(scope)) {
 
-            SlackIdentityResponseDTO identityOf = getIdentityOf(accessTokenFrom.getAccessToken());
-            if (StringUtils.isBlank(identityOf.getTeamId()) || StringUtils.isBlank(identityOf.getUserId())) {
-
-                throw new AppIntegrationException("Identity could not have been retrieved");
-            }
-
-            AppIntegrationSlack appIntegrationSlack = new AppIntegrationSlack();
-            appIntegrationSlack.setAppIntegrationType(AppIntegrationType.SLACK);
-            appIntegrationSlack.setAccessToken(accessTokenFrom.getAccessToken());
-
-            String allowScope = accessTokenFrom.getScope();
-            Splitter splitter = Splitter.on(',').omitEmptyStrings().trimResults();
-            List<String> scopeAsString = splitter.splitToList(allowScope);
-            scopeAsString
-                    .stream()
-                    .filter(s -> AppIntegrationScopeType.CLIENT.name().toLowerCase().equals(s))
-                    .findFirst()
-                    .orElseThrow(() -> new AppIntegrationException("The access scope should be client"));
-
-            appIntegrationSlack.setAppIntegrationScopeType(AppIntegrationScopeType.CLIENT);
-            appIntegrationSlack.setSlackTeamId(identityOf.getTeamId());
-            appIntegrationSlack.setSlackUserId(identityOf.getUserId());
-            appIntegrationSlack.setUser(foundUser);
-
-            oauthIntegrationSlackRepository.save(appIntegrationSlack);
-        } catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
-
-            throw new AppIntegrationException("The access token / identity could not be retrieved");
+            throw new AppIntegrationException(String.format("Access token or scope not present in the response. Response %s", accessTokenFrom));
         }
+
+        Map<String, String> identityOf = getIdentityOf(accessToken);
+        String identityTeamId = identityOf.get("team_id");
+        String identityUserId = identityOf.get("user_id");
+        if (StringUtils.isBlank(identityTeamId) || StringUtils.isBlank(identityUserId)) {
+
+            throw new AppIntegrationException(String.format("Identity could not have been retrieved. Response %s", identityOf));
+        }
+
+        //-----------------------------------------------------------------
+        // Override existing
+        //-----------------------------------------------------------------
+
+        AppIntegrationSlack appIntegrationSlack = oauthIntegrationSlackRepository
+                .findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType.SLACK, identityUserId, identityTeamId)
+                .orElseGet(AppIntegrationSlack::new);
+
+        appIntegrationSlack.setAppIntegrationType(AppIntegrationType.SLACK);
+        appIntegrationSlack.setAccessToken(accessToken);
+
+        Splitter splitter = Splitter.on(',').omitEmptyStrings().trimResults();
+        List<String> scopeAsString = splitter.splitToList(scope);
+        scopeAsString
+                .stream()
+                .filter(s -> AppIntegrationScopeType.CLIENT.name().toLowerCase().equals(s))
+                .findFirst()
+                .orElseThrow(() -> new AppIntegrationException("The access scope should be client"));
+
+        appIntegrationSlack.setAppIntegrationScopeType(AppIntegrationScopeType.CLIENT);
+        appIntegrationSlack.setSlackTeamId(identityTeamId);
+        appIntegrationSlack.setSlackUserId(identityUserId);
+        appIntegrationSlack.setUser(foundUser);
+
+
+        return dozerBeanMapper.map(oauthIntegrationSlackRepository.save(appIntegrationSlack), AppIntegrationDTO.class);
     }
 
-    public SlackTokenIssuingResponseDTO getAccessTokenFrom(String code, String redirectUri) throws AppIntegrationException {
+    public Map<String, String> getAccessTokenFrom(String code, String redirectUri) throws AppIntegrationException {
         Client client = buildClient();
 
         WebTarget target = client
@@ -110,13 +115,15 @@ public class AppIntegrationServiceImpl implements AppIntegrationService {
             throw new AppIntegrationException("Bad request while trying to get access token.");
         }
 
-        Optional<SlackTokenIssuingResponseDTO> slackTokenIssuingResponseOptional = Optional
-                .ofNullable(response.readEntity(SlackTokenIssuingResponseDTO.class));
+        String asString = response.readEntity(String.class);
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, String>>() {
+        }.getType();
 
-        return slackTokenIssuingResponseOptional.orElseThrow(AppIntegrationException::new);
+        return gson.fromJson(asString, type);
     }
 
-    public SlackIdentityResponseDTO getIdentityOf(String token) throws AppIntegrationException {
+    public Map<String, String> getIdentityOf(String token) throws AppIntegrationException {
         Client client = buildClient();
 
         WebTarget target = client
@@ -132,15 +139,29 @@ public class AppIntegrationServiceImpl implements AppIntegrationService {
             throw new AppIntegrationException("Bad request while trying to get identity.");
         }
 
-        Optional<SlackIdentityResponseDTO> slackIdentityOptional = Optional
-                .ofNullable(response.readEntity(SlackIdentityResponseDTO.class));
+        String asString = response.readEntity(String.class);
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, String>>() {
+        }.getType();
 
-        return slackIdentityOptional.orElseThrow(AppIntegrationException::new);
+        return gson.fromJson(asString, type);
     }
 
     private Client buildClient() {
-        final JacksonJsonProvider jacksonJsonProvider = new JacksonJaxbJsonProvider().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        return ClientBuilder.newClient(new ClientConfig(jacksonJsonProvider));
+        return ClientBuilder.newClient();
+    }
+
+    @Override
+    public List<AppIntegrationDTO> findAllIntegrations(int userId) throws AppIntegrationException {
+
+        return collectAndGet(oauthIntegrationSlackRepository.findAllByAppIntegrationTypeAndUserId(AppIntegrationType.SLACK, userId));
+    }
+
+    private List<AppIntegrationDTO> collectAndGet(List<AppIntegrationSlack> appIntegrations) {
+        return appIntegrations
+                .stream()
+                .map(category -> dozerBeanMapper.map(category, AppIntegrationDTO.class))
+                .collect(Collectors.toList());
     }
 }
