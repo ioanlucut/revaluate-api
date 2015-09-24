@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -29,6 +30,11 @@ public class AppIntegrationResource extends Resource {
     public static final String CODE = "code";
     public static final String REDIRECT_URI = "redirect_uri";
 
+    //-----------------------------------------------------------------
+    // Path params
+    //-----------------------------------------------------------------
+    private static final String APP_INTEGRATION_ID = "appId";
+
     @Autowired
     private AppIntegrationService oauthIntegrationService;
 
@@ -48,6 +54,14 @@ public class AppIntegrationResource extends Resource {
         List<AppIntegrationDTO> allIntegrations = oauthIntegrationService.findAllIntegrations(getCurrentUserId());
 
         return Responses.respond(Response.Status.OK, allIntegrations);
+    }
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response remove(@PathParam(APP_INTEGRATION_ID) @NotNull int appIntegrationId) throws AppIntegrationException {
+        oauthIntegrationService.removeIntegration(appIntegrationId, getCurrentUserId());
+
+        return Responses.respond(Response.Status.OK, "App integration successfully removed");
     }
 
 }

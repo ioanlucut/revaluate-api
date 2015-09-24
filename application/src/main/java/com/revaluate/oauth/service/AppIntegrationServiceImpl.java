@@ -73,7 +73,7 @@ public class AppIntegrationServiceImpl implements AppIntegrationService {
         //-----------------------------------------------------------------
 
         AppIntegrationSlack appIntegrationSlack = oauthIntegrationSlackRepository
-                .findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType.SLACK, identityUserId, identityTeamId)
+                .findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamIdAndUserId(AppIntegrationType.SLACK, identityUserId, identityTeamId, userId)
                 .orElseGet(AppIntegrationSlack::new);
 
         appIntegrationSlack.setAppIntegrationType(AppIntegrationType.SLACK);
@@ -156,6 +156,12 @@ public class AppIntegrationServiceImpl implements AppIntegrationService {
     public List<AppIntegrationDTO> findAllIntegrations(int userId) throws AppIntegrationException {
 
         return collectAndGet(oauthIntegrationSlackRepository.findAllByAppIntegrationTypeAndUserId(AppIntegrationType.SLACK, userId));
+    }
+
+    @Override
+    public void removeIntegration(int appIntegrationId, int userId) throws AppIntegrationException {
+
+        oauthIntegrationSlackRepository.deleteAllByAppIntegrationIdAndUserId(appIntegrationId, userId);
     }
 
     private List<AppIntegrationDTO> collectAndGet(List<AppIntegrationSlack> appIntegrations) {

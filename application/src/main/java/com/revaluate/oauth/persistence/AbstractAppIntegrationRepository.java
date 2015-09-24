@@ -14,7 +14,7 @@ import java.util.Optional;
 @NoRepositoryBean
 public interface AbstractAppIntegrationRepository<T, ID extends Serializable> extends JpaRepository<T, ID> {
 
-    Optional<T> findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType appIntegrationType, String slackUserId, String slackTeamId);
+    Optional<T> findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamIdAndUserId(AppIntegrationType appIntegrationType, String slackUserId, String slackTeamId, int userId);
 
     //-----------------------------------------------------------------
     // Find all by type and user id
@@ -23,11 +23,6 @@ public interface AbstractAppIntegrationRepository<T, ID extends Serializable> ex
 
     @Modifying
     @Transactional
-    @Query("delete from AppIntegration u where u.user.id = ?1")
-    void removeByUserId(int userId);
-
-    @Modifying
-    @Transactional
-    @Query("delete from AppIntegration u where u.appIntegrationType = ?1 and u.user.id = ?2")
-    void deleteAllByAppIntegrationTypeAndUserId(AppIntegrationType AppIntegrationType, int userId);
+    @Query("delete from AppIntegration app where app.id = ?1 and app.user.id = ?2")
+    void deleteAllByAppIntegrationIdAndUserId(int appIntegrationId, int userId);
 }
