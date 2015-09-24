@@ -279,6 +279,8 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         Integer size = Optional.ofNullable(list.getLimit()).orElse(DEFAULT_LIMIT);
         if (size > MAX_SIZE) {
             size = MAX_SIZE;
+        } else if (size <= 0) {
+            size = DEFAULT_LIMIT;
         }
         PageRequest pageRequest = new PageRequest(DEFAULT_PAGE, size, new Sort(
                 new Sort.Order(Sort.Direction.DESC, EXPENSE_SPENT_DATE_COLUMN),
