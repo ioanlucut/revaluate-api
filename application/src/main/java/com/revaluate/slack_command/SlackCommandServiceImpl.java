@@ -12,24 +12,28 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
 import com.revaluate.domain.slack.SlackDTO;
+import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.expense.service.ExpenseService;
 import com.revaluate.expense.service.ExpensesUtils;
 import com.revaluate.slack.SlackException;
 import com.revaluate.slack_command.commands.CommandAddExpense;
 import com.revaluate.slack_command.commands.CommandCategories;
 import com.revaluate.slack_command.commands.CommandHelp;
+import com.revaluate.slack_command.commands.CommandListExpenses;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.DozerBeanMapper;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -44,8 +48,32 @@ public class SlackCommandServiceImpl implements SlackCommandService {
 
     public static final int MAX_DESC_LENGTH = 100;
 
-    public static final String ADDED_FORMAT = ":white_check_mark: Yay! Added: %s - %s: %s";
-    public static final String NO_DESCRIPTION = "_none_";
+    public static final String COMMANDS_USAGE = "%s, your available commands for Revaluate:\n" +
+            "- Add an expense:\n" +
+            "/revaluate add <price> <CATEGORY> [<description>]\n" +
+            "\n" +
+            "- List available categories:\n" +
+            "/revaluate categories\n" +
+            "\n" +
+            "- List available expenses:\n" +
+            "/revaluate list [-cat <CATEGORY>] [-limit <LIMIT>]\n" +
+            "\n" +
+            "- Get help (this message):\n" +
+            "/revaluate help";
+
+    public static final String ADD_USAGE = "I couldn't figure out what you meant. Please enter expenses in the form: \n" +
+            "/revaluate add 43 FOOD going out\n" +
+            "\n" +
+            "Or /revaluate help";
+
+    //-----------------------------------------------------------------
+    // Other constants
+    //-----------------------------------------------------------------
+    public static final String EXPENSE_SPENT_DATE_COLUMN = "spentDate";
+    public static final String EXPENSE_CREATED_DATE_COLUMN = "createdDate";
+    public static final int DEFAULT_LIMIT = 10;
+    public static final int DEFAULT_PAGE = 0;
+    private static final Integer MAX_SIZE = 100;
 
     @Autowired
     private CategoryService categoryService;
@@ -82,8 +110,11 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         CommandHelp help = new CommandHelp();
         jCommander.addCommand("help", help);
 
+        CommandListExpenses list = new CommandListExpenses();
+        jCommander.addCommand("list", list);
+
         if (tokens.isEmpty()) {
-            return getUsage(jCommander, Boolean.TRUE);
+            return getUsage(Boolean.TRUE);
         }
 
         String[] tokensAsArray = tokens.toArray(new String[tokens.size()]);
@@ -92,12 +123,12 @@ public class SlackCommandServiceImpl implements SlackCommandService {
             jCommander.parse(tokensAsArray);
         } catch (ParameterException ex) {
 
-            return getUsage(jCommander, Boolean.TRUE);
+            return getUsage(Boolean.TRUE);
         }
 
         if (StringUtils.isBlank(jCommander.getParsedCommand())) {
 
-            return getUsage(jCommander, Boolean.TRUE);
+            return getUsage(Boolean.TRUE);
         }
 
         String parsedCommand = jCommander.getParsedCommand();
@@ -105,13 +136,13 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         switch (parsedCommand) {
             case "help": {
 
-                return getUsage(jCommander);
+                return getUsage(Boolean.FALSE);
             }
             case "add": {
 
                 if (add.getExpenseDetails().size() < 2) {
 
-                    return getUsage(jCommander, Boolean.TRUE);
+                    return ADD_USAGE;
                 }
 
                 return handleAddExpense(userId, add.getExpenseDetails());
@@ -120,8 +151,12 @@ public class SlackCommandServiceImpl implements SlackCommandService {
 
                 return String.format("You dispose of the following categories: \n%s", getCategoriesJoined(userId));
             }
+            case "list": {
+
+                return handleList(userId, list);
+            }
             default: {
-                return getUsage(jCommander, Boolean.TRUE);
+                return getUsage(Boolean.TRUE);
             }
         }
     }
@@ -144,7 +179,6 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         expenseDTOBuilder
                 .withCategory(category);
 
-
         //-----------------------------------------------------------------
         // In this case we have description
         //-----------------------------------------------------------------
@@ -162,20 +196,21 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         ExpenseDTO buildExpenseDTO = expenseDTOBuilder.build();
 
         try {
-            User user = userRepository
-                    .findOneById(userId)
-                    .orElseThrow(() -> new SlackException("We couldn't recognize your credentials. You can authenticate at <https://www.revaluate.io|revaluate.io>"));
-            ExpenseDTO expenseDTO = expenseService.create(buildExpenseDTO, userId);
-
-            return String.format(ADDED_FORMAT,
-                    ExpensesUtils.format(BigDecimal.valueOf(expenseDTO.getValue()), user.getCurrency()),
-                    expenseDTO.getCategory().getName(),
-                    StringUtils.isBlank(expenseDTO.getDescription()) ? NO_DESCRIPTION : expenseDTO.getDescription());
+            return createAndGet(userId, buildExpenseDTO);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
             throw new SlackException("Upps, we had a problem trying to save your expense.");
         }
+    }
+
+    private String createAndGet(int userId, ExpenseDTO buildExpenseDTO) throws SlackException, ExpenseException, ParseException {
+        User user = userRepository
+                .findOneById(userId)
+                .orElseThrow(() -> new SlackException("We couldn't recognize your credentials. You can authenticate at <https://www.revaluate.io|revaluate.io>"));
+        ExpenseDTO expenseDTO = expenseService.create(buildExpenseDTO, userId);
+
+        return ExpensesUtils.formatExpenseFrom(user, expenseDTO, ExpensesUtils.ExpenseDisplayType.ADD);
     }
 
     private void handleDescription(ExpenseDTOBuilder expenseDTOBuilder, String description) throws SlackException {
@@ -215,7 +250,7 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 
-            throw new SlackException("The price format is wrong.");
+            throw new SlackException("Please check the price, something seems odd.");
         }
     }
 
@@ -226,21 +261,58 @@ public class SlackCommandServiceImpl implements SlackCommandService {
             return m.group();
         }
 
-        throw new SlackException("No valid price was identified.");
+        throw new SlackException("Please check the price, something seems odd.");
     }
 
-    private static String getUsage(JCommander jCommander) {
-        return getUsage(jCommander, Boolean.FALSE);
-    }
-
-    private static String getUsage(JCommander jCommander, boolean badAttempt) {
+    private static String getUsage(boolean badAttempt) {
         StringBuilder sb = new StringBuilder();
         if (badAttempt) {
-            sb.append("The format is wrong. \n\n");
+            sb.append("Please check the command, something seems odd.\n\n");
         }
-        jCommander.usage(sb);
+
+        sb.append(String.format(COMMANDS_USAGE, badAttempt ? "Anyways" : "Hey"));
 
         return sb.toString();
     }
+
+    private String handleList(int userId, CommandListExpenses list) throws SlackException {
+        Integer size = Optional.ofNullable(list.getLimit()).orElse(DEFAULT_LIMIT);
+        if (size > MAX_SIZE) {
+            size = MAX_SIZE;
+        }
+        PageRequest pageRequest = new PageRequest(DEFAULT_PAGE, size, new Sort(
+                new Sort.Order(Sort.Direction.DESC, EXPENSE_SPENT_DATE_COLUMN),
+                new Sort.Order(Sort.Direction.DESC, EXPENSE_CREATED_DATE_COLUMN)
+        ));
+
+        if (StringUtils.isNotBlank(list.getCategory())) {
+            Optional<Category> oneByNameIgnoreCaseAndUserId = categoryRepository.findOneByNameIgnoreCaseAndUserId(list.getCategory(), userId);
+
+            if (oneByNameIgnoreCaseAndUserId.isPresent()) {
+                Category category = oneByNameIgnoreCaseAndUserId.get();
+                List<ExpenseDTO> expenseDTOs = expenseService.findAllExpensesOfCategoryFor(userId,
+                        category.getId(),
+                        Optional.of(pageRequest));
+
+                return getExpensesJoined(userId, expenseDTOs);
+            }
+
+            return String.format("You dispose of the following categories: \n%s", getCategoriesJoined(userId));
+        } else {
+            return getExpensesJoined(userId, expenseService.findAllExpensesFor(userId, Optional.of(pageRequest)));
+        }
+    }
+
+    private String getExpensesJoined(int userId, List<ExpenseDTO> expenseDTOs) throws SlackException {
+        User user = userRepository
+                .findOneById(userId)
+                .orElseThrow(() -> new SlackException("We couldn't recognize your credentials. You can authenticate at <https://www.revaluate.io|revaluate.io>"));
+
+        return expenseDTOs
+                .stream()
+                .map(expenseDTO -> ExpensesUtils.formatExpenseFrom(user, expenseDTO, ExpensesUtils.ExpenseDisplayType.LIST))
+                .collect(Collectors.joining("\n"));
+    }
+
 
 }

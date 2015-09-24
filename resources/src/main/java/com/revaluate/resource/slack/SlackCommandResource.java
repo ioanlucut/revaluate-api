@@ -51,39 +51,38 @@ public class SlackCommandResource extends Resource {
     @GET
     @Public
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(@NotEmpty
+    public Response create(@NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(TOKEN)
                            String token,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(TEAM_ID)
                            String teamId,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(TEAM_DOMAIN)
                            String teamDomain,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(CHANNEL_ID)
                            String channelId,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(CHANNEL_NAME)
                            String channelName,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(USER_ID)
                            String userId,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(USER_NAME)
                            String userName,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(COMMAND)
                            String command,
 
-                           @NotEmpty
                            @QueryParam(TEXT)
                            String text) throws SlackException {
         SlackDTO request = new SlackDTOBuilder()

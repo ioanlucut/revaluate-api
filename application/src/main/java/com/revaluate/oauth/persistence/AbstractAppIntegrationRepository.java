@@ -16,6 +16,8 @@ public interface AbstractAppIntegrationRepository<T, ID extends Serializable> ex
 
     Optional<T> findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamIdAndUserId(AppIntegrationType appIntegrationType, String slackUserId, String slackTeamId, int userId);
 
+    Optional<T> findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType appIntegrationType, String slackUserId, String slackTeamId);
+
     //-----------------------------------------------------------------
     // Find all by type and user id
     //-----------------------------------------------------------------

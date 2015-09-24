@@ -28,6 +28,9 @@ public interface ExpenseService {
     List<ExpenseDTO> findAllExpensesFor(int userId, Optional<PageRequest> pageRequest);
 
     @NotNull
+    List<ExpenseDTO> findAllExpensesOfCategoryFor(int userId, int categoryId, Optional<PageRequest> pageRequest);
+
+    @NotNull
     List<ExpenseDTO> findAllExpensesAfter(int userId, LocalDateTime after);
 
     @NotNull
