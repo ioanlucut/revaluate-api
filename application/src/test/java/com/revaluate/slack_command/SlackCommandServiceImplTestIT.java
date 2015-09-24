@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
 public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
@@ -26,28 +26,38 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
     @Autowired
     private SlackCommandService slackCommandService;
 
-    public static final String USAGE = "Usage: Revaluate [options] [command] [command options]\n" +
-            "  Commands:\n" +
-            "    add      Add expense\n" +
-            "      Usage: add [options] Expense details with format [price] [category] [description]\n" +
+    public static final String USAGE = "Hey, your available commands for Revaluate:\n" +
+            "- Add an expense:\n" +
+            "/revaluate add <price> <CATEGORY> [<description>]\n" +
             "\n" +
-            "    categories      Categories\n" +
-            "      Usage: categories [options]\n" +
+            "- List available categories:\n" +
+            "/revaluate categories\n" +
             "\n" +
-            "    help      Help\n" +
-            "      Usage: help [options]";
+            "- List available expenses:\n" +
+            "/revaluate list [-cat <CATEGORY>] [-limit <LIMIT>]\n" +
+            "\n" +
+            "- Get help (this message):\n" +
+            "/revaluate help";
 
-    public static final String USAGE_BAD_ATTEMPT = "The format is wrong. \n\n" +
-            "Usage: Revaluate [options] [command] [command options]\n" +
-            "  Commands:\n" +
-            "    add      Add expense\n" +
-            "      Usage: add [options] Expense details with format [price] [category] [description]\n" +
+    public static final String USAGE_BAD_ATTEMPT = "Please check the command, something seems odd.\n" +
             "\n" +
-            "    categories      Categories\n" +
-            "      Usage: categories [options]\n" +
+            "Anyways, your available commands for Revaluate:\n" +
+            "- Add an expense:\n" +
+            "/revaluate add <price> <CATEGORY> [<description>]\n" +
             "\n" +
-            "    help      Help\n" +
-            "      Usage: help [options]";
+            "- List available categories:\n" +
+            "/revaluate categories\n" +
+            "\n" +
+            "- List available expenses:\n" +
+            "/revaluate list [-cat <CATEGORY>] [-limit <LIMIT>]\n" +
+            "\n" +
+            "- Get help (this message):\n" +
+            "/revaluate help";
+
+    public static final String USAGE_ADD = "I couldn't figure out what you meant. Please enter expenses in the form: \n" +
+            "/revaluate add 43 FOOD going out\n" +
+            "\n" +
+            "Or /revaluate help";
 
     @Test
     public void add_expenseHappyFlow_ok() throws Exception {
@@ -55,11 +65,11 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         SlackDTO request = buildDummyRequestWithText("add 123.22 name xx");
         String answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(":white_check_mark: Yay! Added: 12.322,00 € - name: xx")));
+        assertThat(answer.trim(), is(equalTo(":white_check_mark: Added: 12.322,00 € - name: xx")));
 
         request = buildDummyRequestWithText("add 123.22 name");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(":white_check_mark: Yay! Added: 12.322,00 € - name: _none_")));
+        assertThat(answer.trim(), is(equalTo(":white_check_mark: Added: 12.322,00 € - name")));
 
         //-----------------------------------------------------------------
         // Assert created expense is ok
@@ -78,11 +88,11 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         request = buildDummyRequestWithText("add 42.22");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+        assertThat(answer.trim(), is(equalTo(USAGE_ADD)));
 
         request = buildDummyRequestWithText("add 42,22.2");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+        assertThat(answer.trim(), is(equalTo(USAGE_ADD)));
 
         request = buildDummyRequestWithText("add   ");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
@@ -138,6 +148,52 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         request = buildDummyRequestWithText("categories asdadasdas");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
         assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+    }
+
+    @Test
+    public void expenses_listed_ok() throws Exception {
+        UserDTO createdUserDTO = createUserWithCategory("name");
+
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("home").build();
+        categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        SlackDTO request = buildDummyRequestWithText("add 123.22 name");
+        slackCommandService.answer(request, createdUserDTO.getId());
+        slackCommandService.answer(request, createdUserDTO.getId());
+
+        request = buildDummyRequestWithText("list");
+        String answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(containsString("12.322,00 € - name")));
+
+        request = buildDummyRequestWithText("add 150.00 home");
+        slackCommandService.answer(request, createdUserDTO.getId());
+
+        request = buildDummyRequestWithText("list -cat home");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(containsString("15.000,00 € - home")));
+
+        //-----------------------------------------------------------------
+        // Create three expenses, but retrieve last two
+        //-----------------------------------------------------------------
+        request = buildDummyRequestWithText("add 250.00 home");
+        slackCommandService.answer(request, createdUserDTO.getId());
+        request = buildDummyRequestWithText("add 350.00 home");
+        slackCommandService.answer(request, createdUserDTO.getId());
+        request = buildDummyRequestWithText("list -cat home -limit 2");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(containsString("35.000,00 € - home")));
+        assertThat(answer.trim(), is(containsString("25.000,00 € - home")));
+        assertThat(answer.trim(), is(not(containsString("15.000,00 € - home"))));
+
+        request = buildDummyRequestWithText("list abc");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+
+        request = buildDummyRequestWithText("list -cat sfd");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo("You dispose of the following categories: \n" +
+                "home\n" +
+                "name")));
     }
 
     @Test

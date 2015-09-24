@@ -85,6 +85,17 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    public List<ExpenseDTO> findAllExpensesOfCategoryFor(int userId, int categoryId, Optional<PageRequest> pageRequest) {
+        if (pageRequest.isPresent()) {
+            Page<Expense> expenses = expenseRepository.findAllByUserIdAndCategoryId(userId, categoryId, pageRequest.get());
+
+            return collectAndGet(expenses.getContent());
+        }
+
+        return collectAndGet(expenseRepository.findAllByUserIdAndCategoryId(userId, categoryId));
+    }
+
+    @Override
     public List<ExpenseDTO> findAllExpensesAfter(int userId, LocalDateTime after) {
         List<Expense> expenses = expenseRepository.findAllByUserIdAndSpentDateAfter(userId, after);
 
