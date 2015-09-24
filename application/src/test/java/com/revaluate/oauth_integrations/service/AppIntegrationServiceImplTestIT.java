@@ -198,6 +198,39 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(allByAppIntegrationTypeAndUserId.size(), is(2));
     }
 
+    @Test
+    public void deleteWorksOk() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        AppIntegrationServiceImpl oauthIntegrationServiceMock = Mockito.spy(new AppIntegrationServiceImpl());
+        prepare(oauthIntegrationServiceMock);
+
+        //-----------------------------------------------------------------
+        // Throw OauthIntegrationException
+        //-----------------------------------------------------------------
+        Map<String, String> map = new HashMap<>();
+        map.put("access_token", "dsa");
+        map.put("scope", "client");
+
+        Map<String, String> identityMap = new HashMap<>();
+        identityMap.put("team_id", "teamId");
+        identityMap.put("user_id", "userId");
+
+        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
+        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
+        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
+
+        List<AppIntegrationDTO> allByAppIntegrationTypeAndUserId = oauthIntegrationServiceMock.findAllIntegrations(userDTO.getId());
+        assertThat(allByAppIntegrationTypeAndUserId.size(), is(1));
+
+        oauthIntegrationServiceMock.removeIntegration(allByAppIntegrationTypeAndUserId.get(0).getId(), userDTO.getId());
+
+        assertThat(oauthIntegrationServiceMock.findAllIntegrations(userDTO.getId()).size(), is(0));
+    }
+
     private void prepare(AppIntegrationServiceImpl oauthIntegrationServiceMock) throws PaymentException {
         setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "userRepository", userRepository);
         setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "oauthIntegrationSlackRepository", oauthIntegrationSlackRepository);
