@@ -145,7 +145,7 @@ public interface ExpensesUtils {
     }
 
     enum ExpenseDisplayType {
-        ADD, LIST;
+        ADD, LIST, LIST_OF_CATEGORY;
     }
 
 }
