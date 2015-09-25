@@ -301,16 +301,16 @@ public class SlackCommandServiceImpl implements SlackCommandService {
                         category.getId(),
                         pageRequest);
 
-                return getExpensesJoined(userId, expensesGroupBySpentDateFor);
+                return getExpensesJoined(userId, expensesGroupBySpentDateFor, ExpensesUtils.ExpenseDisplayType.LIST_OF_CATEGORY);
             }
 
             return String.format("You dispose of the following categories: \n%s", getCategoriesJoined(userId));
         } else {
-            return getExpensesJoined(userId, expenseService.findExpensesGroupBySpentDate(userId, pageRequest));
+            return getExpensesJoined(userId, expenseService.findExpensesGroupBySpentDate(userId, pageRequest), ExpensesUtils.ExpenseDisplayType.LIST);
         }
     }
 
-    private String getExpensesJoined(int userId, ExpensesQueryResponseDTO groupBySpentDateFor) throws SlackException {
+    private String getExpensesJoined(int userId, ExpensesQueryResponseDTO groupBySpentDateFor, ExpensesUtils.ExpenseDisplayType ex) throws SlackException {
         User user = userRepository
                 .findOneById(userId)
                 .orElseThrow(() -> new SlackException(SlackCommandServiceImpl.INVALID_USER));
@@ -323,7 +323,7 @@ public class SlackCommandServiceImpl implements SlackCommandService {
                         groupedExpensesDTO
                                 .getExpenseDTOs()
                                 .stream()
-                                .map(expenseDTO -> ExpensesUtils.formatExpenseFrom(user, expenseDTO, ExpensesUtils.ExpenseDisplayType.LIST))
+                                .map(expenseDTO -> ExpensesUtils.formatExpenseFrom(user, expenseDTO, ex))
                                 .collect(Collectors.joining("\n  - ", "  - ", ""))))
                 .collect(Collectors.joining("\n"));
     }
