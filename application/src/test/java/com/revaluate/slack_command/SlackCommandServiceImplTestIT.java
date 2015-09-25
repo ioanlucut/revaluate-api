@@ -131,7 +131,7 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         exception.expect(SlackException.class);
         exception.expectMessage("We do not recognize NNN as category. You dispose only of: \n" +
-                " name");
+                "  - name");
         SlackDTO request = buildDummyRequestWithText("add 42.22 NNN ABCDEFG");
         slackCommandService.answer(request, createdUserDTO.getId());
     }
@@ -143,7 +143,7 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         SlackDTO request = buildDummyRequestWithText("categories");
         String answer = slackCommandService.answer(request, createdUserDTO.getId());
         assertThat(answer.trim(), is(equalTo("You dispose of the following categories: \n" +
-                "name")));
+                " - name")));
 
         request = buildDummyRequestWithText("categories asdadasdas");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
@@ -181,8 +181,8 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         slackCommandService.answer(request, createdUserDTO.getId());
         request = buildDummyRequestWithText("list -cat home -limit 2");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(containsString("35.000,00 € - home")));
-        assertThat(answer.trim(), is(containsString("25.000,00 € - home")));
+        assertThat(answer.trim(), is(containsString("  - 35.000,00 € - home")));
+        assertThat(answer.trim(), is(containsString("  - 25.000,00 € - home")));
         assertThat(answer.trim(), is(not(containsString("15.000,00 € - home"))));
 
         request = buildDummyRequestWithText("list abc");
@@ -192,8 +192,8 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         request = buildDummyRequestWithText("list -cat sfd");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
         assertThat(answer.trim(), is(equalTo("You dispose of the following categories: \n" +
-                "home\n" +
-                "name")));
+                " - home\n" +
+                " - name")));
     }
 
     @Test
