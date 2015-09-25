@@ -11,6 +11,7 @@ import com.revaluate.category.service.CategoryService;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
+import com.revaluate.domain.expense.ExpensesQueryResponseDTO;
 import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.expense.service.ExpenseService;
@@ -235,12 +236,14 @@ public class SlackCommandServiceImpl implements SlackCommandService {
     }
 
     private String getCategoriesJoined(int userId) throws SlackException {
-        List<CategoryDTO> allCategoriesFor = categoryService.findAllCategoriesFor(userId);
+        List<CategoryDTO> allCategoriesFor = categoryService
+                .findAllCategoriesFor(userId).stream().sorted((o1, o2) -> o1.getName().compareTo(o2.getName()))
+                .collect(Collectors.toList());
 
         return allCategoriesFor
                 .stream()
                 .map(categoryDTO -> String.format("%s", categoryDTO.getName()))
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining("\n - ", " - ", ""));
     }
 
     private double getPrice(String price) throws SlackException {
@@ -293,27 +296,35 @@ public class SlackCommandServiceImpl implements SlackCommandService {
 
             if (oneByNameIgnoreCaseAndUserId.isPresent()) {
                 Category category = oneByNameIgnoreCaseAndUserId.get();
-                List<ExpenseDTO> expenseDTOs = expenseService.findAllExpensesOfCategoryFor(userId,
-                        category.getId(),
-                        Optional.of(pageRequest));
 
-                return getExpensesJoined(userId, expenseDTOs);
+                ExpensesQueryResponseDTO expensesGroupBySpentDateFor = expenseService.findExpensesOfCategoryGroupBySpentDateFor(userId,
+                        category.getId(),
+                        pageRequest);
+
+                return getExpensesJoined(userId, expensesGroupBySpentDateFor);
             }
 
             return String.format("You dispose of the following categories: \n%s", getCategoriesJoined(userId));
         } else {
-            return getExpensesJoined(userId, expenseService.findAllExpensesFor(userId, Optional.of(pageRequest)));
+            return getExpensesJoined(userId, expenseService.findExpensesGroupBySpentDate(userId, pageRequest));
         }
     }
 
-    private String getExpensesJoined(int userId, List<ExpenseDTO> expenseDTOs) throws SlackException {
+    private String getExpensesJoined(int userId, ExpensesQueryResponseDTO groupBySpentDateFor) throws SlackException {
         User user = userRepository
                 .findOneById(userId)
                 .orElseThrow(() -> new SlackException(SlackCommandServiceImpl.INVALID_USER));
 
-        return expenseDTOs
+        return groupBySpentDateFor
+                .getGroupedExpensesDTOList()
                 .stream()
-                .map(expenseDTO -> ExpensesUtils.formatExpenseFrom(user, expenseDTO, ExpensesUtils.ExpenseDisplayType.LIST))
+                .map(groupedExpensesDTO -> String.format("%s\n%s",
+                        ExpensesUtils.formatDate(groupedExpensesDTO.getLocalDate()),
+                        groupedExpensesDTO
+                                .getExpenseDTOs()
+                                .stream()
+                                .map(expenseDTO -> ExpensesUtils.formatExpenseFrom(user, expenseDTO, ExpensesUtils.ExpenseDisplayType.LIST))
+                                .collect(Collectors.joining("\n  - ", "  - ", ""))))
                 .collect(Collectors.joining("\n"));
     }
 
