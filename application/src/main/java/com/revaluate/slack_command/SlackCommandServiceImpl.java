@@ -46,8 +46,6 @@ public class SlackCommandServiceImpl implements SlackCommandService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SlackCommandServiceImpl.class);
 
-    public static final int MAX_DESC_LENGTH = 100;
-
     public static final String COMMANDS_USAGE = "%s, your available commands for Revaluate:\n" +
             "- Add an expense:\n" +
             "/revaluate add <price> <CATEGORY> [<description>]\n" +
@@ -66,14 +64,17 @@ public class SlackCommandServiceImpl implements SlackCommandService {
             "\n" +
             "Or /revaluate help";
 
+    public static final String INVALID_USER = "We couldn't recognize your credentials. You can authenticate <https://www.revaluate.io|here>";
+
     //-----------------------------------------------------------------
     // Other constants
     //-----------------------------------------------------------------
     public static final String EXPENSE_SPENT_DATE_COLUMN = "spentDate";
     public static final String EXPENSE_CREATED_DATE_COLUMN = "createdDate";
+    public static final int MAX_DESC_LENGTH = 100;
     public static final int DEFAULT_LIMIT = 10;
     public static final int DEFAULT_PAGE = 0;
-    private static final Integer MAX_SIZE = 100;
+    public static final Integer MAX_SIZE = 100;
 
     @Autowired
     private CategoryService categoryService;
@@ -207,7 +208,7 @@ public class SlackCommandServiceImpl implements SlackCommandService {
     private String createAndGet(int userId, ExpenseDTO buildExpenseDTO) throws SlackException, ExpenseException, ParseException {
         User user = userRepository
                 .findOneById(userId)
-                .orElseThrow(() -> new SlackException("We couldn't recognize your credentials. You can authenticate at <https://www.revaluate.io|revaluate.io>"));
+                .orElseThrow(() -> new SlackException(INVALID_USER));
         ExpenseDTO expenseDTO = expenseService.create(buildExpenseDTO, userId);
 
         return ExpensesUtils.formatExpenseFrom(user, expenseDTO, ExpensesUtils.ExpenseDisplayType.ADD);
@@ -308,13 +309,12 @@ public class SlackCommandServiceImpl implements SlackCommandService {
     private String getExpensesJoined(int userId, List<ExpenseDTO> expenseDTOs) throws SlackException {
         User user = userRepository
                 .findOneById(userId)
-                .orElseThrow(() -> new SlackException("We couldn't recognize your credentials. You can authenticate at <https://www.revaluate.io|revaluate.io>"));
+                .orElseThrow(() -> new SlackException(SlackCommandServiceImpl.INVALID_USER));
 
         return expenseDTOs
                 .stream()
                 .map(expenseDTO -> ExpensesUtils.formatExpenseFrom(user, expenseDTO, ExpensesUtils.ExpenseDisplayType.LIST))
                 .collect(Collectors.joining("\n"));
     }
-
 
 }
