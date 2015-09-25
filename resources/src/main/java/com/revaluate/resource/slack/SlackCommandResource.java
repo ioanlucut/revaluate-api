@@ -9,6 +9,7 @@ import com.revaluate.oauth.persistence.AppIntegrationSlackRepository;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.slack.SlackException;
 import com.revaluate.slack_command.SlackCommandService;
+import com.revaluate.slack_command.SlackCommandServiceImpl;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -99,8 +100,7 @@ public class SlackCommandResource extends Resource {
 
         AppIntegrationSlack oneBySlackUserId = oauthIntegrationSlackRepository
                 .findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType.SLACK, request.getUserId(), request.getTeamId())
-                .orElseThrow(() -> new SlackException("We couldn't recognize you. You have to authenticate your Slack " +
-                        "account with Revaluate, therefore you can do it at <https://www.revaluate.io|revaluate.io>"));
+                .orElseThrow(() -> new SlackException(SlackCommandServiceImpl.INVALID_USER));
 
         Integer matchingUserId = oneBySlackUserId.getUser().getId();
         String answer = slackService.answer(request, matchingUserId);
