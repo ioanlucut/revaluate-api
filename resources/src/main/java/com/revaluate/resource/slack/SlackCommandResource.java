@@ -4,6 +4,7 @@ import com.revaluate.core.annotations.Public;
 import com.revaluate.domain.oauth.AppIntegrationType;
 import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.domain.slack.SlackDTOBuilder;
+import com.revaluate.intercom.IntercomTracker;
 import com.revaluate.oauth.persistence.AppIntegrationSlack;
 import com.revaluate.oauth.persistence.AppIntegrationSlackRepository;
 import com.revaluate.resource.utils.Resource;
@@ -48,6 +49,9 @@ public class SlackCommandResource extends Resource {
 
     @Autowired
     private AppIntegrationSlackRepository oauthIntegrationSlackRepository;
+
+    @Autowired
+    private IntercomTracker intercomTracker;
 
     @GET
     @Public
@@ -103,9 +107,16 @@ public class SlackCommandResource extends Resource {
                 .orElseThrow(() -> new SlackException(SlackCommandServiceImpl.INVALID_USER));
 
         Integer matchingUserId = oneBySlackUserId.getUser().getId();
-        String answer = slackService.answer(request, matchingUserId);
 
-        return Response.status(Response.Status.OK).entity(answer).build();
+        try {
+            String answer = slackService.answer(request, matchingUserId);
+            return Response.status(Response.Status.OK).entity(answer).build();
+        } finally {
+            //-----------------------------------------------------------------
+            // Track event async
+            //-----------------------------------------------------------------
+            intercomTracker.trackEventAsync(IntercomTracker.EventType.SLACK_COMMAND, String.valueOf(matchingUserId));
+        }
     }
 
 }
