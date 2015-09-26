@@ -329,6 +329,12 @@
             </dependency>
 
             <dependency>
+                <artifactId>jackson-databind</artifactId>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <version>${jackson-annotations.version}</version>
+            </dependency>
+
+            <dependency>
                 <artifactId>commons-io</artifactId>
                 <groupId>commons-io</groupId>
                 <version>${commons-io.version}</version>
