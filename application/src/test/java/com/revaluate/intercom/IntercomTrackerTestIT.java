@@ -13,7 +13,6 @@ public class IntercomTrackerTestIT extends AbstractIntegrationTests {
     @Test
     @Ignore(value = "As this test goes externally, we will use it only to debug it manually.")
     public void add_expenseHappyFlow_ok() throws Exception {
-        intercomTracker.trackEventAsync(IntercomTracker.EventType.SLACK_COMMAND_UNPROPER, "2204");
         intercomTracker.trackEventAsync(IntercomTracker.EventType.SLACK_COMMAND, "2204");
     }
 }
