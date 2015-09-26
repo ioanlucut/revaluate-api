@@ -85,6 +85,24 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    public List<ExpenseDTO> findAllExpensesOfCategoryFor(int userId, int categoryId, Optional<PageRequest> pageRequest) {
+        if (pageRequest.isPresent()) {
+            Page<Expense> expenses = expenseRepository.findAllByUserIdAndCategoryId(userId, categoryId, pageRequest.get());
+
+            return collectAndGet(expenses.getContent());
+        }
+
+        return collectAndGet(expenseRepository.findAllByUserIdAndCategoryId(userId, categoryId));
+    }
+
+    @Override
+    public ExpensesQueryResponseDTO findExpensesOfCategoryGroupBySpentDateFor(int userId, int categoryId, PageRequest pageRequest) {
+        List<ExpenseDTO> allExpensesOf = findAllExpensesOfCategoryFor(userId, categoryId, Optional.of(pageRequest));
+
+        return getExpensesQueryResponseDTO(userId, pageRequest, allExpensesOf);
+    }
+
+    @Override
     public List<ExpenseDTO> findAllExpensesAfter(int userId, LocalDateTime after) {
         List<Expense> expenses = expenseRepository.findAllByUserIdAndSpentDateAfter(userId, after);
 
@@ -108,15 +126,8 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public ExpensesQueryResponseDTO findExpensesGroupBySpentDate(int userId, PageRequest pageRequest) {
         List<ExpenseDTO> allExpensesOf = findAllExpensesFor(userId, Optional.of(pageRequest));
-        List<GroupedExpensesDTO> groupedExpensesDTOs = groupBySpentDateAndCollect(allExpensesOf);
 
-        int totalSize = (int) expenseRepository.countByUserId(userId);
-        return new ExpensesQueryResponseDTOBuilder()
-                .withGroupedExpensesDTOList(groupedExpensesDTOs)
-                .withCurrentPage(pageRequest.getPageNumber())
-                .withCurrentSize(allExpensesOf.size())
-                .withTotalSize(totalSize)
-                .build();
+        return getExpensesQueryResponseDTO(userId, pageRequest, allExpensesOf);
     }
 
     private List<GroupedExpensesDTO> groupBySpentDateAndCollect(List<ExpenseDTO> allExpensesAfterBefore) {
@@ -194,6 +205,18 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenseById.orElseThrow(() -> new ExpenseException("Expense doesn't exist"));
 
         expenseRepository.delete(expenseId);
+    }
+
+    private ExpensesQueryResponseDTO getExpensesQueryResponseDTO(int userId, PageRequest pageRequest, List<ExpenseDTO> allExpensesOf) {
+        List<GroupedExpensesDTO> groupedExpensesDTOs = groupBySpentDateAndCollect(allExpensesOf);
+
+        int totalSize = (int) expenseRepository.countByUserId(userId);
+        return new ExpensesQueryResponseDTOBuilder()
+                .withGroupedExpensesDTOList(groupedExpensesDTOs)
+                .withCurrentPage(pageRequest.getPageNumber())
+                .withCurrentSize(allExpensesOf.size())
+                .withTotalSize(totalSize)
+                .build();
     }
 
     private List<ExpenseDTO> collectAndGet(List<Expense> expenses) {

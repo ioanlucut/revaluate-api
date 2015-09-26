@@ -1,7 +1,11 @@
 package com.revaluate.expense.service;
 
+import com.revaluate.account.persistence.User;
 import com.revaluate.currency.CurrenciesLocaleGenerator;
 import com.revaluate.currency.persistence.Currency;
+import com.revaluate.domain.expense.ExpenseDTO;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import java.math.BigDecimal;
@@ -12,6 +16,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public interface ExpensesUtils {
+
+    String ADDED_FORMAT = ":white_check_mark: Added: %s - %s: %s";
+    String ADDED_FORMAT_NO_DESC = ":white_check_mark: Added: %s - %s";
+
+    String LIST_EXPENSE_FORMAT = "%s - %s: %s";
+    String LIST_EXPENSE_FORMAT_NO_DESC = "%s - %s";
 
     Map<String, String> DATE_FORMAT_REGEXPS = new HashMap<String, String>() {{
         put("^\\d{8}$", "yyyyMMdd");
@@ -77,7 +87,7 @@ public interface ExpensesUtils {
         return (BigDecimal) fmt.parse(value);
     }
 
-    static String format(BigDecimal amount, Currency currency) throws ParseException {
+    static String format(BigDecimal amount, Currency currency) {
         Locale firstLocaleFound = STRING_LIST_MAP.getOrDefault(currency.getCurrencyCode(), Collections.singletonList(Locale.US)).stream().findFirst().orElse(Locale.US);
         NumberFormat currencyInstance = NumberFormat.getCurrencyInstance(firstLocaleFound);
         //-----------------------------------------------------------------
@@ -92,6 +102,50 @@ public interface ExpensesUtils {
         }
 
         return new SimpleDateFormat("EEE, MMM d, ''yy").format(localeDateTime.toDate());
+    }
+
+    static String formatDate(LocalDate localDate) {
+        if (LocalDateTime.now().getYear() == localDate.getYear()) {
+            return new SimpleDateFormat("EEE, MMM d").format(localDate.toDate());
+        }
+
+        return new SimpleDateFormat("EEE, MMM d, ''yy").format(localDate.toDate());
+    }
+
+    static String formatExpenseFrom(User user, ExpenseDTO expenseDTO, ExpenseDisplayType expenseDisplayType) {
+        String priceFormatted = ExpensesUtils.format(BigDecimal.valueOf(expenseDTO.getValue()), user.getCurrency());
+        String categoryName = expenseDTO.getCategory().getName();
+
+        switch (expenseDisplayType) {
+            case ADD: {
+                if (StringUtils.isBlank(expenseDTO.getDescription())) {
+                    return String.format(ADDED_FORMAT_NO_DESC,
+                            priceFormatted, categoryName);
+                }
+
+                return String.format(ADDED_FORMAT,
+                        priceFormatted,
+                        categoryName,
+                        expenseDTO.getDescription());
+            }
+            default: {
+                if (StringUtils.isBlank(expenseDTO.getDescription())) {
+                    return String.format(LIST_EXPENSE_FORMAT_NO_DESC,
+                            priceFormatted,
+                            categoryName);
+                }
+
+                return String.format(LIST_EXPENSE_FORMAT,
+                        priceFormatted,
+                        categoryName,
+                        expenseDTO.getDescription());
+            }
+        }
+
+    }
+
+    enum ExpenseDisplayType {
+        ADD, LIST, LIST_OF_CATEGORY;
     }
 
 }

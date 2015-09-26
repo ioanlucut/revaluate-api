@@ -1,8 +1,8 @@
-package com.revaluate.domain.account;
+package com.revaluate.domain.oauth;
 
 import java.util.Arrays;
 
-public enum OauthIntegrationScopeType {
+public enum AppIntegrationScopeType {
 
     IDENTIFY,
     READ,
@@ -10,10 +10,10 @@ public enum OauthIntegrationScopeType {
     CLIENT,
     ADMIN;
 
-    public static OauthIntegrationScopeType fromString(String string) throws Exception {
+    public static AppIntegrationScopeType fromString(String string) throws Exception {
 
         return Arrays
-                .stream(OauthIntegrationScopeType.values())
+                .stream(AppIntegrationScopeType.values())
                 .filter(oauthIntegrationScopeType -> oauthIntegrationScopeType.name().toLowerCase().equals(string))
                 .findFirst()
                 .orElseThrow(() -> new Exception("Not found"));

@@ -1,5 +1,6 @@
 package com.revaluate.mapper;
 
+import com.revaluate.intercom.IntercomTracker;
 import com.revaluate.slack.SlackException;
 import org.springframework.stereotype.Component;
 

@@ -43,7 +43,6 @@ public class SlackDTO implements Serializable {
     @JsonProperty("command")
     private String command;
 
-    @NotEmpty
     @JsonProperty("text")
     private String text;
 

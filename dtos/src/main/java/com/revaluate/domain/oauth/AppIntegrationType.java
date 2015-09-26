@@ -1,6 +1,6 @@
 package com.revaluate.domain.oauth;
 
-public enum OauthIntegrationType {
+public enum AppIntegrationType {
 
     SLACK
 }
