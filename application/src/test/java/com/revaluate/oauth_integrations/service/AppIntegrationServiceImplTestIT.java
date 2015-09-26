@@ -2,6 +2,7 @@ package com.revaluate.oauth_integrations.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.persistence.UserRepository;
+import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.oauth.AppIntegrationDTO;
 import com.revaluate.domain.oauth.AppIntegrationType;
@@ -36,6 +37,9 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
 
     @Autowired
     private DozerBeanMapper dozerBeanMapper;
+
+    @Autowired
+    private ConfigProperties configProperties;
 
     @Test
     public void createOAuthIntegrationSlack_getAccessTokenFrom_throwsException() throws Exception {
@@ -235,5 +239,6 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "userRepository", userRepository);
         setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "oauthIntegrationSlackRepository", oauthIntegrationSlackRepository);
         setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "dozerBeanMapper", dozerBeanMapper);
+        setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "configProperties", configProperties);
     }
 }

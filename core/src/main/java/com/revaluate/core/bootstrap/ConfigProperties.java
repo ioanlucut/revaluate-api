@@ -80,6 +80,12 @@ public class ConfigProperties {
     @Value("${braintreePrivateKey}")
     private String braintreePrivateKey;
 
+    @Value("${slackClientId}")
+    private String slackClientId;
+
+    @Value("${slackClientSecret}")
+    private String slackClientSecret;
+
     public boolean isProduction() {
         return production;
     }
@@ -217,6 +223,22 @@ public class ConfigProperties {
         this.braintreePrivateKey = braintreePrivateKey;
     }
 
+    public String getSlackClientId() {
+        return slackClientId;
+    }
+
+    public void setSlackClientId(String slackClientId) {
+        this.slackClientId = slackClientId;
+    }
+
+    public String getSlackClientSecret() {
+        return slackClientSecret;
+    }
+
+    public void setSlackClientSecret(String slackClientSecret) {
+        this.slackClientSecret = slackClientSecret;
+    }
+
     @Override
     public String toString() {
         return "ConfigProperties{" +
@@ -237,6 +259,8 @@ public class ConfigProperties {
                 ", braintreeMerchantId='" + braintreeMerchantId + '\'' +
                 ", braintreePublicKey='" + braintreePublicKey + '\'' +
                 ", braintreePrivateKey='" + braintreePrivateKey + '\'' +
+                ", slackClientId='" + slackClientId + '\'' +
+                ", slackClientSecret='" + slackClientSecret + '\'' +
                 '}';
     }
 }

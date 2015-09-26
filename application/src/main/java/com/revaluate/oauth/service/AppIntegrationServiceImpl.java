@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.revaluate.account.persistence.User;
 import com.revaluate.account.persistence.UserRepository;
+import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.domain.oauth.AppIntegrationDTO;
 import com.revaluate.domain.oauth.AppIntegrationScopeType;
 import com.revaluate.domain.oauth.AppIntegrationType;
@@ -32,11 +33,24 @@ import java.util.stream.Collectors;
 @Validated
 public class AppIntegrationServiceImpl implements AppIntegrationService {
 
-    public static final String CLIENT_ID = "2151987168.10687444405";
-    public static final String CLIENT_SECRET = "9efca5a3f6c459259e950c715c3433e2";
+    //-----------------------------------------------------------------
+    // SLACK endpoints and methods
+    //-----------------------------------------------------------------
     public static final String SLACK_URI = "https://slack.com/";
     public static final String SLACK_ACCESS_PATH = "api/oauth.access";
     public static final String SLACK_AUTH_TEST_PATH = "api/auth.test";
+
+    //-----------------------------------------------------------------
+    // QUERY params
+    //-----------------------------------------------------------------
+    public static final String CLIENT_ID = "client_id";
+    public static final String CLIENT_SECRET = "client_secret";
+    public static final String CODE = "code";
+    public static final String REDIRECT_URI = "redirect_uri";
+    public static final String TOKEN = "token";
+
+    @Autowired
+    private ConfigProperties configProperties;
 
     @Autowired
     private UserRepository userRepository;
@@ -104,10 +118,10 @@ public class AppIntegrationServiceImpl implements AppIntegrationService {
                 .path(SLACK_ACCESS_PATH);
 
         Response response = target
-                .queryParam("client_id", CLIENT_ID)
-                .queryParam("client_secret", CLIENT_SECRET)
-                .queryParam("code", code)
-                .queryParam("redirect_uri", redirectUri)
+                .queryParam(CLIENT_ID, configProperties.getSlackClientId())
+                .queryParam(CLIENT_SECRET, configProperties.getSlackClientSecret())
+                .queryParam(CODE, code)
+                .queryParam(REDIRECT_URI, redirectUri)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
 
@@ -131,7 +145,7 @@ public class AppIntegrationServiceImpl implements AppIntegrationService {
                 .path(SLACK_AUTH_TEST_PATH);
 
         Response response = target
-                .queryParam("token", token)
+                .queryParam(TOKEN, token)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .get();
 
