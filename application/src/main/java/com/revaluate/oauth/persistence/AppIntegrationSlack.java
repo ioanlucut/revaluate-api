@@ -1,4 +1,4 @@
-package com.revaluate.integrations.persistence;
+package com.revaluate.oauth.persistence;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -7,17 +7,15 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = OauthIntegrationSlack.OAUTH_SLACK)
-public class OauthIntegrationSlack extends OauthIntegration {
+@DiscriminatorValue(value = AppIntegrationSlack.OAUTH_SLACK)
+public class AppIntegrationSlack extends AppIntegration {
 
     public static final String OAUTH_SLACK = "OAUTH_SLACK";
 
     @NotEmpty
-    @Column(nullable = false, unique = true)
     private String slackUserId;
 
     @NotEmpty
-    @Column(nullable = false, unique = true)
     private String slackTeamId;
 
     public String getSlackUserId() {

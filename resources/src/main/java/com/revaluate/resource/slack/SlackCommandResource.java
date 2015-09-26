@@ -1,14 +1,16 @@
 package com.revaluate.resource.slack;
 
 import com.revaluate.core.annotations.Public;
-import com.revaluate.domain.oauth.OauthIntegrationType;
+import com.revaluate.domain.oauth.AppIntegrationType;
 import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.domain.slack.SlackDTOBuilder;
-import com.revaluate.integrations.persistence.OauthIntegrationSlack;
-import com.revaluate.integrations.persistence.OauthIntegrationSlackRepository;
+import com.revaluate.intercom.IntercomTracker;
+import com.revaluate.oauth.persistence.AppIntegrationSlack;
+import com.revaluate.oauth.persistence.AppIntegrationSlackRepository;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.slack.SlackException;
 import com.revaluate.slack_command.SlackCommandService;
+import com.revaluate.slack_command.SlackCommandServiceImpl;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,44 +48,46 @@ public class SlackCommandResource extends Resource {
     private SlackCommandService slackService;
 
     @Autowired
-    private OauthIntegrationSlackRepository oauthIntegrationSlackRepository;
+    private AppIntegrationSlackRepository oauthIntegrationSlackRepository;
+
+    @Autowired
+    private IntercomTracker intercomTracker;
 
     @GET
     @Public
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(@NotEmpty
+    public Response create(@NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(TOKEN)
                            String token,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(TEAM_ID)
                            String teamId,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(TEAM_DOMAIN)
                            String teamDomain,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(CHANNEL_ID)
                            String channelId,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(CHANNEL_NAME)
                            String channelName,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(USER_ID)
                            String userId,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(USER_NAME)
                            String userName,
 
-                           @NotEmpty
+                           @NotEmpty(message = "The slack command is not proper.")
                            @QueryParam(COMMAND)
                            String command,
 
-                           @NotEmpty
                            @QueryParam(TEXT)
                            String text) throws SlackException {
         SlackDTO request = new SlackDTOBuilder()
@@ -98,14 +102,21 @@ public class SlackCommandResource extends Resource {
                 .withText(text)
                 .build();
 
-        OauthIntegrationSlack oneBySlackUserId = oauthIntegrationSlackRepository
-                .findOneByOauthIntegrationTypeAndSlackUserIdAndSlackTeamId(OauthIntegrationType.SLACK, request.getUserId(), request.getTeamId())
-                .orElseThrow(() -> new SlackException("Sorry, do we know you?.."));
+        AppIntegrationSlack oneBySlackUserId = oauthIntegrationSlackRepository
+                .findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType.SLACK, request.getUserId(), request.getTeamId())
+                .orElseThrow(() -> new SlackException(SlackCommandServiceImpl.INVALID_USER));
 
         Integer matchingUserId = oneBySlackUserId.getUser().getId();
-        String answer = slackService.answer(request, matchingUserId);
 
-        return Response.status(Response.Status.OK).entity(answer).build();
+        try {
+            String answer = slackService.answer(request, matchingUserId);
+            return Response.status(Response.Status.OK).entity(answer).build();
+        } finally {
+            //-----------------------------------------------------------------
+            // Track event async
+            //-----------------------------------------------------------------
+            intercomTracker.trackEventAsync(IntercomTracker.EventType.SLACK_COMMAND, String.valueOf(matchingUserId));
+        }
     }
 
 }
