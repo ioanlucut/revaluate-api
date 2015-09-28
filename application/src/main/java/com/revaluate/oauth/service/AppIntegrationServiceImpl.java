@@ -86,6 +86,18 @@ public class AppIntegrationServiceImpl implements AppIntegrationService {
         // Override existing
         //-----------------------------------------------------------------
 
+        long slackUserIdAndTeamIdIsTaken = oauthIntegrationSlackRepository
+                .countByAppIntegrationTypeAndSlackUserIdAndSlackTeamIdAndUserIdNot(AppIntegrationType.SLACK, identityUserId, identityTeamId, userId);
+
+        //-----------------------------------------------------------------
+        // There is already a user registered with this slack user id & team id
+        // The relationship is 1 to many (user to many slack accounts)
+        // and not same slack account to many users.
+        //-----------------------------------------------------------------
+        if (slackUserIdAndTeamIdIsTaken > 0) {
+            throw new AppIntegrationException("The user id and team id is already used by another user.");
+        }
+
         AppIntegrationSlack appIntegrationSlack = oauthIntegrationSlackRepository
                 .findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamIdAndUserId(AppIntegrationType.SLACK, identityUserId, identityTeamId, userId)
                 .orElseGet(AppIntegrationSlack::new);
