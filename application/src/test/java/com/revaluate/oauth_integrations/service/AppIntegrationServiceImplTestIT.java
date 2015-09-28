@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -160,6 +161,48 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(allByAppIntegrationTypeAndUserId, is(notNullValue()));
         assertThat(allByAppIntegrationTypeAndUserId.size(), is(1));
         assertThat(allByAppIntegrationTypeAndUserId.get(0).getAccessToken(), is(equalTo("abc")));
+    }
+
+    @Test
+    public void createOAuthIntegrationSlack_sameSlackUserIdForTwoUsers_isNotAllowed() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+        UserDTO secondCreatedUserDTO = createUserDTO("a@b.c");
+
+        AppIntegrationServiceImpl oauthIntegrationServiceMock = Mockito.spy(new AppIntegrationServiceImpl());
+        prepare(oauthIntegrationServiceMock);
+
+        //-----------------------------------------------------------------
+        // Throw OauthIntegrationException
+        //-----------------------------------------------------------------
+        Map<String, String> map = new HashMap<>();
+        map.put("access_token", "dsa");
+        map.put("scope", "client");
+
+        Map<String, String> identityMap = new HashMap<>();
+        identityMap.put("team_id", "teamId");
+        identityMap.put("user_id", "userId");
+
+        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
+        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
+        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
+
+        //-----------------------------------------------------------------
+        // Try to add the same integration with another user
+        //-----------------------------------------------------------------
+        map = new HashMap<>();
+        map.put("access_token", "abc");
+        map.put("scope", "client");
+
+        identityMap = new HashMap<>();
+        identityMap.put("team_id", "teamId");
+        identityMap.put("user_id", "userId");
+        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
+        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
+        exception.expect(AppIntegrationException.class);
+        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", secondCreatedUserDTO.getId());
     }
 
     @Test
