@@ -25,6 +25,11 @@ public class AppIntegrationResource extends Resource {
     public static final String OAUTH = "oauth";
 
     //-----------------------------------------------------------------
+    // Sub paths
+    //-----------------------------------------------------------------
+    private static final String REMOVE_APP_INTEGRATION = "{appId}";
+
+    //-----------------------------------------------------------------
     // Query params
     //-----------------------------------------------------------------
     public static final String CODE = "code";
@@ -58,6 +63,7 @@ public class AppIntegrationResource extends Resource {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
+    @Path(REMOVE_APP_INTEGRATION)
     public Response remove(@PathParam(APP_INTEGRATION_ID) @NotNull int appIntegrationId) throws AppIntegrationException {
         oauthIntegrationService.removeIntegration(appIntegrationId, getCurrentUserId());
 
