@@ -18,6 +18,11 @@ public interface AbstractAppIntegrationRepository<T, ID extends Serializable> ex
 
     Optional<T> findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType appIntegrationType, String slackUserId, String slackTeamId);
 
+    /**
+     * Checks if the slack id and slack team id are taken by another user.
+     */
+    long countByAppIntegrationTypeAndSlackUserIdAndSlackTeamIdAndUserIdNot(AppIntegrationType appIntegrationType, String slackUserId, String slackTeamId, int userId);
+
     //-----------------------------------------------------------------
     // Find all by type and user id
     //-----------------------------------------------------------------
