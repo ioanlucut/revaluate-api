@@ -109,11 +109,11 @@ public class AppIntegrationServiceImpl implements AppIntegrationService {
         List<String> scopeAsString = splitter.splitToList(scope);
         scopeAsString
                 .stream()
-                .filter(s -> AppIntegrationScopeType.CLIENT.name().toLowerCase().equals(s))
+                .filter(s -> AppIntegrationScopeType.IDENTIFY.name().toLowerCase().equals(s))
                 .findFirst()
                 .orElseThrow(() -> new AppIntegrationException("The access scope should be client"));
 
-        appIntegrationSlack.setAppIntegrationScopeType(AppIntegrationScopeType.CLIENT);
+        appIntegrationSlack.setAppIntegrationScopeType(AppIntegrationScopeType.IDENTIFY);
         appIntegrationSlack.setSlackTeamId(identityTeamId);
         appIntegrationSlack.setSlackUserId(identityUserId);
         appIntegrationSlack.setUser(foundUser);
