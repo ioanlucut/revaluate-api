@@ -95,7 +95,7 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         Map<String, String> map = new HashMap<>();
         map.put("access_token", "dsa");
-        map.put("scope", "client");
+        map.put("scope", "identify");
 
         Map<String, String> identityMap = new HashMap<>();
         identityMap.put("team_id", "teamId");
@@ -107,7 +107,7 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
 
         map = new HashMap<>();
         map.put("access_token", "dsa");
-        map.put("scope", "client");
+        map.put("scope", "identify");
 
         identityMap = new HashMap<>();
         identityMap.put("team_id", "teamId2");
@@ -136,7 +136,7 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         Map<String, String> map = new HashMap<>();
         map.put("access_token", "dsa");
-        map.put("scope", "client");
+        map.put("scope", "identify");
 
         Map<String, String> identityMap = new HashMap<>();
         identityMap.put("team_id", "teamId");
@@ -148,7 +148,7 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
 
         map = new HashMap<>();
         map.put("access_token", "abc");
-        map.put("scope", "client");
+        map.put("scope", "identify");
 
         identityMap = new HashMap<>();
         identityMap.put("team_id", "teamId");
@@ -179,7 +179,7 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         Map<String, String> map = new HashMap<>();
         map.put("access_token", "dsa");
-        map.put("scope", "client");
+        map.put("scope", "identify");
 
         Map<String, String> identityMap = new HashMap<>();
         identityMap.put("team_id", "teamId");
@@ -194,7 +194,7 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         map = new HashMap<>();
         map.put("access_token", "abc");
-        map.put("scope", "client");
+        map.put("scope", "identify");
 
         identityMap = new HashMap<>();
         identityMap.put("team_id", "teamId");
@@ -220,7 +220,7 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         Map<String, String> map = new HashMap<>();
         map.put("access_token", "dsa");
-        map.put("scope", "client");
+        map.put("scope", "identify");
 
         Map<String, String> identityMap = new HashMap<>();
         identityMap.put("team_id", "teamId");
@@ -232,7 +232,7 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
 
         map = new HashMap<>();
         map.put("access_token", "dsa");
-        map.put("scope", "client");
+        map.put("scope", "identify");
 
         identityMap = new HashMap<>();
         identityMap.put("team_id", "teamId2");
@@ -260,7 +260,7 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         Map<String, String> map = new HashMap<>();
         map.put("access_token", "dsa");
-        map.put("scope", "client");
+        map.put("scope", "identify");
 
         Map<String, String> identityMap = new HashMap<>();
         identityMap.put("team_id", "teamId");
