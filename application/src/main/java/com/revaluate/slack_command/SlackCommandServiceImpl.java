@@ -58,14 +58,18 @@ public class SlackCommandServiceImpl implements SlackCommandService {
             "/revaluate list [-cat <CATEGORY>] [-limit <LIMIT>]\n" +
             "\n" +
             "- Get help (this message):\n" +
-            "/revaluate help";
+            "/revaluate help" +
+            "\n" +
+            ":information_source: Tip: Press TAB to get the last used command.";
 
     public static final String ADD_USAGE = "I couldn't figure out what you meant. Please enter expenses in the form: \n" +
             "/revaluate add 43 FOOD going out\n" +
             "\n" +
-            "Or /revaluate help";
+            "Or /revaluate help" +
+            "\n" +
+            ":information_source: Tip: Press TAB to get the last used command.";
 
-    public static final String INVALID_USER = "We couldn't recognize your credentials. You can authenticate <https://www.revaluate.io|here>";
+    public static final String INVALID_USER = "We couldn't recognize you as Revaluate user. Please make sure you are authenticated.";
 
     //-----------------------------------------------------------------
     // Other constants

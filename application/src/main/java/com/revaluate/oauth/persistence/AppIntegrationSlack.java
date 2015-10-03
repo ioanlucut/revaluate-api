@@ -2,7 +2,6 @@ package com.revaluate.oauth.persistence;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -17,6 +16,9 @@ public class AppIntegrationSlack extends AppIntegration {
 
     @NotEmpty
     private String slackTeamId;
+
+    @NotEmpty
+    private String slackTeamName;
 
     public String getSlackUserId() {
         return slackUserId;
@@ -34,11 +36,20 @@ public class AppIntegrationSlack extends AppIntegration {
         this.slackTeamId = slackTeamId;
     }
 
+    public String getSlackTeamName() {
+        return slackTeamName;
+    }
+
+    public void setSlackTeamName(String slackTeamName) {
+        this.slackTeamName = slackTeamName;
+    }
+
     @Override
     public String toString() {
-        return "OAuthIntegrationSlack{" +
+        return "AppIntegrationSlack{" +
                 "slackUserId='" + slackUserId + '\'' +
                 ", slackTeamId='" + slackTeamId + '\'' +
+                ", slackTeamName='" + slackTeamName + '\'' +
                 "} " + super.toString();
     }
 }
