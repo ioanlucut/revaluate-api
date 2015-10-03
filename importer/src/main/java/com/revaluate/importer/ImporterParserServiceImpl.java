@@ -8,6 +8,7 @@ import com.revaluate.domain.importer.profile.ExpenseProfileDTO;
 import com.univocity.parsers.common.processor.ObjectRowListProcessor;
 import com.univocity.parsers.conversions.Conversions;
 import com.univocity.parsers.conversions.DoubleConversion;
+import com.univocity.parsers.conversions.FormattedBigDecimalConversion;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 import org.joda.time.format.DateTimeFormat;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.Reader;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -27,9 +29,7 @@ import java.util.stream.Collectors;
 public class ImporterParserServiceImpl implements ImporterParserService {
 
     public static final String LINE_SEPARATOR = "\n";
-    public static final String NON_DIGIT = "[^\\d]";
     public static final double AMOUNT_FALLBACK_AMOUNT = 0.0;
-    public static final String EMPTY_STRING = "";
 
     @Override
     public List<ExpenseDTO> parseFrom(Reader reader, ExpenseProfileDTO expenseProfileDTO) throws ImporterException {
@@ -40,7 +40,10 @@ public class ImporterParserServiceImpl implements ImporterParserService {
         //-----------------------------------------------------------------
         DoubleConversion doubleConversion = Conversions.toDouble();
         doubleConversion.setValueIfStringIsNull(AMOUNT_FALLBACK_AMOUNT);
-        objectRowListProcessor.convertFields(Conversions.replace(NON_DIGIT, EMPTY_STRING), doubleConversion).set(expenseProfileDTO.getExpenseColumnMatchingMap().get(ExpenseColumn.AMOUNT));
+
+        objectRowListProcessor
+                .convertFields(new FormattedBigDecimalConversion("0.00"))
+                .set(expenseProfileDTO.getExpenseColumnMatchingMap().get(ExpenseColumn.AMOUNT));
 
         //-----------------------------------------------------------------
         // Set some settings
@@ -100,9 +103,10 @@ public class ImporterParserServiceImpl implements ImporterParserService {
         return objects -> {
             try {
                 List<String> selectedFieldsAsList = Arrays.asList(selectedFields);
+                BigDecimal value = (BigDecimal) objects[selectedFieldsAsList.indexOf(expenseProfileDTO.getIndexOf(ExpenseColumn.AMOUNT))];
 
                 return new ExpenseDTOBuilder()
-                        .withValue((Double) objects[selectedFieldsAsList.indexOf(expenseProfileDTO.getIndexOf(ExpenseColumn.AMOUNT))])
+                        .withValue(value.setScale(2, BigDecimal.ROUND_DOWN).doubleValue())
                         .withDescription((String) objects[selectedFieldsAsList.indexOf(expenseProfileDTO.getIndexOf(ExpenseColumn.DESCRIPTION))])
                         .withCategory(new CategoryDTOBuilder().withName((String) objects[selectedFieldsAsList.indexOf(expenseProfileDTO.getIndexOf(ExpenseColumn.CATEGORY))]).build())
                         .withSpentDate(dateTimeFormatter.withOffsetParsed().parseLocalDateTime(((String) objects[selectedFieldsAsList.indexOf(expenseProfileDTO.getIndexOf(ExpenseColumn.SPENT_DATE))])))
