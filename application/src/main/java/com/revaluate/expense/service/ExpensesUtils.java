@@ -9,10 +9,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.*;
 
 public interface ExpensesUtils {
@@ -72,19 +69,11 @@ public interface ExpensesUtils {
     }
 
     static BigDecimal parseCurrency(String value) throws ParseException {
-        // Pick a suitable locale.  GERMANY, for example, uses the 1.234,56 format.
-        // You could call .getCurrencyInstance() instead, but then it will
-        // require the value to contain the correct currency symbol at a
-        // specific position.
-        NumberFormat fmt = NumberFormat.getNumberInstance(Locale.GERMANY);
+        DecimalFormat decimalFormat = new DecimalFormat("00.0");
+        (decimalFormat).setParseBigDecimal(true);
+        BigDecimal parsedValue = (BigDecimal) decimalFormat.parse(value);
 
-        // By default, fmt.parse() returns a Number that is a Double.
-        // However, some decimals, such as 0.10, cannot be represented
-        // exactly in floating point, so it is considered best practice to
-        // use BigDecimal for storing monetary values.
-        ((DecimalFormat) fmt).setParseBigDecimal(true);
-
-        return (BigDecimal) fmt.parse(value);
+        return parsedValue.setScale(2, BigDecimal.ROUND_DOWN);
     }
 
     static String format(BigDecimal amount, Currency currency) {
