@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -49,7 +50,37 @@ public class ImporterServiceImpl_Mint_TestIT {
         assertThat(expenseDTOs.size(), is(equalTo(2)));
     }
 
+    @Test
+    public void importFromMintWithProperPrice() throws Exception {
+        Reader reader = new StringReader("\"Amount\",\"Date\",\"Description\",\"Original Description\",\"Transaction Type\",\"Category\",\"Account Name\",\"Labels\",\"Notes\"\n" +
+                "\"36.98\",\"5/05/2015\",\"Sticky\",\"PaymentTo Sticky9\",\"debit\",\"Home Insurance\",\"PayPal Account\",\"\",\"\"\n" +
+                "\"1111.98\",\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"debit\",\"Movies & DVDs\",\"Cash\",\"\",\"This is a note\"\n" +
+                "\"10000.98\",\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"debit\",\"Movies & DVDs\",\"Cash\",\"\",\"This is a note\"\n" +
+                "\"23.4\",\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"debit\",\"Movies & DVDs\",\"Cash\",\"\",\"This is a note\"\n" +
+                "\"23\",\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"debit\",\"Movies & DVDs\",\"Cash\",\"\",\"This is a note\"\n" +
+                "\"23.23232\",\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"debit\",\"Movies & DVDs\",\"Cash\",\"\",\"This is a note\"\n" +
+                "\"23.23.23\",\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"debit\",\"Movies & DVDs\",\"Cash\",\"\",\"This is a note\"\n" +
+                "\"123131231\",\"5/04/2015\",\"Test transaction\",\"Test transaction\",\"debit\",\"Movies & DVDs\",\"Cash\",\"\",\"This is a note\"");
+
+        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(reader, new MintExpenseProfileDTO());
+
+
+        assertThat(expenseDTOs, is(notNullValue()));
+        assertThat(expenseDTOs.size(), is(equalTo(8)));
+
+        assertThat(expenseDTOs.get(0).getValue(), is(equalTo(36.98)));
+        assertThat(expenseDTOs.get(1).getValue(), is(equalTo(1111.98)));
+        assertThat(expenseDTOs.get(2).getValue(), is(equalTo(10000.98)));
+        assertThat(expenseDTOs.get(3).getValue(), is(equalTo(23.4)));
+        assertThat(expenseDTOs.get(4).getValue(), is(equalTo(23.00)));
+        assertThat(expenseDTOs.get(5).getValue(), is(equalTo(23.23)));
+        assertThat(expenseDTOs.get(6).getValue(), is(equalTo(23.23)));
+        assertThat(expenseDTOs.get(7).getValue(), is(equalTo(123131231.00)));
+    }
+
     public Reader getReader(String relativePath) throws UnsupportedEncodingException {
         return new InputStreamReader(this.getClass().getResourceAsStream(relativePath), "UTF-8");
     }
+
+
 }
