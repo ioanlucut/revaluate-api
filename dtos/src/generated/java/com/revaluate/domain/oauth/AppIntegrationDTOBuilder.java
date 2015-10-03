@@ -21,6 +21,8 @@ public class AppIntegrationDTOBuilder
   protected boolean isSet$slackUserId$java$lang$String;
   protected String value$slackTeamId$java$lang$String;
   protected boolean isSet$slackTeamId$java$lang$String;
+  protected String value$slackTeamName$java$lang$String;
+  protected boolean isSet$slackTeamName$java$lang$String;
 
   /**
    * Creates a new {@link AppIntegrationDTOBuilder}.
@@ -114,6 +116,18 @@ public class AppIntegrationDTOBuilder
   }
 
   /**
+   * Sets the default value for the {@link AppIntegrationDTO#slackTeamName} property.
+   *
+   * @param value the default value
+   * @return this builder
+   */
+  public AppIntegrationDTOBuilder withSlackTeamName(String value) {
+    this.value$slackTeamName$java$lang$String = value;
+    this.isSet$slackTeamName$java$lang$String = true;
+    return self;
+  }
+
+  /**
    * Returns a clone of this builder.
    *
    * @return the clone
@@ -166,6 +180,9 @@ public class AppIntegrationDTOBuilder
       }
       if (isSet$slackTeamId$java$lang$String) {
         result.setSlackTeamId(value$slackTeamId$java$lang$String);
+      }
+      if (isSet$slackTeamName$java$lang$String) {
+        result.setSlackTeamName(value$slackTeamName$java$lang$String);
       }
       return result;
     } catch (RuntimeException ex) {

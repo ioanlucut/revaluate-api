@@ -1,9 +1,10 @@
 package com.revaluate.oauth.service;
 
 import com.revaluate.domain.oauth.AppIntegrationDTO;
+import com.revaluate.domain.oauth.AppSlackIntegrationDTO;
 import com.revaluate.oauth.exception.AppIntegrationException;
-import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface AppIntegrationService {
 
     @NotNull
-    AppIntegrationDTO createOauthIntegrationSlack(@NotEmpty String code, @NotEmpty String redirectUri, int userId) throws AppIntegrationException;
+    AppIntegrationDTO createOauthIntegrationSlack(@NotNull @Valid AppSlackIntegrationDTO appSlackIntegrationDTO, int userId) throws AppIntegrationException;
 
     @NotNull
     List<AppIntegrationDTO> findAllIntegrations(int userId) throws AppIntegrationException;
