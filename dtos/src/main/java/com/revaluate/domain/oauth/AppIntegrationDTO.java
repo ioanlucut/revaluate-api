@@ -18,6 +18,7 @@ public class AppIntegrationDTO implements Serializable {
     private LocalDateTime modifiedDate;
     private String slackUserId;
     private String slackTeamId;
+    private String slackTeamName;
 
     public Integer getId() {
         return id;
@@ -75,6 +76,14 @@ public class AppIntegrationDTO implements Serializable {
         this.slackTeamId = slackTeamId;
     }
 
+    public String getSlackTeamName() {
+        return slackTeamName;
+    }
+
+    public void setSlackTeamName(String slackTeamName) {
+        this.slackTeamName = slackTeamName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -86,12 +95,13 @@ public class AppIntegrationDTO implements Serializable {
                 Objects.equals(createdDate, that.createdDate) &&
                 Objects.equals(modifiedDate, that.modifiedDate) &&
                 Objects.equals(slackUserId, that.slackUserId) &&
-                Objects.equals(slackTeamId, that.slackTeamId);
+                Objects.equals(slackTeamId, that.slackTeamId) &&
+                Objects.equals(slackTeamName, that.slackTeamName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, appIntegrationType, appIntegrationScopeType, createdDate, modifiedDate, slackUserId, slackTeamId);
+        return Objects.hash(id, appIntegrationType, appIntegrationScopeType, createdDate, modifiedDate, slackUserId, slackTeamId, slackTeamName);
     }
 
     @Override
@@ -104,6 +114,7 @@ public class AppIntegrationDTO implements Serializable {
                 ", modifiedDate=" + modifiedDate +
                 ", slackUserId='" + slackUserId + '\'' +
                 ", slackTeamId='" + slackTeamId + '\'' +
+                ", slackTeamName='" + slackTeamName + '\'' +
                 '}';
     }
 }

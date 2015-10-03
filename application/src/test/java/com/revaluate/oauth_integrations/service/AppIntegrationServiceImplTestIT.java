@@ -2,10 +2,11 @@ package com.revaluate.oauth_integrations.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.persistence.UserRepository;
-import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.oauth.AppIntegrationDTO;
 import com.revaluate.domain.oauth.AppIntegrationType;
+import com.revaluate.domain.oauth.AppSlackIntegrationDTO;
+import com.revaluate.domain.oauth.AppSlackIntegrationDTOBuilder;
 import com.revaluate.oauth.exception.AppIntegrationException;
 import com.revaluate.oauth.persistence.AppIntegrationSlack;
 import com.revaluate.oauth.persistence.AppIntegrationSlackRepository;
@@ -16,17 +17,12 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
 
 public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
 
@@ -38,47 +34,6 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
 
     @Autowired
     private DozerBeanMapper dozerBeanMapper;
-
-    @Autowired
-    private ConfigProperties configProperties;
-
-    @Test
-    public void createOAuthIntegrationSlack_getAccessTokenFrom_throwsException() throws Exception {
-        //-----------------------------------------------------------------
-        // Create user
-        //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO();
-
-        AppIntegrationServiceImpl oauthIntegrationServiceMock = Mockito.spy(new AppIntegrationServiceImpl());
-        prepare(oauthIntegrationServiceMock);
-
-        //-----------------------------------------------------------------
-        // Throw OauthIntegrationException
-        //-----------------------------------------------------------------
-        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenThrow(new AppIntegrationException());
-
-        exception.expect(AppIntegrationException.class);
-        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
-    }
-
-    @Test
-    public void createOAuthIntegrationSlack_getIdentityOf_throwsException() throws Exception {
-        //-----------------------------------------------------------------
-        // Create user
-        //-----------------------------------------------------------------
-        UserDTO createdUserDTO = createUserDTO();
-
-        AppIntegrationServiceImpl oauthIntegrationServiceMock = Mockito.spy(new AppIntegrationServiceImpl());
-        prepare(oauthIntegrationServiceMock);
-
-        //-----------------------------------------------------------------
-        // Throw OauthIntegrationException
-        //-----------------------------------------------------------------
-        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenThrow(new AppIntegrationException());
-
-        exception.expect(AppIntegrationException.class);
-        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
-    }
 
     @Test
     public void createOAuthIntegrationSlack_getAccessTokenFromIsOk_isOk() throws Exception {
@@ -93,28 +48,25 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Throw OauthIntegrationException
         //-----------------------------------------------------------------
-        Map<String, String> map = new HashMap<>();
-        map.put("access_token", "dsa");
-        map.put("scope", "identify");
 
-        Map<String, String> identityMap = new HashMap<>();
-        identityMap.put("team_id", "teamId");
-        identityMap.put("user_id", "userId");
+        AppSlackIntegrationDTO appSlackIntegrationDTO = new AppSlackIntegrationDTOBuilder()
+                .withAccessToken("accessTokenDummyValue")
+                .withScopes("identify,basic")
+                .withTeamId("nofameTeamId")
+                .withTeamName("yahoo")
+                .withUserId("U23UserId")
+                .build();
+        oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
-        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
-        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
-        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
+        appSlackIntegrationDTO = new AppSlackIntegrationDTOBuilder()
+                .withAccessToken("accessTokenDummyValue")
+                .withScopes("identify,basic")
+                .withTeamId("nofameTeamId2")
+                .withTeamName("yahoo")
+                .withUserId("U23UserId2")
+                .build();
 
-        map = new HashMap<>();
-        map.put("access_token", "dsa");
-        map.put("scope", "identify");
-
-        identityMap = new HashMap<>();
-        identityMap.put("team_id", "teamId2");
-        identityMap.put("user_id", "userId3");
-        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
-        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
-        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
+        oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
         List<AppIntegrationSlack> allByAppIntegrationTypeAndUserId = oauthIntegrationSlackRepository.findAllByAppIntegrationTypeAndUserId(AppIntegrationType.SLACK, userDTO.getId());
         assertThat(allByAppIntegrationTypeAndUserId, is(notNullValue()));
@@ -134,33 +86,29 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Throw OauthIntegrationException
         //-----------------------------------------------------------------
-        Map<String, String> map = new HashMap<>();
-        map.put("access_token", "dsa");
-        map.put("scope", "identify");
+        AppSlackIntegrationDTO appSlackIntegrationDTO = new AppSlackIntegrationDTOBuilder()
+                .withAccessToken("accessTokenDummyValue")
+                .withScopes("identify,basic")
+                .withTeamId("nofameTeamId")
+                .withTeamName("yahoo")
+                .withUserId("U23UserId")
+                .build();
+        oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
-        Map<String, String> identityMap = new HashMap<>();
-        identityMap.put("team_id", "teamId");
-        identityMap.put("user_id", "userId");
+        appSlackIntegrationDTO = new AppSlackIntegrationDTOBuilder()
+                .withAccessToken("accessTokenDummyValueTwo")
+                .withScopes("identify,basic")
+                .withTeamId("nofameTeamId")
+                .withTeamName("yahoo")
+                .withUserId("U23UserId")
+                .build();
 
-        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
-        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
-        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
-
-        map = new HashMap<>();
-        map.put("access_token", "abc");
-        map.put("scope", "identify");
-
-        identityMap = new HashMap<>();
-        identityMap.put("team_id", "teamId");
-        identityMap.put("user_id", "userId");
-        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
-        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
-        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
+        oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
         List<AppIntegrationSlack> allByAppIntegrationTypeAndUserId = oauthIntegrationSlackRepository.findAllByAppIntegrationTypeAndUserId(AppIntegrationType.SLACK, userDTO.getId());
         assertThat(allByAppIntegrationTypeAndUserId, is(notNullValue()));
         assertThat(allByAppIntegrationTypeAndUserId.size(), is(1));
-        assertThat(allByAppIntegrationTypeAndUserId.get(0).getAccessToken(), is(equalTo("abc")));
+        assertThat(allByAppIntegrationTypeAndUserId.get(0).getAccessToken(), is(equalTo("accessTokenDummyValueTwo")));
     }
 
     @Test
@@ -177,32 +125,20 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Throw OauthIntegrationException
         //-----------------------------------------------------------------
-        Map<String, String> map = new HashMap<>();
-        map.put("access_token", "dsa");
-        map.put("scope", "identify");
-
-        Map<String, String> identityMap = new HashMap<>();
-        identityMap.put("team_id", "teamId");
-        identityMap.put("user_id", "userId");
-
-        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
-        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
-        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
+        AppSlackIntegrationDTO appSlackIntegrationDTO = new AppSlackIntegrationDTOBuilder()
+                .withAccessToken("accessTokenDummyValue")
+                .withScopes("identify,basic")
+                .withTeamId("nofameTeamId")
+                .withTeamName("yahoo")
+                .withUserId("U23UserId")
+                .build();
+        oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
         //-----------------------------------------------------------------
         // Try to add the same integration with another user
         //-----------------------------------------------------------------
-        map = new HashMap<>();
-        map.put("access_token", "abc");
-        map.put("scope", "identify");
-
-        identityMap = new HashMap<>();
-        identityMap.put("team_id", "teamId");
-        identityMap.put("user_id", "userId");
-        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
-        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
         exception.expect(AppIntegrationException.class);
-        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", secondCreatedUserDTO.getId());
+        oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, secondCreatedUserDTO.getId());
     }
 
     @Test
@@ -218,28 +154,25 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Throw OauthIntegrationException
         //-----------------------------------------------------------------
-        Map<String, String> map = new HashMap<>();
-        map.put("access_token", "dsa");
-        map.put("scope", "identify");
 
-        Map<String, String> identityMap = new HashMap<>();
-        identityMap.put("team_id", "teamId");
-        identityMap.put("user_id", "userId");
+        AppSlackIntegrationDTO appSlackIntegrationDTO = new AppSlackIntegrationDTOBuilder()
+                .withAccessToken("accessTokenDummyValue")
+                .withScopes("identify,basic")
+                .withTeamId("nofameTeamId")
+                .withTeamName("yahoo")
+                .withUserId("U23UserId")
+                .build();
+        oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
-        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
-        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
-        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
+        appSlackIntegrationDTO = new AppSlackIntegrationDTOBuilder()
+                .withAccessToken("accessTokenDummyValue")
+                .withScopes("identify,basic")
+                .withTeamId("nofameTeamId2")
+                .withTeamName("yahoo")
+                .withUserId("U23UserId2")
+                .build();
 
-        map = new HashMap<>();
-        map.put("access_token", "dsa");
-        map.put("scope", "identify");
-
-        identityMap = new HashMap<>();
-        identityMap.put("team_id", "teamId2");
-        identityMap.put("user_id", "userId3");
-        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
-        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
-        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
+        oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
         List<AppIntegrationDTO> allByAppIntegrationTypeAndUserId = oauthIntegrationServiceMock.findAllIntegrations(userDTO.getId());
         assertThat(allByAppIntegrationTypeAndUserId.size(), is(2));
@@ -258,17 +191,14 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Throw OauthIntegrationException
         //-----------------------------------------------------------------
-        Map<String, String> map = new HashMap<>();
-        map.put("access_token", "dsa");
-        map.put("scope", "identify");
-
-        Map<String, String> identityMap = new HashMap<>();
-        identityMap.put("team_id", "teamId");
-        identityMap.put("user_id", "userId");
-
-        when(oauthIntegrationServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
-        when(oauthIntegrationServiceMock.getIdentityOf(anyString())).thenReturn(identityMap);
-        oauthIntegrationServiceMock.createOauthIntegrationSlack("freakyCode", "http://localhost:3000", createdUserDTO.getId());
+        AppSlackIntegrationDTO appSlackIntegrationDTO = new AppSlackIntegrationDTOBuilder()
+                .withAccessToken("accessTokenDummyValue")
+                .withScopes("identify,basic")
+                .withTeamId("nofameTeamId")
+                .withTeamName("yahoo")
+                .withUserId("U23UserId")
+                .build();
+        oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
         List<AppIntegrationDTO> allByAppIntegrationTypeAndUserId = oauthIntegrationServiceMock.findAllIntegrations(userDTO.getId());
         assertThat(allByAppIntegrationTypeAndUserId.size(), is(1));
@@ -282,6 +212,5 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "userRepository", userRepository);
         setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "oauthIntegrationSlackRepository", oauthIntegrationSlackRepository);
         setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "dozerBeanMapper", dozerBeanMapper);
-        setFieldViaReflection(oauthIntegrationServiceMock.getClass(), oauthIntegrationServiceMock, "configProperties", configProperties);
     }
 }

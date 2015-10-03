@@ -37,7 +37,9 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
             "/revaluate list [-cat <CATEGORY>] [-limit <LIMIT>]\n" +
             "\n" +
             "- Get help (this message):\n" +
-            "/revaluate help";
+            "/revaluate help" +
+            "\n" +
+            ":information_source: Tip: Press TAB to get the last used command.";
 
     public static final String USAGE_BAD_ATTEMPT = "Please check the command, something seems odd.\n" +
             "\n" +
@@ -52,12 +54,16 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
             "/revaluate list [-cat <CATEGORY>] [-limit <LIMIT>]\n" +
             "\n" +
             "- Get help (this message):\n" +
-            "/revaluate help";
+            "/revaluate help" +
+            "\n" +
+            ":information_source: Tip: Press TAB to get the last used command.";
 
     public static final String USAGE_ADD = "I couldn't figure out what you meant. Please enter expenses in the form: \n" +
             "/revaluate add 43 FOOD going out\n" +
             "\n" +
-            "Or /revaluate help";
+            "Or /revaluate help" +
+            "\n" +
+            ":information_source: Tip: Press TAB to get the last used command.";
 
     @Test
     public void add_expenseHappyFlow_ok() throws Exception {
