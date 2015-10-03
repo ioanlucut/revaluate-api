@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,14 +37,6 @@ public class ImporterServiceImpl_Spendee_TestIT {
     private ImporterParserService importerParserService;
 
     @Test
-    public void importFromSpendee_validCsv_isOk() throws Exception {
-        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/spendee.csv"), new SpendeeExpenseProfileDTO());
-
-        assertThat(expenseDTOs, is(notNullValue()));
-        assertThat(expenseDTOs.size(), is(equalTo(6)));
-    }
-
-    @Test
     public void importFromSpendee_validCsvLineSeparatorSpecified_isOk() throws Exception {
         List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/spendee_big_working.csv"), new SpendeeExpenseProfileDTO());
 
@@ -51,21 +44,10 @@ public class ImporterServiceImpl_Spendee_TestIT {
     }
 
     @Test
-    public void importFromSpendee_invalidCsvLineSeparatorSpecified_isOk() throws Exception {
-        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/spendee_big_not_working.csv"), new SpendeeExpenseProfileDTO());
+    public void importFromSpendee2_validCsvLineSeparatorSpecified_isOk() throws Exception {
+        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/spendee2.csv"), new SpendeeExpenseProfileDTO());
 
         assertThat(expenseDTOs, is(notNullValue()));
-    }
-
-    @Test
-    public void importFromSpendee_oneCategoryMissing_exceptionThrown() throws ImporterException {
-        Reader reader = new StringReader("\"CategoryX\";\"Localized CategoryX\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
-                "\"bills\";\"Bills\";\"2015-02-21T19:36:10GMT+02:00\";\"-22 RON\";\"\"");
-
-        exception.expect(ImporterException.class);
-        exception.expectMessage("The csv is not valid");
-        exception.expectCause(any(TextParsingException.class));
-        importerParserService.parseFrom(reader, new SpendeeExpenseProfileDTO());
     }
 
     @Test
@@ -74,21 +56,6 @@ public class ImporterServiceImpl_Spendee_TestIT {
         exception.expectMessage("The csv is not valid");
         exception.expectCause(any(TextParsingException.class));
         importerParserService.parseFrom(getReader("/mint.csv"), new SpendeeExpenseProfileDTO());
-    }
-
-    @Test
-    public void importFromSpendee_unexpectedInput_handledOk() throws ImporterException {
-        Reader reader = new StringReader("\"Category\";\"Localized Category\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
-                "\"bills\";\"Bills\";\"2015-02-21T19:36:10+02:00\";\"-22 RON\";\"\"");
-
-        exception.expect(ImporterException.class);
-        exception.expectMessage("Invalid format:");
-        importerParserService.parseFrom(reader, new SpendeeExpenseProfileDTO());
-
-        reader = new StringReader("\"Category\";\"Localized Category\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
-                "\"bills\";\"\";\"2015-02-21T19:36:10GMT+02:00\";\"-22 RON\";\"\"");
-
-        importerParserService.parseFrom(reader, new SpendeeExpenseProfileDTO());
     }
 
     @Test
