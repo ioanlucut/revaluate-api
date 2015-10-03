@@ -104,6 +104,7 @@ public class ImporterParserServiceImpl implements ImporterParserService {
             try {
                 List<String> selectedFieldsAsList = Arrays.asList(selectedFields);
                 BigDecimal value = (BigDecimal) objects[selectedFieldsAsList.indexOf(expenseProfileDTO.getIndexOf(ExpenseColumn.AMOUNT))];
+                value = value.abs();
 
                 return new ExpenseDTOBuilder()
                         .withValue(value.setScale(2, BigDecimal.ROUND_DOWN).doubleValue())
