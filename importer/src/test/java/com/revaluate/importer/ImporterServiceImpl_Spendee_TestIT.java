@@ -108,10 +108,8 @@ public class ImporterServiceImpl_Spendee_TestIT {
         Reader reader = new StringReader("\"Category\";\"Localized Category\";\"Date & Time\";\"Amount\";\"Notes\"\n" +
                 "\"bills\";\"Bills\";\"2015-02-21T19:36:10GMT+02:00\";\"-a!@#$%^&*()_+=|}{/;22 RON\";\"\"");
 
-        List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(reader, new SpendeeExpenseProfileDTO());
-        assertThat(expenseDTOs, is(notNullValue()));
-        assertThat(expenseDTOs.size(), is(equalTo(1)));
-        assertThat(expenseDTOs.get(0).getValue(), is(equalTo(22.0)));
+        exception.expect(ImporterException.class);
+        importerParserService.parseFrom(reader, new SpendeeExpenseProfileDTO());
     }
 
     public Reader getReader(String relativePath) throws UnsupportedEncodingException {
