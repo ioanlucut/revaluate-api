@@ -21,6 +21,7 @@
         <module>emails</module>
         <module>jobs</module>
         <module>importer</module>
+        <module>slack</module>
         <module>payment</module>
         <module>application</module>
         <module>resources</module>

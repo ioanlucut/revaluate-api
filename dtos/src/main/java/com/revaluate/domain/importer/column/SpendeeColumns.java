@@ -4,8 +4,8 @@ public enum SpendeeColumns {
 
     AMOUNT(ExpenseColumn.AMOUNT, "Amount"),
     DESCRIPTION(ExpenseColumn.DESCRIPTION, "Notes"),
-    SPENT_DATE(ExpenseColumn.SPENT_DATE, "Date & Time"),
-    CATEGORY(ExpenseColumn.CATEGORY, "Localized Category");
+    SPENT_DATE(ExpenseColumn.SPENT_DATE, "Date"),
+    CATEGORY(ExpenseColumn.CATEGORY, "Category name");
 
     private ExpenseColumn expenseColumn;
     private String importColumnName;

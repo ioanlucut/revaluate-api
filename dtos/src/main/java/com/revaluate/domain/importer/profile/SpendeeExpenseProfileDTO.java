@@ -5,7 +5,7 @@ import com.revaluate.domain.importer.column.SpendeeColumns;
 
 public class SpendeeExpenseProfileDTO extends ExpenseProfileDTO {
 
-    public static final String SPENDEE_SPENT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'GMT'Z";
+    public static final String SPENDEE_SPENT_DATE_FORMAT = "yyyy-MM-dd HH-mm-ss";
     public static final char SPENDEE_DELIMITER = ';';
 
     public SpendeeExpenseProfileDTO() {
