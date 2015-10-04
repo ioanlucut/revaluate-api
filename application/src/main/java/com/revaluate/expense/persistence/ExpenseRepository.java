@@ -34,6 +34,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
     List<Expense> findAllByUserIdAndCategoryId(int userId, int categoryId);
 
+    Page<Expense> findAllByUserIdAndCategoryId(int userId, int categoryId, Pageable pageable);
+
     Optional<Expense> findFirstByUserIdOrderBySpentDateDesc(int userId);
 
     Optional<Expense> findFirstByUserIdOrderBySpentDateAsc(int userId);
