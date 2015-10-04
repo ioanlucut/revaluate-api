@@ -12,6 +12,7 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
 import com.revaluate.domain.expense.ExpensesQueryResponseDTO;
+import com.revaluate.domain.expense.GroupedExpensesDTO;
 import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.expense.exception.ExpenseException;
 import com.revaluate.expense.service.ExpenseService;
@@ -35,6 +36,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.text.ParseException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -319,9 +321,12 @@ public class SlackCommandServiceImpl implements SlackCommandService {
                 .findOneById(userId)
                 .orElseThrow(() -> new SlackException(SlackCommandServiceImpl.INVALID_USER));
 
+        Comparator<GroupedExpensesDTO> groupedExpensesDTOComparator = (o1, o2) -> o1.getLocalDate().compareTo(o2.getLocalDate());
+
         return groupBySpentDateFor
                 .getGroupedExpensesDTOList()
                 .stream()
+                .sorted(groupedExpensesDTOComparator.reversed())
                 .map(groupedExpensesDTO -> String.format("%s\n%s",
                         ExpensesUtils.formatDate(groupedExpensesDTO.getLocalDate()),
                         groupedExpensesDTO

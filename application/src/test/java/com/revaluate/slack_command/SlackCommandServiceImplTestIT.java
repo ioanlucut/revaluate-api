@@ -5,11 +5,13 @@ import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.domain.expense.ExpenseDTO;
+import com.revaluate.domain.expense.ExpenseDTOBuilder;
 import com.revaluate.domain.slack.SlackDTO;
 import com.revaluate.domain.slack.SlackDTOBuilder;
 import com.revaluate.expense.persistence.Expense;
 import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.slack.SlackException;
+import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -83,6 +85,42 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         List<Expense> allByUserId = expenseRepository.findAllByUserId(createdUserDTO.getId());
         assertThat(allByUserId.size(), is(equalTo(2)));
+    }
+
+    @Test
+    public void list_expenses_sorted() throws Exception {
+        //-----------------------------------------------------------------
+        // Create user
+        //-----------------------------------------------------------------
+        UserDTO createdUserDTO = createUserDTO();
+
+        //-----------------------------------------------------------------
+        // Create category
+        //-----------------------------------------------------------------
+        CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
+        CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
+
+        ExpenseDTO expenseDTO;
+        ExpenseDTO createdExpenseDTO;
+
+        //-----------------------------------------------------------------
+        // Create expenses
+        //-----------------------------------------------------------------
+        expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(2)).build();
+        createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+
+        expenseDTO = new ExpenseDTOBuilder().withValue(9999.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
+        createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
+        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+
+        SlackDTO request = buildDummyRequestWithText("add 123.22 name xx");
+        String answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(equalTo(":white_check_mark: Added: 123,22 € - name: xx")));
+
+        request = buildDummyRequestWithText("list");
+        answer = slackCommandService.answer(request, createdUserDTO.getId());
+        assertThat(answer.trim(), is(containsString("123,22 € - name")));
     }
 
     @Test
