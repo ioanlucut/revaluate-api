@@ -71,7 +71,7 @@ public class SlackCommandServiceImpl implements SlackCommandService {
             "\n" +
             ":information_source: Tip: Press TAB to get the last used command.";
 
-    public static final String INVALID_USER_MESSAGE = "We couldn't recognize you as Revaluate user. Please make sure you are authenticated. You can authenticate <https://www.revaluate.io/account/settings/integrations/main|here>. <http://www.foo.com|www.foo.com>";
+    public static final String INVALID_USER_MESSAGE = "We couldn't recognize you as Revaluate user. Please make sure you are authenticated. You can authenticate <https://www.revaluate.io/account/settings/integrations/main|here>.";
 
     //-----------------------------------------------------------------
     // Other constants
