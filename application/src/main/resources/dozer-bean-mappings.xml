@@ -41,6 +41,15 @@
     </mapping>
 
     <mapping map-null="false">
+        <class-a>com.revaluate.domain.reminder.ReminderDTO</class-a>
+        <class-b>com.revaluate.reminder.persistence.Reminder</class-b>
+        <field-exclude type="one-way">
+            <a>id</a>
+            <b>id</b>
+        </field-exclude>
+    </mapping>
+
+    <mapping map-null="false">
         <class-a>com.revaluate.domain.goal.GoalDTO</class-a>
         <class-b>com.revaluate.goals.persistence.Goal</class-b>
         <field-exclude type="one-way">
