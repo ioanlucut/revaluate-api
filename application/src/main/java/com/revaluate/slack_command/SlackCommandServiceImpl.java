@@ -71,7 +71,7 @@ public class SlackCommandServiceImpl implements SlackCommandService {
             "\n" +
             ":information_source: Tip: Press TAB to get the last used command.";
 
-    public static final String INVALID_USER = "We couldn't recognize you as Revaluate user. Please make sure you are authenticated.";
+    public static final String INVALID_USER_MESSAGE = "We couldn't recognize you as Revaluate user. Please make sure you are authenticated. You can authenticate <https://www.revaluate.io/account/settings/integrations/main|here>. <http://www.foo.com|www.foo.com>";
 
     //-----------------------------------------------------------------
     // Other constants
@@ -215,7 +215,7 @@ public class SlackCommandServiceImpl implements SlackCommandService {
     private String createAndGet(int userId, ExpenseDTO buildExpenseDTO) throws SlackException, ExpenseException, ParseException {
         User user = userRepository
                 .findOneById(userId)
-                .orElseThrow(() -> new SlackException(INVALID_USER));
+                .orElseThrow(() -> new SlackException(INVALID_USER_MESSAGE));
         ExpenseDTO expenseDTO = expenseService.create(buildExpenseDTO, userId);
 
         return ExpensesUtils.formatExpenseFrom(user, expenseDTO, ExpensesUtils.ExpenseDisplayType.ADD);
@@ -319,7 +319,7 @@ public class SlackCommandServiceImpl implements SlackCommandService {
     private String getExpensesJoined(int userId, ExpensesQueryResponseDTO groupBySpentDateFor, ExpensesUtils.ExpenseDisplayType ex) throws SlackException {
         User user = userRepository
                 .findOneById(userId)
-                .orElseThrow(() -> new SlackException(SlackCommandServiceImpl.INVALID_USER));
+                .orElseThrow(() -> new SlackException(SlackCommandServiceImpl.INVALID_USER_MESSAGE));
 
         Comparator<GroupedExpensesDTO> groupedExpensesDTOComparator = (o1, o2) -> o1.getLocalDate().compareTo(o2.getLocalDate());
 
