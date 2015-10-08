@@ -2,10 +2,8 @@ package com.revaluate.intercom;
 
 import com.google.common.collect.Maps;
 import com.revaluate.core.bootstrap.ConfigProperties;
-import io.intercom.api.CustomAttribute;
 import io.intercom.api.Event;
 import io.intercom.api.Intercom;
-import io.intercom.api.User;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,10 +38,6 @@ public class IntercomTracker {
         Map<String, String> params = Maps.newHashMap();
         params.put(USER_ID, userId);
         try {
-            User user = User.find(params);
-            user.addCustomAttribute(CustomAttribute.newStringAttribute("role", "captain"));
-            User.update(user);
-
             Event event = new Event()
                     .setEventName(eventType.name())
                     .setUserID(userId);
