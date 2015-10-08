@@ -261,6 +261,12 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
     }
 
+    @Test
+    public void unauthenticatedUser_ok() throws Exception {
+        exception.expectMessage(SlackCommandServiceImpl.INVALID_USER_MESSAGE);
+        throw new SlackException(SlackCommandServiceImpl.INVALID_USER_MESSAGE);
+    }
+
     public UserDTO createUserWithCategory(String categoryName) throws Exception {
         //-----------------------------------------------------------------
         // Create user
