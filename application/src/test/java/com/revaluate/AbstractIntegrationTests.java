@@ -25,6 +25,7 @@ import com.revaluate.goals.persistence.GoalRepository;
 import com.revaluate.goals.service.GoalService;
 import com.revaluate.oauth.persistence.AppIntegrationSlackRepository;
 import com.revaluate.payment.persistence.PaymentStatusRepository;
+import com.revaluate.reminder.persistence.ReminderRepository;
 import org.dozer.DozerBeanMapper;
 import org.joda.money.CurrencyUnit;
 import org.junit.After;
@@ -94,6 +95,9 @@ public class AbstractIntegrationTests {
     protected ExpenseRepository expenseRepository;
 
     @Autowired
+    protected ReminderRepository reminderRepository;
+
+    @Autowired
     protected GoalRepository goalRepository;
 
     @Autowired
@@ -130,6 +134,7 @@ public class AbstractIntegrationTests {
         paymentStatusRepository.deleteAll();
         emailRepository.deleteAll();
         expenseRepository.deleteAll();
+        reminderRepository.deleteAll();
         goalRepository.deleteAll();
         categoryRepository.deleteAll();
         appIntegrationSlackRepository.deleteAll();
