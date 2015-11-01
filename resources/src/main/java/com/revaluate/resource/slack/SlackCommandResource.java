@@ -104,8 +104,7 @@ public class SlackCommandResource extends Resource {
 
         AppIntegrationSlack oneBySlackUserId = oauthIntegrationSlackRepository
                 .findOneByAppIntegrationTypeAndSlackUserIdAndSlackTeamId(AppIntegrationType.SLACK, request.getUserId(), request.getTeamId())
-                .orElseThrow(() -> new SlackException(SlackCommandServiceImpl.INVALID_USER));
-
+                .orElseThrow(() -> new SlackException(SlackCommandServiceImpl.INVALID_USER_MESSAGE));
         Integer matchingUserId = oneBySlackUserId.getUser().getId();
 
         try {

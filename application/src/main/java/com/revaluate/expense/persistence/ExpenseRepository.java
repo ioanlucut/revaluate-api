@@ -24,6 +24,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
     long countByUserId(int userId);
 
+    long count();
+
     List<Expense> findAllByUserIdAndSpentDateAfter(int userId, LocalDateTime after);
 
     List<Expense> findAllByUserIdAndSpentDateBefore(int userId, LocalDateTime before);
