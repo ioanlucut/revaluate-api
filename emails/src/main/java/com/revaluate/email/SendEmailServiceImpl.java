@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 @Validated
@@ -72,16 +75,27 @@ public class SendEmailServiceImpl implements SendEmailService {
     }
 
     private MandrillEmailStatus tryToSendEmail(SendTo sendTo, MandrillMessage message, boolean sendAsync) throws SendEmailException, IOException, MandrillApiError {
-        Map<String, String> templateContent = new HashMap<>();
+        List<MandrillMessage.MergeVar> globalMergeVars = new ArrayList<>();
+
         if (sendTo.getEmailType() == EmailType.RESET_PASSWORD) {
             String resetPasswordLink = String.format(configProperties.getResetPasswordURLFormat(), configProperties.getWebsiteHost(), sendTo.getEmail(), sendTo.getEmailToken());
-            templateContent.put(RESET_PASSWORD_LINK, resetPasswordLink);
+
+            MandrillMessage.MergeVar mergeVar = new MandrillMessage.MergeVar();
+            mergeVar.setName(RESET_PASSWORD_LINK);
+            mergeVar.setContent(resetPasswordLink);
+            globalMergeVars.add(mergeVar);
         } else if (sendTo.getEmailType() == EmailType.CREATED_ACCOUNT) {
             String confirmEmailLink = String.format(configProperties.getConfirmEmailURLFormat(), configProperties.getWebsiteHost(), sendTo.getEmail(), sendTo.getEmailToken());
-            templateContent.put(CONFIRM_EMAIL_LINK, confirmEmailLink);
+
+            MandrillMessage.MergeVar mergeVar = new MandrillMessage.MergeVar();
+            mergeVar.setName(CONFIRM_EMAIL_LINK);
+            mergeVar.setContent(confirmEmailLink);
+            globalMergeVars.add(mergeVar);
         }
+
+        message.setGlobalMergeVars(globalMergeVars);
         String emailTemplateName = sendTo.getEmailType().getEmailTemplateName();
-        MandrillMessageStatus[] messageStatusReports = mandrillService.getApi().sendTemplate(configProperties.isProduction() ? emailTemplateName : emailTemplateName + "-dev", templateContent, message, sendAsync);
+        MandrillMessageStatus[] messageStatusReports = mandrillService.getApi().sendTemplate(configProperties.isProduction() ? emailTemplateName : emailTemplateName + "-dev", new HashMap<>(), message, sendAsync);
 
         return interpretEmailStatus(sendTo, sendAsync, messageStatusReports);
     }
