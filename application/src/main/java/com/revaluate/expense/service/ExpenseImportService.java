@@ -4,12 +4,14 @@ import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.importer.profile.ExpenseProfileDTO;
 import com.revaluate.domain.importer.profile.ExpensesImportDTO;
 import com.revaluate.expense.exception.ExpenseException;
+import net.bull.javamelody.MonitoredWithSpring;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.InputStream;
 import java.util.List;
 
+@MonitoredWithSpring
 public interface ExpenseImportService {
 
     @NotNull
