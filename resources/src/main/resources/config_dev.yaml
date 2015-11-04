@@ -23,3 +23,6 @@ server:
   applicationConnectors:
     - type: http
       port: 8085
+    - http:
+      - contextParameters:
+        - contextConfigLocation: classpath:net/bull/javamelody/monitoring-spring.xml classpath:context/services.xml classpath:context/data-access-layer.xml /WEB-INF/applicationContext.xml
