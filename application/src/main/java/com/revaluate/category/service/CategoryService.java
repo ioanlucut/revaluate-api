@@ -2,12 +2,14 @@ package com.revaluate.category.service;
 
 import com.revaluate.category.exception.CategoryException;
 import com.revaluate.domain.category.CategoryDTO;
+import net.bull.javamelody.MonitoredWithSpring;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+@MonitoredWithSpring
 public interface CategoryService {
     int MIN_SIZE_LIST = 1;
     int MAX_SIZE_LIST = 1000;
