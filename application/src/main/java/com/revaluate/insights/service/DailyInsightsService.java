@@ -2,11 +2,13 @@ package com.revaluate.insights.service;
 
 import com.revaluate.domain.insights.daily.InsightsDailyDTO;
 import com.revaluate.expense.persistence.Expense;
+import net.bull.javamelody.MonitoredWithSpring;
 import org.joda.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@MonitoredWithSpring
 public interface DailyInsightsService {
 
     /**
