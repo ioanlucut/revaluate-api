@@ -21,6 +21,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,7 +34,7 @@ public class AppConfigResource extends Resource {
     public static final String APP_CONFIG = "appconfig";
     private static final String FETCH_CONFIG = "fetchConfig";
 
-    public static final Map<String, Object> APP_CONFIGURATION_MAP = new ConcurrentHashMap<>();
+    public static final Map<String, Object> APP_CONFIGURATION_MAP = new HashMap<>();
 
     @Autowired
     private ColorService colorService;
