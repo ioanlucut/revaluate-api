@@ -2,6 +2,7 @@ package com.revaluate.goals.service;
 
 import com.revaluate.domain.goal.GoalDTO;
 import com.revaluate.goals.exception.GoalException;
+import net.bull.javamelody.MonitoredWithSpring;
 import org.joda.time.LocalDateTime;
 
 import javax.validation.Valid;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+@MonitoredWithSpring
 public interface GoalService {
 
     int MIN_SIZE_LIST = 1;
