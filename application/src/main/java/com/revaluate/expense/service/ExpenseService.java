@@ -3,6 +3,7 @@ package com.revaluate.expense.service;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpensesQueryResponseDTO;
 import com.revaluate.expense.exception.ExpenseException;
+import net.bull.javamelody.MonitoredWithSpring;
 import org.joda.time.LocalDateTime;
 import org.springframework.data.domain.PageRequest;
 
@@ -13,6 +14,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Optional;
 
+@MonitoredWithSpring
 public interface ExpenseService {
 
     int MIN_SIZE_LIST = 1;

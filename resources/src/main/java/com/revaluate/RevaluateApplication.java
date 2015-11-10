@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import io.dropwizard.setup.Environment;
 import io.github.fallwizard.FallwizardApplication;
+import net.bull.javamelody.MonitoringFilter;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
@@ -82,6 +83,20 @@ public class RevaluateApplication extends FallwizardApplication<RevaluateConfigu
     private void setUpOtherOptions(Environment environment) {
         // Entity filtering
         environment.jersey().register(EntityFilteringFeature.class);
+
+        FilterRegistration.Dynamic javaMelody = environment
+                .servlets()
+                .addFilter("javamelody", new MonitoringFilter());
+        javaMelody
+                .setAsyncSupported(Boolean.TRUE);
+        javaMelody
+                .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC), true, "/*");
+        javaMelody
+                .setInitParameter("authorized-users", "ioan.lucut88:pw4ionel.!0815");
+
+        environment
+                .servlets()
+                .addServletListeners(new net.bull.javamelody.SessionListener());
 
         //-----------------------------------------------------------------
         // Register multipart feature - mandatory

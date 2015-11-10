@@ -2,11 +2,13 @@ package com.revaluate.currency.service;
 
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.currency.exception.CurrencyException;
+import net.bull.javamelody.MonitoredWithSpring;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@MonitoredWithSpring
 public interface CurrencyService {
 
     boolean isUnique(String currencyCode);

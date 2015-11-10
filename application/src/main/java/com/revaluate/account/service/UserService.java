@@ -6,6 +6,7 @@ import com.revaluate.domain.account.*;
 import com.revaluate.groups.CreateUserGroup;
 import com.revaluate.groups.CreateViaOauthUserGroup;
 import com.revaluate.groups.UpdateUserCurrencyGroup;
+import net.bull.javamelody.MonitoredWithSpring;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+@MonitoredWithSpring
 public interface UserService {
 
     boolean isUnique(@Email String email);

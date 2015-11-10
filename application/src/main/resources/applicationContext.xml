@@ -12,6 +12,9 @@
     <task:scheduler id="myScheduler" pool-size="10"/>
     <task:annotation-driven executor="myExecutor" scheduler="myScheduler"/>
 
+    <!--Import javamelody-->
+    <import resource="classpath:net/bull/javamelody/monitoring-spring.xml"/>
+
     <!--Import other resources-->
     <import resource="classpath*:applicationContext__core.xml"/>
     <import resource="classpath*:dozer-global-configuration.xml"/>
