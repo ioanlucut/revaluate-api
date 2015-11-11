@@ -25,6 +25,9 @@ public class ColorServiceImpl implements ColorService {
     public List<ColorDTO> findAllColors() {
         List<Color> colors = colorRepository.findAll();
 
-        return colors.stream().map(color -> dozerBeanMapper.map(color, ColorDTO.class)).collect(Collectors.toList());
+        return colors
+                .stream()
+                .map(color -> dozerBeanMapper.map(color, ColorDTO.class))
+                .collect(Collectors.toList());
     }
 }
