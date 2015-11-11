@@ -22,8 +22,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
     @Query("SELECT e.spentDate FROM Expense e WHERE e.user.id = ?1")
     List<LocalDateTime> selectExistingSpentDates(int userId);
 
-    long countByUserId(int userId);
-
     long count();
 
     List<Expense> findAllByUserIdAndSpentDateAfter(int userId, LocalDateTime after);
@@ -37,10 +35,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
     List<Expense> findAllByUserIdAndCategoryId(int userId, int categoryId);
 
     Page<Expense> findAllByUserIdAndCategoryId(int userId, int categoryId, Pageable pageable);
-
-    Optional<Expense> findFirstByUserIdOrderBySpentDateDesc(int userId);
-
-    Optional<Expense> findFirstByUserIdOrderBySpentDateAsc(int userId);
 
     @Modifying
     @Transactional
