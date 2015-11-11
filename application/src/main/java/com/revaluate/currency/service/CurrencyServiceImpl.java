@@ -44,7 +44,10 @@ public class CurrencyServiceImpl implements CurrencyService {
     public List<CurrencyDTO> findAllCurrencies() {
         List<Currency> categories = currencyRepository.findAll();
 
-        return categories.stream().map(currency -> dozerBeanMapper.map(currency, CurrencyDTO.class)).collect(Collectors.toList());
+        return categories
+                .stream()
+                .map(currency -> dozerBeanMapper.map(currency, CurrencyDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
