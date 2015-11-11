@@ -112,7 +112,7 @@ public class ExpenseServiceImplTest_bulkDelete_IT extends AbstractIntegrationTes
         ExpenseDTO expenseDTOCreated = expenseService.create(expenseDTO, createdUserDTO.getId());
         ExpenseDTO expenseDTOWhichDoesNotExist = new ExpenseDTOBuilder().withValue(22222.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
 
-        exception.expect(ExpenseException.class);
+        exception.expect(ConstraintViolationException.class);
         expenseService.bulkDelete(Arrays.asList(expenseDTOCreated, expenseDTOWhichDoesNotExist), createdUserDTO.getId());
     }
 
