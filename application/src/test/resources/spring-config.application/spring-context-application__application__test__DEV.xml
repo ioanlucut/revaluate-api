@@ -5,11 +5,19 @@
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd" profile="DEV">
 
     <!--Postgresql-->
-    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource">
-        <property name="driverClass" value="${db.driver}"/>
+    <!-- Configures the database connection. -->
+    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="connectionTestQuery" value="SELECT 1"/>
+        <property name="maximumPoolSize" value="${hibernate.hikari.maximumPoolSize}"/>
+        <property name="driverClassName" value="${db.driver}"/>
         <property name="jdbcUrl" value="${db.url}"/>
         <property name="username" value="${db.username}"/>
         <property name="password" value="${db.password}"/>
+    </bean>
+
+    <!-- HikariCP configuration -->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <constructor-arg ref="hikariConfig"/>
     </bean>
 
 </beans>
