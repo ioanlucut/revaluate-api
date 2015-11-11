@@ -17,9 +17,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -185,16 +187,18 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public void bulkDelete(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<ExpenseDTO> expenseDTOs, int userId) throws ExpenseException {
+    public void bulkDelete(@Size(min = MIN_SIZE_LIST, max = MAX_SIZE_LIST) @NotNull @Valid List<ExpenseDTO> expenseDTOs, int userId) {
         //-----------------------------------------------------------------
         // Expenses have to exist for this user.
         //-----------------------------------------------------------------
-        if (!expenseDTOs.stream().allMatch(expenseDTO -> expenseRepository.findOneByIdAndUserId(expenseDTO.getId(), userId).isPresent())) {
-            throw new ExpenseException("One or more expense is invalid.");
-        }
-
-        List<Expense> expenses = expenseDTOs.stream()
-                .map(expenseDTO -> expenseRepository.findOneByIdAndUserId(expenseDTO.getId(), userId).get())
+        List<Expense> expenses = expenseDTOs
+                .stream()
+                .map(expenseDTO -> {
+                    Expense found = expenseRepository
+                            .findOneByIdAndUserId(expenseDTO.getId(), userId)
+                            .orElseThrow(() -> new ConstraintViolationException("One or more expense is invalid.", new HashSet<>()));
+                    return found;
+                })
                 .collect(Collectors.toList());
 
         expenseRepository.delete(expenses);
