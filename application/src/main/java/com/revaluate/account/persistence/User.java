@@ -10,15 +10,20 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+        indexes = {
+                @Index(name = User.IX_USER_EMAIL_USER_TYPE, columnList = "email,userType")
+        }
+)
 public class User implements Serializable {
 
     private static final long serialVersionUID = -1799428438852023627L;
 
+    public static final String CURRENCY_ID = "currency_id";
+    public static final String IX_USER_EMAIL_USER_TYPE = "IX_USER_EMAIL_USER_TYPE";
     protected static final String SEQ_NAME = "users_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "users_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 1;
-    private static final String CURRENCY_ID = "currency_id";
 
     @Id
     @SequenceGenerator(name = User.SEQ_GENERATOR_NAME,

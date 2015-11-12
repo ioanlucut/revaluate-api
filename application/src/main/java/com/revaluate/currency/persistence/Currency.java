@@ -5,14 +5,18 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "currencies")
+@Table(name = "currencies",
+        indexes = {
+                @Index(name = Currency.IX_CURRENCY_CURRENCY_CODE, columnList = "currencyCode")
+        }
+)
 public class Currency implements Serializable {
 
-    private static final long serialVersionUID = -1799428438852023627L;
-
+    public static final String IX_CURRENCY_CURRENCY_CODE = "IX_CURRENCY_CURRENCY_CODE";
     protected static final String SEQ_NAME = "currencies_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "currencies_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 1;
+    private static final long serialVersionUID = -1799428438852023627L;
 
     @Id
     @SequenceGenerator(name = Currency.SEQ_GENERATOR_NAME,

@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.ConstraintViolationException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -114,12 +116,14 @@ public class CategoryServiceImpl implements CategoryService {
         //-----------------------------------------------------------------
         // Categories have to exist for this user.
         //-----------------------------------------------------------------
-        if (!categoryDTOs.stream().allMatch(categoryDTO -> categoryRepository.findOneByIdAndUserId(categoryDTO.getId(), userId).isPresent())) {
-            throw new CategoryException("One or more category is invalid.");
-        }
-
-        List<Category> categories = categoryDTOs.stream()
-                .map(categoryDTO -> categoryRepository.findOneByIdAndUserId(categoryDTO.getId(), userId).get())
+        List<Category> categories = categoryDTOs
+                .stream()
+                .map(categoryDTO -> {
+                    Category found = categoryRepository
+                            .findOneByIdAndUserId(categoryDTO.getId(), userId)
+                            .orElseThrow(() -> new ConstraintViolationException("One or more category is invalid.", new HashSet<>()));
+                    return found;
+                })
                 .collect(Collectors.toList());
 
         categoryRepository.delete(categories);
