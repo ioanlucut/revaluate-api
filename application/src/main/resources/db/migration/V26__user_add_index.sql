@@ -1,0 +1,1 @@
+CREATE INDEX IX_USER_EMAIL_USER_TYPE ON users (email,user_type);

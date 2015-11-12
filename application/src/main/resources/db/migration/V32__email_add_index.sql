@@ -1,0 +1,1 @@
+CREATE INDEX IX_EMAIL_MULTI_COLUMN_INDEX ON email (email_type,email_status,user_id);

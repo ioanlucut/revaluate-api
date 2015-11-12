@@ -13,17 +13,21 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "goals")
+@Table(name = "goals",
+        indexes = {
+                @Index(name = Goal.IX_GOAL_MULTI_COLUMN_INDEX, columnList = "user_id,category_id,startDate,endDate")
+        }
+)
 @EntityListeners({AuditingEntityListener.class})
 public class Goal implements Serializable {
 
-    private static final long serialVersionUID = -1799428438852023627L;
-
+    public static final String IX_GOAL_MULTI_COLUMN_INDEX = "IX_GOAL_MULTI_COLUMN_INDEX";
     public static final String USER_ID = "user_id";
     public static final String CATEGORY_ID = "category_id";
     protected static final String SEQ_NAME = "goals_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "goals_seq_generator";
     protected static final int ALLOCATION_SIZE = 1;
+    private static final long serialVersionUID = -1799428438852023627L;
 
     @Id
     @Column(name = "goal_id", updatable = false)
