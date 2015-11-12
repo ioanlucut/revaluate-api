@@ -168,9 +168,9 @@
 
         <!--ByCYPT - for password encryption-->
         <dependency>
-            <groupId>org.mindrot</groupId>
-            <artifactId>jbcrypt</artifactId>
-            <version>0.3m</version>
+            <groupId>de.svenkubiak</groupId>
+            <artifactId>jBCrypt</artifactId>
+            <version>0.4</version>
         </dependency>
 
         <!-- Avoid Jakarta commons logging -->
