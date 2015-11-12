@@ -6,12 +6,6 @@
         >
     <diskStore path="java.io.tmpdir"/>
 
-    <cache name="categories"
-           maxBytesLocalHeap="40M"
-           eternal="false"
-           timeToIdleSeconds="300"
-           memoryStoreEvictionPolicy="LRU"/>
-
     <cache name="currencies"
            eternal="true"
            memoryStoreEvictionPolicy="LRU"/>
