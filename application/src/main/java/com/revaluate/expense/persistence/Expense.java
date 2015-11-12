@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "expenses",
         indexes = {
-                @Index(name = Expense.IX_EXPENSE_USER_ID_CATEGORY_ID_SPENT_DATE, columnList = "user_id,category_id,spentDate")
+                @Index(name = Expense.IX_EXPENSE_USER_ID_CATEGORY_ID_SPENT_DATE, columnList = "user_id,category_id,spentDate,createdDate")
         }
 )
 @EntityListeners({AuditingEntityListener.class})
