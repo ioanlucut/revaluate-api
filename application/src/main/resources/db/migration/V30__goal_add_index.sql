@@ -1,0 +1,1 @@
+CREATE INDEX IX_GOAL_MULTI_COLUMN_INDEX ON goals (user_id,category_id,start_date,end_date);

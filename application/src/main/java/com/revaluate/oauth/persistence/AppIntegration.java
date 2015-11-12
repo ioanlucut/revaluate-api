@@ -19,14 +19,14 @@ import java.io.Serializable;
 @DiscriminatorColumn(name = AppIntegration.APP_INTEGRATION_TYPE)
 public class AppIntegration implements Serializable {
 
-    private static final long serialVersionUID = -1799428438852023627L;
-
+    public static final String IX_APP_INTEGRATION_MULTI_COLUMN_INDEX = "IX_APP_INTEGRATION_MULTI_COLUMN_INDEX";
     public static final String USER_ID = "user_id";
+    public static final String APP_INTEGRATION_TYPE = "discriminator_app_type";
     protected static final String SEQ_NAME = "app_integration_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "app_integration_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 1;
     protected static final int ALLOCATION_SIZE = 1;
-    public static final String APP_INTEGRATION_TYPE = "discriminator_app_type";
+    private static final long serialVersionUID = -1799428438852023627L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
