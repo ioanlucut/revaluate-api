@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Table(name = "categories",
         uniqueConstraints = @UniqueConstraint(columnNames = {Category.USER_ID, Category.CATEGORY_NAME}),
         indexes = {
-                @Index(name = Category.IX_CATEGORY_NAME_USER_ID, columnList = "name,user_id")
+                @Index(name = Category.IX_CATEGORY_NAME_USER_ID, columnList = "user_id,name")
         }
 )
 public class Category implements Serializable {

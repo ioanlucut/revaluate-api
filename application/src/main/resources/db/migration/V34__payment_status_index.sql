@@ -1,0 +1,1 @@
+CREATE INDEX IX_PAYMENT_STATUS_USER_ID ON payment_status (user_id);

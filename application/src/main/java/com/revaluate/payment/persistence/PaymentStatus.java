@@ -13,16 +13,20 @@ import java.io.Serializable;
         sequenceName = PaymentStatus.SEQ_NAME,
         initialValue = PaymentStatus.SEQ_INITIAL_VALUE,
         allocationSize = PaymentStatus.ALLOCATION_SIZE)
-@Table(name = "payment_status")
+@Table(name = "payment_status",
+        indexes = {
+                @Index(name = PaymentStatus.IX_PAYMENT_STATUS_USER_ID, columnList = PaymentStatus.USER_ID)
+        }
+)
 public class PaymentStatus implements Serializable {
 
-    private static final long serialVersionUID = -1799428438852023627L;
-
     public static final String USER_ID = "user_id";
+    public static final String IX_PAYMENT_STATUS_USER_ID = "IX_PAYMENT_STATUS_USER_ID";
     protected static final String SEQ_NAME = "payment_status_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "payment_status_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 1;
     protected static final int ALLOCATION_SIZE = 1;
+    private static final long serialVersionUID = -1799428438852023627L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
