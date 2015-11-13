@@ -8,18 +8,23 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "categories", uniqueConstraints = @UniqueConstraint(columnNames = {Category.USER_ID, Category.CATEGORY_NAME}))
+@Table(name = "categories",
+        uniqueConstraints = @UniqueConstraint(columnNames = {Category.USER_ID, Category.CATEGORY_NAME}),
+        indexes = {
+                @Index(name = Category.IX_CATEGORY_NAME_USER_ID, columnList = "user_id,name")
+        }
+)
 public class Category implements Serializable {
 
-    private static final long serialVersionUID = -1799428438852023627L;
+    public static final String IX_CATEGORY_NAME_USER_ID = "IX_CATEGORY_NAME_USER_ID";
     public static final String CATEGORY_ID = "category_id";
     public static final String CATEGORY_NAME = "name";
     public static final String USER_ID = "user_id";
     public static final String COLOR_ID = "color_id";
-
     protected static final String SEQ_NAME = "categories_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "categories_seq_generator";
     protected static final int ALLOCATION_SIZE = 1;
+    private static final long serialVersionUID = -1799428438852023627L;
 
     @Id
     @Column(name = CATEGORY_ID, updatable = false)

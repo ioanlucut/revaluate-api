@@ -1,6 +1,5 @@
 package com.revaluate.resource.health;
 
-import com.revaluate.account.exception.UserException;
 import com.revaluate.core.annotations.Public;
 import com.revaluate.resource.utils.Resource;
 import com.revaluate.resource.utils.Responses;
@@ -21,7 +20,7 @@ public class HealthResource extends Resource {
     @GET
     @Public
     @Produces(MediaType.APPLICATION_JSON)
-    public Response checkHealth() throws UserException {
+    public Response checkHealth() {
 
         return Responses.respond(Response.Status.OK, "I'm alive, thanks God.");
     }
