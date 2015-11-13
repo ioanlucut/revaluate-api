@@ -12,16 +12,21 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "expenses")
+@Table(name = "expenses",
+        indexes = {
+                @Index(name = Expense.IX_EXPENSE_USER_ID_CATEGORY_ID_SPENT_DATE, columnList = "user_id,category_id,spentDate,createdDate")
+        }
+)
 @EntityListeners({AuditingEntityListener.class})
 public class Expense implements Serializable {
 
-    private static final long serialVersionUID = -1799428438852023627L;
+    public static final String IX_EXPENSE_USER_ID_CATEGORY_ID_SPENT_DATE = "IX_EXPENSE_USER_ID_CATEGORY_ID_SPENT_DATE";
     public static final String USER_ID = "user_id";
     public static final String CATEGORY_ID = "category_id";
     protected static final String SEQ_NAME = "expenses_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "expenses_seq_generator";
     protected static final int ALLOCATION_SIZE = 1;
+    private static final long serialVersionUID = -1799428438852023627L;
 
     @Id
     @Column(name = "expense_id", updatable = false)

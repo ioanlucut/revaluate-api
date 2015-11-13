@@ -1,0 +1,23 @@
+<ehcache xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="true"
+         monitoring="autodetect"
+         dynamicConfig="true"
+         maxBytesLocalHeap="150M"
+        >
+    <diskStore path="java.io.tmpdir"/>
+
+    <cache name="categories"
+           maxBytesLocalHeap="40M"
+           eternal="false"
+           timeToIdleSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="currencies"
+           eternal="true"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="colors"
+           eternal="true"
+           memoryStoreEvictionPolicy="LRU"/>
+
+</ehcache>

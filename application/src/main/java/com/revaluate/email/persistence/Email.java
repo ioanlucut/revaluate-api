@@ -7,24 +7,26 @@ import com.revaluate.domain.email.MandrillEmailStatus;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
 @SequenceGenerator(name = Email.SEQ_GENERATOR_NAME, sequenceName = Email.SEQ_NAME, initialValue = Email.SEQ_INITIAL_VALUE, allocationSize = Email.ALLOCATION_SIZE)
-@Table(name = "email")
+@Table(name = "email",
+        indexes = {
+                @Index(name = Email.IX_EMAIL_MULTI_COLUMN_INDEX, columnList = "emailType,emailStatus,user_id")
+        })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = Email.EMAIL_TYPE)
 public abstract class Email implements Serializable {
 
-    private static final long serialVersionUID = -1799428438852023627L;
-
+    public static final String IX_EMAIL_MULTI_COLUMN_INDEX = "IX_EMAIL_MULTI_COLUMN_INDEX";
+    public static final String USER_ID = "user_id";
+    public static final String EMAIL_TYPE = "discriminator_email_type";
     protected static final String SEQ_NAME = "user_token_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "user_token_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 1;
     protected static final int ALLOCATION_SIZE = 1;
-    public static final String USER_ID = "user_id";
-    public static final String EMAIL_TYPE = "discriminator_email_type";
+    private static final long serialVersionUID = -1799428438852023627L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)

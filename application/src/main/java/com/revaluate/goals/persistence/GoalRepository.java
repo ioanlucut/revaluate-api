@@ -14,11 +14,9 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
     @Query("SELECT e.endDate FROM Goal e WHERE e.user.id = ?1")
     List<LocalDateTime> selectExistingEndDates(int userId);
 
-    Optional<Goal> findOneByIdAndUserId(int expenseId, int userId);
+    Optional<Goal> findOneByIdAndUserId(int id, int userId);
 
     List<Goal> findAllByUserId(int userId);
-
-    List<Goal> findAllByUserIdAndCategoryId(int userId, int categoryId);
 
     List<Goal> findAllByUserIdAndStartDateAfterAndEndDateBefore(int userId, LocalDateTime after, LocalDateTime before);
 

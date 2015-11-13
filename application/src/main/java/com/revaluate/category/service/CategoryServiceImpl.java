@@ -10,10 +10,14 @@ import com.revaluate.expense.persistence.ExpenseRepository;
 import com.revaluate.goals.persistence.GoalRepository;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.ConstraintViolationException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +28,7 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
 
     public static final String CATEGORY_DTO__UPDATE = "CategoryDTO__Update";
+    public static final String CATEGORIES_CACHE = "categories";
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -46,6 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @CacheEvict(value = CATEGORIES_CACHE, allEntries = true)
     public CategoryDTO create(CategoryDTO categoryDTO, int userId) throws CategoryException {
         Optional<Category> categoryByName = categoryRepository.findOneByNameIgnoreCaseAndUserId(categoryDTO.getName(), userId);
         if (categoryByName.isPresent()) {
@@ -61,6 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @CacheEvict(value = CATEGORIES_CACHE, allEntries = true)
     public List<CategoryDTO> bulkCreate(List<CategoryDTO> categoryDTOs, int userId) throws CategoryException {
         //-----------------------------------------------------------------
         // Categories have to be unique between them
@@ -96,6 +103,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = CATEGORIES_CACHE, allEntries = true)
     public List<CategoryDTO> setupBulkCreateCategories(List<CategoryDTO> categoryDTOs, int userId) throws CategoryException {
         categoryRepository.removeByUserId(userId);
 
@@ -103,22 +111,26 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @CacheEvict(value = CATEGORIES_CACHE, allEntries = true)
     public void bulkDelete(List<CategoryDTO> categoryDTOs, int userId) throws CategoryException {
         //-----------------------------------------------------------------
         // Categories have to exist for this user.
         //-----------------------------------------------------------------
-        if (!categoryDTOs.stream().allMatch(categoryDTO -> categoryRepository.findOneByIdAndUserId(categoryDTO.getId(), userId).isPresent())) {
-            throw new CategoryException("One or more category is invalid.");
-        }
-
-        List<Category> categories = categoryDTOs.stream()
-                .map(categoryDTO -> categoryRepository.findOneByIdAndUserId(categoryDTO.getId(), userId).get())
+        List<Category> categories = categoryDTOs
+                .stream()
+                .map(categoryDTO -> {
+                    Category found = categoryRepository
+                            .findOneByIdAndUserId(categoryDTO.getId(), userId)
+                            .orElseThrow(() -> new ConstraintViolationException("One or more category is invalid.", new HashSet<>()));
+                    return found;
+                })
                 .collect(Collectors.toList());
 
         categoryRepository.delete(categories);
     }
 
     @Override
+    @CacheEvict(value = CATEGORIES_CACHE, allEntries = true)
     public CategoryDTO update(CategoryDTO categoryDTO, int userId) throws CategoryException {
         Optional<Category> categoryById = categoryRepository.findOneByIdAndUserId(categoryDTO.getId(), userId);
         Category category = categoryById.orElseThrow(() -> new CategoryException("The given category does not exists"));
@@ -141,6 +153,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Cacheable(CATEGORIES_CACHE)
     public List<CategoryDTO> findAllCategoriesFor(int userId) {
         List<Category> categories = categoryRepository.findAllByUserId(userId);
 
@@ -149,6 +162,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = CATEGORIES_CACHE, allEntries = true)
     public void remove(int categoryId, int userId) throws CategoryException {
         categoryRepository
                 .findOneByIdAndUserId(categoryId, userId)

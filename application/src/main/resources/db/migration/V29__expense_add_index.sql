@@ -1,0 +1,1 @@
+CREATE INDEX IX_EXPENSE_USER_ID_CATEGORY_ID_SPENT_DATE ON expenses (user_id,category_id,spent_date);

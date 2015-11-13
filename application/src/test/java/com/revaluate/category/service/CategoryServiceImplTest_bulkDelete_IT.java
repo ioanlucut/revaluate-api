@@ -91,7 +91,7 @@ public class CategoryServiceImplTest_bulkDelete_IT extends AbstractIntegrationTe
         CategoryDTO categoryDTOWhichDoesNotExist = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name2").withId(99999).build();
         all.add(categoryDTOWhichDoesNotExist);
 
-        exception.expect(CategoryException.class);
+        exception.expect(ConstraintViolationException.class);
         categoryService.bulkDelete(all, createdUserDTO.getId());
     }
 
