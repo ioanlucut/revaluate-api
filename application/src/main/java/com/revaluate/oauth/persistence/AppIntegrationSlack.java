@@ -8,9 +8,6 @@ import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Entity
-@Table(indexes = {
-        @Index(name = AppIntegration.IX_APP_INTEGRATION_MULTI_COLUMN_INDEX, columnList = "appIntegrationType,slackUserId,slackTeamId,user_id")
-})
 @DiscriminatorValue(value = AppIntegrationSlack.OAUTH_SLACK)
 public class AppIntegrationSlack extends AppIntegration {
 
