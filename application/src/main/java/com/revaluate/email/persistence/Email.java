@@ -13,7 +13,7 @@ import java.io.Serializable;
 @SequenceGenerator(name = Email.SEQ_GENERATOR_NAME, sequenceName = Email.SEQ_NAME, initialValue = Email.SEQ_INITIAL_VALUE, allocationSize = Email.ALLOCATION_SIZE)
 @Table(name = "email",
         indexes = {
-                @Index(name = Email.IX_EMAIL_MULTI_COLUMN_INDEX, columnList = "emailType,emailStatus,user_id")
+                @Index(name = Email.IX_EMAIL_MULTI_COLUMN_INDEX, columnList = "discriminator_email_type,emailType,emailStatus,user_id")
         })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = Email.EMAIL_TYPE)
