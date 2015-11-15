@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Table(
         name = "app_integration",
         indexes = {
-                @Index(name = AppIntegration.IX_APP_INTEGRATION_MULTI_COLUMN_INDEX, columnList = "appIntegrationType,slackUserId,slackTeamId,user_id")
+                @Index(name = AppIntegration.IX_APP_INTEGRATION_MULTI_COLUMN_INDEX, columnList = "discriminator_app_type,appIntegrationType,slackUserId,slackTeamId,user_id")
         })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = AppIntegration.APP_INTEGRATION_TYPE)
