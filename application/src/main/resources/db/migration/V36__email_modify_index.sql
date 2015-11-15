@@ -1,0 +1,2 @@
+DROP INDEX IX_EMAIL_MULTI_COLUMN_INDEX;
+CREATE INDEX IX_EMAIL_MULTI_COLUMN_INDEX ON email (discriminator_email_type,email_type,email_status,user_id);
