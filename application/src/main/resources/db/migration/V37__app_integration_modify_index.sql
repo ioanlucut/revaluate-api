@@ -1,0 +1,2 @@
+DROP INDEX IX_APP_INTEGRATION_MULTI_COLUMN_INDEX;
+CREATE INDEX IX_APP_INTEGRATION_MULTI_COLUMN_INDEX ON app_integration (discriminator_app_type,app_integration_type,slack_user_id,slack_team_id,user_id);
