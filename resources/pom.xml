@@ -22,6 +22,12 @@
             <groupId>com.revaluate</groupId>
             <artifactId>application</artifactId>
             <version>${global.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>javax.inject</artifactId>
+                    <groupId>org.glassfish.hk2.external</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -36,6 +42,12 @@
             <version>${global.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>javax.inject</artifactId>
+                    <groupId>org.glassfish.hk2.external</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -50,6 +62,16 @@
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
             <artifactId>jersey-spring3</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jersey-container-servlet-core</artifactId>
+                    <groupId>org.glassfish.jersey.containers</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>javax.inject</artifactId>
+                    <groupId>org.glassfish.hk2.external</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
@@ -58,6 +80,10 @@
                 <exclusion>
                     <artifactId>javax.el-api</artifactId>
                     <groupId>javax.el</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>javax.inject</artifactId>
+                    <groupId>org.glassfish.hk2.external</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -88,16 +114,17 @@
             <artifactId>dropwizard-flyway</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-testing</artifactId>
-        </dependency>
-
         <!--Dropwizard SPRING integration-->
         <dependency>
             <groupId>com.hmsonline</groupId>
             <artifactId>dropwizard-spring</artifactId>
             <version>${dropwizard-spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-web</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -117,11 +144,6 @@
                     <groupId>io.dropwizard</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>com.newrelic.agent.java</groupId>
-            <artifactId>newrelic-agent</artifactId>
         </dependency>
 
     </dependencies>
