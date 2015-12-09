@@ -45,7 +45,7 @@
 
         <version.iad>WH-5.15-SNAPSHOT</version.iad>
         <version.spring>4.1.5.RELEASE</version.spring>
-        <version.jersey>2.17</version.jersey>
+        <version.jersey>2.22.1</version.jersey>
         <version.aspectj>1.8.4</version.aspectj>
         <version.validation-api>1.1.0.Final</version.validation-api>
         <version.javax.servlet-api>3.1.0</version.javax.servlet-api>
@@ -119,7 +119,6 @@
         <maven-jar-plugin.version>2.2</maven-jar-plugin.version>
         <intercom-java.version>1.3.0-b1</intercom-java.version>
         <jcommander.version>1.48</jcommander.version>
-        <newrelic-agent.version>3.9.0</newrelic-agent.version>
         <jrobin.version>1.5.9</jrobin.version>
     </properties>
 
@@ -234,12 +233,6 @@
             <dependency>
                 <groupId>io.dropwizard</groupId>
                 <artifactId>dropwizard-core</artifactId>
-                <version>${dropwizard-core.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.dropwizard</groupId>
-                <artifactId>dropwizard-testing</artifactId>
                 <version>${dropwizard-core.version}</version>
             </dependency>
 
@@ -402,13 +395,6 @@
                 <groupId>io.intercom</groupId>
                 <artifactId>intercom-java</artifactId>
                 <version>${intercom-java.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.newrelic.agent.java</groupId>
-                <artifactId>newrelic-agent</artifactId>
-                <version>${newrelic-agent.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <!-- javamelody-core -->

@@ -2,7 +2,6 @@ package com.revaluate.e2e;
 
 import com.google.common.collect.ImmutableList;
 import com.nimbusds.jose.JOSEException;
-import com.revaluate.RevaluateE2EApplication;
 import com.revaluate.core.bootstrap.ConfigProperties;
 import com.revaluate.core.jwt.JwtService;
 import com.revaluate.domain.account.UserDTO;
@@ -12,15 +11,9 @@ import com.revaluate.domain.color.ColorDTOBuilder;
 import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.domain.currency.CurrencyDTOBuilder;
 import io.dropwizard.jersey.validation.ValidationErrorMessage;
-import io.dropwizard.testing.ResourceHelpers;
-import io.dropwizard.testing.junit.DropwizardAppRule;
-import io.github.fallwizard.configuration.FallwizardConfiguration;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.money.CurrencyUnit;
-import org.junit.ClassRule;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
@@ -56,14 +49,8 @@ public class AbstractResourceTestEndToEnd {
         System.setProperty(ConfigProperties.ENVIRONMENT, "it");
     }
 
-    @ClassRule
-    public static final DropwizardAppRule<FallwizardConfiguration> RULE =
-            new DropwizardAppRule<>(RevaluateE2EApplication.class, ResourceHelpers.resourceFilePath("config_it.yaml"));
-
-    protected Client client = ClientBuilder.newClient();
-
     protected WebTarget target(String path) {
-        return client.target(String.format("http://localhost:%d", RULE.getLocalPort())).path(path);
+        return null;
     }
 
     protected List<ValidationErrorMessage> getValidationErrorMessageList(final Response response) {
