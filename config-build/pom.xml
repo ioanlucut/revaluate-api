@@ -119,7 +119,6 @@
         <maven-jar-plugin.version>2.2</maven-jar-plugin.version>
         <intercom-java.version>1.3.0-b1</intercom-java.version>
         <jcommander.version>1.48</jcommander.version>
-        <newrelic-agent.version>3.9.0</newrelic-agent.version>
         <jrobin.version>1.5.9</jrobin.version>
     </properties>
 
@@ -402,13 +401,6 @@
                 <groupId>io.intercom</groupId>
                 <artifactId>intercom-java</artifactId>
                 <version>${intercom-java.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.newrelic.agent.java</groupId>
-                <artifactId>newrelic-agent</artifactId>
-                <version>${newrelic-agent.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <!-- javamelody-core -->
