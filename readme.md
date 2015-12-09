@@ -26,6 +26,9 @@
     * E.g. `cd application`
     * E.g. `mvn flyway:migrate -DENVIRONMENT=dev`
     * Note: connect to pgadmin (http://stackoverflow.com/questions/11769860/connect-to-a-heroku-database-with-pgadmin)
+* Useful heroku commands can be found at `https://devcenter.heroku.com/articles/dynos`.
+    * Logs : `heroku logs -t -n 300 --app revaluate-api-prod`
+    * Kill db connections : `heroku pg:killall --app revaluate-api-prod`
     
 # Useful.
 `
