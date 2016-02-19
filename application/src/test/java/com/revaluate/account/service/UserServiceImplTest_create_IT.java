@@ -14,9 +14,7 @@ import org.junit.Test;
 import javax.validation.ConstraintViolationException;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserServiceImplTest_create_IT extends AbstractIntegrationTests {
 
@@ -27,22 +25,22 @@ public class UserServiceImplTest_create_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        assertThat(createdUserDTO, is(notNullValue()));
-        assertThat(userDTO.getEmail(), equalTo(createdUserDTO.getEmail()));
-        assertThat(userDTO.getFirstName(), equalTo(createdUserDTO.getFirstName()));
-        assertThat(userDTO.getLastName(), equalTo(createdUserDTO.getLastName()));
-        assertThat(userDTO.getPassword(), not(equalTo(createdUserDTO.getPassword())));
-        assertThat(createdUserDTO.getId(), not(equalTo(0)));
-        assertThat(createdUserDTO.getPassword(), is(nullValue()));
-        assertThat(createdUserDTO.isInitiated(), is(false));
+        assertThat(createdUserDTO).isNotNull();
+        assertThat(userDTO.getEmail()).isEqualTo(createdUserDTO.getEmail());
+        assertThat(userDTO.getFirstName()).isEqualTo(createdUserDTO.getFirstName());
+        assertThat(userDTO.getLastName()).isEqualTo(createdUserDTO.getLastName());
+        assertThat(userDTO.getPassword()).isNotEqualTo(createdUserDTO.getPassword());
+        assertThat(createdUserDTO.getId()).isNotEqualTo(0);
+        assertThat(createdUserDTO.getPassword()).isNull();
+        assertThat(createdUserDTO.isInitiated()).isFalse();
 
         //-----------------------------------------------------------------
         // Assert that email token is added
         //-----------------------------------------------------------------
         Optional<User> oneByEmail = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        assertThat(oneByEmail.isPresent(), is(true));
+        assertThat(oneByEmail.isPresent()).isTrue();
         Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, oneByEmail.get().getId());
-        assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
+        assertThat(oneByEmailTypeAndUserId.isPresent()).isTrue();
     }
 
     @Test
@@ -55,7 +53,7 @@ public class UserServiceImplTest_create_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert that trial status is set
         //-----------------------------------------------------------------
-        assertThat(createdUserDTO.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
+        assertThat(createdUserDTO.getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL);
     }
 
     @Test

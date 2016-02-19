@@ -23,8 +23,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 // [UnitOfWork_StateUnderTest_ExpectedBehavior]
@@ -93,7 +92,7 @@ public class AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.OK.getStatusCode()));
 
         return response.readEntity(UserDTO.class);
     }
@@ -102,7 +101,7 @@ public class AbstractResourceTestEndToEnd {
         try {
             String tokenForUserWithId = jwtService.createTokenForUserWithId(id);
             Response response = target("/account/remove").request().header("Authorization", "Bearer " + tokenForUserWithId).delete();
-            assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+            assertThat(response.getStatus()).isEqualTo((Response.Status.OK.getStatusCode()));
         } catch (JOSEException | ParseException e) {
             e.printStackTrace();
         }

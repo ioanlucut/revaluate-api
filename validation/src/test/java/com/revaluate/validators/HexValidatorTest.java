@@ -2,8 +2,7 @@ package com.revaluate.validators;
 
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HexValidatorTest {
 
@@ -11,25 +10,25 @@ public class HexValidatorTest {
 
     @Test
     public void validate_nullOrBlank_isNotOk() {
-        assertThat(hexValidator.isValid(null, null), is(false));
-        assertThat(hexValidator.isValid("", null), is(false));
+        assertThat(hexValidator.isValid(null, null)).isFalse();
+        assertThat(hexValidator.isValid("", null)).isFalse();
     }
 
     @Test
     public void validate_validHexColors_isOk() {
-        assertThat(hexValidator.isValid("#1f1f1F", null), is(true));
-        assertThat(hexValidator.isValid("#AFAFAF", null), is(true));
-        assertThat(hexValidator.isValid("#1AFFa1", null), is(true));
-        assertThat(hexValidator.isValid("#222fff", null), is(true));
-        assertThat(hexValidator.isValid("#F00", null), is(true));
+        assertThat(hexValidator.isValid("#1f1f1F", null)).isTrue();
+        assertThat(hexValidator.isValid("#AFAFAF", null)).isTrue();
+        assertThat(hexValidator.isValid("#1AFFa1", null)).isTrue();
+        assertThat(hexValidator.isValid("#222fff", null)).isTrue();
+        assertThat(hexValidator.isValid("#F00", null)).isTrue();
     }
 
     @Test
     public void validate_invalidHexColors_isOk() {
-        assertThat(hexValidator.isValid("123456", null), is(false));
-        assertThat(hexValidator.isValid("12345", null), is(false));
-        assertThat(hexValidator.isValid("12", null), is(false));
-        assertThat(hexValidator.isValid("1", null), is(false));
-        assertThat(hexValidator.isValid("1", null), is(false));
+        assertThat(hexValidator.isValid("123456", null)).isFalse();
+        assertThat(hexValidator.isValid("12345", null)).isFalse();
+        assertThat(hexValidator.isValid("12", null)).isFalse();
+        assertThat(hexValidator.isValid("1", null)).isFalse();
+        assertThat(hexValidator.isValid("1", null)).isFalse();
     }
 }

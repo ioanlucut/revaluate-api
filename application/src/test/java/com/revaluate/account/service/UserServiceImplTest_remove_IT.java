@@ -23,10 +23,7 @@ import org.mockito.*;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -68,7 +65,7 @@ public class UserServiceImplTest_remove_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name1").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
-        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).size(), is(equalTo(1)));
+        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).size()).isEqualTo(1);
 
         //-----------------------------------------------------------------
         // Create expenses
@@ -77,7 +74,7 @@ public class UserServiceImplTest_remove_IT extends AbstractIntegrationTests {
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
         expenseService.create(expenseDTO, createdUserDTO.getId());
-        assertThat(expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size(), is(equalTo(2)));
+        assertThat(expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size()).isEqualTo(2);
 
         //-----------------------------------------------------------------
         // Payment status
@@ -89,7 +86,7 @@ public class UserServiceImplTest_remove_IT extends AbstractIntegrationTests {
         paymentStatus.setPaymentMethodToken("fake");
         PaymentStatus savedPaymentStatus = paymentStatusRepository.save(paymentStatus);
 
-        assertThat(paymentStatusRepository.findOneByUserId(createdUserDTO.getId()).isPresent(), is(true));
+        assertThat(paymentStatusRepository.findOneByUserId(createdUserDTO.getId()).isPresent()).isTrue();
 
         //-----------------------------------------------------------------
         // Return created payment status
@@ -106,10 +103,10 @@ public class UserServiceImplTest_remove_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assertions
         //-----------------------------------------------------------------
-        assertThat(userRepository.exists(createdUserDTO.getId()), not(true));
-        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).size(), is(equalTo(0)));
-        assertThat(expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size(), is(equalTo(0)));
-        assertThat(paymentStatusRepository.findOneByUserId(createdUserDTO.getId()).isPresent(), not(true));
+        assertThat(userRepository.exists(createdUserDTO.getId())).isFalse();
+        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).size()).isEqualTo(0);
+        assertThat(expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size()).isEqualTo(0);
+        assertThat(paymentStatusRepository.findOneByUserId(createdUserDTO.getId()).isPresent()).isFalse();
     }
 
     @Test
@@ -135,7 +132,7 @@ public class UserServiceImplTest_remove_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name1").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
-        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).size(), is(equalTo(1)));
+        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).size()).isEqualTo(1);
 
         //-----------------------------------------------------------------
         // Create expenses
@@ -144,7 +141,7 @@ public class UserServiceImplTest_remove_IT extends AbstractIntegrationTests {
         expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
         expenseService.create(expenseDTO, createdUserDTO.getId());
-        assertThat(expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size(), is(equalTo(2)));
+        assertThat(expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size()).isEqualTo(2);
 
         //-----------------------------------------------------------------
         // Payment status
@@ -156,7 +153,7 @@ public class UserServiceImplTest_remove_IT extends AbstractIntegrationTests {
         paymentStatus.setPaymentMethodToken("fake");
         PaymentStatus savedPaymentStatus = paymentStatusRepository.save(paymentStatus);
 
-        assertThat(paymentStatusRepository.findOneByUserId(createdUserDTO.getId()).isPresent(), is(true));
+        assertThat(paymentStatusRepository.findOneByUserId(createdUserDTO.getId()).isPresent()).isTrue();
 
         //-----------------------------------------------------------------
         // Return created payment status
@@ -174,10 +171,10 @@ public class UserServiceImplTest_remove_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assertions
         //-----------------------------------------------------------------
-        assertThat(userRepository.exists(createdUserDTO.getId()), is(true));
-        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).size(), is(equalTo(1)));
-        assertThat(expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size(), is(equalTo(2)));
-        assertThat(paymentStatusRepository.findOneByUserId(createdUserDTO.getId()).isPresent(), is(true));
+        assertThat(userRepository.exists(createdUserDTO.getId())).isTrue();
+        assertThat(categoryService.findAllCategoriesFor(createdUserDTO.getId()).size()).isEqualTo(1);
+        assertThat(expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size()).isEqualTo(2);
+        assertThat(paymentStatusRepository.findOneByUserId(createdUserDTO.getId()).isPresent()).isTrue();
     }
 
     private void prepareAllMocks() throws PaymentException, PaymentStatusException {

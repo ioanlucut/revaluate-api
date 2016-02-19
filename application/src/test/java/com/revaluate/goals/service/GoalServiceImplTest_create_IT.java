@@ -16,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GoalServiceImplTest_create_IT extends AbstractIntegrationTests {
 
@@ -57,14 +55,14 @@ public class GoalServiceImplTest_create_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert created goal is ok
         //-----------------------------------------------------------------
-        assertThat(createdGoalDTO, is(notNullValue()));
-        assertThat(createdGoalDTO.getGoalStatusDTO(), is(notNullValue()));
-        assertThat(createdGoalDTO.getId(), not(equalTo(0)));
-        assertThat(createdGoalDTO.getCategory(), equalTo(goalDTO.getCategory()));
-        assertThat(createdGoalDTO.getGoalTarget(), equalTo(GoalTarget.MORE_THAN));
-        assertThat(createdGoalDTO.getValue(), equalTo(goalDTO.getValue()));
-        assertThat(createdGoalDTO.getStartDate().getYear(), equalTo(goalDTO.getStartDate().getYear()));
-        assertThat(createdGoalDTO.getEndDate().getYear(), equalTo(goalDTO.getEndDate().getYear()));
+        assertThat(createdGoalDTO).isNotNull();
+        assertThat(createdGoalDTO.getGoalStatusDTO()).isNotNull();
+        assertThat(createdGoalDTO.getId()).isNotEqualTo(0);
+        assertThat(createdGoalDTO.getCategory()).isEqualTo(goalDTO.getCategory());
+        assertThat(createdGoalDTO.getGoalTarget()).isEqualTo(GoalTarget.MORE_THAN);
+        assertThat(createdGoalDTO.getValue()).isEqualTo(goalDTO.getValue());
+        assertThat(createdGoalDTO.getStartDate().getYear()).isEqualTo(goalDTO.getStartDate().getYear());
+        assertThat(createdGoalDTO.getEndDate().getYear()).isEqualTo(goalDTO.getEndDate().getYear());
     }
 
     @Test
@@ -110,7 +108,7 @@ public class GoalServiceImplTest_create_IT extends AbstractIntegrationTests {
                 .withEndDate(LocalDateTime.now())
                 .build();
         createdGoalDTO = goalService.create(goalDTO, createdUserDTO.getId());
-        assertThat(createdGoalDTO.getValue(), equalTo(goalDTO.getValue()));
+        assertThat(createdGoalDTO.getValue()).isEqualTo(goalDTO.getValue());
 
         goalDTO = new GoalDTOBuilder()
                 .withValue(899_999_999_999_999_999_99.11)
@@ -120,7 +118,7 @@ public class GoalServiceImplTest_create_IT extends AbstractIntegrationTests {
                 .withEndDate(LocalDateTime.now())
                 .build();
         createdGoalDTO = goalService.create(goalDTO, createdUserDTO.getId());
-        assertThat(createdGoalDTO.getValue(), equalTo(goalDTO.getValue()));
+        assertThat(createdGoalDTO.getValue()).isEqualTo(goalDTO.getValue());
 
         exception.expect(ConstraintViolationException.class);
         goalDTO = new GoalDTOBuilder()
@@ -132,7 +130,7 @@ public class GoalServiceImplTest_create_IT extends AbstractIntegrationTests {
                 .build();
 
         createdGoalDTO = goalService.create(goalDTO, createdUserDTO.getId());
-        assertThat(createdGoalDTO.getValue(), equalTo(goalDTO.getValue()));
+        assertThat(createdGoalDTO.getValue()).isEqualTo(goalDTO.getValue());
     }
 
     @Test
@@ -162,7 +160,7 @@ public class GoalServiceImplTest_create_IT extends AbstractIntegrationTests {
                 .withEndDate(LocalDateTime.now())
                 .build();
         createdGoalDTO = goalService.create(goalDTO, createdUserDTO.getId());
-        assertThat(createdGoalDTO.getValue(), equalTo(goalDTO.getValue()));
+        assertThat(createdGoalDTO.getValue()).isEqualTo(goalDTO.getValue());
 
         goalDTO = new GoalDTOBuilder()
                 .withValue(9999.55)
@@ -172,7 +170,7 @@ public class GoalServiceImplTest_create_IT extends AbstractIntegrationTests {
                 .withEndDate(LocalDateTime.now())
                 .build();
         createdGoalDTO = goalService.create(goalDTO, createdUserDTO.getId());
-        assertThat(createdGoalDTO.getValue(), equalTo(goalDTO.getValue()));
+        assertThat(createdGoalDTO.getValue()).isEqualTo(goalDTO.getValue());
 
         goalDTO = new GoalDTOBuilder()
                 .withValue(2147483647)
@@ -182,7 +180,7 @@ public class GoalServiceImplTest_create_IT extends AbstractIntegrationTests {
                 .withEndDate(LocalDateTime.now())
                 .build();
         createdGoalDTO = goalService.create(goalDTO, createdUserDTO.getId());
-        assertThat(createdGoalDTO.getValue(), equalTo(goalDTO.getValue()));
+        assertThat(createdGoalDTO.getValue()).isEqualTo(goalDTO.getValue());
 
         goalDTO = new GoalDTOBuilder()
                 .withValue(2147483647.99)
@@ -192,7 +190,7 @@ public class GoalServiceImplTest_create_IT extends AbstractIntegrationTests {
                 .withEndDate(LocalDateTime.now())
                 .build();
         createdGoalDTO = goalService.create(goalDTO, createdUserDTO.getId());
-        assertThat(createdGoalDTO.getValue(), equalTo(goalDTO.getValue()));
+        assertThat(createdGoalDTO.getValue()).isEqualTo(goalDTO.getValue());
     }
 
     @Test
@@ -225,8 +223,8 @@ public class GoalServiceImplTest_create_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert created goals is ok
         //-----------------------------------------------------------------
-        assertThat(createdGoalDTO.getCategory(), equalTo(goalDTO.getCategory()));
-        assertThat(secondCreatedGoalDTO.getCategory(), equalTo(goalDTO.getCategory()));
+        assertThat(createdGoalDTO.getCategory()).isEqualTo(goalDTO.getCategory());
+        assertThat(secondCreatedGoalDTO.getCategory()).isEqualTo(goalDTO.getCategory());
     }
 
     @Test(expected = ConstraintViolationException.class)

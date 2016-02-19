@@ -11,9 +11,7 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
 
@@ -54,7 +52,7 @@ public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        assertThat(createdUserDTO.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
+        assertThat(createdUserDTO.getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL);
 
         //-----------------------------------------------------------------
         // Try to login
@@ -66,8 +64,8 @@ public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
         // Check payment status
         //-----------------------------------------------------------------
         Optional<User> oneByEmail = userRepository.findOneByEmailIgnoreCase(createdUserDTO.getEmail());
-        assertThat(oneByEmail.isPresent(), is(true));
-        assertThat(oneByEmail.get().getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
+        assertThat(oneByEmail.isPresent()).isTrue();
+        assertThat(oneByEmail.get().getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL);
     }
 
     /*@Test
@@ -77,7 +75,7 @@ public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        assertThat(createdUserDTO.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
+        assertThat(createdUserDTO.getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL)));
 
         //-----------------------------------------------------------------
         // Try to login
@@ -89,9 +87,9 @@ public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
         // Check payment status
         //-----------------------------------------------------------------
         Optional<User> oneByEmail = userRepository.findOneByEmailIgnoreCase(createdUserDTO.getEmail());
-        assertThat(oneByEmail.isPresent(), is(true));
+        assertThat(oneByEmail.isPresent()).isTrue();
         User user = oneByEmail.get();
-        assertThat(user.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
+        assertThat(user.getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL)));
 
         //-----------------------------------------------------------------
         // Now change the user created date
@@ -109,8 +107,8 @@ public class UserServiceImplTest_login_IT extends AbstractIntegrationTests {
         // Check payment status
         //-----------------------------------------------------------------
         oneByEmail = userRepository.findOneByEmailIgnoreCase(createdUserDTO.getEmail());
-        assertThat(oneByEmail.isPresent(), is(true));
-        assertThat(oneByEmail.get().getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL_EXPIRED)));
+        assertThat(oneByEmail.isPresent()).isTrue();
+        assertThat(oneByEmail.get().getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL_EXPIRED)));
     }
 */
 }

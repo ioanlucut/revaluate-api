@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.container.ContainerRequestContext;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
@@ -142,7 +140,7 @@ public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends Ab
         // Create a user and make it with trial expired
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
-        assertThat(createdUserDTO.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
+        assertThat(createdUserDTO.getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL);
 
         //-----------------------------------------------------------------
         // Now change the user created date
@@ -161,6 +159,6 @@ public class PaymentAuthorizationRequestFilterTest_paymentRequired_IT extends Ab
         verify(paymentAuthorizationRequestFilter, times(1)).abort(any());
 
         user = userRepository.findOne(createdUserDTO.getId());
-        assertThat(user.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL_EXPIRED)));
+        assertThat(user.getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL_EXPIRED);
     }
 }

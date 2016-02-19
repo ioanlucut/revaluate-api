@@ -19,10 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
 
@@ -69,8 +66,8 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
         List<AppIntegrationSlack> allByAppIntegrationTypeAndUserId = oauthIntegrationSlackRepository.findAllByAppIntegrationTypeAndUserId(AppIntegrationType.SLACK, userDTO.getId());
-        assertThat(allByAppIntegrationTypeAndUserId, is(notNullValue()));
-        assertThat(allByAppIntegrationTypeAndUserId.size(), is(2));
+        assertThat(allByAppIntegrationTypeAndUserId).isNotNull();
+        assertThat(allByAppIntegrationTypeAndUserId.size()).isEqualTo((2));
     }
 
     @Test
@@ -106,9 +103,9 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
         List<AppIntegrationSlack> allByAppIntegrationTypeAndUserId = oauthIntegrationSlackRepository.findAllByAppIntegrationTypeAndUserId(AppIntegrationType.SLACK, userDTO.getId());
-        assertThat(allByAppIntegrationTypeAndUserId, is(notNullValue()));
-        assertThat(allByAppIntegrationTypeAndUserId.size(), is(1));
-        assertThat(allByAppIntegrationTypeAndUserId.get(0).getAccessToken(), is(equalTo("accessTokenDummyValueTwo")));
+        assertThat(allByAppIntegrationTypeAndUserId).isNotNull();
+        assertThat(allByAppIntegrationTypeAndUserId.size()).isEqualTo((1));
+        assertThat(allByAppIntegrationTypeAndUserId.get(0).getAccessToken()).isEqualTo("accessTokenDummyValueTwo");
     }
 
     @Test
@@ -175,7 +172,7 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
         List<AppIntegrationDTO> allByAppIntegrationTypeAndUserId = oauthIntegrationServiceMock.findAllIntegrations(userDTO.getId());
-        assertThat(allByAppIntegrationTypeAndUserId.size(), is(2));
+        assertThat(allByAppIntegrationTypeAndUserId.size()).isEqualTo((2));
     }
 
     @Test
@@ -201,11 +198,11 @@ public class AppIntegrationServiceImplTestIT extends AbstractIntegrationTests {
         oauthIntegrationServiceMock.createOauthIntegrationSlack(appSlackIntegrationDTO, createdUserDTO.getId());
 
         List<AppIntegrationDTO> allByAppIntegrationTypeAndUserId = oauthIntegrationServiceMock.findAllIntegrations(userDTO.getId());
-        assertThat(allByAppIntegrationTypeAndUserId.size(), is(1));
+        assertThat(allByAppIntegrationTypeAndUserId.size()).isEqualTo((1));
 
         oauthIntegrationServiceMock.removeIntegration(allByAppIntegrationTypeAndUserId.get(0).getId(), userDTO.getId());
 
-        assertThat(oauthIntegrationServiceMock.findAllIntegrations(userDTO.getId()).size(), is(0));
+        assertThat(oauthIntegrationServiceMock.findAllIntegrations(userDTO.getId()).size()).isEqualTo((0));
     }
 
     private void prepare(AppIntegrationServiceImpl oauthIntegrationServiceMock) throws PaymentException {

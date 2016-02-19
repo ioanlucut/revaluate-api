@@ -9,10 +9,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests {
 
@@ -23,7 +20,7 @@ public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO();
 
-        assertThat(categoryService.isUnique("name", createdUserDTO.getId()), is(true));
+        assertThat(categoryService.isUnique("name", createdUserDTO.getId())).isTrue();
     }
 
     @Test
@@ -39,7 +36,7 @@ public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests 
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         categoryService.create(categoryDTO, createdUserDTO.getId());
 
-        assertThat(categoryService.isUnique(categoryDTO.getName(), createdUserDTO.getId()), is(false));
+        assertThat(categoryService.isUnique(categoryDTO.getName(), createdUserDTO.getId())).isFalse();
     }
 
     @Test
@@ -68,7 +65,7 @@ public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests 
         // Check if the other user category name is unique
         //-----------------------------------------------------------------
         boolean unique = categoryService.isUnique(categoryToCreateDTO.getName(), secondCreatedUserDTO.getId());
-        assertThat(unique, is(true));
+        assertThat(unique).isTrue();
     }
 
     //-----------------------------------------------------------------
@@ -93,8 +90,8 @@ public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests 
         // Find created categories + asserts
         //-----------------------------------------------------------------
         List<CategoryDTO> allCategoriesFor = categoryService.findAllCategoriesFor(createdUserDTO.getId());
-        assertThat(allCategoriesFor, is(notNullValue()));
-        assertThat(allCategoriesFor.size(), is(equalTo(2)));
+        assertThat(allCategoriesFor).isNotNull();
+        assertThat(allCategoriesFor).hasSize(2);
     }
 
     @Test
@@ -108,7 +105,7 @@ public class CategoryServiceImplTest_common_IT extends AbstractIntegrationTests 
         // Find created categories + asserts
         //-----------------------------------------------------------------
         List<CategoryDTO> allCategoriesFor = categoryService.findAllCategoriesFor(createdUserDTO.getId());
-        assertThat(allCategoriesFor, is(notNullValue()));
-        assertThat(allCategoriesFor.size(), is(equalTo(0)));
+        assertThat(allCategoriesFor).isNotNull();
+        assertThat(allCategoriesFor).isEmpty();
     }
 }

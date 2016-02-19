@@ -19,8 +19,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class ExpenseResourceTestE2E extends AbstractResourceTestEndToEnd {
 
@@ -39,7 +40,7 @@ public class ExpenseResourceTestE2E extends AbstractResourceTestEndToEnd {
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         WebTarget target = target("/categories/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.OK.getStatusCode()));
         CategoryDTO createdCategoryDTO = response.readEntity(CategoryDTO.class);
 
         //-----------------------------------------------------------------
@@ -48,18 +49,18 @@ public class ExpenseResourceTestE2E extends AbstractResourceTestEndToEnd {
         ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
         target = target("/expenses/create");
         response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(expenseDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.OK.getStatusCode()));
         ExpenseDTO createdExpenseDTO = response.readEntity(ExpenseDTO.class);
 
         //-----------------------------------------------------------------
         // Assert created expense is ok
         //-----------------------------------------------------------------
         assertThat(createdExpenseDTO, Is.is(notNullValue()));
-        assertThat(createdExpenseDTO.getId(), not(equalTo(0)));
-        assertThat(createdExpenseDTO.getCategory(), equalTo(expenseDTO.getCategory()));
-        assertThat(createdExpenseDTO.getDescription(), equalTo(expenseDTO.getDescription()));
-        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
-        assertThat(createdExpenseDTO.getSpentDate().getYear(), equalTo(expenseDTO.getSpentDate().getYear()));
+        assertThat(createdExpenseDTO.getId()).isNotEqualTo(0);
+        assertThat(createdExpenseDTO.getCategory()).isEqualTo(expenseDTO.getCategory());
+        assertThat(createdExpenseDTO.getDescription()).isEqualTo(expenseDTO.getDescription());
+        assertThat(createdExpenseDTO.getValue()).isEqualTo(expenseDTO.getValue());
+        assertThat(createdExpenseDTO.getSpentDate().getYear()).isEqualTo(expenseDTO.getSpentDate().getYear());
 
         removeUser(createdUserDTO.getId());
     }

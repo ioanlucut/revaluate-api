@@ -6,7 +6,7 @@
 
     <groupId>com.revaluate</groupId>
     <artifactId>revaluate-common</artifactId>
-    <version>${global.version}</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
 
     <repositories>
@@ -95,7 +95,7 @@
         <bonecp.version>0.8.0.RELEASE</bonecp.version>
         <h2.version>1.3.160</h2.version>
         <postgresql.version>9.1-901-1.jdbc4</postgresql.version>
-        <hikariCP.version>2.4.1</hikariCP.version>
+        <hikariCP.version>2.4.3</hikariCP.version>
         <joda-time.version>2.7</joda-time.version>
         <nimbus-jose-jwt.version>3.8</nimbus-jose-jwt.version>
         <pojobuilder.version>3.3.2</pojobuilder.version>
@@ -120,6 +120,10 @@
         <intercom-java.version>1.3.0-b1</intercom-java.version>
         <jcommander.version>1.48</jcommander.version>
         <jrobin.version>1.5.9</jrobin.version>
+        <jool.version>0.9.10</jool.version>
+        <assertj-core.version>3.3.0</assertj-core.version>
+        <jBCrypt.version>0.4</jBCrypt.version>
+        <braintree-java.version>2.43.0</braintree-java.version>
     </properties>
 
     <dependencyManagement>
@@ -153,11 +157,35 @@
                 <version>${version.spring}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${version.spring}</version>
+            </dependency>
+
             <!--Spring jpa-->
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-jpa</artifactId>
                 <version>${spring-data-jpa.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate.javax.persistence</groupId>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
+                <version>${hibernate-jpa-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${hibernate-entitymanager.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>xml-apis</artifactId>
+                        <groupId>xml-apis</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!--Hibernate Joda-->
@@ -172,6 +200,12 @@
                 <groupId>org.jadira.usertype</groupId>
                 <artifactId>usertype.core</artifactId>
                 <version>${usertype.core.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>hibernate-entitymanager</artifactId>
+                        <groupId>org.hibernate</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!--Spring AOP-->
@@ -196,6 +230,25 @@
                 <version>${version.aspectj}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.braintreepayments.gateway</groupId>
+                <artifactId>braintree-java</artifactId>
+                <version>${braintree-java.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.karneim</groupId>
+                <artifactId>pojobuilder</artifactId>
+                <version>${pojobuilder.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>${hsqldb.version}</version>
+            </dependency>
+
             <!--JSR-303-->
             <dependency>
                 <groupId>javax.validation</groupId>
@@ -214,6 +267,12 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jose-jwt.version}</version>
             </dependency>
 
             <dependency>
@@ -331,6 +390,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.joda</groupId>
+                <artifactId>joda-money</artifactId>
+                <version>${joda-money.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>io.github.fallwizard</groupId>
                 <artifactId>Fallwizard</artifactId>
                 <version>${Fallwizard.version}</version>
@@ -366,25 +431,6 @@
                 <version>${commons-codec.version}</version>
             </dependency>
 
-            <!--Testing related-->
-            <dependency>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-all</artifactId>
-                <version>${hamcrest-all.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${version.junit}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
-                <version>${version.mockito}</version>
-            </dependency>
-
             <dependency>
                 <groupId>com.beust</groupId>
                 <artifactId>jcommander</artifactId>
@@ -395,6 +441,28 @@
                 <groupId>io.intercom</groupId>
                 <artifactId>intercom-java</artifactId>
                 <version>${intercom-java.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>jackson-core</artifactId>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>jackson-databind</artifactId>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jool</artifactId>
+                <version>${jool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.svenkubiak</groupId>
+                <artifactId>jBCrypt</artifactId>
+                <version>${jBCrypt.version}</version>
             </dependency>
 
             <!-- javamelody-core -->
@@ -408,6 +476,35 @@
                 <groupId>org.jrobin</groupId>
                 <artifactId>jrobin</artifactId>
                 <version>${jrobin.version}</version>
+            </dependency>
+
+            <!--Testing related-->
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-all</artifactId>
+                <version>${hamcrest-all.version}</version>
+                <!--<scope>test</scope>-->
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit}</version>
+                <!--<scope>test</scope>-->
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${version.mockito}</version>
+                <!--<scope>test</scope>-->
+            </dependency>
+
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj-core.version}</version>
+                <!--<scope>test</scope>-->
             </dependency>
 
         </dependencies>

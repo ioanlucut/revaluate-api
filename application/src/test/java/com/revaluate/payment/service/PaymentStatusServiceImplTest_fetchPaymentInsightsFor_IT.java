@@ -6,9 +6,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PaymentStatusServiceImplTest_fetchPaymentInsightsFor_IT extends AbstractIntegrationTests {
 
@@ -21,9 +19,9 @@ public class PaymentStatusServiceImplTest_fetchPaymentInsightsFor_IT extends Abs
     @Ignore
     public void fetchPaymentInsightsFor__validCustomerId__isOk() throws Exception {
         PaymentInsightsDTO paymentInsightsDTO = paymentStatusService.fetchPaymentInsights(IOAN_LUCUT_CUSTOMER_ID_SANDBOX);
-        assertThat(paymentInsightsDTO, is(notNullValue()));
-        assertThat(paymentInsightsDTO.getPaymentCustomerDTO(), is(notNullValue()));
-        assertThat(paymentInsightsDTO.getPaymentMethodDTOs(), is(notNullValue()));
-        assertThat(paymentInsightsDTO.getPaymentTransactionDTOs(), is(notNullValue()));
+        assertThat(paymentInsightsDTO).isNotNull();
+        assertThat(paymentInsightsDTO.getPaymentCustomerDTO()).isNotNull();
+        assertThat(paymentInsightsDTO.getPaymentMethodDTOs()).isNotNull();
+        assertThat(paymentInsightsDTO.getPaymentTransactionDTOs()).isNotNull();
     }
 }

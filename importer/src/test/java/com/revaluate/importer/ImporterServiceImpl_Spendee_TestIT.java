@@ -17,12 +17,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.any;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,14 +38,14 @@ public class ImporterServiceImpl_Spendee_TestIT {
     public void importFromSpendee_validCsvLineSeparatorSpecified_isOk() throws Exception {
         List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/spendee_big_working.csv"), new SpendeeExpenseProfileDTO());
 
-        assertThat(expenseDTOs, is(notNullValue()));
+        assertThat(expenseDTOs).isNotNull();
     }
 
     @Test
     public void importFromSpendee2_validCsvLineSeparatorSpecified_isOk() throws Exception {
         List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/spendee2.csv"), new SpendeeExpenseProfileDTO());
 
-        assertThat(expenseDTOs, is(notNullValue()));
+        assertThat(expenseDTOs).isNotNull();
     }
 
     @Test
@@ -65,9 +63,9 @@ public class ImporterServiceImpl_Spendee_TestIT {
                 "\"\";\"\";\"\";\"\";\"\"");
 
         List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(reader, new SpendeeExpenseProfileDTO());
-        assertThat(expenseDTOs, is(notNullValue()));
-        assertThat(expenseDTOs.size(), is(equalTo(1)));
-        assertThat(expenseDTOs.get(0).getValue(), is(equalTo(0.0)));
+        assertThat(expenseDTOs).isNotNull();
+        assertThat(expenseDTOs.size()).isEqualTo(1);
+        assertThat(expenseDTOs.get(0).getValue()).isEqualTo(0.0);
     }
 
     @Test

@@ -18,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GoalStatusServiceImplTest_IT extends AbstractIntegrationTests {
 
@@ -94,12 +91,12 @@ public class GoalStatusServiceImplTest_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Find created expenses + asserts
         //-----------------------------------------------------------------
-        assertThat(goalStatusDTO, is(notNullValue()));
-        assertThat(goalStatusDTO.getCurrentValue(), is(3000.0));
-        assertThat(goalStatusDTO.getInsightsDaily(), is(notNullValue()));
-        assertThat(goalStatusDTO.getInsightsDaily().getTotalPerDayDTOs(), is(notNullValue()));
-        assertThat(goalStatusDTO.getInsightsDaily().getTotalPerDayDTOs().size(), is(greaterThan(0)));
-        assertThat(goalStatusDTO.isGoalAccomplished(), is(Boolean.FALSE));
+        assertThat(goalStatusDTO).isNotNull();
+        assertThat(goalStatusDTO.getCurrentValue()).isEqualTo((3000.0));
+        assertThat(goalStatusDTO.getInsightsDaily()).isNotNull();
+        assertThat(goalStatusDTO.getInsightsDaily().getTotalPerDayDTOs()).isNotNull();
+        assertThat(goalStatusDTO.getInsightsDaily().getTotalPerDayDTOs().size()).isGreaterThan(0);
+        assertThat(goalStatusDTO.isGoalAccomplished()).isEqualTo((Boolean.FALSE));
     }
 
 }
