@@ -64,13 +64,10 @@
         <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
-            <version>${dozer.version}</version>
         </dependency>
-
         <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer-spring</artifactId>
-            <version>${dozer.version}</version>
         </dependency>
 
         <dependency>
@@ -96,7 +93,6 @@
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-            <version>2.9.0</version>
         </dependency>
 
         <dependency>

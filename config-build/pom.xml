@@ -126,6 +126,7 @@
         <braintree-java.version>2.43.0</braintree-java.version>
         <jersey-media-multipart.version>2.17</jersey-media-multipart.version>
         <univocity-parsers.version>1.5.4</univocity-parsers.version>
+        <ehcache.version>2.9.0</ehcache.version>
     </properties>
 
     <dependencyManagement>
@@ -347,6 +348,18 @@
                 <version>${logback.version}</version>
             </dependency>
 
+            <!--Dozer-->
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer-spring</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+
             <!--Jersey-->
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
@@ -535,6 +548,13 @@
                 <groupId>de.svenkubiak</groupId>
                 <artifactId>jBCrypt</artifactId>
                 <version>${jBCrypt.version}</version>
+            </dependency>
+
+            <!--Ehcache-->
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache</artifactId>
+                <version>${ehcache.version}</version>
             </dependency>
 
             <!-- javamelody-core -->
