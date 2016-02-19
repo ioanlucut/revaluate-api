@@ -124,6 +124,8 @@
         <assertj-core.version>3.3.0</assertj-core.version>
         <jBCrypt.version>0.4</jBCrypt.version>
         <braintree-java.version>2.43.0</braintree-java.version>
+        <jersey-media-multipart.version>2.17</jersey-media-multipart.version>
+        <univocity-parsers.version>1.5.4</univocity-parsers.version>
     </properties>
 
     <dependencyManagement>
@@ -244,6 +246,13 @@
             </dependency>
 
             <dependency>
+                <groupId>com.univocity</groupId>
+                <artifactId>univocity-parsers</artifactId>
+                <version>${univocity-parsers.version}</version>
+                <type>jar</type>
+            </dependency>
+
+            <dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
                 <version>${hsqldb.version}</version>
@@ -293,6 +302,24 @@
                 <groupId>io.dropwizard</groupId>
                 <artifactId>dropwizard-core</artifactId>
                 <version>${dropwizard-core.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>jersey-server</artifactId>
+                        <groupId>com.sun.jersey</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.hmsonline</groupId>
+                <artifactId>dropwizard-spring</artifactId>
+                <version>${dropwizard-spring.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>spring-web</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- SLF4J for logging API -->
@@ -340,16 +367,41 @@
                 <groupId>org.glassfish.jersey.ext</groupId>
                 <artifactId>jersey-spring3</artifactId>
                 <version>${version.jersey}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>jersey-container-servlet-core</artifactId>
+                        <groupId>org.glassfish.jersey.containers</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>javax.inject</artifactId>
+                        <groupId>org.glassfish.hk2.external</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.ext</groupId>
                 <artifactId>jersey-bean-validation</artifactId>
                 <version>${version.jersey}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>javax.el-api</artifactId>
+                        <groupId>javax.el</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>javax.inject</artifactId>
+                        <groupId>org.glassfish.hk2.external</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.ext</groupId>
                 <artifactId>jersey-entity-filtering</artifactId>
                 <version>${version.jersey}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-multipart</artifactId>
+                <version>${jersey-media-multipart.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.test-framework</groupId>
@@ -396,9 +448,29 @@
             </dependency>
 
             <dependency>
+                <groupId>com.mandrillapp.wrapper.lutung</groupId>
+                <artifactId>lutung</artifactId>
+                <version>${lutung.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>io.github.fallwizard</groupId>
                 <artifactId>Fallwizard</artifactId>
                 <version>${Fallwizard.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>spring-expression</artifactId>
+                        <groupId>org.springframework</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>spring-security-web</artifactId>
+                        <groupId>org.springframework.security</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>dropwizard-configuration</artifactId>
+                        <groupId>io.dropwizard</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
