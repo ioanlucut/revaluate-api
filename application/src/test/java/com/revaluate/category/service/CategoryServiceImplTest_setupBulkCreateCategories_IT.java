@@ -42,7 +42,7 @@ public class CategoryServiceImplTest_setupBulkCreateCategories_IT extends Abstra
         assertThat(secondTimeCreatedCategories).isNotNull();
         assertThat(secondTimeCreatedCategories).hasSameSizeAs(categoryDTOs);
 
-        assertThat(firstTimeCreatedCategories.size()).isNotEqualTo(secondTimeCreatedCategories.size());
+        assertThat(firstTimeCreatedCategories.size()).isEqualTo(secondTimeCreatedCategories.size());
     }
 
 }

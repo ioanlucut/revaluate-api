@@ -73,7 +73,7 @@ public class ExpenseServiceImplTest_findExpensesGroupBySpentDate_IT extends Abst
                         new Sort.Order(Sort.Direction.DESC, "spentDate"),
                         new Sort.Order(Sort.Direction.DESC, "createdDate")
                 )));
-        assertThat(expensesAfterBeforeAndGroupBySpentDate.getGroupedExpensesDTOList().size()).isEqualTo(8);
+        assertThat(expensesAfterBeforeAndGroupBySpentDate.getGroupedExpensesDTOList().size()).isEqualTo(0);
         assertThat(expensesAfterBeforeAndGroupBySpentDate.getCurrentPage()).isEqualTo((1));
         assertThat(expensesAfterBeforeAndGroupBySpentDate.getCurrentSize()).isEqualTo((0));
     }
