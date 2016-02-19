@@ -25,8 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -63,25 +62,25 @@ public class PaymentStatusServiceImplTest_createPaymentStatus_IT extends Abstrac
         UserDTO createdUserDTO = createUserDTO();
 
         PaymentStatusDTO paymentStatus = paymentStatusServiceMock.createPaymentStatus(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
-        assertThat(paymentStatus, is(notNullValue()));
-        assertThat(paymentStatus.getCustomerId(), is(equalTo(CUSTOMER_ID)));
-        assertThat(paymentStatus.getPaymentMethodToken(), is(equalTo(METHOD_PAYMENT_TOKEN)));
-        assertThat(paymentStatus.getCreatedDate(), is(notNullValue()));
-        assertThat(paymentStatus.getModifiedDate(), is(notNullValue()));
+        assertThat(paymentStatus).isNotNull();
+        assertThat(paymentStatus.getCustomerId()).isEqualTo(CUSTOMER_ID);
+        assertThat(paymentStatus.getPaymentMethodToken()).isEqualTo(METHOD_PAYMENT_TOKEN);
+        assertThat(paymentStatus.getCreatedDate()).isNotNull();
+        assertThat(paymentStatus.getModifiedDate()).isNotNull();
 
         //-----------------------------------------------------------------
         // Just check if the payment status was properly attached to this user
         //-----------------------------------------------------------------
         Optional<PaymentStatus> paymentStatusByUserId = paymentStatusRepository.findOneByUserId(createdUserDTO.getId());
-        assertThat(paymentStatusByUserId, is(notNullValue()));
-        assertThat(paymentStatusByUserId.isPresent(), is(equalTo(Boolean.TRUE)));
+        assertThat(paymentStatusByUserId).isNotNull();
+        assertThat(paymentStatusByUserId.isPresent()).isTrue();
 
         //-----------------------------------------------------------------
         // User subscription status is active
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
-        assertThat(user, is(notNullValue()));
-        assertThat(user.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
+        assertThat(user).isNotNull();
+        assertThat(user.getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL);
     }
 
     @Test

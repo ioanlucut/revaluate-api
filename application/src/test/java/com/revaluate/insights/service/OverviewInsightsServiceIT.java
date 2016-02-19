@@ -13,9 +13,7 @@ import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class OverviewInsightsServiceIT extends AbstractIntegrationTests {
 
@@ -70,14 +68,14 @@ public class OverviewInsightsServiceIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert insight is ok
         //-----------------------------------------------------------------
-        assertThat(insightsOverviewDTO, is(notNullValue()));
-        assertThat(insightsOverviewDTO.getInsightsOverview(), is(notNullValue()));
-        assertThat(insightsOverviewDTO.getInsightsOverview().size(), is(1));
+        assertThat(insightsOverviewDTO).isNotNull();
+        assertThat(insightsOverviewDTO.getInsightsOverview()).isNotNull();
+        assertThat(insightsOverviewDTO.getInsightsOverview().size()).isEqualTo((1));
 
-        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("3300.00")), is(Boolean.TRUE));
-        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 3300.0), is(Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("3300.00"))).isEqualTo((Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 3300.0)).isEqualTo((Boolean.TRUE));
 
-        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(0L));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count()).isEqualTo((0L));
     }
 
     @Test
@@ -122,15 +120,15 @@ public class OverviewInsightsServiceIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert insight is ok
         //-----------------------------------------------------------------
-        assertThat(insightsOverviewDTO, is(notNullValue()));
-        assertThat(insightsOverviewDTO.getInsightsOverview(), is(notNullValue()));
+        assertThat(insightsOverviewDTO).isNotNull();
+        assertThat(insightsOverviewDTO.getInsightsOverview()).isNotNull();
 
-        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("300.00")), is(Boolean.TRUE));
-        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 300.0), is(Boolean.TRUE));
-        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("3000.00")), is(Boolean.TRUE));
-        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 3000.0), is(Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("300.00"))).isEqualTo((Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 300.0)).isEqualTo((Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmountFormatted().equals("3000.00"))).isEqualTo((Boolean.TRUE));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().anyMatch(s -> s.getTotalAmount() == 3000.0)).isEqualTo((Boolean.TRUE));
 
-        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(1L));
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count()).isEqualTo((1L));
     }
 
     @Test
@@ -165,9 +163,9 @@ public class OverviewInsightsServiceIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert insight is ok
         //-----------------------------------------------------------------
-        assertThat(insightsOverviewDTO, is(notNullValue()));
-        assertThat(insightsOverviewDTO.getInsightsOverview(), is(notNullValue()));
-        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(3L));
+        assertThat(insightsOverviewDTO).isNotNull();
+        assertThat(insightsOverviewDTO.getInsightsOverview()).isNotNull();
+        assertThat(insightsOverviewDTO.getInsightsOverview().stream().filter(s -> s.getTotalAmount() == 0.0).count()).isEqualTo((3L));
     }
 
 }

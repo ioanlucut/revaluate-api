@@ -1,7 +1,6 @@
 package com.revaluate.category.service;
 
 import com.revaluate.AbstractIntegrationTests;
-import com.revaluate.category.exception.CategoryException;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
@@ -14,9 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CategoryServiceImplTest_bulkDelete_IT extends AbstractIntegrationTests {
 
@@ -41,7 +38,7 @@ public class CategoryServiceImplTest_bulkDelete_IT extends AbstractIntegrationTe
         List<CategoryDTO> all = categoryService.bulkCreate(categoryDTOs, createdUserDTO.getId());
 
         int creationSize = categoryService.findAllCategoriesFor(createdUserDTO.getId()).size();
-        assertThat(firstSize, is(equalTo(creationSize - categoryDTOs.size())));
+        assertThat(firstSize).isEqualTo(creationSize - categoryDTOs.size());
 
         //-----------------------------------------------------------------
         // Delete categories
@@ -49,7 +46,7 @@ public class CategoryServiceImplTest_bulkDelete_IT extends AbstractIntegrationTe
         categoryService.bulkDelete(all, createdUserDTO.getId());
 
         int postBulkDeleteSize = categoryService.findAllCategoriesFor(createdUserDTO.getId()).size();
-        assertThat(postBulkDeleteSize, is(equalTo(firstSize)));
+        assertThat(postBulkDeleteSize).isEqualTo(firstSize);
     }
 
     @Test

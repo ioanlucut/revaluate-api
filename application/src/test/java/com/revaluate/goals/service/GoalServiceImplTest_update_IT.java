@@ -9,16 +9,13 @@ import com.revaluate.domain.goal.GoalDTO;
 import com.revaluate.domain.goal.GoalDTOBuilder;
 import com.revaluate.domain.goal.GoalTarget;
 import com.revaluate.goals.exception.GoalException;
-import org.joda.money.CurrencyUnit;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GoalServiceImplTest_update_IT extends AbstractIntegrationTests {
 
@@ -74,13 +71,13 @@ public class GoalServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert updated goal is ok, and updated only concerned values
         //-----------------------------------------------------------------
-        assertThat(updatedGoalDTO.getId(), is(equalTo(createdGoalDTO.getId())));
-        assertThat(createdGoalDTO.getGoalStatusDTO(), is(notNullValue()));
-        assertThat(updatedGoalDTO.getCategory().getColor(), equalTo(createdGoalDTO.getCategory().getColor()));
-        assertThat(updatedGoalDTO.getCategory().getName(), equalTo(createdGoalDTO.getCategory().getName()));
-        assertThat(updatedGoalDTO.getCategory().getId(), equalTo(createdGoalDTO.getCategory().getId()));
+        assertThat(updatedGoalDTO.getId()).isEqualTo(createdGoalDTO.getId());
+        assertThat(createdGoalDTO.getGoalStatusDTO()).isNotNull();
+        assertThat(updatedGoalDTO.getCategory().getColor()).isEqualTo(createdGoalDTO.getCategory().getColor());
+        assertThat(updatedGoalDTO.getCategory().getName()).isEqualTo(createdGoalDTO.getCategory().getName());
+        assertThat(updatedGoalDTO.getCategory().getId()).isEqualTo(createdGoalDTO.getCategory().getId());
         // Only this was updated
-        assertThat(updatedGoalDTO.getValue(), equalTo(goalDTOToUpdate.getValue()));
+        assertThat(updatedGoalDTO.getValue()).isEqualTo(goalDTOToUpdate.getValue());
     }
 
     @Test
@@ -126,13 +123,13 @@ public class GoalServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert updated goal is ok, and updated only concerned values
         //-----------------------------------------------------------------
-        assertThat(updatedGoalDTO.getId(), is(equalTo(createdGoalDTO.getId())));
-        assertThat(updatedGoalDTO.getCategory().getColor(), equalTo(createdGoalDTO.getCategory().getColor()));
-        assertThat(updatedGoalDTO.getCategory().getName(), equalTo(createdGoalDTO.getCategory().getName()));
-        assertThat(updatedGoalDTO.getCategory().getId(), equalTo(createdGoalDTO.getCategory().getId()));
-        assertThat(updatedGoalDTO.getValue(), equalTo(createdGoalDTO.getValue()));
+        assertThat(updatedGoalDTO.getId()).isEqualTo(createdGoalDTO.getId());
+        assertThat(updatedGoalDTO.getCategory().getColor()).isEqualTo(createdGoalDTO.getCategory().getColor());
+        assertThat(updatedGoalDTO.getCategory().getName()).isEqualTo(createdGoalDTO.getCategory().getName());
+        assertThat(updatedGoalDTO.getCategory().getId()).isEqualTo(createdGoalDTO.getCategory().getId());
+        assertThat(updatedGoalDTO.getValue()).isEqualTo(createdGoalDTO.getValue());
         // Only these was updated
-        assertThat(updatedGoalDTO.getGoalTarget(), equalTo(goalDTOToUpdate.getGoalTarget()));
+        assertThat(updatedGoalDTO.getGoalTarget()).isEqualTo(goalDTOToUpdate.getGoalTarget());
     }
 
     @Test
@@ -185,12 +182,12 @@ public class GoalServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert updated goal is ok, and updated only concerned values
         //-----------------------------------------------------------------
-        assertThat(updatedGoalDTO.getId(), is(equalTo(createdGoalDTO.getId())));
-        assertThat(updatedGoalDTO.getValue(), equalTo(createdGoalDTO.getValue()));
+        assertThat(updatedGoalDTO.getId()).isEqualTo(createdGoalDTO.getId());
+        assertThat(updatedGoalDTO.getValue()).isEqualTo(createdGoalDTO.getValue());
         // Only these was updated
-        assertThat(updatedGoalDTO.getCategory().getColor(), equalTo(categoryDTO.getColor()));
-        assertThat(updatedGoalDTO.getCategory().getName(), equalTo(categoryDTO.getName()));
-        assertThat(updatedGoalDTO.getCategory().getId(), equalTo(categoryDTO.getId()));
+        assertThat(updatedGoalDTO.getCategory().getColor()).isEqualTo(categoryDTO.getColor());
+        assertThat(updatedGoalDTO.getCategory().getName()).isEqualTo(categoryDTO.getName());
+        assertThat(updatedGoalDTO.getCategory().getId()).isEqualTo(categoryDTO.getId());
     }
 
     @Test(expected = GoalException.class)

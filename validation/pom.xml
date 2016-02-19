@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.revaluate</groupId>
         <artifactId>revaluate-common</artifactId>
-        <version>${global.version}</version>
+        <version>1.0</version>
         <relativePath>../config-build/pom.xml</relativePath>
     </parent>
 
@@ -35,14 +35,11 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${version.junit}</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>${hamcrest-all.version}</version>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
         </dependency>
 
     </dependencies>

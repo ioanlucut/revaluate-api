@@ -13,8 +13,7 @@ import org.junit.Test;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserServiceImplTest_sendFeedback_IT extends AbstractIntegrationTests {
 
@@ -34,7 +33,7 @@ public class UserServiceImplTest_sendFeedback_IT extends AbstractIntegrationTest
         //-----------------------------------------------------------------
         User foundUser = userRepository.findOne(createdUserDTO.getId());
         List<Email> emails = emailRepository.findAllByEmailTypeAndUserId(EmailType.FEEDBACK_MESSAGE, foundUser.getId());
-        assertThat(emails.size(), is(1));
+        assertThat(emails).hasSize(1);
     }
 
     @Test
@@ -55,7 +54,7 @@ public class UserServiceImplTest_sendFeedback_IT extends AbstractIntegrationTest
         //-----------------------------------------------------------------
         User foundUser = userRepository.findOne(createdUserDTO.getId());
         List<Email> emails = emailRepository.findAllByEmailTypeAndUserId(EmailType.FEEDBACK_MESSAGE, foundUser.getId());
-        assertThat(emails.size(), is(1));
+        assertThat(emails).hasSize(1);
     }
 
     @Test

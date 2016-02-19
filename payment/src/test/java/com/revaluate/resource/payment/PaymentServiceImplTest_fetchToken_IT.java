@@ -15,9 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Ignore
@@ -38,14 +36,14 @@ public class PaymentServiceImplTest_fetchToken_IT {
     public void fetchToken_validCustomerId_isOk() throws Exception {
         String customerIdToken = paymentService.fetchToken(IOAN_LUCUT_CUSTOMER_ID_SANDBOX);
 
-        assertThat(customerIdToken, is(notNullValue()));
+        assertThat(customerIdToken).isNotNull();
     }
 
     @Test
     public void fetchToken_noCustomerId_isOk() throws Exception {
         String customerIdToken = paymentService.fetchToken();
 
-        assertThat(customerIdToken, is(notNullValue()));
+        assertThat(customerIdToken).isNotNull();
     }
 
     @Test
@@ -62,14 +60,14 @@ public class PaymentServiceImplTest_fetchToken_IT {
     public void fetchCustomer_validCustomerId_isOk() throws Exception {
         Customer customer = paymentService.findCustomer(IOAN_LUCUT_CUSTOMER_ID_SANDBOX);
 
-        assertThat(customer, is(notNullValue()));
+        assertThat(customer).isNotNull();
     }
 
     @Test
     public void findTransactions_validCustomerId_isOk() throws Exception {
         ResourceCollection<Transaction> transactions = paymentService.findTransactions(IOAN_LUCUT_CUSTOMER_ID_SANDBOX);
 
-        assertThat(transactions, is(notNullValue()));
+        assertThat(transactions).isNotNull();
     }
 
 }

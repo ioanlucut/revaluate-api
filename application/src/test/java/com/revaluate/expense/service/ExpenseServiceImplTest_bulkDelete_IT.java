@@ -7,7 +7,6 @@ import com.revaluate.domain.category.CategoryDTO;
 import com.revaluate.domain.category.CategoryDTOBuilder;
 import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
-import com.revaluate.expense.exception.ExpenseException;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintViolationException;
 import java.util.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExpenseServiceImplTest_bulkDelete_IT extends AbstractIntegrationTests {
 
@@ -51,7 +48,7 @@ public class ExpenseServiceImplTest_bulkDelete_IT extends AbstractIntegrationTes
         ExpenseDTO expenseDTOBCreated = expenseService.create(expenseDTOB, createdUserDTO.getId());
 
         int creationSize = expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size();
-        assertThat(firstSize, is(equalTo(creationSize - 2)));
+        assertThat(firstSize).isEqualTo(creationSize - 2);
 
         //-----------------------------------------------------------------
         // Delete expenses
@@ -59,7 +56,7 @@ public class ExpenseServiceImplTest_bulkDelete_IT extends AbstractIntegrationTes
         expenseService.bulkDelete(Arrays.asList(expenseDTOCreated, expenseDTOBCreated), createdUserDTO.getId());
 
         int postBulkDeleteSize = expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty()).size();
-        assertThat(postBulkDeleteSize, is(equalTo(firstSize)));
+        assertThat(postBulkDeleteSize).isEqualTo(firstSize);
     }
 
     @Test

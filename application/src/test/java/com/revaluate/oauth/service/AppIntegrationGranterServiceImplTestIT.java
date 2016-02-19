@@ -12,9 +12,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -56,8 +54,8 @@ public class AppIntegrationGranterServiceImplTestIT extends AbstractIntegrationT
 
         URI grantedAsRedirectURI = appIntegrationGranterServiceMock.grantOauthIntegration("authCode", state);
 
-        assertThat(grantedAsRedirectURI, is(notNullValue()));
-        assertThat(grantedAsRedirectURI.toString(), is("http://localhost:3000/#state=%7B%22client_id%22%3A%222151987168.10687444405%22%2C%22network%22%3A%22slack%22%2C%22redirect_uri%22%3A%22http%3A%2F%2Flocalhost%3A3000%2F%22%2C%22scope%22%3A%22identify%2Cbasic%22%2C%22oauth_proxy%22%3A%22http%3A%2F%2Flocalhost%3A8080%2Foauth%2Fgrant%22%7D" + "&access_token=" + map.get("access_token")));
+        assertThat(grantedAsRedirectURI).isNotNull();
+        assertThat(grantedAsRedirectURI.toString()).isEqualTo(("http://localhost:3000/#state=%7B%22client_id%22%3A%222151987168.10687444405%22%2C%22network%22%3A%22slack%22%2C%22redirect_uri%22%3A%22http%3A%2F%2Flocalhost%3A3000%2F%22%2C%22scope%22%3A%22identify%2Cbasic%22%2C%22oauth_proxy%22%3A%22http%3A%2F%2Flocalhost%3A8080%2Foauth%2Fgrant%22%7D" + "&access_token=" + map.get("access_token")));
     }
 
     @Test

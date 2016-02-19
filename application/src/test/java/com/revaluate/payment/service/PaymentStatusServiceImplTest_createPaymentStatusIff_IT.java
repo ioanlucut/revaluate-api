@@ -28,8 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -71,21 +70,21 @@ public class PaymentStatusServiceImplTest_createPaymentStatusIff_IT extends Abst
         UserDTO createdUserDTO = createUserDTO();
 
         PaymentInsightsDTO paymentInsightsDTO = paymentStatusServiceMock.createPaymentStatusAndSubscribeToStandardPlanIfUserIsEligible(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
-        assertThat(paymentInsightsDTO, is(notNullValue()));
+        assertThat(paymentInsightsDTO).isNotNull();
 
         //-----------------------------------------------------------------
         // Just check if the payment status was properly attached to this user
         //-----------------------------------------------------------------
         Optional<PaymentStatus> paymentStatusByUserId = paymentStatusRepository.findOneByUserId(createdUserDTO.getId());
-        assertThat(paymentStatusByUserId, is(notNullValue()));
-        assertThat(paymentStatusByUserId.isPresent(), is(equalTo(Boolean.TRUE)));
+        assertThat(paymentStatusByUserId).isNotNull();
+        assertThat(paymentStatusByUserId.isPresent()).isTrue();
 
         //-----------------------------------------------------------------
         // User subscription status is active
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
-        assertThat(user, is(notNullValue()));
-        assertThat(user.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
+        assertThat(user).isNotNull();
+        assertThat(user.getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL);
 
         verify(paymentStatusServiceMock, never()).subscribeToStandardPlan(anyInt());
         verify(paymentStatusServiceMock, times(1)).fetchPaymentInsights(anyString());
@@ -104,21 +103,21 @@ public class PaymentStatusServiceImplTest_createPaymentStatusIff_IT extends Abst
         userRepository.save(user);
 
         PaymentInsightsDTO paymentInsightsDTO = paymentStatusServiceMock.createPaymentStatusAndSubscribeToStandardPlanIfUserIsEligible(new PaymentDetailsDTOBuilder().build(), createdUserDTO.getId());
-        assertThat(paymentInsightsDTO, is(notNullValue()));
+        assertThat(paymentInsightsDTO).isNotNull();
 
         //-----------------------------------------------------------------
         // Just check if the payment status was properly attached to this user
         //-----------------------------------------------------------------
         Optional<PaymentStatus> paymentStatusByUserId = paymentStatusRepository.findOneByUserId(createdUserDTO.getId());
-        assertThat(paymentStatusByUserId, is(notNullValue()));
-        assertThat(paymentStatusByUserId.isPresent(), is(equalTo(Boolean.TRUE)));
+        assertThat(paymentStatusByUserId).isNotNull();
+        assertThat(paymentStatusByUserId.isPresent()).isTrue();
 
         //-----------------------------------------------------------------
         // User subscription status is active
         //-----------------------------------------------------------------
         user = userRepository.findOne(createdUserDTO.getId());
-        assertThat(user, is(notNullValue()));
-        assertThat(user.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.ACTIVE)));
+        assertThat(user).isNotNull();
+        assertThat(user.getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.ACTIVE);
 
         verify(paymentStatusServiceMock, times(1)).subscribeToStandardPlan(anyInt());
         verify(paymentStatusServiceMock, times(1)).fetchPaymentInsights(anyString());

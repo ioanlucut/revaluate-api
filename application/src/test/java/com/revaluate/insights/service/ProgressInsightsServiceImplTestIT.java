@@ -13,9 +13,7 @@ import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProgressInsightsServiceImplTestIT extends AbstractIntegrationTests {
 
@@ -61,9 +59,9 @@ public class ProgressInsightsServiceImplTestIT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         // Assert insight is ok
         //-----------------------------------------------------------------
-        assertThat(progressInsights, is(notNullValue()));
-        assertThat(progressInsights.getFrom(), is(notNullValue()));
-        assertThat(progressInsights.getTo(), is(notNullValue()));
-        assertThat(progressInsights.getInsightsMonthlyDTO().stream().filter(s -> s.getTotalAmountSpent() == 0.0).count(), is(3L));
+        assertThat(progressInsights).isNotNull();
+        assertThat(progressInsights.getFrom()).isNotNull();
+        assertThat(progressInsights.getTo()).isNotNull();
+        assertThat(progressInsights.getInsightsMonthlyDTO().stream().filter(s -> s.getTotalAmountSpent() == 0.0).count()).isEqualTo((3L));
     }
 }

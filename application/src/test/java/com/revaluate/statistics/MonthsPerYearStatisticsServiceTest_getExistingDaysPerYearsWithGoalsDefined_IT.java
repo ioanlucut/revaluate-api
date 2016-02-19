@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MonthsPerYearStatisticsServiceTest_getExistingDaysPerYearsWithGoalsDefined_IT extends AbstractIntegrationTests {
 
@@ -125,20 +122,20 @@ public class MonthsPerYearStatisticsServiceTest_getExistingDaysPerYearsWithGoals
         //-----------------------------------------------------------------
         // Assert grouping is ok
         //-----------------------------------------------------------------
-        assertThat(existingDaysPerYearsWithGoalsDefined, is(notNullValue()));
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(firstYear.getYear()), is(notNullValue()));
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(firstYear.getYear()).size(), is(equalTo(2)));
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(firstYear.getYear()).stream().anyMatch(integer -> integer == firstYearFirstMonthOfYear), is(true));
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(firstYear.getYear()).stream().anyMatch(integer -> integer == firstYearSecondMonthOfYear), is(true));
+        assertThat(existingDaysPerYearsWithGoalsDefined).isNotNull();
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(firstYear.getYear())).isNotNull();
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(firstYear.getYear()).size()).isEqualTo(2);
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(firstYear.getYear()).stream().anyMatch(integer -> integer == firstYearFirstMonthOfYear)).isTrue();
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(firstYear.getYear()).stream().anyMatch(integer -> integer == firstYearSecondMonthOfYear)).isTrue();
 
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(secondYear.getYear()), is(notNullValue()));
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(secondYear.getYear()).size(), is(equalTo(2)));
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(secondYear.getYear()).stream().anyMatch(integer -> integer == secondYearFirstMonthOfYear), is(true));
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(secondYear.getYear()).stream().anyMatch(integer -> integer == secondYearSecondMonthOfYear), is(true));
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(secondYear.getYear())).isNotNull();
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(secondYear.getYear()).size()).isEqualTo(2);
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(secondYear.getYear()).stream().anyMatch(integer -> integer == secondYearFirstMonthOfYear)).isTrue();
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(secondYear.getYear()).stream().anyMatch(integer -> integer == secondYearSecondMonthOfYear)).isTrue();
 
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(thirdYear.getYear()), is(notNullValue()));
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(thirdYear.getYear()).size(), is(equalTo(2)));
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearFirstMonthOfYear), is(true));
-        assertThat(existingDaysPerYearsWithGoalsDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearSecondMonthOfYear), is(true));
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(thirdYear.getYear())).isNotNull();
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(thirdYear.getYear()).size()).isEqualTo(2);
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearFirstMonthOfYear)).isTrue();
+        assertThat(existingDaysPerYearsWithGoalsDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearSecondMonthOfYear)).isTrue();
     }
 }

@@ -7,9 +7,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext__emailApi__test.xml")
@@ -21,7 +19,7 @@ public class MandrillServiceImplTest {
 
     @Test
     public void serviceIsNotNull() {
-        assertThat(mandrillService, is(notNullValue()));
-        assertThat(mandrillService.getApi(), is(notNullValue()));
+        assertThat(mandrillService).isNotNull();
+        assertThat(mandrillService.getApi()).isNotNull();
     }
 }
