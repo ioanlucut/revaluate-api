@@ -71,12 +71,12 @@ public class DailyInsightsServiceIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         assertThat(insightsDailyDTO).isNotNull();
         assertThat(insightsDailyDTO.getTotalPerDayDTOs()).isNotNull();
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs().size()).isGreaterThanOrEqualTo(30);
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs().size()).isGreaterThanOrEqualTo(28);
 
         assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().anyMatch(s -> s.getTotalAmount() == 3000.0)).isEqualTo((Boolean.TRUE));
         assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().anyMatch(s -> s.getTotalAmount() == 300.0)).isEqualTo((Boolean.TRUE));
 
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().filter(s -> s.getTotalAmount() == 0.0).count()).isGreaterThanOrEqualTo((28L));
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().filter(s -> s.getTotalAmount() == 0.0).count()).isGreaterThanOrEqualTo((27L));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class DailyInsightsServiceIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         assertThat(insightsDailyDTO).isNotNull();
         assertThat(insightsDailyDTO.getTotalPerDayDTOs()).isNotNull();
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs().size()).isGreaterThanOrEqualTo(30);
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs().size()).isGreaterThanOrEqualTo(28);
     }
 
 }
