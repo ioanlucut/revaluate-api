@@ -11,15 +11,13 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
 
     @Test
     public void isUniqueCurrencyCode_validCurrencyCode_ok() throws Exception {
-        assertThat(currencyService.isUnique(CurrencyUnit.USD.getCode()), is(true));
+        assertThat(currencyService.isUnique(CurrencyUnit.USD.getCode())).isTrue();
     }
 
     @Test
@@ -30,7 +28,7 @@ public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
         CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.USD.getCurrencyCode()).withDisplayName("").withNumericCode(0).withSymbol("$").build();
         currencyService.create(currencyDTO);
 
-        assertThat(currencyService.isUnique(currencyDTO.getCurrencyCode()), is(false));
+        assertThat(currencyService.isUnique(currencyDTO.getCurrencyCode())).isFalse();
     }
 
     @Test
@@ -41,8 +39,8 @@ public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
         CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.USD.getCurrencyCode()).withDisplayName("").withNumericCode(0).withSymbol("$").build();
         CurrencyDTO createdCurrencyDTO = currencyService.create(currencyDTO);
 
-        assertThat(createdCurrencyDTO, is(notNullValue()));
-        assertThat(currencyDTO.getCurrencyCode(), equalTo(createdCurrencyDTO.getCurrencyCode()));
+        assertThat(createdCurrencyDTO).isNotNull();
+        assertThat(currencyDTO.getCurrencyCode()).isEqualTo(createdCurrencyDTO.getCurrencyCode());
 
         //-----------------------------------------------------------------
         // Create user
@@ -53,10 +51,10 @@ public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
         // Check user with currency added
         //-----------------------------------------------------------------
         User user = userRepository.findOne(createdUserDTO.getId());
-        assertThat(user, is(notNullValue()));
-        assertThat(user.getCurrency(), is(notNullValue()));
-        assertThat(user.getCurrency().getId(), not(equalTo(0)));
-        assertThat(user.getCurrency().getCurrencyCode(), is(equalTo(createdCurrencyDTO.getCurrencyCode())));
+        assertThat(user).isNotNull();
+        assertThat(user.getCurrency()).isNotNull();
+        assertThat(user.getCurrency().getId()).isNotEqualTo(0);
+        assertThat(user.getCurrency().getCurrencyCode()).isEqualTo(createdCurrencyDTO.getCurrencyCode());
     }
 
     //-----------------------------------------------------------------
@@ -76,8 +74,8 @@ public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
         // Find created currencies + asserts
         //-----------------------------------------------------------------
         List<CurrencyDTO> allCategoriesFor = currencyService.findAllCurrencies();
-        assertThat(allCategoriesFor, is(notNullValue()));
-        assertThat(allCategoriesFor.size(), is(equalTo(2)));
+        assertThat(allCategoriesFor).isNotNull();
+        assertThat(allCategoriesFor.size()).isEqualTo(2);
     }
 
     @Test
@@ -88,8 +86,8 @@ public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
         CurrencyDTO currencyDTO = new CurrencyDTOBuilder().withCurrencyCode(CurrencyUnit.EUR.getCurrencyCode()).withDisplayName("").withNumericCode(0).withSymbol("E").build();
         CurrencyDTO createdCurrencyDTO = currencyService.create(currencyDTO);
 
-        assertThat(createdCurrencyDTO, is(notNullValue()));
-        assertThat(currencyDTO.getCurrencyCode(), equalTo(createdCurrencyDTO.getCurrencyCode()));
+        assertThat(createdCurrencyDTO).isNotNull();
+        assertThat(currencyDTO.getCurrencyCode()).isEqualTo(createdCurrencyDTO.getCurrencyCode());
 
         //-----------------------------------------------------------------
         // Remove the currency
@@ -100,8 +98,8 @@ public class CurrencyServiceImplTestIT extends AbstractIntegrationTests {
         // Find created currencies + asserts
         //-----------------------------------------------------------------
         List<CurrencyDTO> allCategoriesFor = currencyService.findAllCurrencies();
-        assertThat(allCategoriesFor, is(notNullValue()));
-        assertThat(allCategoriesFor.size(), is(equalTo(0)));
+        assertThat(allCategoriesFor).isNotNull();
+        assertThat(allCategoriesFor.size()).isEqualTo(0);
     }
 
     @Test(expected = CurrencyException.class)

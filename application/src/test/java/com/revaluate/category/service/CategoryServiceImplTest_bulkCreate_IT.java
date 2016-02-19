@@ -14,9 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CategoryServiceImplTest_bulkCreate_IT extends AbstractIntegrationTests {
 
@@ -39,8 +37,8 @@ public class CategoryServiceImplTest_bulkCreate_IT extends AbstractIntegrationTe
         List<CategoryDTO> categoryDTOs = Arrays.asList(categoryDTO, categoryDTOB);
 
         List<CategoryDTO> all = categoryService.bulkCreate(categoryDTOs, createdUserDTO.getId());
-        assertThat(all, is(notNullValue()));
-        assertThat(all.size(), is(categoryDTOs.size()));
+        assertThat(all).isNotNull();
+        assertThat(all).hasSameSizeAs(categoryDTOs);
     }
 
     @Test

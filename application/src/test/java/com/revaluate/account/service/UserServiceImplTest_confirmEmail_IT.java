@@ -2,18 +2,16 @@ package com.revaluate.account.service;
 
 import com.revaluate.AbstractIntegrationTests;
 import com.revaluate.account.exception.UserException;
-import com.revaluate.domain.email.EmailStatus;
-import com.revaluate.email.persistence.EmailToken;
 import com.revaluate.account.persistence.User;
 import com.revaluate.domain.account.UserDTO;
+import com.revaluate.domain.email.EmailStatus;
 import com.revaluate.domain.email.EmailType;
+import com.revaluate.email.persistence.EmailToken;
 import org.junit.Test;
 
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTests {
 
@@ -25,11 +23,12 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         UserDTO createdUserDTO = createUserDTO();
 
         Optional<EmailToken> oneEmail = emailTokenRepository.findOneByEmailTypeAndUserIdAndTokenValidatedFalse(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
-        assertThat(oneEmail.isPresent(), is(true));
+        assertThat(oneEmail.isPresent()).isTrue();
+        assertThat(oneEmail.isPresent()).isTrue();
         EmailToken email = oneEmail.get();
-        assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
-        assertThat(email.getSentDate(), is(nullValue()));
+        assertThat(email.isTokenValidated()).isFalse();
+        assertThat(email.getEmailStatus()).isEqualTo(EmailStatus.QUEUED);
+        assertThat(email.getSentDate()).isNull();
 
         //-----------------------------------------------------------------
         // Confirm email with this token
@@ -42,16 +41,16 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         //-----------------------------------------------------------------
         oneEmail = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
         email = oneEmail.get();
-        assertThat(oneEmail.isPresent(), is(true));
-        assertThat(email.isTokenValidated(), is(true));
-        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
-        assertThat(email.getSentDate(), is(nullValue()));
+        assertThat(oneEmail.isPresent()).isTrue();
+        assertThat(email.isTokenValidated()).isTrue();
+        assertThat(email.getEmailStatus()).isEqualTo(EmailStatus.QUEUED);
+        assertThat(email.getSentDate()).isNull();
 
         //-----------------------------------------------------------------
         // User has the email confirmed flag
         //-----------------------------------------------------------------
         User one = userRepository.findOne(createdUserDTO.getId());
-        assertThat(one.isEmailConfirmed(), is(true));
+        assertThat(one.isEmailConfirmed()).isTrue();
     }
 
     @Test
@@ -62,11 +61,11 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         UserDTO createdUserDTO = createUserDTO();
 
         Optional<EmailToken> oneEmail = emailTokenRepository.findOneByEmailTypeAndUserIdAndTokenValidatedFalse(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
-        assertThat(oneEmail.isPresent(), is(true));
+        assertThat(oneEmail.isPresent()).isTrue();
         EmailToken email = oneEmail.get();
-        assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
-        assertThat(email.getSentDate(), is(nullValue()));
+        assertThat(email.isTokenValidated()).isFalse();
+        assertThat(email.getEmailStatus()).isEqualTo(EmailStatus.QUEUED);
+        assertThat(email.getSentDate()).isNull();
 
         //-----------------------------------------------------------------
         // Confirm email with this token three times.
@@ -81,16 +80,16 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         //-----------------------------------------------------------------
         oneEmail = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
         email = oneEmail.get();
-        assertThat(oneEmail.isPresent(), is(true));
-        assertThat(email.isTokenValidated(), is(true));
-        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
-        assertThat(email.getSentDate(), is(nullValue()));
+        assertThat(oneEmail.isPresent()).isTrue();
+        assertThat(email.isTokenValidated()).isTrue();
+        assertThat(email.getEmailStatus()).isEqualTo(EmailStatus.QUEUED);
+        assertThat(email.getSentDate()).isNull();
 
         //-----------------------------------------------------------------
         // User has the email confirmed flag
         //-----------------------------------------------------------------
         User one = userRepository.findOne(createdUserDTO.getId());
-        assertThat(one.isEmailConfirmed(), is(true));
+        assertThat(one.isEmailConfirmed()).isTrue();
     }
 
     @Test
@@ -101,11 +100,11 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         UserDTO createdUserDTO = createUserDTO();
 
         Optional<EmailToken> oneEmail = emailTokenRepository.findOneByEmailTypeAndUserIdAndTokenValidatedFalse(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
-        assertThat(oneEmail.isPresent(), is(true));
+        assertThat(oneEmail.isPresent()).isTrue();
         EmailToken email = oneEmail.get();
-        assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
-        assertThat(email.getSentDate(), is(nullValue()));
+        assertThat(email.isTokenValidated()).isFalse();
+        assertThat(email.getEmailStatus()).isEqualTo(EmailStatus.QUEUED);
+        assertThat(email.getSentDate()).isNull();
 
         //-----------------------------------------------------------------
         // Confirm email with this token
@@ -118,16 +117,16 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         //-----------------------------------------------------------------
         oneEmail = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
         email = oneEmail.get();
-        assertThat(oneEmail.isPresent(), is(true));
-        assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
-        assertThat(email.getSentDate(), is(nullValue()));
+        assertThat(oneEmail.isPresent()).isTrue();
+        assertThat(email.isTokenValidated()).isFalse();
+        assertThat(email.getEmailStatus()).isEqualTo(EmailStatus.QUEUED);
+        assertThat(email.getSentDate()).isNull();
 
         //-----------------------------------------------------------------
         // User has the email confirmed flag
         //-----------------------------------------------------------------
         User one = userRepository.findOne(createdUserDTO.getId());
-        assertThat(one.isEmailConfirmed(), is(false));
+        assertThat(one.isEmailConfirmed()).isFalse();
     }
 
     @Test
@@ -138,11 +137,11 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         UserDTO createdUserDTO = createUserDTO();
 
         Optional<EmailToken> oneEmail = emailTokenRepository.findOneByEmailTypeAndUserIdAndTokenValidatedFalse(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
-        assertThat(oneEmail.isPresent(), is(true));
+        assertThat(oneEmail.isPresent()).isTrue();
         EmailToken email = oneEmail.get();
-        assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
-        assertThat(email.getSentDate(), is(nullValue()));
+        assertThat(email.isTokenValidated()).isFalse();
+        assertThat(email.getEmailStatus()).isEqualTo(EmailStatus.QUEUED);
+        assertThat(email.getSentDate()).isNull();
 
         //-----------------------------------------------------------------
         // Confirm email with this token
@@ -155,10 +154,10 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         //-----------------------------------------------------------------
         oneEmail = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
         email = oneEmail.get();
-        assertThat(oneEmail.isPresent(), is(true));
-        assertThat(email.isTokenValidated(), is(false));
-        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
-        assertThat(email.getSentDate(), is(nullValue()));
+        assertThat(oneEmail.isPresent()).isTrue();
+        assertThat(email.isTokenValidated()).isFalse();
+        assertThat(email.getEmailStatus()).isEqualTo(EmailStatus.QUEUED);
+        assertThat(email.getSentDate()).isNull();
 
         //-----------------------------------------------------------------
         // After that, email is confirmed - is ok.
@@ -171,15 +170,15 @@ public class UserServiceImplTest_confirmEmail_IT extends AbstractIntegrationTest
         //-----------------------------------------------------------------
         oneEmail = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, createdUserDTO.getId());
         email = oneEmail.get();
-        assertThat(oneEmail.isPresent(), is(true));
-        assertThat(email.isTokenValidated(), is(true));
-        assertThat(email.getEmailStatus(), is(EmailStatus.QUEUED));
-        assertThat(email.getSentDate(), is(nullValue()));
+        assertThat(oneEmail.isPresent()).isTrue();
+        assertThat(email.isTokenValidated()).isTrue();
+        assertThat(email.getEmailStatus()).isEqualTo(EmailStatus.QUEUED);
+        assertThat(email.getSentDate()).isNull();
 
         //-----------------------------------------------------------------
         // User has the email confirmed flag
         //-----------------------------------------------------------------
         User one = userRepository.findOne(createdUserDTO.getId());
-        assertThat(one.isEmailConfirmed(), is(true));
+        assertThat(one.isEmailConfirmed()).isTrue();
     }
 }

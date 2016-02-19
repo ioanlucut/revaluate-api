@@ -17,9 +17,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
 
@@ -52,12 +50,12 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert created expense is ok
         //-----------------------------------------------------------------
-        assertThat(createdExpenseDTO, is(notNullValue()));
-        assertThat(createdExpenseDTO.getId(), not(equalTo(0)));
-        assertThat(createdExpenseDTO.getCategory(), equalTo(expenseDTO.getCategory()));
-        assertThat(createdExpenseDTO.getDescription(), equalTo(expenseDTO.getDescription()));
-        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
-        assertThat(createdExpenseDTO.getSpentDate().getYear(), equalTo(expenseDTO.getSpentDate().getYear()));
+        assertThat(createdExpenseDTO).isNotNull();
+        assertThat(createdExpenseDTO.getId()).isNotEqualTo(0);
+        assertThat(createdExpenseDTO.getCategory()).isEqualTo(expenseDTO.getCategory());
+        assertThat(createdExpenseDTO.getDescription()).isEqualTo(expenseDTO.getDescription());
+        assertThat(createdExpenseDTO.getValue()).isEqualTo(expenseDTO.getValue());
+        assertThat(createdExpenseDTO.getSpentDate().getYear()).isEqualTo(expenseDTO.getSpentDate().getYear());
     }
 
     @Test
@@ -86,16 +84,16 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
 
         expenseDTO = new ExpenseDTOBuilder().withValue(111_111_111_111_111_111_11.11).withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
-        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+        assertThat(createdExpenseDTO.getValue()).isEqualTo(expenseDTO.getValue());
 
         expenseDTO = new ExpenseDTOBuilder().withValue(899_999_999_999_999_999_99.11).withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
-        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+        assertThat(createdExpenseDTO.getValue()).isEqualTo(expenseDTO.getValue());
 
         exception.expect(ConstraintViolationException.class);
         expenseDTO = new ExpenseDTOBuilder().withValue(999_999_999_999_999_999_99.11).withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now()).build();
         createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
-        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+        assertThat(createdExpenseDTO.getValue()).isEqualTo(expenseDTO.getValue());
     }
 
     @Test
@@ -119,19 +117,19 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
         createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
-        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+        assertThat(createdExpenseDTO.getValue()).isEqualTo(expenseDTO.getValue());
 
         expenseDTO = new ExpenseDTOBuilder().withValue(9999.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
         createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
-        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+        assertThat(createdExpenseDTO.getValue()).isEqualTo(expenseDTO.getValue());
 
         expenseDTO = new ExpenseDTOBuilder().withValue(2147483647).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
         createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
-        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+        assertThat(createdExpenseDTO.getValue()).isEqualTo(expenseDTO.getValue());
 
         expenseDTO = new ExpenseDTOBuilder().withValue(2147483647.99).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
         createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
-        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+        assertThat(createdExpenseDTO.getValue()).isEqualTo(expenseDTO.getValue());
     }
 
     @Test
@@ -157,8 +155,8 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert created expenses is ok
         //-----------------------------------------------------------------
-        assertThat(createdExpenseDTO.getCategory(), equalTo(expenseDTO.getCategory()));
-        assertThat(secondCreatedExpenseDTO.getCategory(), equalTo(expenseDTO.getCategory()));
+        assertThat(createdExpenseDTO.getCategory()).isEqualTo(expenseDTO.getCategory());
+        assertThat(secondCreatedExpenseDTO.getCategory()).isEqualTo(expenseDTO.getCategory());
     }
 
     @Test(expected = ConstraintViolationException.class)
@@ -266,12 +264,12 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert updated expense is ok, and updated only concerned values
         //-----------------------------------------------------------------
-        assertThat(updatedExpenseDTO.getId(), is(equalTo(createdExpenseDTO.getId())));
-        assertThat(updatedExpenseDTO.getCategory().getColor(), equalTo(createdExpenseDTO.getCategory().getColor()));
-        assertThat(updatedExpenseDTO.getCategory().getName(), equalTo(createdExpenseDTO.getCategory().getName()));
-        assertThat(updatedExpenseDTO.getCategory().getId(), equalTo(createdExpenseDTO.getCategory().getId()));
+        assertThat(updatedExpenseDTO.getId()).isEqualTo(createdExpenseDTO.getId());
+        assertThat(updatedExpenseDTO.getCategory().getColor()).isEqualTo(createdExpenseDTO.getCategory().getColor());
+        assertThat(updatedExpenseDTO.getCategory().getName()).isEqualTo(createdExpenseDTO.getCategory().getName());
+        assertThat(updatedExpenseDTO.getCategory().getId()).isEqualTo(createdExpenseDTO.getCategory().getId());
         // Only this was updated
-        assertThat(updatedExpenseDTO.getValue(), equalTo(expenseDTOToUpdate.getValue()));
+        assertThat(updatedExpenseDTO.getValue()).isEqualTo(expenseDTOToUpdate.getValue());
     }
 
     @Test
@@ -303,13 +301,13 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert updated expense is ok, and updated only concerned values
         //-----------------------------------------------------------------
-        assertThat(updatedExpenseDTO.getId(), is(equalTo(createdExpenseDTO.getId())));
-        assertThat(updatedExpenseDTO.getCategory().getColor(), equalTo(createdExpenseDTO.getCategory().getColor()));
-        assertThat(updatedExpenseDTO.getCategory().getName(), equalTo(createdExpenseDTO.getCategory().getName()));
-        assertThat(updatedExpenseDTO.getCategory().getId(), equalTo(createdExpenseDTO.getCategory().getId()));
-        assertThat(updatedExpenseDTO.getValue(), equalTo(createdExpenseDTO.getValue()));
+        assertThat(updatedExpenseDTO.getId()).isEqualTo(createdExpenseDTO.getId());
+        assertThat(updatedExpenseDTO.getCategory().getColor()).isEqualTo(createdExpenseDTO.getCategory().getColor());
+        assertThat(updatedExpenseDTO.getCategory().getName()).isEqualTo(createdExpenseDTO.getCategory().getName());
+        assertThat(updatedExpenseDTO.getCategory().getId()).isEqualTo(createdExpenseDTO.getCategory().getId());
+        assertThat(updatedExpenseDTO.getValue()).isEqualTo(createdExpenseDTO.getValue());
         // Only these was updated
-        assertThat(updatedExpenseDTO.getDescription(), equalTo(expenseDTOToUpdate.getDescription()));
+        assertThat(updatedExpenseDTO.getDescription()).isEqualTo(expenseDTOToUpdate.getDescription());
     }
 
     @Test
@@ -347,13 +345,13 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert updated expense is ok, and updated only concerned values
         //-----------------------------------------------------------------
-        assertThat(updatedExpenseDTO.getId(), is(equalTo(createdExpenseDTO.getId())));
-        assertThat(updatedExpenseDTO.getValue(), equalTo(createdExpenseDTO.getValue()));
-        assertThat(updatedExpenseDTO.getDescription(), equalTo(expenseDTOToUpdate.getDescription()));
+        assertThat(updatedExpenseDTO.getId()).isEqualTo(createdExpenseDTO.getId());
+        assertThat(updatedExpenseDTO.getValue()).isEqualTo(createdExpenseDTO.getValue());
+        assertThat(updatedExpenseDTO.getDescription()).isEqualTo(expenseDTOToUpdate.getDescription());
         // Only these was updated
-        assertThat(updatedExpenseDTO.getCategory().getColor(), equalTo(createdCategoryDTO.getColor()));
-        assertThat(updatedExpenseDTO.getCategory().getName(), equalTo(createdCategoryDTO.getName()));
-        assertThat(updatedExpenseDTO.getCategory().getId(), equalTo(createdCategoryDTO.getId()));
+        assertThat(updatedExpenseDTO.getCategory().getColor()).isEqualTo(createdCategoryDTO.getColor());
+        assertThat(updatedExpenseDTO.getCategory().getName()).isEqualTo(createdCategoryDTO.getName());
+        assertThat(updatedExpenseDTO.getCategory().getId()).isEqualTo(createdCategoryDTO.getId());
     }
 
     @Test(expected = ExpenseException.class)
@@ -437,8 +435,8 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         // Find created epenses + asserts
         //-----------------------------------------------------------------
         List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty());
-        assertThat(allExpensesFor, is(notNullValue()));
-        assertThat(allExpensesFor.size(), is(equalTo(2)));
+        assertThat(allExpensesFor).isNotNull();
+        assertThat(allExpensesFor.size()).isEqualTo(2);
     }
 
     @Test
@@ -452,8 +450,8 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         // Find created epenses + asserts
         //-----------------------------------------------------------------
         List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesFor(createdUserDTO.getId(), Optional.empty());
-        assertThat(allExpensesFor, is(notNullValue()));
-        assertThat(allExpensesFor.size(), is(equalTo(0)));
+        assertThat(allExpensesFor).isNotNull();
+        assertThat(allExpensesFor.size()).isEqualTo(0);
     }
 
     //-----------------------------------------------------------------
@@ -490,8 +488,8 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         // Find created epenses + asserts
         //-----------------------------------------------------------------
         List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesAfterBefore(createdUserDTO.getId(), before, after);
-        assertThat(allExpensesFor, is(notNullValue()));
-        assertThat(allExpensesFor.size(), is(equalTo(7)));
+        assertThat(allExpensesFor).isNotNull();
+        assertThat(allExpensesFor.size()).isEqualTo(7);
     }
 
     @Test
@@ -534,10 +532,10 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         // Find created expenses + asserts (should be only with the first category)
         //-----------------------------------------------------------------
         List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesWithCategoryIdAfterBefore(createdUserDTO.getId(), createdCategoryDTO.getId(), before, after);
-        allExpensesFor.stream().forEach(expenseDTOCandidate -> assertThat(expenseDTOCandidate.getCategory().getName(), is(equalTo(createdCategoryDTO.getName()))));
-        assertThat(allExpensesFor, is(notNullValue()));
-        assertThat(allExpensesFor.size(), is(equalTo(7)));
-        assertThat(expenseService.findAllExpensesAfterBefore(createdUserDTO.getId(), before, after).size(), is(equalTo(10)));
+        allExpensesFor.stream().forEach(expenseDTOCandidate -> assertThat(expenseDTOCandidate.getCategory().getName()).isEqualTo(createdCategoryDTO.getName()));
+        assertThat(allExpensesFor).isNotNull();
+        assertThat(allExpensesFor.size()).isEqualTo(7);
+        assertThat(expenseService.findAllExpensesAfterBefore(createdUserDTO.getId(), before, after).size()).isEqualTo(10);
     }
 
     //-----------------------------------------------------------------
@@ -573,8 +571,8 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         // Find created epenses + asserts after a date
         //-----------------------------------------------------------------
         List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesAfter(createdUserDTO.getId(), startDate);
-        assertThat(allExpensesFor, is(notNullValue()));
-        assertThat(allExpensesFor.size(), is(equalTo(7)));
+        assertThat(allExpensesFor).isNotNull();
+        assertThat(allExpensesFor.size()).isEqualTo(7);
     }
 
     //-----------------------------------------------------------------
@@ -610,8 +608,8 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         // Find created epenses + asserts after a date
         //-----------------------------------------------------------------
         List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesBefore(createdUserDTO.getId(), endDate);
-        assertThat(allExpensesFor, is(notNullValue()));
-        assertThat(allExpensesFor.size(), is(equalTo(7)));
+        assertThat(allExpensesFor).isNotNull();
+        assertThat(allExpensesFor.size()).isEqualTo(7);
     }
 
     //-----------------------------------------------------------------
@@ -648,7 +646,7 @@ public class ExpenseServiceImplTestIT extends AbstractIntegrationTests {
         // Find created epenses + asserts after a date
         //-----------------------------------------------------------------
         List<ExpenseDTO> allExpensesFor = expenseService.findAllExpensesBefore(createdUserDTO.getId(), endDate);
-        assertThat(allExpensesFor, is(notNullValue()));
-        assertThat(allExpensesFor.size(), is(equalTo(2)));
+        assertThat(allExpensesFor).isNotNull();
+        assertThat(allExpensesFor.size()).isEqualTo(2);
     }
 }

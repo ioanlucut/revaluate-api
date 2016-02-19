@@ -9,9 +9,7 @@ import org.joda.money.CurrencyUnit;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CategoryServiceImplTest_update_IT extends AbstractIntegrationTests {
 
@@ -44,14 +42,14 @@ public class CategoryServiceImplTest_update_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         // Assertions
         //-----------------------------------------------------------------
-        assertThat(updatedCategoryDTO, is(notNullValue()));
-        assertThat(updatedCategoryDTO.getColor(), not(equalTo(createdCategoryDTO.getColor())));
-        assertThat(updatedCategoryDTO.getColor().getColor(), is(equalTo(categoryToUpdateDTO.getColor().getColor())));
+        assertThat(updatedCategoryDTO).isNotNull();
+        assertThat(updatedCategoryDTO.getColor()).isNotEqualTo(createdCategoryDTO.getColor());
+        assertThat(updatedCategoryDTO.getColor().getColor()).isEqualTo(categoryToUpdateDTO.getColor().getColor());
 
-        assertThat(updatedCategoryDTO.getName(), not(equalTo(createdCategoryDTO.getName())));
-        assertThat(updatedCategoryDTO.getName(), is(equalTo(categoryToUpdateDTO.getName())));
-        assertThat(updatedCategoryDTO.getId(), not(equalTo(0)));
-        assertThat(updatedCategoryDTO.getId(), equalTo(createdCategoryDTO.getId()));
+        assertThat(updatedCategoryDTO.getName()).isNotEqualTo(createdCategoryDTO.getName());
+        assertThat(updatedCategoryDTO.getName()).isEqualTo(categoryToUpdateDTO.getName());
+        assertThat(updatedCategoryDTO.getId()).isNotEqualTo(0);
+        assertThat(updatedCategoryDTO.getId()).isEqualTo(createdCategoryDTO.getId());
     }
 
     @Test(expected = CategoryException.class)
@@ -199,8 +197,8 @@ public class CategoryServiceImplTest_update_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         // Assertions
         //-----------------------------------------------------------------
-        assertThat(updatedCategoryDTO, is(notNullValue()));
-        assertThat(updatedCategoryDTO.getName(), is(equalTo(categoryDTO.getName())));
+        assertThat(updatedCategoryDTO).isNotNull();
+        assertThat(updatedCategoryDTO.getName()).isEqualTo(categoryDTO.getName());
     }
 
 }

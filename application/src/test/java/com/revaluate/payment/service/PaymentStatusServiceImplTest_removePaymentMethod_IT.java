@@ -18,16 +18,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 
 public class PaymentStatusServiceImplTest_removePaymentMethod_IT extends AbstractIntegrationTests {
 
@@ -73,7 +70,7 @@ public class PaymentStatusServiceImplTest_removePaymentMethod_IT extends Abstrac
         // Exists
         //-----------------------------------------------------------------
         Optional<PaymentStatus> paymentStatusByUserId = paymentStatusRepository.findOneByUserId(createdUserDTO.getId());
-        assertThat(paymentStatusByUserId.isPresent(), is(true));
+        assertThat(paymentStatusByUserId.isPresent()).isTrue();
 
         paymentStatusServiceMock.removePaymentMethod(createdUserDTO.getId());
 
@@ -81,7 +78,7 @@ public class PaymentStatusServiceImplTest_removePaymentMethod_IT extends Abstrac
         // Removed
         //-----------------------------------------------------------------
         paymentStatusByUserId = paymentStatusRepository.findOneByUserId(createdUserDTO.getId());
-        assertThat(paymentStatusByUserId.isPresent(), is(false));
+        assertThat(paymentStatusByUserId.isPresent()).isFalse();
     }
 
     @Test
@@ -109,7 +106,7 @@ public class PaymentStatusServiceImplTest_removePaymentMethod_IT extends Abstrac
         // Exists
         //-----------------------------------------------------------------
         Optional<PaymentStatus> paymentStatusByUserId = paymentStatusRepository.findOneByUserId(createdUserDTO.getId());
-        assertThat(paymentStatusByUserId.isPresent(), is(true));
+        assertThat(paymentStatusByUserId.isPresent()).isTrue();
 
         exception.expect(PaymentStatusException.class);
         paymentStatusServiceMock.removePaymentMethod(createdUserDTO.getId());
@@ -118,7 +115,7 @@ public class PaymentStatusServiceImplTest_removePaymentMethod_IT extends Abstrac
         // Removed
         //-----------------------------------------------------------------
         paymentStatusByUserId = paymentStatusRepository.findOneByUserId(createdUserDTO.getId());
-        assertThat(paymentStatusByUserId.isPresent(), is(true));
+        assertThat(paymentStatusByUserId.isPresent()).isTrue();
     }
 
     @Test

@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.revaluate</groupId>
         <artifactId>revaluate-common</artifactId>
-        <version>${global.version}</version>
+        <version>1.0</version>
         <relativePath>../config-build/pom.xml</relativePath>
     </parent>
 
@@ -19,13 +19,13 @@
         <dependency>
             <groupId>com.revaluate</groupId>
             <artifactId>core</artifactId>
-            <version>${global.version}</version>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.revaluate</groupId>
             <artifactId>core</artifactId>
-            <version>${global.version}</version>
+            <version>1.0</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -33,31 +33,31 @@
         <dependency>
             <groupId>com.revaluate</groupId>
             <artifactId>dtos</artifactId>
-            <version>${global.version}</version>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.revaluate</groupId>
             <artifactId>emails</artifactId>
-            <version>${global.version}</version>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.revaluate</groupId>
             <artifactId>importer</artifactId>
-            <version>${global.version}</version>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.revaluate</groupId>
             <artifactId>slack</artifactId>
-            <version>${global.version}</version>
+            <version>1.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.revaluate</groupId>
             <artifactId>payment</artifactId>
-            <version>${global.version}</version>
+            <version>1.0</version>
         </dependency>
 
         <!-- Dozer -->
@@ -100,18 +100,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jool</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.intercom</groupId>
             <artifactId>intercom-java</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jackson-core</artifactId>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jackson-databind</artifactId>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
     </dependencies>

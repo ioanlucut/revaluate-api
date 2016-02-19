@@ -9,7 +9,6 @@ import com.revaluate.domain.expense.ExpenseDTO;
 import com.revaluate.domain.expense.ExpenseDTOBuilder;
 import com.revaluate.domain.insights.statistics.MonthsPerYearsDTO;
 import com.revaluate.expense.service.ExpenseService;
-import com.revaluate.statistics.MonthsPerYearStatisticsService;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MonthsPerYearStatisticsServiceTest_getExistingDaysPerYearsWithExpensesDefined_IT extends AbstractIntegrationTests {
 
@@ -80,20 +76,20 @@ public class MonthsPerYearStatisticsServiceTest_getExistingDaysPerYearsWithExpen
         //-----------------------------------------------------------------
         // Assert grouping is ok
         //-----------------------------------------------------------------
-        assertThat(existingDaysPerYearsWithExpensesDefined, is(notNullValue()));
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(firstYear.getYear()), is(notNullValue()));
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(firstYear.getYear()).size(), is(equalTo(2)));
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(firstYear.getYear()).stream().anyMatch(integer -> integer == firstYearFirstMonthOfYear), is(true));
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(firstYear.getYear()).stream().anyMatch(integer -> integer == firstYearSecondMonthOfYear), is(true));
+        assertThat(existingDaysPerYearsWithExpensesDefined).isNotNull();
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(firstYear.getYear())).isNotNull();
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(firstYear.getYear()).size()).isEqualTo(2);
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(firstYear.getYear()).stream().anyMatch(integer -> integer == firstYearFirstMonthOfYear)).isTrue();
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(firstYear.getYear()).stream().anyMatch(integer -> integer == firstYearSecondMonthOfYear)).isTrue();
 
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(secondYear.getYear()), is(notNullValue()));
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(secondYear.getYear()).size(), is(equalTo(2)));
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(secondYear.getYear()).stream().anyMatch(integer -> integer == secondYearFirstMonthOfYear), is(true));
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(secondYear.getYear()).stream().anyMatch(integer -> integer == secondYearSecondMonthOfYear), is(true));
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(secondYear.getYear())).isNotNull();
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(secondYear.getYear()).size()).isEqualTo(2);
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(secondYear.getYear()).stream().anyMatch(integer -> integer == secondYearFirstMonthOfYear)).isTrue();
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(secondYear.getYear()).stream().anyMatch(integer -> integer == secondYearSecondMonthOfYear)).isTrue();
 
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()), is(notNullValue()));
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).size(), is(equalTo(2)));
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearFirstMonthOfYear), is(true));
-        assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearSecondMonthOfYear), is(true));
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear())).isNotNull();
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).size()).isEqualTo(2);
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearFirstMonthOfYear)).isTrue();
+        assertThat(existingDaysPerYearsWithExpensesDefined.get(thirdYear.getYear()).stream().anyMatch(integer -> integer == thirdYearSecondMonthOfYear)).isTrue();
     }
 }

@@ -11,9 +11,7 @@ import org.junit.Test;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserServiceImplTest_updateCurrency_IT extends AbstractIntegrationTests {
 
@@ -37,28 +35,28 @@ public class UserServiceImplTest_updateCurrency_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Simply ignored
         //-----------------------------------------------------------------
-        assertThat(updatedUserDTO, is(notNullValue()));
-        assertThat(updatedUserDTO.getFirstName(), not(equalTo(userDTOToUpdate.getFirstName())));
-        assertThat(updatedUserDTO.getLastName(), not(equalTo(userDTOToUpdate.getLastName())));
-        assertThat(updatedUserDTO.isInitiated(), is(false));
-        assertThat(updatedUserDTO.getEmail(), not(equalTo(userDTOToUpdate.getEmail())));
+        assertThat(updatedUserDTO).isNotNull();
+        assertThat(updatedUserDTO.getFirstName()).isNotEqualTo(userDTOToUpdate.getFirstName());
+        assertThat(updatedUserDTO.getLastName()).isNotEqualTo(userDTOToUpdate.getLastName());
+        assertThat(updatedUserDTO.isInitiated()).isFalse();
+        assertThat(updatedUserDTO.getEmail()).isNotEqualTo(userDTOToUpdate.getEmail());
 
         //-----------------------------------------------------------------
         // Given ID is ignored
         //-----------------------------------------------------------------
-        assertThat(updatedUserDTO.getId(), not(equalTo(0)));
-        assertThat(updatedUserDTO.getId(), equalTo(userDTO.getId()));
+        assertThat(updatedUserDTO.getId()).isNotEqualTo(0);
+        assertThat(updatedUserDTO.getId()).isEqualTo(userDTO.getId());
 
         //-----------------------------------------------------------------
         // Currency is updated
         //-----------------------------------------------------------------
-        assertThat(updatedUserDTO.getCurrency().getCurrencyCode(), not(equalTo(userDTO.getCurrency().getCurrencyCode())));
-        assertThat(updatedUserDTO.getCurrency().getCurrencyCode(), equalTo(currency.getCurrencyCode()));
+        assertThat(updatedUserDTO.getCurrency().getCurrencyCode()).isNotEqualTo(userDTO.getCurrency().getCurrencyCode());
+        assertThat(updatedUserDTO.getCurrency().getCurrencyCode()).isEqualTo(currency.getCurrencyCode());
 
         //-----------------------------------------------------------------
         // New password if provided is ignored
         //-----------------------------------------------------------------
-        assertThat(updatedUserDTO.getPassword(), is(nullValue()));
+        assertThat(updatedUserDTO.getPassword()).isNull();
     }
 
     @Test

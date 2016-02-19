@@ -17,17 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
-
-    @Autowired
-    private ExpenseRepository expenseRepository;
-
-    @Autowired
-    private SlackCommandService slackCommandService;
 
     public static final String USAGE = "Hey, your available commands for Revaluate:\n" +
             "- Add an expense:\n" +
@@ -43,7 +35,6 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
             "/revaluate help" +
             "\n" +
             ":information_source: Tip: Press TAB to get the last used command.";
-
     public static final String USAGE_BAD_ATTEMPT = "Please check the command, something seems odd.\n" +
             "\n" +
             "Anyways, your available commands for Revaluate:\n" +
@@ -60,13 +51,31 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
             "/revaluate help" +
             "\n" +
             ":information_source: Tip: Press TAB to get the last used command.";
-
     public static final String USAGE_ADD = "I couldn't figure out what you meant. Please enter expenses in the form: \n" +
             "/revaluate add 43 FOOD going out\n" +
             "\n" +
             "Or /revaluate help" +
             "\n" +
             ":information_source: Tip: Press TAB to get the last used command.";
+    @Autowired
+    private ExpenseRepository expenseRepository;
+    @Autowired
+    private SlackCommandService slackCommandService;
+
+    public static SlackDTO buildDummyRequestWithText(String text) {
+        return new SlackDTOBuilder()
+                .withToken("token")
+                .withTeamId("teamId")
+                .withTeamDomain("teamDomain")
+                .withChannelId("channelId")
+                .withChannelName("channelName")
+                .withUserId("userId")
+                .withUserName("userName")
+                .withCommand("command")
+                .withText(text)
+                .build();
+
+    }
 
     @Test
     public void add_expenseHappyFlow_ok() throws Exception {
@@ -74,17 +83,17 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         SlackDTO request = buildDummyRequestWithText("add 123.22 name xx");
         String answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(":white_check_mark: Added: 123,22 € - name: xx")));
+        assertThat(answer.trim()).isEqualTo(":white_check_mark: Added: 123,22 € - name: xx");
 
         request = buildDummyRequestWithText("add 123.22 name");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(":white_check_mark: Added: 123,22 € - name")));
+        assertThat(answer.trim()).isEqualTo(":white_check_mark: Added: 123,22 € - name");
 
         //-----------------------------------------------------------------
         // Assert created expense is ok
         //-----------------------------------------------------------------
         List<Expense> allByUserId = expenseRepository.findAllByUserId(createdUserDTO.getId());
-        assertThat(allByUserId.size(), is(equalTo(2)));
+        assertThat(allByUserId.size()).isEqualTo(2);
     }
 
     @Test
@@ -108,26 +117,26 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(2)).build();
         createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
-        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+        assertThat(createdExpenseDTO.getValue()).isEqualTo(expenseDTO.getValue());
 
         expenseDTO = new ExpenseDTOBuilder().withValue(9999.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
         createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
-        assertThat(createdExpenseDTO.getValue(), equalTo(expenseDTO.getValue()));
+        assertThat(createdExpenseDTO.getValue()).isEqualTo(expenseDTO.getValue());
 
         SlackDTO request = buildDummyRequestWithText("add 123.22 name xx");
         String answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(":white_check_mark: Added: 123,22 € - name: xx")));
+        assertThat(answer.trim()).isEqualTo(":white_check_mark: Added: 123,22 € - name: xx");
 
         request = buildDummyRequestWithText("list");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(containsString("123,22 € - name")));
+        assertThat(answer.trim()).containsSequence("123,22 € - name");
     }
 
     @Test
     public void add_priceIsParsed_handled1() throws Exception {
         ExpenseDTO withPriceAndGet = createWithPriceAndGet("123.22");
 
-        assertThat(withPriceAndGet.getValue(), is(equalTo(123.22)));
+        assertThat(withPriceAndGet.getValue()).isEqualTo(123.22);
     }
 
     @Test
@@ -136,45 +145,45 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         SlackDTO request = buildDummyRequestWithText("add");
         String answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+        assertThat(answer.trim()).isEqualTo(USAGE_BAD_ATTEMPT);
 
         request = buildDummyRequestWithText("add 42.22");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE_ADD)));
+        assertThat(answer.trim()).isEqualTo(USAGE_ADD);
 
         request = buildDummyRequestWithText("add 42,22.2");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE_ADD)));
+        assertThat(answer.trim()).isEqualTo(USAGE_ADD);
 
         request = buildDummyRequestWithText("add   ");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+        assertThat(answer.trim()).isEqualTo(USAGE_BAD_ATTEMPT);
 
         request = buildDummyRequestWithText("notKnown   ");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+        assertThat(answer.trim()).isEqualTo(USAGE_BAD_ATTEMPT);
 
         request = buildDummyRequestWithText("");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+        assertThat(answer.trim()).isEqualTo(USAGE_BAD_ATTEMPT);
 
         request = buildDummyRequestWithText("help");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE)));
+        assertThat(answer.trim()).isEqualTo(USAGE);
 
         request = buildDummyRequestWithText("help   ");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE)));
+        assertThat(answer.trim()).isEqualTo(USAGE);
 
         request = buildDummyRequestWithText("help   ");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE)));
+        assertThat(answer.trim()).isEqualTo(USAGE);
 
         exception.expect(SlackException.class);
         exception.expectMessage("Description length is too big. It can be maximum 100 characters.");
         request = buildDummyRequestWithText("add 42.22 name AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBB");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE)));
+        assertThat(answer.trim()).isEqualTo(USAGE);
     }
 
     @Test
@@ -194,12 +203,12 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         SlackDTO request = buildDummyRequestWithText("categories");
         String answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo("You dispose of the following categories: \n" +
-                " - name")));
+        assertThat(answer.trim()).isEqualTo("You dispose of the following categories: \n" +
+                " - name");
 
         request = buildDummyRequestWithText("categories asdadasdas");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+        assertThat(answer.trim()).isEqualTo(USAGE_BAD_ATTEMPT);
     }
 
     @Test
@@ -215,14 +224,14 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         request = buildDummyRequestWithText("list");
         String answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(containsString("123,22 € - name")));
+        assertThat(answer.trim()).containsSequence("123,22 € - name");
 
         request = buildDummyRequestWithText("add 150,00 home");
         slackCommandService.answer(request, createdUserDTO.getId());
 
         request = buildDummyRequestWithText("list -cat home");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(containsString("150,00 € - home")));
+        assertThat(answer.trim()).containsSequence("150,00 € - home");
 
         //-----------------------------------------------------------------
         // Create three expenses, but retrieve last two
@@ -233,19 +242,19 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         slackCommandService.answer(request, createdUserDTO.getId());
         request = buildDummyRequestWithText("list -cat home -limit 2");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(containsString("  - 350,00 € - home")));
-        assertThat(answer.trim(), is(containsString("  - 250,00 € - home")));
-        assertThat(answer.trim(), is(not(containsString("150,00 € - home"))));
+        assertThat(answer.trim()).containsSequence("  - 350,00 € - home");
+        assertThat(answer.trim()).containsSequence("  - 250,00 € - home");
+        assertThat(answer.trim()).doesNotContain("150,00 € - home");
 
         request = buildDummyRequestWithText("list abc");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+        assertThat(answer.trim()).isEqualTo(USAGE_BAD_ATTEMPT);
 
         request = buildDummyRequestWithText("list -cat sfd");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo("You dispose of the following categories: \n" +
+        assertThat(answer.trim()).isEqualTo("You dispose of the following categories: \n" +
                 " - home\n" +
-                " - name")));
+                " - name");
     }
 
     @Test
@@ -254,11 +263,11 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         SlackDTO request = buildDummyRequestWithText("help");
         String answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE)));
+        assertThat(answer.trim()).isEqualTo(USAGE);
 
         request = buildDummyRequestWithText("help asdadasdas");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim(), is(equalTo(USAGE_BAD_ATTEMPT)));
+        assertThat(answer.trim()).isEqualTo(USAGE_BAD_ATTEMPT);
     }
 
     @Test
@@ -282,21 +291,6 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         return createdUserDTO;
     }
 
-    public static SlackDTO buildDummyRequestWithText(String text) {
-        return new SlackDTOBuilder()
-                .withToken("token")
-                .withTeamId("teamId")
-                .withTeamDomain("teamDomain")
-                .withChannelId("channelId")
-                .withChannelName("channelName")
-                .withUserId("userId")
-                .withUserName("userName")
-                .withCommand("command")
-                .withText(text)
-                .build();
-
-    }
-
     public ExpenseDTO createWithPriceAndGet(String price) throws Exception {
         UserDTO createdUserDTO = createUserWithCategory("name");
         SlackDTO request;
@@ -305,7 +299,7 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         request = buildDummyRequestWithText("add " + price + " name xx");
         slackCommandService.answer(request, createdUserDTO.getId());
         allByUserId = expenseRepository.findAllByUserId(createdUserDTO.getId());
-        assertThat(allByUserId.size(), is(equalTo(1)));
+        assertThat(allByUserId.size()).isEqualTo(1);
 
         return dozerBeanMapper.map(allByUserId.get(0), ExpenseDTO.class);
     }

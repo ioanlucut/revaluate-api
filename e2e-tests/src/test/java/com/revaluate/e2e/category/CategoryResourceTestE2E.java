@@ -16,9 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
 
@@ -34,7 +32,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         WebTarget target = target("/categories/isUniqueCategory");
         Response response = target.request().header("Authorization", "Bearer " + tokenForUserWithId).get();
 
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
     }
 
     @Test
@@ -44,7 +42,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/categories/isUniqueCategory");
         Response response = target.queryParam("name", "1").request().header("Authorization", "Bearer " + tokenForUserWithId).get();
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
     }
 
     @Test
@@ -54,7 +52,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/categories/isUniqueCategory");
         Response response = target.queryParam("name", "abcd").request().header("Authorization", "Bearer " + tokenForUserWithId).get();
-        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.OK.getStatusCode()));
     }
 
     @Test
@@ -68,20 +66,20 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(5)).withColor(FIRST_VALID_COLOR).build();
         WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.OK.getStatusCode()));
 
         CategoryDTO createdCategoryDTO = response.readEntity(CategoryDTO.class);
-        assertThat(createdCategoryDTO.getId(), notNullValue());
+        assertThat(createdCategoryDTO.getId()).isNotNull();
 
         //-----------------------------------------------------------------
         // Check if the same name is ok
         //-----------------------------------------------------------------
         target = target("/categories/isUniqueCategory");
         response = target.queryParam("name", categoryDTO.getName()).request().header("Authorization", "Bearer " + tokenForUserWithId).get();
-        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.BAD_REQUEST.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        assertThat(answer, is(notNullValue()));
+        assertThat(answer).isNotNull();
 
         // remove user
         removeUser(createdUserDTO.getId());
@@ -102,9 +100,9 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(1)).withColor(FIRST_VALID_COLOR).build();
         WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
 //        List<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-//        assertThat(violationsMessageTemplates.size(), is(1));
+//        assertThat(violationsMessageTemplates.size()).isEqualTo((1));
     }
 
     @Test
@@ -118,9 +116,9 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withName(RandomStringUtils.randomAlphanumeric(4)).withColor(INVALID_COLOR).build();
         WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
 //        List<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-//        assertThat(violationsMessageTemplates.size(), is(1));
+//        assertThat(violationsMessageTemplates.size()).isEqualTo((1));
     }
 
     @Test
@@ -134,9 +132,9 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         CategoryDTO categoryDTO = new CategoryDTOBuilder().build();
         WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
 //        List<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-//        assertThat(violationsMessageTemplates.size(), is(1));
+//        assertThat(violationsMessageTemplates.size()).isEqualTo((1));
     }
 
     @Test
@@ -150,7 +148,7 @@ public class CategoryResourceTestE2E extends AbstractResourceTestEndToEnd {
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(SECOND_VALID_COLOR).withName("name").build();
         WebTarget target = target("/categories");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(categoryDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.OK.getStatusCode()));
 
         removeUser(createdUserDTO.getId());
     }

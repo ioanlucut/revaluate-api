@@ -16,9 +16,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CategoryServiceImplTest_remove_IT extends AbstractIntegrationTests {
 
@@ -35,18 +33,18 @@ public class CategoryServiceImplTest_remove_IT extends AbstractIntegrationTests 
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name1").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
 
-        assertThat(createdCategoryDTO, is(notNullValue()));
-        assertThat(createdCategoryDTO.getId(), not(equalTo(0)));
-        assertThat(categoryDTO.getColor().getColor(), equalTo(createdCategoryDTO.getColor().getColor()));
-        assertThat(categoryDTO.getName(), equalTo(createdCategoryDTO.getName()));
+        assertThat(createdCategoryDTO).isNotNull();
+        assertThat(createdCategoryDTO.getId()).isNotEqualTo(0);
+        assertThat(categoryDTO.getColor().getColor()).isEqualTo(createdCategoryDTO.getColor().getColor());
+        assertThat(categoryDTO.getName()).isEqualTo(createdCategoryDTO.getName());
 
         //-----------------------------------------------------------------
         // Check user with category added
         //-----------------------------------------------------------------
         User user = userRepository.findOne(userDTO.getId());
 
-        assertThat(user, is(notNullValue()));
-        assertThat(categoryService.findAllCategoriesFor(user.getId()).size(), is(equalTo(1)));
+        assertThat(user).isNotNull();
+        assertThat(categoryService.findAllCategoriesFor(user.getId()).size()).isEqualTo(1);
 
         //-----------------------------------------------------------------
         // Remove the category
@@ -58,8 +56,8 @@ public class CategoryServiceImplTest_remove_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         user = userRepository.findOne(userDTO.getId());
 
-        assertThat(user, is(notNullValue()));
-        assertThat(categoryService.findAllCategoriesFor(user.getId()).size(), is(equalTo(0)));
+        assertThat(user).isNotNull();
+        assertThat(categoryService.findAllCategoriesFor(user.getId()).size()).isEqualTo(0);
     }
 
     @Test(expected = CategoryException.class)
@@ -105,8 +103,8 @@ public class CategoryServiceImplTest_remove_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         User user = userRepository.findOne(userDTO.getId());
 
-        assertThat(user, is(notNullValue()));
-        assertThat(categoryService.findAllCategoriesFor(user.getId()).size(), is(equalTo(2)));
+        assertThat(user).isNotNull();
+        assertThat(categoryService.findAllCategoriesFor(user.getId()).size()).isEqualTo(2);
 
         //-----------------------------------------------------------------
         // Remove the category
@@ -117,7 +115,7 @@ public class CategoryServiceImplTest_remove_IT extends AbstractIntegrationTests 
         // Check user with category removed
         //-----------------------------------------------------------------
         List<User> all = userRepository.findAll();
-        assertThat(all.size(), is(equalTo(0)));
+        assertThat(all.size()).isEqualTo(0);
     }
 
     @Test
@@ -132,7 +130,7 @@ public class CategoryServiceImplTest_remove_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
-        assertThat(categoryService.findAllCategoriesFor(userDTO.getId()).size(), is(1));
+        assertThat(categoryService.findAllCategoriesFor(userDTO.getId())).hasSize(1);
 
         //-----------------------------------------------------------------
         // Create expense
@@ -140,11 +138,11 @@ public class CategoryServiceImplTest_remove_IT extends AbstractIntegrationTests 
         ExpenseDTO expenseDTO = new ExpenseDTOBuilder().withValue(2.55).withDescription("my first expense").withCategory(createdCategoryDTO).withSpentDate(LocalDateTime.now().minusYears(3)).build();
         ExpenseDTO createdExpenseDTO = expenseService.create(expenseDTO, createdUserDTO.getId());
         expenseDTO.setId(createdExpenseDTO.getId());
-        assertThat(expenseService.findAllExpensesWithCategoryIdFor(createdCategoryDTO.getId(), userDTO.getId()).size(), is(1));
+        assertThat(expenseService.findAllExpensesWithCategoryIdFor(createdCategoryDTO.getId(), userDTO.getId())).hasSize(1);
 
         categoryService.remove(createdCategoryDTO.getId(), userDTO.getId());
-        assertThat(expenseService.findAllExpensesWithCategoryIdFor(createdCategoryDTO.getId(), userDTO.getId()).size(), is(0));
-        assertThat(categoryService.findAllCategoriesFor(userDTO.getId()).size(), is(0));
+        assertThat(expenseService.findAllExpensesWithCategoryIdFor(createdCategoryDTO.getId(), userDTO.getId())).hasSize(0);
+        assertThat(categoryService.findAllCategoriesFor(userDTO.getId())).hasSize(0);
     }
 
     @Test
@@ -159,7 +157,7 @@ public class CategoryServiceImplTest_remove_IT extends AbstractIntegrationTests 
         //-----------------------------------------------------------------
         CategoryDTO categoryDTO = new CategoryDTOBuilder().withColor(FIRST_VALID_COLOR).withName("name").build();
         CategoryDTO createdCategoryDTO = categoryService.create(categoryDTO, createdUserDTO.getId());
-        assertThat(categoryService.findAllCategoriesFor(userDTO.getId()).size(), is(1));
+        assertThat(categoryService.findAllCategoriesFor(userDTO.getId())).hasSize(1);
 
         //-----------------------------------------------------------------
         // Create goal
@@ -173,9 +171,9 @@ public class CategoryServiceImplTest_remove_IT extends AbstractIntegrationTests 
                 .build();
 
         goalService.create(goalDTO, createdUserDTO.getId());
-        assertThat(goalService.findAllGoalsFor(createdUserDTO.getId()).size(), is(1));
+        assertThat(goalService.findAllGoalsFor(createdUserDTO.getId())).hasSize(1);
 
         categoryService.remove(createdCategoryDTO.getId(), userDTO.getId());
-        assertThat(goalService.findAllGoalsFor(createdUserDTO.getId()).size(), is(0));
+        assertThat(goalService.findAllGoalsFor(createdUserDTO.getId())).hasSize(0);
     }
 }

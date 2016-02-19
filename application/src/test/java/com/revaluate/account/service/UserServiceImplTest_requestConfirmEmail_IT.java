@@ -11,8 +11,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserServiceImplTest_requestConfirmEmail_IT extends AbstractIntegrationTests {
 
@@ -30,7 +29,7 @@ public class UserServiceImplTest_requestConfirmEmail_IT extends AbstractIntegrat
         //-----------------------------------------------------------------
         User foundUser = userRepository.findOne(createdUserDTO.getId());
         List<EmailToken> emails = emailTokenRepository.findAllByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, foundUser.getId());
-        assertThat(emails.size(), is(2));
+        assertThat(emails).hasSize(2);
     }
 
     @Test
@@ -59,7 +58,7 @@ public class UserServiceImplTest_requestConfirmEmail_IT extends AbstractIntegrat
         //-----------------------------------------------------------------
         User foundUser = userRepository.findOne(createdUserDTO.getId());
         List<EmailToken> emails = emailTokenRepository.findAllByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, foundUser.getId());
-        assertThat(emails.size(), is(2));
+        assertThat(emails).hasSize(2);
 
         // Second time
         userService.requestConfirmationEmail(createdUserDTO.getEmail());
@@ -68,7 +67,7 @@ public class UserServiceImplTest_requestConfirmEmail_IT extends AbstractIntegrat
         // Assert that reset email token is added - SECOND ONE
         //-----------------------------------------------------------------
         emails = emailTokenRepository.findAllByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, foundUser.getId());
-        assertThat(emails.size(), is(3));
+        assertThat(emails).hasSize(3);
     }
 
     @Test(expected = UserException.class)
