@@ -17,10 +17,7 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,16 +35,16 @@ public class ImporterServiceImpl_Mint_TestIT {
     public void importFromMint() throws Exception {
         List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/mint.csv"), new MintExpenseProfileDTO());
 
-        assertThat(expenseDTOs, is(notNullValue()));
-        assertThat(expenseDTOs.size(), is(equalTo(2)));
+        assertThat(expenseDTOs).isNotNull();
+        assertThat(expenseDTOs.size()).isEqualTo(2);
     }
 
     @Test
     public void importFromMintWithCategoriesInADifferentOrder() throws Exception {
         List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(getReader("/mint_cat_different_order.csv"), new MintExpenseProfileDTO());
 
-        assertThat(expenseDTOs, is(notNullValue()));
-        assertThat(expenseDTOs.size(), is(equalTo(2)));
+        assertThat(expenseDTOs).isNotNull();
+        assertThat(expenseDTOs.size()).isEqualTo(2);
     }
 
     @Test
@@ -65,17 +62,17 @@ public class ImporterServiceImpl_Mint_TestIT {
         List<ExpenseDTO> expenseDTOs = importerParserService.parseFrom(reader, new MintExpenseProfileDTO());
 
 
-        assertThat(expenseDTOs, is(notNullValue()));
-        assertThat(expenseDTOs.size(), is(equalTo(8)));
+        assertThat(expenseDTOs).isNotNull();
+        assertThat(expenseDTOs.size()).isEqualTo(8);
 
-        assertThat(expenseDTOs.get(0).getValue(), is(equalTo(36.98)));
-        assertThat(expenseDTOs.get(1).getValue(), is(equalTo(1111.98)));
-        assertThat(expenseDTOs.get(2).getValue(), is(equalTo(10000.98)));
-        assertThat(expenseDTOs.get(3).getValue(), is(equalTo(23.4)));
-        assertThat(expenseDTOs.get(4).getValue(), is(equalTo(23.00)));
-        assertThat(expenseDTOs.get(5).getValue(), is(equalTo(23.23)));
-        assertThat(expenseDTOs.get(6).getValue(), is(equalTo(23.23)));
-        assertThat(expenseDTOs.get(7).getValue(), is(equalTo(123131231.00)));
+        assertThat(expenseDTOs.get(0).getValue()).isEqualTo(36.98);
+        assertThat(expenseDTOs.get(1).getValue()).isEqualTo(1111.98);
+        assertThat(expenseDTOs.get(2).getValue()).isEqualTo(10000.98);
+        assertThat(expenseDTOs.get(3).getValue()).isEqualTo(23.4);
+        assertThat(expenseDTOs.get(4).getValue()).isEqualTo(23.00);
+        assertThat(expenseDTOs.get(5).getValue()).isEqualTo(23.23);
+        assertThat(expenseDTOs.get(6).getValue()).isEqualTo(23.23);
+        assertThat(expenseDTOs.get(7).getValue()).isEqualTo(123131231.00);
     }
 
     public Reader getReader(String relativePath) throws UnsupportedEncodingException {

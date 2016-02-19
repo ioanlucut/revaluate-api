@@ -1,13 +1,13 @@
 package com.revaluate.e2e.account;
 
 import com.nimbusds.jose.JOSEException;
-import com.revaluate.resource.utils.Answer;
-import com.revaluate.resource.utils.ExtraStatus;
 import com.revaluate.domain.account.UpdatePasswordDTO;
 import com.revaluate.domain.account.UpdatePasswordDTOBuilder;
 import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserDTOBuilder;
 import com.revaluate.e2e.AbstractResourceTestEndToEnd;
+import com.revaluate.resource.utils.Answer;
+import com.revaluate.resource.utils.ExtraStatus;
 import org.junit.Test;
 
 import javax.ws.rs.client.Entity;
@@ -16,8 +16,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.text.ParseException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
@@ -29,21 +30,21 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     public void isUniqueEmail_emptyEmail_badResponseReceived() {
         WebTarget target = target("/account/isUniqueEmail");
         Response response = target.request().get();
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
     }
 
     @Test
     public void isUniqueEmail_invalidEmail_badResponseReceived() {
         WebTarget target = target("/account/isUniqueEmail");
         Response response = target.queryParam("email", "invalidEmail").request().get();
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
     }
 
     @Test
     public void isUniqueEmail_validEmail_okReceived() {
         WebTarget target = target("/account/isUniqueEmail");
         Response response = target.queryParam("email", "abcd@efgh.acsd").request().get();
-        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.OK.getStatusCode()));
     }
 
     @Test
@@ -53,10 +54,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
         // check if is unique email
         WebTarget target = target("/account/isUniqueEmail");
         Response response = target.queryParam("email", createdUserDTO.getEmail()).request().get();
-        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.BAD_REQUEST.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        assertThat(answer, is(notNullValue()));
+        assertThat(answer).isNotNull();
 
         // remove user
         removeUser(createdUserDTO.getId());
@@ -72,10 +73,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
 
 //        List<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-//        assertThat(violationsMessageTemplates.size(), is(2));
+//        assertThat(violationsMessageTemplates.size()).isEqualTo((2));
     }
 
     @Test
@@ -84,10 +85,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
 
 //        List<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-//        assertThat(violationsMessageTemplates.size(), is(1));
+//        assertThat(violationsMessageTemplates.size()).isEqualTo((1));
     }
 
     @Test
@@ -96,10 +97,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
 
 //        List<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-//        assertThat(violationsMessageTemplates.size(), is(1));
+//        assertThat(violationsMessageTemplates.size()).isEqualTo((1));
     }
 
     @Test
@@ -108,10 +109,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         WebTarget target = target("/account/create");
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(userDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
 
 //        List<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-//        assertThat(violationsMessageTemplates.size(), is(1));
+//        assertThat(violationsMessageTemplates.size()).isEqualTo((1));
     }
 
     @Test
@@ -129,7 +130,7 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
     @Test
     public void remove_nonAuthenticatedUser_unauthorizedResponseReceived() {
         Response response = target("/account/remove").request().delete();
-        assertThat(Response.Status.UNAUTHORIZED.getStatusCode(), is(equalTo(response.getStatus())));
+        assertThat(Response.Status.UNAUTHORIZED.getStatusCode()).isEqualTo(response.getStatus());
     }
 
     //-----------------------------------------------------------------
@@ -147,10 +148,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
 
         // Real test - check the update password
         Response response = target("/account/updatePassword").request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", "Bearer " + tokenForUserWithId).post(Entity.entity(new UpdatePasswordDTOBuilder().withNewPassword("x").build(), MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((ExtraStatus.UNPROCESSABLE_ENTITY.getStatusCode()));
 
 //        List<String> violationsMessageTemplates = getValidationMessageTemplates(response);
-//        assertThat(violationsMessageTemplates.size(), is(2));
+//        assertThat(violationsMessageTemplates.size()).isEqualTo((2));
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
@@ -173,10 +174,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + tokenForUserWithId)
                 .post(Entity.entity(updatePasswordDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.BAD_REQUEST.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        assertThat(answer, is(notNullValue()));
+        assertThat(answer).isNotNull();
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
@@ -199,10 +200,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + tokenForUserWithId)
                 .post(Entity.entity(updatePasswordDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.BAD_REQUEST.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        assertThat(answer, is(notNullValue()));
+        assertThat(answer).isNotNull();
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
@@ -225,10 +226,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + tokenForUserWithId)
                 .post(Entity.entity(updatePasswordDTO, MediaType.APPLICATION_JSON_TYPE));
-        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.OK.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        assertThat(answer, is(notNullValue()));
+        assertThat(answer).isNotNull();
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
@@ -251,10 +252,10 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
         Response response = target("/account/requestResetPassword/" + createdUserDTO.getEmail())
                 .request().post(Entity.entity("", MediaType.APPLICATION_JSON_TYPE));
 
-        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.OK.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        assertThat(answer, is(notNullValue()));
+        assertThat(answer).isNotNull();
         //-----------------------------------------------------------------
         //-----------------------------------------------------------------
 
@@ -268,9 +269,9 @@ public class UserResourceTestE2E extends AbstractResourceTestEndToEnd {
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .post(Entity.entity("", MediaType.APPLICATION_JSON_TYPE));
 
-        assertThat(response.getStatus(), is(Response.Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus()).isEqualTo((Response.Status.BAD_REQUEST.getStatusCode()));
 
         Answer answer = response.readEntity(Answer.class);
-        assertThat(answer, is(notNullValue()));
+        assertThat(answer).isNotNull();
     }
 }

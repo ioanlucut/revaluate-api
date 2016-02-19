@@ -7,14 +7,12 @@ import com.revaluate.domain.account.UserDTO;
 import com.revaluate.domain.account.UserType;
 import com.revaluate.domain.email.EmailType;
 import com.revaluate.email.persistence.EmailToken;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegrationTests {
 
@@ -33,7 +31,7 @@ public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegra
         //-----------------------------------------------------------------
         User foundUser = userRepository.findOne(createdUserDTO.getId());
         List<EmailToken> emails = emailTokenRepository.findAllByEmailTypeAndUserId(EmailType.RESET_PASSWORD, foundUser.getId());
-        assertThat(emails.size(), is(1));
+        assertThat(emails).hasSize(1);
     }
 
     @Test
@@ -63,7 +61,7 @@ public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegra
         //-----------------------------------------------------------------
         User foundUser = userRepository.findOne(createdUserDTO.getId());
         Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, foundUser.getId());
-        assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
+        assertThat(oneByEmailTypeAndUserId.isPresent()).isTrue();
         EmailToken firstEmailResetToken = oneByEmailTypeAndUserId.get();
 
         // Second time
@@ -74,9 +72,9 @@ public class UserServiceImplTest_requestResetPassword_IT extends AbstractIntegra
         //-----------------------------------------------------------------
         foundUser = userRepository.findOne(createdUserDTO.getId());
         oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.RESET_PASSWORD, foundUser.getId());
-        assertThat(oneByEmailTypeAndUserId.isPresent(), is(true));
+        assertThat(oneByEmailTypeAndUserId.isPresent()).isTrue();
         EmailToken aDifferentResetToken = oneByEmailTypeAndUserId.get();
-        assertThat(aDifferentResetToken.getToken(), Matchers.not(Matchers.equalTo(firstEmailResetToken.getToken())));
+        assertThat(aDifferentResetToken.getToken()).isNotEqualTo(firstEmailResetToken.getToken());
     }
 
     @Test(expected = UserException.class)

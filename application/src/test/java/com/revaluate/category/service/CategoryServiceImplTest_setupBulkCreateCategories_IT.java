@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CategoryServiceImplTest_setupBulkCreateCategories_IT extends AbstractIntegrationTests {
 
@@ -37,14 +35,14 @@ public class CategoryServiceImplTest_setupBulkCreateCategories_IT extends Abstra
         // Create first time
         //-----------------------------------------------------------------
         List<CategoryDTO> firstTimeCreatedCategories = categoryService.bulkCreate(categoryDTOs, createdUserDTO.getId());
-        assertThat(firstTimeCreatedCategories, is(notNullValue()));
-        assertThat(firstTimeCreatedCategories.size(), is(categoryDTOs.size()));
+        assertThat(firstTimeCreatedCategories).isNotNull();
+        assertThat(firstTimeCreatedCategories).hasSameSizeAs(categoryDTOs);
 
         List<CategoryDTO> secondTimeCreatedCategories = categoryService.setupBulkCreateCategories(categoryDTOs, createdUserDTO.getId());
-        assertThat(secondTimeCreatedCategories, is(notNullValue()));
-        assertThat(secondTimeCreatedCategories.size(), is(categoryDTOs.size()));
+        assertThat(secondTimeCreatedCategories).isNotNull();
+        assertThat(secondTimeCreatedCategories).hasSameSizeAs(categoryDTOs);
 
-        assertThat(firstTimeCreatedCategories.size(), is(not(equalTo(secondTimeCreatedCategories))));
+        assertThat(firstTimeCreatedCategories.size()).isEqualTo(secondTimeCreatedCategories.size());
     }
 
 }

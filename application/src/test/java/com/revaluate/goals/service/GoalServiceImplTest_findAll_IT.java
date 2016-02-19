@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GoalServiceImplTest_findAll_IT extends AbstractIntegrationTests {
 
@@ -61,8 +58,8 @@ public class GoalServiceImplTest_findAll_IT extends AbstractIntegrationTests {
         // Find created expenses + asserts
         //-----------------------------------------------------------------
         List<GoalDTO> allGoalsFor = goalService.findAllGoalsFor(createdUserDTO.getId());
-        assertThat(allGoalsFor, is(notNullValue()));
-        assertThat(allGoalsFor.size(), is(equalTo(2)));
+        assertThat(allGoalsFor).isNotNull();
+        assertThat(allGoalsFor.size()).isEqualTo(2);
     }
 
     @Test
@@ -76,8 +73,8 @@ public class GoalServiceImplTest_findAll_IT extends AbstractIntegrationTests {
         // Find created expenses + asserts
         //-----------------------------------------------------------------
         List<GoalDTO> allGoalsFor = goalService.findAllGoalsFor(createdUserDTO.getId());
-        assertThat(allGoalsFor, is(notNullValue()));
-        assertThat(allGoalsFor.size(), is(equalTo(0)));
+        assertThat(allGoalsFor).isNotNull();
+        assertThat(allGoalsFor.size()).isEqualTo(0);
     }
 
     //-----------------------------------------------------------------
@@ -122,8 +119,8 @@ public class GoalServiceImplTest_findAll_IT extends AbstractIntegrationTests {
         // Find created expenses + asserts
         //-----------------------------------------------------------------
         List<GoalDTO> allGoalsFor = goalService.findAllGoalsAfterBefore(createdUserDTO.getId(), startDate.minusMinutes(1), endDate.plusMinutes(1));
-        assertThat(allGoalsFor, is(notNullValue()));
-        assertThat(allGoalsFor.size(), is(equalTo(7)));
+        assertThat(allGoalsFor).isNotNull();
+        assertThat(allGoalsFor.size()).isEqualTo(7);
     }
 
     //-----------------------------------------------------------------
@@ -168,8 +165,8 @@ public class GoalServiceImplTest_findAll_IT extends AbstractIntegrationTests {
         // Find created expenses + asserts after a date
         //-----------------------------------------------------------------
         List<GoalDTO> allGoalsFor = goalService.findAllGoalsAfterBefore(createdUserDTO.getId(), startDate.minusMinutes(1), endDate.plusMinutes(1));
-        assertThat(allGoalsFor, is(notNullValue()));
-        assertThat(allGoalsFor.size(), is(equalTo(7)));
+        assertThat(allGoalsFor).isNotNull();
+        assertThat(allGoalsFor.size()).isEqualTo(7);
     }
 
     //-----------------------------------------------------------------
@@ -223,7 +220,7 @@ public class GoalServiceImplTest_findAll_IT extends AbstractIntegrationTests {
         // Find created expenses + asserts after a date
         //-----------------------------------------------------------------
         List<GoalDTO> allGoalsFor = goalService.findAllGoalsAfterBefore(createdUserDTO.getId(), startDate.minusMinutes(1), endDate.plusMinutes(1));
-        assertThat(allGoalsFor, is(notNullValue()));
-        assertThat(allGoalsFor.size(), is(equalTo(2)));
+        assertThat(allGoalsFor).isNotNull();
+        assertThat(allGoalsFor.size()).isEqualTo(2);
     }
 }

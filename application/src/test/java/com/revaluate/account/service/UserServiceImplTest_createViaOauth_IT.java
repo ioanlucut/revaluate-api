@@ -15,9 +15,7 @@ import org.junit.Test;
 import javax.validation.ConstraintViolationException;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserServiceImplTest_createViaOauth_IT extends AbstractIntegrationTests {
 
@@ -28,24 +26,24 @@ public class UserServiceImplTest_createViaOauth_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
 
-        assertThat(createdUserDTO, is(notNullValue()));
-        assertThat(createdUserDTO.getEmail(), equalTo(createdUserDTO.getEmail()));
-        assertThat(createdUserDTO.getFirstName(), equalTo(createdUserDTO.getFirstName()));
-        assertThat(createdUserDTO.getLastName(), equalTo(createdUserDTO.getLastName()));
-        assertThat(createdUserDTO.getPassword(), is(nullValue()));
-        assertThat(createdUserDTO.getId(), not(equalTo(0)));
-        assertThat(createdUserDTO.isInitiated(), is(false));
-        assertThat(createdUserDTO.isEmailConfirmed(), is(true));
-        assertThat(createdUserDTO.getUserType(), is(equalTo(UserType.OAUTH_FACEBOOK)));
-        assertThat(createdUserDTO.isConnectedViaOauth(), is(true));
+        assertThat(createdUserDTO).isNotNull();
+        assertThat(createdUserDTO.getEmail()).isEqualTo(createdUserDTO.getEmail());
+        assertThat(createdUserDTO.getFirstName()).isEqualTo(createdUserDTO.getFirstName());
+        assertThat(createdUserDTO.getLastName()).isEqualTo(createdUserDTO.getLastName());
+        assertThat(createdUserDTO.getPassword()).isNull();
+        assertThat(createdUserDTO.getId()).isNotEqualTo(0);
+        assertThat(createdUserDTO.isInitiated()).isFalse();
+        assertThat(createdUserDTO.isEmailConfirmed()).isTrue();
+        assertThat(createdUserDTO.getUserType()).isEqualTo(UserType.OAUTH_FACEBOOK);
+        assertThat(createdUserDTO.isConnectedViaOauth()).isTrue();
 
         //-----------------------------------------------------------------
         // Assert that email token is NOT added
         //-----------------------------------------------------------------
         Optional<User> oneByEmail = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        assertThat(oneByEmail.isPresent(), is(true));
+        assertThat(oneByEmail.isPresent()).isTrue();
         Optional<EmailToken> oneByEmailTypeAndUserId = emailTokenRepository.findOneByEmailTypeAndUserId(EmailType.CREATED_ACCOUNT, oneByEmail.get().getId());
-        assertThat(oneByEmailTypeAndUserId.isPresent(), is(false));
+        assertThat(oneByEmailTypeAndUserId.isPresent()).isFalse();
     }
 
     @Test
@@ -58,7 +56,7 @@ public class UserServiceImplTest_createViaOauth_IT extends AbstractIntegrationTe
         //-----------------------------------------------------------------
         // Assert that trial status is set
         //-----------------------------------------------------------------
-        assertThat(createdUserDTO.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
+        assertThat(createdUserDTO.getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL);
     }
 
     @Test

@@ -22,10 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
 
@@ -81,12 +78,12 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert the parse result
         //-----------------------------------------------------------------
-        assertThat(expensesImportDTO, is(notNullValue()));
-        assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
-        assertThat(expensesImportDTO.getTotalCategoriesFound(), is(equalTo(2)));
-        assertThat(expenseCategoryMatchingProfileDTOs, is(notNullValue()));
-        assertThat(expenseCategoryMatchingProfileDTOs, is(notNullValue()));
-        assertThat(expenseCategoryMatchingProfileDTOs.size(), is(equalTo(2)));
+        assertThat(expensesImportDTO).isNotNull();
+        assertThat(expensesImportDTO.getExpenseDTOs().size()).isEqualTo(2);
+        assertThat(expensesImportDTO.getTotalCategoriesFound()).isEqualTo(2);
+        assertThat(expenseCategoryMatchingProfileDTOs).isNotNull();
+        assertThat(expenseCategoryMatchingProfileDTOs).isNotNull();
+        assertThat(expenseCategoryMatchingProfileDTOs.size()).isEqualTo(2);
     }
 
     @Test
@@ -120,12 +117,12 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert the parse result
         //-----------------------------------------------------------------
-        assertThat(expensesImportDTO, is(notNullValue()));
-        assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
-        assertThat(expensesImportDTO.getTotalCategoriesFound(), is(equalTo(1)));
-        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs(), is(notNullValue()));
-        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs(), is(notNullValue()));
-        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs().size(), is(equalTo(1)));
+        assertThat(expensesImportDTO).isNotNull();
+        assertThat(expensesImportDTO.getExpenseDTOs().size()).isEqualTo(2);
+        assertThat(expensesImportDTO.getTotalCategoriesFound()).isEqualTo(1);
+        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs()).isNotNull();
+        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs()).isNotNull();
+        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs().size()).isEqualTo(1);
 
         //-----------------------------------------------------------------
         // Expense profile - setup
@@ -143,11 +140,11 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert imported expenses
         //-----------------------------------------------------------------
-        assertThat(allExpensesFor, is(notNullValue()));
-        assertThat(allExpensesFor.size(), is(equalTo(2)));
+        assertThat(allExpensesFor).isNotNull();
+        assertThat(allExpensesFor.size()).isEqualTo(2);
 
-        assertThat(expenseDTOs, is(notNullValue()));
-        assertThat(expenseDTOs.size(), is(equalTo(2)));
+        assertThat(expenseDTOs).isNotNull();
+        assertThat(expenseDTOs.size()).isEqualTo(2);
     }
 
     @Test
@@ -181,10 +178,10 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert the parse result
         //-----------------------------------------------------------------
-        assertThat(expensesImportDTO, is(notNullValue()));
-        assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
-        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs(), is(notNullValue()));
-        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs().size(), is(equalTo(2)));
+        assertThat(expensesImportDTO).isNotNull();
+        assertThat(expensesImportDTO.getExpenseDTOs().size()).isEqualTo(2);
+        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs()).isNotNull();
+        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs().size()).isEqualTo(2);
 
         //-----------------------------------------------------------------
         // Expense profile - clear list and populate with wrong categories
@@ -242,10 +239,10 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert the parse result
         //-----------------------------------------------------------------
-        assertThat(expensesImportDTO, is(notNullValue()));
-        assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
-        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs(), is(notNullValue()));
-        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs().size(), is(equalTo(2)));
+        assertThat(expensesImportDTO).isNotNull();
+        assertThat(expensesImportDTO.getExpenseDTOs().size()).isEqualTo(2);
+        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs()).isNotNull();
+        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs().size()).isEqualTo(2);
 
         //-----------------------------------------------------------------
         // Expense profile - clear list and populate with wrong categories
@@ -293,11 +290,11 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert the parse result
         //-----------------------------------------------------------------
-        assertThat(expensesImportDTO, is(notNullValue()));
-        assertThat(expensesImportDTO.getExpenseDTOs().size(), is(equalTo(2)));
-        assertThat(expensesImportDTO.getTotalCategoriesFound(), is(equalTo(2)));
-        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs(), is(notNullValue()));
-        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs().size(), is(equalTo(2)));
+        assertThat(expensesImportDTO).isNotNull();
+        assertThat(expensesImportDTO.getExpenseDTOs().size()).isEqualTo(2);
+        assertThat(expensesImportDTO.getTotalCategoriesFound()).isEqualTo(2);
+        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs()).isNotNull();
+        assertThat(expensesImportDTO.getExpenseCategoryMatchingProfileDTOs().size()).isEqualTo(2);
 
         //-----------------------------------------------------------------
         // Expense profile - setup
@@ -318,8 +315,8 @@ public class ExpenseImportServiceImplTestIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert imported expenses
         //-----------------------------------------------------------------
-        assertThat(expenseDTOs, is(notNullValue()));
-        assertThat(expenseDTOs.size(), is(equalTo(1)));
+        assertThat(expenseDTOs).isNotNull();
+        assertThat(expenseDTOs.size()).isEqualTo(1);
     }
 
 }

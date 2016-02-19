@@ -12,8 +12,7 @@ import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GoalServiceImplTest_isUniqueCategory_IT extends AbstractIntegrationTests {
 
@@ -50,7 +49,7 @@ public class GoalServiceImplTest_isUniqueCategory_IT extends AbstractIntegration
         //-----------------------------------------------------------------
         // Is unique
         //-----------------------------------------------------------------
-        assertThat(goalService.isUniqueGoalWithCategoryBetween(createdUserDTO.getId(), categoryDTO.getId(), goalDTO.getStartDate().minusSeconds(1), goalDTO.getEndDate().plusSeconds(1)), is(true));
+        assertThat(goalService.isUniqueGoalWithCategoryBetween(createdUserDTO.getId(), categoryDTO.getId(), goalDTO.getStartDate().minusSeconds(1), goalDTO.getEndDate().plusSeconds(1))).isTrue();
 
         //-----------------------------------------------------------------
         // Create the goal
@@ -59,7 +58,7 @@ public class GoalServiceImplTest_isUniqueCategory_IT extends AbstractIntegration
 
         // Is not unique
         //-----------------------------------------------------------------
-        assertThat(goalService.isUniqueGoalWithCategoryBetween(createdUserDTO.getId(), categoryDTO.getId(), goalDTO.getStartDate().minusSeconds(1), goalDTO.getEndDate().plusSeconds(1)), is(false));
+        assertThat(goalService.isUniqueGoalWithCategoryBetween(createdUserDTO.getId(), categoryDTO.getId(), goalDTO.getStartDate().minusSeconds(1), goalDTO.getEndDate().plusSeconds(1))).isFalse();
     }
 
 }

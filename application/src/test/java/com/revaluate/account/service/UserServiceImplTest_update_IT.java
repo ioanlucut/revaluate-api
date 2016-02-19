@@ -14,9 +14,7 @@ import org.junit.Test;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
 
@@ -37,32 +35,32 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         UserDTO userDTOToUpdate = new UserDTOBuilder().withId(9999).withEmail("xx@xx.xx2").withFirstName("fn2").withLastName("ln2").withPassword("12345672").withCurrency(currencyDTOToUpdate).build();
         UserDTO updatedUserDTO = userService.update(userDTOToUpdate, userDTO.getId(), UserPartialUpdateEnum.ACCOUNT_DETAILS);
 
-        assertThat(updatedUserDTO, is(notNullValue()));
-        assertThat(updatedUserDTO.getFirstName(), equalTo(userDTOToUpdate.getFirstName()));
-        assertThat(updatedUserDTO.getLastName(), equalTo(userDTOToUpdate.getLastName()));
-        assertThat(updatedUserDTO.isInitiated(), is(false));
+        assertThat(updatedUserDTO).isNotNull();
+        assertThat(updatedUserDTO.getFirstName()).isEqualTo(userDTOToUpdate.getFirstName());
+        assertThat(updatedUserDTO.getLastName()).isEqualTo(userDTOToUpdate.getLastName());
+        assertThat(updatedUserDTO.isInitiated()).isFalse();
 
         //-----------------------------------------------------------------
         // Given email is ignored
         //-----------------------------------------------------------------
-        assertThat(updatedUserDTO.getEmail(), not(equalTo(userDTOToUpdate.getEmail())));
+        assertThat(updatedUserDTO.getEmail()).isNotEqualTo(userDTOToUpdate.getEmail());
 
         //-----------------------------------------------------------------
         // Given ID is ignored
         //-----------------------------------------------------------------
-        assertThat(updatedUserDTO.getId(), not(equalTo(0)));
-        assertThat(updatedUserDTO.getId(), equalTo(userDTO.getId()));
+        assertThat(updatedUserDTO.getId()).isNotEqualTo(0);
+        assertThat(updatedUserDTO.getId()).isEqualTo(userDTO.getId());
 
         //-----------------------------------------------------------------
         // Currency is updated
         //-----------------------------------------------------------------
-        assertThat(updatedUserDTO.getCurrency().getCurrencyCode(), not(equalTo(userDTO.getCurrency().getCurrencyCode())));
-        assertThat(updatedUserDTO.getCurrency().getCurrencyCode(), equalTo(currency.getCurrencyCode()));
+        assertThat(updatedUserDTO.getCurrency().getCurrencyCode()).isNotEqualTo(userDTO.getCurrency().getCurrencyCode());
+        assertThat(updatedUserDTO.getCurrency().getCurrencyCode()).isEqualTo(currency.getCurrencyCode());
 
         //-----------------------------------------------------------------
         // New password if provided is ignored
         //-----------------------------------------------------------------
-        assertThat(updatedUserDTO.getPassword(), is(nullValue()));
+        assertThat(updatedUserDTO.getPassword()).isNull();
     }
 
     @Test
@@ -115,17 +113,17 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Those are not updated
         //-----------------------------------------------------------------
-        assertThat(mappedUser.getEmail(), is(equalTo(originalUser.getEmail())));
-        assertThat(mappedUser.getCurrency().getCurrencyCode(), is(equalTo(originalUser.getCurrency().getCurrencyCode())));
-        assertThat(mappedUser.isEmailConfirmed(), is(equalTo(originalUser.isEmailConfirmed())));
-        assertThat(mappedUser.isInitiated(), is(equalTo(originalUser.isInitiated())));
-        assertThat(mappedUser.getUserType(), is(equalTo(originalUser.getUserType())));
+        assertThat(mappedUser.getEmail()).isEqualTo(originalUser.getEmail());
+        assertThat(mappedUser.getCurrency().getCurrencyCode()).isEqualTo(originalUser.getCurrency().getCurrencyCode());
+        assertThat(mappedUser.isEmailConfirmed()).isEqualTo(originalUser.isEmailConfirmed());
+        assertThat(mappedUser.isInitiated()).isEqualTo(originalUser.isInitiated());
+        assertThat(mappedUser.getUserType()).isEqualTo(originalUser.getUserType());
 
         //-----------------------------------------------------------------
         // Only those are updated
         //-----------------------------------------------------------------
-        assertThat(mappedUser.getFirstName(), is(equalTo(userDTOToUpdate.getFirstName())));
-        assertThat(mappedUser.getLastName(), is(equalTo(userDTOToUpdate.getLastName())));
+        assertThat(mappedUser.getFirstName()).isEqualTo(userDTOToUpdate.getFirstName());
+        assertThat(mappedUser.getLastName()).isEqualTo(userDTOToUpdate.getLastName());
     }
 
     @Test
@@ -207,11 +205,11 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         userDTOToUpdate = new UserDTOBuilder().withEmail("c@d.e").withFirstName("first2").withLastName("last2").withEmailConfirmed(true).withInitiated(true).build();
         dozerBeanMapper.map(userDTOToUpdate, originalUserToBeFilled, UserPartialUpdateEnum.ACCOUNT_DETAILS.getMapId());
 
-        assertThat(originalUserToBeFilled.isInitiated(), is(equalTo(originalUser.isInitiated())));
-        assertThat(originalUserToBeFilled.isEmailConfirmed(), is(equalTo(originalUser.isEmailConfirmed())));
+        assertThat(originalUserToBeFilled.isInitiated()).isEqualTo(originalUser.isInitiated());
+        assertThat(originalUserToBeFilled.isEmailConfirmed()).isEqualTo(originalUser.isEmailConfirmed());
 
-        assertThat(originalUserToBeFilled.getLastName(), is(equalTo(userDTOToUpdate.getLastName())));
-        assertThat(originalUserToBeFilled.getFirstName(), is(equalTo(userDTOToUpdate.getFirstName())));
+        assertThat(originalUserToBeFilled.getLastName()).isEqualTo(userDTOToUpdate.getLastName());
+        assertThat(originalUserToBeFilled.getFirstName()).isEqualTo(userDTOToUpdate.getFirstName());
     }
 
     @Test
@@ -235,10 +233,10 @@ public class UserServiceImplTest_update_IT extends AbstractIntegrationTests {
         userDTOToUpdate = new UserDTOBuilder().withEmail("c@d.e").withFirstName("first2").withLastName("last2").withEmailConfirmed(true).withInitiated(true).build();
         dozerBeanMapper.map(userDTOToUpdate, originalUserToBeFilled, UserPartialUpdateEnum.INITIATED_STATUS.getMapId());
 
-        assertThat(originalUserToBeFilled.isInitiated(), is(equalTo(userDTOToUpdate.isInitiated())));
-        assertThat(originalUserToBeFilled.isEmailConfirmed(), is(equalTo(originalUser.isEmailConfirmed())));
+        assertThat(originalUserToBeFilled.isInitiated()).isEqualTo(userDTOToUpdate.isInitiated());
+        assertThat(originalUserToBeFilled.isEmailConfirmed()).isEqualTo(originalUser.isEmailConfirmed());
 
-        assertThat(originalUserToBeFilled.getLastName(), is(equalTo(originalUser.getLastName())));
-        assertThat(originalUserToBeFilled.getFirstName(), is(equalTo(originalUser.getFirstName())));
+        assertThat(originalUserToBeFilled.getLastName()).isEqualTo(originalUser.getLastName());
+        assertThat(originalUserToBeFilled.getFirstName()).isEqualTo(originalUser.getFirstName());
     }
 }

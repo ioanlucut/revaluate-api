@@ -10,9 +10,7 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserServiceImplTest_loginViaOauth_IT extends AbstractIntegrationTests {
 
@@ -93,7 +91,7 @@ public class UserServiceImplTest_loginViaOauth_IT extends AbstractIntegrationTes
         //-----------------------------------------------------------------
         UserDTO createdUserDTO = createUserDTO(Boolean.TRUE, UserType.OAUTH_FACEBOOK);
 
-        assertThat(createdUserDTO.getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
+        assertThat(createdUserDTO.getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL);
 
         //-----------------------------------------------------------------
         // Try to login
@@ -104,8 +102,8 @@ public class UserServiceImplTest_loginViaOauth_IT extends AbstractIntegrationTes
         // Check payment status
         //-----------------------------------------------------------------
         Optional<User> oneByEmail = userRepository.findOneByEmailIgnoreCase(createdUserDTO.getEmail());
-        assertThat(oneByEmail.isPresent(), is(true));
-        assertThat(oneByEmail.get().getUserSubscriptionStatus(), is(equalTo(UserSubscriptionStatus.TRIAL)));
+        assertThat(oneByEmail.isPresent()).isTrue();
+        assertThat(oneByEmail.get().getUserSubscriptionStatus()).isEqualTo(UserSubscriptionStatus.TRIAL);
     }
 
 }

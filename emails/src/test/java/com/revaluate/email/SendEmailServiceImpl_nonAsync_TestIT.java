@@ -17,12 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext__emailApi__test.xml")
@@ -59,7 +57,7 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
 
         SendTo sendTo = new SendToBuilder().withEmail("a@b.c").withEmailToken("abcdef").withEmailId(1).withEmailType(EmailType.CREATED_ACCOUNT).withFirstName("a").withId(1).withLastName("").build();
         MandrillEmailStatus feedback = sendEmailService.sendNonAsyncEmailTo(sendTo);
-        assertThat(feedback, is(MandrillEmailStatus.SENT));
+        assertThat(feedback).isEqualTo((MandrillEmailStatus.SENT));
     }
 
     @Test(expected = SendEmailException.class)
@@ -78,7 +76,7 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
 
         SendTo sendTo = new SendToBuilder().withEmail("a@b.c").withEmailToken("abcdef").withEmailId(1).withEmailType(EmailType.CREATED_ACCOUNT).withFirstName("a").withId(1).withLastName("").build();
         MandrillEmailStatus feedback = sendEmailService.sendNonAsyncEmailTo(sendTo);
-        assertThat(feedback, is(MandrillEmailStatus.SENT));
+        assertThat(feedback).isEqualTo((MandrillEmailStatus.SENT));
     }
 
 
@@ -98,7 +96,7 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
 
         SendTo sendTo = new SendToBuilder().withEmail("a@b.c").withEmailToken("abcdef").withEmailId(1).withEmailType(EmailType.CREATED_ACCOUNT).withFirstName("a").withId(1).withLastName("").build();
         MandrillEmailStatus feedback = sendEmailService.sendNonAsyncEmailTo(sendTo);
-        assertThat(feedback, is(MandrillEmailStatus.SENT));
+        assertThat(feedback).isEqualTo((MandrillEmailStatus.SENT));
     }
 
     @Test
@@ -117,7 +115,7 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
 
         SendFeedbackTo sendTo = new SendFeedbackToBuilder().withEmail("a@b.c").withEmailId(1).withEmailType(EmailType.FEEDBACK_MESSAGE).withFirstName("a").withId(1).withLastName("").withSubject("subject").withMessage("message").build();
         MandrillEmailStatus feedback = sendEmailService.sendNonAsyncFeedbackEmailTo(sendTo);
-        assertThat(feedback, is(MandrillEmailStatus.SENT));
+        assertThat(feedback).isEqualTo((MandrillEmailStatus.SENT));
     }
 
     @Test
@@ -136,6 +134,6 @@ public class SendEmailServiceImpl_nonAsync_TestIT {
 
         ContactDTO contactDTO = new ContactDTOBuilder().withEmail("a@b.c").withName("a").withMessage("message").build();
         MandrillEmailStatus feedback = sendEmailService.sendNonAsyncContactEmail(contactDTO);
-        assertThat(feedback, is(MandrillEmailStatus.SENT));
+        assertThat(feedback).isEqualTo((MandrillEmailStatus.SENT));
     }
 }

@@ -13,10 +13,7 @@ import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DailyInsightsServiceIT extends AbstractIntegrationTests {
 
@@ -72,14 +69,14 @@ public class DailyInsightsServiceIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert insight is ok
         //-----------------------------------------------------------------
-        assertThat(insightsDailyDTO, is(notNullValue()));
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs(), is(notNullValue()));
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs().size(), is(greaterThanOrEqualTo(30)));
+        assertThat(insightsDailyDTO).isNotNull();
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs()).isNotNull();
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs().size()).isGreaterThanOrEqualTo(28);
 
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().anyMatch(s -> s.getTotalAmount() == 3000.0), is(Boolean.TRUE));
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().anyMatch(s -> s.getTotalAmount() == 300.0), is(Boolean.TRUE));
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().anyMatch(s -> s.getTotalAmount() == 3000.0)).isEqualTo((Boolean.TRUE));
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().anyMatch(s -> s.getTotalAmount() == 300.0)).isEqualTo((Boolean.TRUE));
 
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().filter(s -> s.getTotalAmount() == 0.0).count(), is(greaterThanOrEqualTo(28L)));
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs().stream().filter(s -> s.getTotalAmount() == 0.0).count()).isGreaterThanOrEqualTo((27L));
     }
 
     @Test
@@ -100,9 +97,9 @@ public class DailyInsightsServiceIT extends AbstractIntegrationTests {
         //-----------------------------------------------------------------
         // Assert insight is ok
         //-----------------------------------------------------------------
-        assertThat(insightsDailyDTO, is(notNullValue()));
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs(), is(notNullValue()));
-        assertThat(insightsDailyDTO.getTotalPerDayDTOs().size(), is(greaterThanOrEqualTo(30)));
+        assertThat(insightsDailyDTO).isNotNull();
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs()).isNotNull();
+        assertThat(insightsDailyDTO.getTotalPerDayDTOs().size()).isGreaterThanOrEqualTo(28);
     }
 
 }
