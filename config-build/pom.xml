@@ -69,6 +69,7 @@
         <version.junit>4.12</version.junit>
         <version.springMock>2.0.8</version.springMock>
         <version.wiremock>1.45</version.wiremock>
+        <checkstyle.version>6.1.1</checkstyle.version>
 
         <!-- developer -->
         <version.smiley-http-proxy-servlet>1.6</version.smiley-http-proxy-servlet>
@@ -85,6 +86,7 @@
         <taglist-maven-plugin.version>2.4</taglist-maven-plugin.version>
         <maven-project-info-reports-plugin.version>2.7</maven-project-info-reports-plugin.version>
         <doxia-module-markdown.version>1.6</doxia-module-markdown.version>
+        <maven.checkstyle.plugin.version>2.13</maven.checkstyle.plugin.version>
 
         <spring-data-jpa.version>1.7.2.RELEASE</spring-data-jpa.version>
         <!--<spring-data-jpa.version>1.8.0.BUILD-SNAPSHOT</spring-data-jpa.version>-->
@@ -628,6 +630,26 @@
                     </configuration>
                 </plugin>
 
+                <!--Checkstyle plugin-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${maven.checkstyle.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>${checkstyle.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <failOnViolation>false</failOnViolation>
+                        <logViolationsToConsole>true</logViolationsToConsole>
+                        <configLocation>${main.basedir}/config-build/checkstyle.xml</configLocation>
+                        <skip>${skipCodeAnalysis}</skip>
+                    </configuration>
+                </plugin>
+
                 <!--Maven surefire plugin - for unit tests-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -712,6 +734,24 @@
                 </executions>
             </plugin>
 
+            <!--Checkstyle plugin-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven.checkstyle.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <failOnViolation>false</failOnViolation>
+                    <logViolationsToConsole>true</logViolationsToConsole>
+                    <configLocation>${main.basedir}/config-build/checkstyle.xml</configLocation>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -735,6 +775,21 @@
                             <execution>
                                 <id>analyze-findbugs</id>
                                 <phase>compile</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>${maven.checkstyle.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>analyze-checkstyle</id>
+                                <phase>validate</phase>
                                 <goals>
                                     <goal>check</goal>
                                 </goals>
