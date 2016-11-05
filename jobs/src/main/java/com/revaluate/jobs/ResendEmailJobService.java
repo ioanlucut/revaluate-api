@@ -10,7 +10,6 @@ import com.revaluate.email.service.EmailAsyncSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -35,7 +34,6 @@ public class ResendEmailJobService {
     @Autowired
     private EmailTokenRepository emailTokenRepository;
 
-    @Scheduled(fixedDelay = RE_SEND_EMAIL_FIXED_DELAYS)
     public void sendTokenEmails() {
         List<EmailToken> allByTokenValidatedFalse = emailTokenRepository.findAllByEmailStatus(EmailStatus.SENT_UNSUCCESSFUL);
         LOGGER.info(String.format("Fetched %s email tokens", allByTokenValidatedFalse));
