@@ -17,7 +17,7 @@ database:
   password: D1L1oOoVn3UH5PFOxxGPG7BxCJ
 
   # the JDBC URL
-  url: jdbc:postgresql://ec2-54-163-228-188.compute-1.amazonaws.com:5432/ddtkj537nf2gog
+  url: jdbc:postgresql://ec2-54-163-228-188.compute-1.amazonaws.com:5432/ddtkj537nf2gog?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
 
 server:
   applicationConnectors:
