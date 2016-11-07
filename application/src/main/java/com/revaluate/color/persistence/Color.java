@@ -10,33 +10,28 @@ import java.io.Serializable;
 @Table(name = "color")
 public class Color implements Serializable {
 
-    private static final long serialVersionUID = -1799428438852023627L;
-
     protected static final String SEQ_NAME = "colors_id_seq";
     protected static final String SEQ_GENERATOR_NAME = "colors_seq_generator";
     protected static final int SEQ_INITIAL_VALUE = 1;
-
+    private static final long serialVersionUID = -1799428438852023627L;
     @Id
     @SequenceGenerator(name = Color.SEQ_GENERATOR_NAME,
             sequenceName = Color.SEQ_NAME,
             initialValue = Color.SEQ_INITIAL_VALUE)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_GENERATOR_NAME)
     private Integer id;
-
-    public Integer getId() {
-        return id;
-    }
-
     @NotNull
     @HexColor
     @Column(nullable = false, unique = true)
     private String color;
-
     private String colorName;
-
     @NotNull
     @Column(nullable = false, unique = true)
     private Integer priority;
+
+    public Integer getId() {
+        return id;
+    }
 
     public void setId(Integer id) {
         this.id = id;

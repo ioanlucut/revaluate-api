@@ -23,7 +23,7 @@ import java.io.IOException;
 @Priority(Priorities.USER)
 public class PaymentAuthorizationRequestFilter implements ContainerRequestFilter {
 
-    public static final String OPTIONS = "OPTIONS";
+    private static final String OPTIONS = "OPTIONS";
 
     @Context
     private ResourceInfo resourceInfo;
@@ -68,11 +68,11 @@ public class PaymentAuthorizationRequestFilter implements ContainerRequestFilter
         return OPTIONS.equals(requestContext.getMethod());
     }
 
-    public boolean isPaymentRequired() {
+    boolean isPaymentRequired() {
         return resourceInfo.getResourceMethod().isAnnotationPresent(PaymentRequired.class);
     }
 
-    public void abort(ContainerRequestContext requestContext) {
+    void abort(ContainerRequestContext requestContext) {
         requestContext.abortWith(Responses.respond(Response.Status.PAYMENT_REQUIRED, "Payment required."));
     }
 }

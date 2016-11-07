@@ -15,18 +15,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Path(AppStatsResource.APP_STATS)
 @Component
 public class AppStatsResource extends Resource {
 
-    public static final String APP_STATS = "appstats";
+    static final String APP_STATS = "appstats";
     private static final String FETCH_STATS = "fetch";
     private static final String FETCH_STATS_INSTANT = "fetchInstant";
 
-    public static final Map<String, Object> APP_STATS_MAP = new ConcurrentHashMap<>();
+    private static final Map<String, Object> APP_STATS_MAP = new HashMap<>();
 
     @Autowired
     private ExpenseRepository expenseRepository;

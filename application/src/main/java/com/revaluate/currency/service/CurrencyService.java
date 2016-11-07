@@ -1,7 +1,7 @@
 package com.revaluate.currency.service;
 
-import com.revaluate.domain.currency.CurrencyDTO;
 import com.revaluate.currency.exception.CurrencyException;
+import com.revaluate.domain.currency.CurrencyDTO;
 import net.bull.javamelody.MonitoredWithSpring;
 
 import javax.validation.Valid;

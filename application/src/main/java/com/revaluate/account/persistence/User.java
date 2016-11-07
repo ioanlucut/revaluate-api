@@ -17,14 +17,12 @@ import java.io.Serializable;
 )
 public class User implements Serializable {
 
+    private static final String CURRENCY_ID = "currency_id";
+    static final String IX_USER_EMAIL_USER_TYPE = "IX_USER_EMAIL_USER_TYPE";
+    private static final String SEQ_NAME = "users_id_seq";
+    private static final String SEQ_GENERATOR_NAME = "users_seq_generator";
+    private static final int SEQ_INITIAL_VALUE = 1;
     private static final long serialVersionUID = -1799428438852023627L;
-
-    public static final String CURRENCY_ID = "currency_id";
-    public static final String IX_USER_EMAIL_USER_TYPE = "IX_USER_EMAIL_USER_TYPE";
-    protected static final String SEQ_NAME = "users_id_seq";
-    protected static final String SEQ_GENERATOR_NAME = "users_seq_generator";
-    protected static final int SEQ_INITIAL_VALUE = 1;
-
     @Id
     @SequenceGenerator(name = User.SEQ_GENERATOR_NAME,
             sequenceName = User.SEQ_NAME,

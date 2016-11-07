@@ -20,13 +20,11 @@ import java.util.Map;
 @Validated
 public class IntercomTracker {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IntercomTracker.class);
-
     //-----------------------------------------------------------------
     // QUERY params
     //-----------------------------------------------------------------
     public static final String USER_ID = "user_id";
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(IntercomTracker.class);
     @Autowired
     private ConfigProperties configProperties;
 
