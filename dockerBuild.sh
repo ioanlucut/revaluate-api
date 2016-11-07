@@ -1,1 +1,1 @@
-docker build -t ioanlucut/revaluate-api:1.0 .
+docker build -t ioanlucut/revaluate-api:1.1 .

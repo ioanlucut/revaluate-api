@@ -1,1 +1,1 @@
-docker push ioanlucut/revaluate-api:1.0
+docker push ioanlucut/revaluate-api:1.1
