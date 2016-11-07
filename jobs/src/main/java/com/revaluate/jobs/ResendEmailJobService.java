@@ -44,7 +44,6 @@ public class ResendEmailJobService {
         allByTokenValidatedFalse.forEach(emailTokenAsyncSender::tryToSendEmail);
     }
 
-    //@Scheduled(fixedDelay = RE_SEND_EMAIL_FIXED_DELAYS)
     public void sendFeedbackEmails() {
         List<EmailFeedback> allBySentFalse = emailFeedbackRepository.findAllByEmailStatus(EmailStatus.SENT_UNSUCCESSFUL);
         LOGGER.info(String.format("Fetched %s feedback emails", allBySentFalse));

@@ -23,18 +23,14 @@ import java.util.function.Function;
 public abstract class EmailAsyncSenderAbstract<T extends Email> implements EmailAsyncSender<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailAsyncSenderAbstract.class);
-
-    @Autowired
-    private EmailRepository emailRepository;
-
-    @Autowired
-    private ConfigProperties configProperties;
-
     @Autowired
     protected DozerBeanMapper dozerBeanMapper;
-
     @Autowired
     protected SendEmailService sendEmailService;
+    @Autowired
+    private EmailRepository emailRepository;
+    @Autowired
+    private ConfigProperties configProperties;
 
     @Override
     public Future<MandrillEmailStatus> tryToSendEmail(T email) {

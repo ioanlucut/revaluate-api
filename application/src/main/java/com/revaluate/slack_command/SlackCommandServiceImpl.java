@@ -47,8 +47,6 @@ import java.util.stream.Collectors;
 @Validated
 public class SlackCommandServiceImpl implements SlackCommandService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SlackCommandServiceImpl.class);
-
     public static final String COMMANDS_USAGE = "%s, your available commands for Revaluate:\n" +
             "- Add an expense:\n" +
             "/revaluate add <price> <CATEGORY> [<description>]\n" +
@@ -63,16 +61,13 @@ public class SlackCommandServiceImpl implements SlackCommandService {
             "/revaluate help" +
             "\n" +
             ":information_source: Tip: Press TAB to get the last used command.";
-
     public static final String ADD_USAGE = "I couldn't figure out what you meant. Please enter expenses in the form: \n" +
             "/revaluate add 43 FOOD going out\n" +
             "\n" +
             "Or /revaluate help" +
             "\n" +
             ":information_source: Tip: Press TAB to get the last used command.";
-
     public static final String INVALID_USER_MESSAGE = "We couldn't recognize you as Revaluate user. Please make sure you are authenticated. You can authenticate <https://www.revaluate.io/account/settings/integrations/main|here>.";
-
     //-----------------------------------------------------------------
     // Other constants
     //-----------------------------------------------------------------
@@ -82,7 +77,7 @@ public class SlackCommandServiceImpl implements SlackCommandService {
     public static final int DEFAULT_LIMIT = 10;
     public static final int DEFAULT_PAGE = 0;
     public static final Integer MAX_SIZE = 100;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(SlackCommandServiceImpl.class);
     @Autowired
     private CategoryService categoryService;
 
@@ -97,6 +92,17 @@ public class SlackCommandServiceImpl implements SlackCommandService {
 
     @Autowired
     private DozerBeanMapper dozerBeanMapper;
+
+    private static String getUsage(boolean badAttempt) {
+        StringBuilder sb = new StringBuilder();
+        if (badAttempt) {
+            sb.append("Please check the command, something seems odd.\n\n");
+        }
+
+        sb.append(String.format(COMMANDS_USAGE, badAttempt ? "Anyways" : "Hey"));
+
+        return sb.toString();
+    }
 
     @Override
     public String answer(@NotNull @Valid SlackDTO slackDTO, int userId) throws SlackException {
@@ -272,17 +278,6 @@ public class SlackCommandServiceImpl implements SlackCommandService {
         }
 
         throw new SlackException("Please check the price, something seems odd.");
-    }
-
-    private static String getUsage(boolean badAttempt) {
-        StringBuilder sb = new StringBuilder();
-        if (badAttempt) {
-            sb.append("Please check the command, something seems odd.\n\n");
-        }
-
-        sb.append(String.format(COMMANDS_USAGE, badAttempt ? "Anyways" : "Hey"));
-
-        return sb.toString();
     }
 
     private String handleList(int userId, CommandListExpenses list) throws SlackException {

@@ -23,7 +23,6 @@ public class UserSubscriptionJobService {
     @Autowired
     private UserRepository userRepository;
 
-    //    @Scheduled(fixedDelay = AUTO_SUBSCRIBE_USERS_DELAY)
     public void activateSubscriptionForUserWithPaymentMethod() {
         LOGGER.info(String.format("Start batch job %s :", this.getClass().getSimpleName()));
 

@@ -7,11 +7,6 @@
         http://www.springframework.org/schema/task
         http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-    <!--Enable scheduling capability-->
-    <task:executor id="myExecutor" pool-size="5"/>
-    <task:scheduler id="myScheduler" pool-size="10"/>
-    <task:annotation-driven executor="myExecutor" scheduler="myScheduler"/>
-
     <!--Import javamelody-->
     <import resource="classpath:net/bull/javamelody/monitoring-spring.xml"/>
 
