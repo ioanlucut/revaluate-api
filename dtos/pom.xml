@@ -55,7 +55,7 @@
     <build>
         <plugins>
 
-            <!--We need to override because we have generated sources-->
+            <!--PojoBuilder generates the *Builder classes into target/generated-sources/annotations-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -63,7 +63,6 @@
                 <configuration>
                     <source>${version.jdk}</source>
                     <target>${version.jdk}</target>
-                    <generatedSourcesDirectory>${basedir}/src/generated/java</generatedSourcesDirectory>
                 </configuration>
             </plugin>
         </plugins>

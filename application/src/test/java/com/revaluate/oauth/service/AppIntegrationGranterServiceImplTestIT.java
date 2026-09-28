@@ -21,7 +21,7 @@ public class AppIntegrationGranterServiceImplTestIT extends AbstractIntegrationT
     @Autowired
     private ConfigProperties configProperties;
 
-    //state={"client_id":"REDACTED","network":"slack","redirect_uri":"http://localhost:3000/","scope":"identify,basic","oauth_proxy":"http://localhost:8080/oauth/grant"}&access_token=123456
+    //state={"client_id":"slack-client-id","network":"slack","redirect_uri":"http://localhost:3000/","scope":"identify,basic","oauth_proxy":"http://localhost:8080/oauth/grant"}&access_token=123456
 
     @Test
     public void grantOauthIntegration_getIdentityOf_throwsException() throws Exception {
@@ -49,13 +49,13 @@ public class AppIntegrationGranterServiceImplTestIT extends AbstractIntegrationT
         map.put("access_token", "dsa");
         map.put("scope", "identify");
 
-        String state = "{\"client_id\":\"REDACTED\",\"network\":\"slack\",\"redirect_uri\":\"http://localhost:3000/\",\"scope\":\"identify,basic\",\"oauth_proxy\":\"http://localhost:8080/oauth/grant\"}";
+        String state = "{\"client_id\":\"slack-client-id\",\"network\":\"slack\",\"redirect_uri\":\"http://localhost:3000/\",\"scope\":\"identify,basic\",\"oauth_proxy\":\"http://localhost:8080/oauth/grant\"}";
         when(appIntegrationGranterServiceMock.getAccessTokenFrom(anyString(), anyString())).thenReturn(map);
 
         URI grantedAsRedirectURI = appIntegrationGranterServiceMock.grantOauthIntegration("authCode", state);
 
         assertThat(grantedAsRedirectURI).isNotNull();
-        assertThat(grantedAsRedirectURI.toString()).isEqualTo(("http://localhost:3000/#state=%7B%22client_id%22%3A%22REDACTED%22%2C%22network%22%3A%22slack%22%2C%22redirect_uri%22%3A%22http%3A%2F%2Flocalhost%3A3000%2F%22%2C%22scope%22%3A%22identify%2Cbasic%22%2C%22oauth_proxy%22%3A%22http%3A%2F%2Flocalhost%3A8080%2Foauth%2Fgrant%22%7D" + "&access_token=" + map.get("access_token")));
+        assertThat(grantedAsRedirectURI.toString()).isEqualTo(("http://localhost:3000/#state=%7B%22client_id%22%3A%22slack-client-id%22%2C%22network%22%3A%22slack%22%2C%22redirect_uri%22%3A%22http%3A%2F%2Flocalhost%3A3000%2F%22%2C%22scope%22%3A%22identify%2Cbasic%22%2C%22oauth_proxy%22%3A%22http%3A%2F%2Flocalhost%3A8080%2Foauth%2Fgrant%22%7D" + "&access_token=" + map.get("access_token")));
     }
 
     @Test
@@ -77,21 +77,21 @@ public class AppIntegrationGranterServiceImplTestIT extends AbstractIntegrationT
         // Wrong network
         //-----------------------------------------------------------------
         exception.expect(AppIntegrationException.class);
-        state = "{\"client_id\":\"REDACTED\",\"network\":\"WRONG_NETWORK\",\"redirect_uri\":\"http://localhost:3000/\",\"scope\":\"identify,basic\",\"oauth_proxy\":\"http://localhost:8080/oauth/grant\"}";
+        state = "{\"client_id\":\"slack-client-id\",\"network\":\"WRONG_NETWORK\",\"redirect_uri\":\"http://localhost:3000/\",\"scope\":\"identify,basic\",\"oauth_proxy\":\"http://localhost:8080/oauth/grant\"}";
         appIntegrationGranterServiceMock.grantOauthIntegration("authCode", state);
 
         //-----------------------------------------------------------------
         // Missing network
         //-----------------------------------------------------------------
         exception.expect(AppIntegrationException.class);
-        state = "{\"client_id\":\"REDACTED\",\"redirect_uri\":\"http://localhost:3000/\",\"scope\":\"identify,basic\",\"oauth_proxy\":\"http://localhost:8080/oauth/grant\"}";
+        state = "{\"client_id\":\"slack-client-id\",\"redirect_uri\":\"http://localhost:3000/\",\"scope\":\"identify,basic\",\"oauth_proxy\":\"http://localhost:8080/oauth/grant\"}";
         appIntegrationGranterServiceMock.grantOauthIntegration("authCode", state);
 
         //-----------------------------------------------------------------
         // Missing redirect_uri
         //-----------------------------------------------------------------
         exception.expect(AppIntegrationException.class);
-        state = "{\"client_id\":\"REDACTED\",\"network\":\"slack\",\"scope\":\"identify,basic\",\"oauth_proxy\":\"http://localhost:8080/oauth/grant\"}";
+        state = "{\"client_id\":\"slack-client-id\",\"network\":\"slack\",\"scope\":\"identify,basic\",\"oauth_proxy\":\"http://localhost:8080/oauth/grant\"}";
         appIntegrationGranterServiceMock.grantOauthIntegration("authCode", state);
     }
 

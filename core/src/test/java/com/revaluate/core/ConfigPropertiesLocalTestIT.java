@@ -15,14 +15,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext__core.xml")
-public class ConfigPropertiesDevTestIT {
+public class ConfigPropertiesLocalTestIT {
 
     @Resource
     private ConfigProperties configProperties;
 
     @BeforeClass
     public static void setUp() {
-        System.setProperty(ConfigProperties.ENVIRONMENT, "dev");
+        System.setProperty(ConfigProperties.ENVIRONMENT, "local");
     }
 
     @AfterClass

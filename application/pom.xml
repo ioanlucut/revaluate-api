@@ -123,7 +123,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <configFile>src/main/resources/installation_${ENVIRONMENT}.properties</configFile>
+                    <configFile>../core/src/main/resources/installation_${ENVIRONMENT}.properties</configFile>
                 </configuration>
             </plugin>
 
