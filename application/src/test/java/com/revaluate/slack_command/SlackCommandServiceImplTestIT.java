@@ -83,11 +83,11 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         SlackDTO request = buildDummyRequestWithText("add 123.22 name xx");
         String answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim()).isEqualTo(":white_check_mark: Added: 123,22 € - name: xx");
+        assertThat(answer.trim()).isEqualTo(":white_check_mark: Added: € 123,22 - name: xx");
 
         request = buildDummyRequestWithText("add 123.22 name");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim()).isEqualTo(":white_check_mark: Added: 123,22 € - name");
+        assertThat(answer.trim()).isEqualTo(":white_check_mark: Added: € 123,22 - name");
 
         //-----------------------------------------------------------------
         // Assert created expense is ok
@@ -125,11 +125,11 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         SlackDTO request = buildDummyRequestWithText("add 123.22 name xx");
         String answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim()).isEqualTo(":white_check_mark: Added: 123,22 € - name: xx");
+        assertThat(answer.trim()).isEqualTo(":white_check_mark: Added: € 123,22 - name: xx");
 
         request = buildDummyRequestWithText("list");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim()).containsSequence("123,22 € - name");
+        assertThat(answer.trim()).containsSequence("€ 123,22 - name");
     }
 
     @Test
@@ -224,14 +224,14 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
 
         request = buildDummyRequestWithText("list");
         String answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim()).containsSequence("123,22 € - name");
+        assertThat(answer.trim()).containsSequence("€ 123,22 - name");
 
         request = buildDummyRequestWithText("add 150,00 home");
         slackCommandService.answer(request, createdUserDTO.getId());
 
         request = buildDummyRequestWithText("list -cat home");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim()).containsSequence("150,00 € - home");
+        assertThat(answer.trim()).containsSequence("€ 150,00 - home");
 
         //-----------------------------------------------------------------
         // Create three expenses, but retrieve last two
@@ -242,9 +242,9 @@ public class SlackCommandServiceImplTestIT extends AbstractIntegrationTests {
         slackCommandService.answer(request, createdUserDTO.getId());
         request = buildDummyRequestWithText("list -cat home -limit 2");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
-        assertThat(answer.trim()).containsSequence("  - 350,00 € - home");
-        assertThat(answer.trim()).containsSequence("  - 250,00 € - home");
-        assertThat(answer.trim()).doesNotContain("150,00 € - home");
+        assertThat(answer.trim()).containsSequence("  - € 350,00 - home");
+        assertThat(answer.trim()).containsSequence("  - € 250,00 - home");
+        assertThat(answer.trim()).doesNotContain("€ 150,00 - home");
 
         request = buildDummyRequestWithText("list abc");
         answer = slackCommandService.answer(request, createdUserDTO.getId());
