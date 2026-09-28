@@ -28,6 +28,8 @@ public class RevaluateApplication extends FallwizardApplication<RevaluateConfigu
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FallwizardApplication.class);
 
+    private static final String MONITORING_USERS = "monitoringUsers";
+
     public static void main(String[] args) throws Exception {
 
         new RevaluateApplication().run(args);
@@ -84,19 +86,7 @@ public class RevaluateApplication extends FallwizardApplication<RevaluateConfigu
         // Entity filtering
         environment.jersey().register(EntityFilteringFeature.class);
 
-        FilterRegistration.Dynamic javaMelody = environment
-                .servlets()
-                .addFilter("javamelody", new MonitoringFilter());
-        javaMelody
-                .setAsyncSupported(Boolean.TRUE);
-        javaMelody
-                .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC), true, "/*");
-        javaMelody
-                .setInitParameter("authorized-users", "REDACTED");
-
-        environment
-                .servlets()
-                .addServletListeners(new net.bull.javamelody.SessionListener());
+        configureMonitoring(environment);
 
         //-----------------------------------------------------------------
         // Register multipart feature - mandatory
@@ -106,6 +96,33 @@ public class RevaluateApplication extends FallwizardApplication<RevaluateConfigu
         // @ValidateOnExecution annotations on subclasses won't cause errors.
         environment.jersey().property(ServerProperties.BV_DISABLE_VALIDATE_ON_EXECUTABLE_OVERRIDE_CHECK, true);
         environment.jersey().property(ServerProperties.PROCESSING_RESPONSE_ERRORS_ENABLED, true);
+    }
+
+    /**
+     * JavaMelody serves its console at /monitoring. It is only enabled when its users are given,
+     * e.g. -DmonitoringUsers=admin:secret, so the console is never exposed without a login.
+     */
+    private void configureMonitoring(Environment environment) {
+        String monitoringUsers = System.getProperty(MONITORING_USERS);
+        if (monitoringUsers == null || monitoringUsers.trim().isEmpty()) {
+            LOGGER.info(String.format("JavaMelody monitoring disabled: set -D%s=user:password to enable it.", MONITORING_USERS));
+
+            return;
+        }
+
+        FilterRegistration.Dynamic javaMelody = environment
+                .servlets()
+                .addFilter("javamelody", new MonitoringFilter());
+        javaMelody
+                .setAsyncSupported(Boolean.TRUE);
+        javaMelody
+                .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC), true, "/*");
+        javaMelody
+                .setInitParameter("authorized-users", monitoringUsers);
+
+        environment
+                .servlets()
+                .addServletListeners(new net.bull.javamelody.SessionListener());
     }
 
     private void configureCORS(Environment environment) {
