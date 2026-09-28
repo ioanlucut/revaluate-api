@@ -1,4 +1,7 @@
-# Local Postgres for the "local" environment (see core/src/main/resources/installation_local.properties).
+# Postgres plus the API, configured for the "local" environment
+# (see core/src/main/resources/installation_local.properties).
+#   docker compose up --build        everything
+#   docker compose up -d postgres    just the database, for running the API from an IDE
 services:
   postgres:
     image: postgres:9.6-alpine
@@ -13,3 +16,17 @@ services:
       interval: 2s
       timeout: 2s
       retries: 15
+
+  api:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Point both the Dropwizard (dw.*) and the Spring (db.*) data sources at the compose database.
+      JAVA_OPTS: >-
+        -Ddw.database.url=jdbc:postgresql://postgres/postgres
+        -Ddb.url=jdbc:postgresql://postgres/postgres
+    ports:
+      - "8080:8080"
+      - "8081:8081"
