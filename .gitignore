@@ -1,7 +1,18 @@
-.idea
-target
+# Build output
+target/
+
+# IDEs
+.idea/
 *.iml
-*.DS_Store
+.vscode/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
 *logfile.html
-mylog.log
-*rebel.xml
+
+# Local overrides that may hold credentials
+*.local.properties
+.env
