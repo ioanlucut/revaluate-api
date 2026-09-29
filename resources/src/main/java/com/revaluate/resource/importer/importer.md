@@ -1,13 +1,7 @@
-## Importer
-# The importer is responsibile with importing CSV expenses exports into revaluate. 
-* So far, we use two predefined imports, as the imports can be really hard to be generified. 
-* One example represents the date format which can be really hard to be guessed.
+# Expense import
 
-## ImportService
-* The main logic, separated from application package, ImporterParserService, is used to parse a Reader into a list of expenses.
-* An ExpenseProfileDTO is an object which has all the details of an import type.
-* Our current flow of working with backend-frontend is the following
-** Frontend uploads a csv file (mint or spendee), we parse it with mint expense profile or spendee expense profile and we sent back the expenses parsed (with categories incomplete)
-** After parseAndAnalyse is complete, we return back the ExpensesImportDTO which contains the list of expenses along with categories which are found and are needed to be matched.
-** The matching is made in frontend, and client side sends back the whole ExpensesImportDTO object which has to contain for every expected/unknown category a match, or to be unselected.
-** ==> Therefore the import is performed.
+[Engineering notes and test links](../../../../../../../../docs/engineering.md#1-importing-expenses-without-imposing-another-apps-categories) · [Resource implementation](ImporterResource.java)
+
+The CSV parser uses source-specific profiles for column names, delimiters and date formats. For the Mint and Spendee preview flow, the API returns parsed expenses and the distinct source categories. The client maps those categories to Revaluate categories or deselects them, then sends the completed import data back.
+
+The application checks that every source category has a mapping entry, filters deselected categories, replaces selected categories and persists the resulting expenses. See the engineering notes for the boundaries and limitations of this client-assisted import design.

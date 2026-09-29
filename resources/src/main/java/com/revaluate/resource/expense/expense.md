@@ -1,18 +1,9 @@
-## CRUD
-# login: "auth/login", -- YES
-# create: "accounts/create/:email/:token", -- YES
-# update: "accounts/update", -- YES
-# details: "accounts/details", -- YES
+# Expense API
 
-## Update password
-# updatePassword: "accounts/update_password",
+[Project overview and local walkthrough](../../../../../../../../README.md#try-it-locally) · [Resource implementation](ExpenseResource.java)
 
-## SIGN UP
-# requestSignUpRegistration: "accounts/register_base"
-# requestSignUpRegistration: "accounts/register"
+All expense routes require `Authorization: Bearer <JWT>`. Create and update use `POST /expenses` and `PUT /expenses`; deletion uses `DELETE /expenses/{expenseId}`. These mutations are gated by `@PaymentRequired`.
 
-## Password reset
-# requestPasswordReset - sent from the form (with email in body)
-# validatePasswordResetToken: "accounts/validate_password_reset_token/:email/:token" verifies if the token and email sent in the email match
-# resetPasswordWithToken: "accounts/reset_password_with_token/:email/:token" - the real reset action having
-        resetPasswordData.email, resetPasswordData.password, resetPasswordData.passwordConfirmation, resetPasswordData.token
+List expenses with `GET /expenses/retrieve`. Date-range, category and grouped queries are defined in the resource implementation. Responses contain the saved expense or query result directly, not a shared data envelope.
+
+The [HTTP smoke test](../../../../../../../../scripts/smoke-test.py) demonstrates category creation, expense creation, retrieval and insight totals using returned IDs.
