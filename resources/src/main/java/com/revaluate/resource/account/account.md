@@ -1,18 +1,9 @@
-## CRUD
-# login: "auth/login", -- YES
-# create: "accounts/create/:email/:token", -- YES
-# update: "accounts/update", -- YES
-# details: "accounts/details", -- YES
+# Account API
 
-## Update password
-# updatePassword: "accounts/update_password",
+[Project overview and local walkthrough](../../../../../../../../README.md#try-it-locally) · [Resource implementation](UserResource.java)
 
-## SIGN UP
-# requestSignUpRegistration: "accounts/register_base"
-# requestSignUpRegistration: "accounts/register"
+Sign up with `POST /account`, then log in with `POST /account/login`. The login response supplies the JWT in the `AuthToken` header. Authenticated requests use `Authorization: Bearer <JWT>`.
 
-## Password reset
-# requestPasswordReset - sent from the form (with email in body)
-# validatePasswordResetToken: "accounts/validate_password_reset_token/:email/:token" verifies if the token and email sent in the email match
-# resetPasswordWithToken: "accounts/reset_password_with_token/:email/:token" - the real reset action having
-        resetPasswordData.email, resetPasswordData.password, resetPasswordData.passwordConfirmation, resetPasswordData.token
+Read account details with `GET /account` and delete the authenticated account with `DELETE /account`. Validation groups, update routes, confirmation, password recovery and historical OAuth routes are defined in the resource implementation.
+
+The [HTTP smoke test](../../../../../../../../scripts/smoke-test.py) provides an executable sign-up and login example with synthetic credentials. It removes only the account it creates. This is a local demonstration, not a security review of the historical account flows.

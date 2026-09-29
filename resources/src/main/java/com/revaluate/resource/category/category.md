@@ -1,18 +1,9 @@
-## CRUD
-# login: "auth/login", -- YES
-# create: "accounts/create/:email/:token", -- YES
-# update: "accounts/update", -- YES
-# details: "accounts/details", -- YES
+# Category API
 
-## Update password
-# updatePassword: "accounts/update_password",
+[Project overview and local walkthrough](../../../../../../../../README.md#try-it-locally) · [Resource implementation](CategoryResource.java)
 
-## SIGN UP
-# requestSignUpRegistration: "accounts/register_base"
-# requestSignUpRegistration: "accounts/register"
+All category routes require `Authorization: Bearer <JWT>`. Create and update use `POST /categories` and `PUT /categories`; deletion uses `DELETE /categories/{categoryId}`. These individual mutations are gated by `@PaymentRequired`.
 
-## Password reset
-# requestPasswordReset - sent from the form (with email in body)
-# validatePasswordResetToken: "accounts/validate_password_reset_token/:email/:token" verifies if the token and email sent in the email match
-# resetPasswordWithToken: "accounts/reset_password_with_token/:email/:token" - the real reset action having
-        resetPasswordData.email, resetPasswordData.password, resetPasswordData.passwordConfirmation, resetPasswordData.token
+List categories with `GET /categories/retrieve`. Available color objects come from `GET /appconfig/fetchConfig`, under `ALL_COLORS`. Bulk operations and the uniqueness check are defined in the resource implementation.
+
+The [HTTP smoke test](../../../../../../../../scripts/smoke-test.py) creates a category using a color returned by the application, then reuses the saved category in an expense.

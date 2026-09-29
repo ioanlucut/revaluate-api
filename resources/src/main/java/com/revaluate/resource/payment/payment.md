@@ -1,17 +1,9 @@
-## Payment
+# Payment and subscription access
 
-* The main logic, separated from application package, PaymentService, is used to comunicate with braintree gateway.
-* The main flow is in the following way: 
-* When user gets created, he has a subscription (TRIAL) and an expiration date, both persisted to the database.
-* During API calls, we check in `PaymentAuthorizationRequestFilter` if user is eligible to use that resource (few of them are annotated).
-* We also check if the user status is expired, and if yes we set the user as `TRIAL_EXPIRED` and return back unauthorized.
-* In frontend we need to `relogin` the user because he has to get back from the user the new status.
-* In this case, user will be forwarded to the settings page (payment) and he will not be able to access our expenses and insights pages. Currently we display an error message.
+[Engineering notes and test links](../../../../../../../../docs/engineering.md#2-separating-payment-integration-from-access-rules) · [Resource implementation](PaymentResource.java)
 
-## Payment method for user in trial
-* If user has entered his payment method before he went in `TRIAL_EXPIRED`, he does not get the braintree subscription activated, and `UserSubscriptionJobService`will activate it after he gets into `TRIAL_EXPIRED` mode.
-* He must call only the resource which adds the payment method;
+The payment module wraps Braintree; the application service stores customer and payment-method references and manages local subscription status. Saving a payment method is distinct from activating a subscription.
 
-## Payment method for user in trial_expired
-* If user has entered his payment method after he went in `TRIAL_EXPIRED`, he does get the braintree subscription activated.
-* He must call only the resource which adds the payment method and activate subscription;
+For routes marked `@PaymentRequired`, the request filter moves an expired trial to `TRIAL_EXPIRED` and blocks it with `402 Payment Required`. Active subscribers pass this filter. Authentication is handled separately.
+
+The offline tests verify local behavior with a mocked gateway. Neither the local smoke test nor the Java CI suite establishes that this historical integration still works against the live provider. See the engineering notes for provider/local-state consistency trade-offs.
