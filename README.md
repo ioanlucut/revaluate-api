@@ -4,7 +4,7 @@
 
 # Revaluate API
 
-**The backend of Revaluate, a personal expense tracker I built and ran in production in 2015.**
+**The backend of Revaluate, a personal expense tracker I built, launched in 2015 and ran in production for over a year.**
 
 Expenses, categories, monthly goals and spending insights, with imports from Mint and Spendee, a Slack slash command and paid subscriptions.
 
@@ -13,13 +13,16 @@ Expenses, categories, monthly goals and spending insights, with imports from Min
 ![Dropwizard](https://img.shields.io/badge/Dropwizard-0.9-2a6db0)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Flyway-336791)
 ![Launched](https://img.shields.io/badge/launched-June%202015-8250df)
+[![Product Hunt: 124 upvotes](https://img.shields.io/badge/Product%20Hunt-124%20upvotes-da552f)](https://www.producthunt.com/products/revaluate)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
+**622** commits · **16** releases · **70** endpoints · **223** tests · **37** schema migrations · **11** modules
 
 <img src="docs/images/app-main.png" alt="Revaluate: an expense entry bar (amount, category, description, date) above a timeline of expenses grouped by day and a chart of this month's daily spending." width="100%">
 
 </div>
 
-_Revaluate_ helped people see where their money goes. You logged an expense in a couple of keystrokes, set goals such as _"spend less than 500 € on food in September"_, and got charts that compared months and categories. It launched in beta on **27 June 2015**, was [featured on Product Hunt](https://www.producthunt.com/products/revaluate) that October, and was run by a team of two.
+_Revaluate_ helped people see where their money goes. You logged an expense in a couple of keystrokes, set goals such as _"spend less than 500 € on food in September"_, and got charts that compared months and categories. It launched in beta on **27 June 2015**, was [featured on Product Hunt](https://www.producthunt.com/products/revaluate) on **11 September 2015**, and was run by a team of two.
 
 This repository is the whole backend: a REST API of 70 endpoints, in 11 Maven modules, over PostgreSQL. The web app it served is [`revaluate-web`](https://github.com/ioanlucut/revaluate-web).
 
@@ -70,24 +73,22 @@ This repository is the whole backend: a REST API of 70 endpoints, in 11 Maven mo
 ## Architecture
 
 ```mermaid
-flowchart LR
-    W["Web app<br/>(AngularJS)"]
-    S["Slack<br/>/revaluate"]
-    subgraph api["Revaluate API (one JVM)"]
-        direction TB
+flowchart TB
+    W["Web app (AngularJS)"]
+    S["Slack: /revaluate"]
+    subgraph api["Revaluate API, one JVM"]
         R["<b>resources</b><br/>Jersey endpoints<br/>JWT and payment filters"]
-        A["<b>application</b><br/>services, JPA repositories"]
-        J["<b>jobs</b><br/>scheduled email retries"]
-        I["importer · slack · payment · emails"]
+        A["<b>application</b><br/>services, insights, JPA"]
+        J["<b>jobs</b><br/>email retries"]
+        I["<b>payment · emails<br/>importer · slack</b>"]
         R --> A
         J --> A
         A --> I
     end
-    DB[("PostgreSQL<br/>Flyway migrations")]
-    W -- "JSON over HTTPS<br/>Authorization: Bearer JWT" --> R
+    W -- "JSON, Bearer JWT" --> R
     S -- "slash command" --> R
-    A --> DB
-    I -. "Braintree · Mandrill<br/>Intercom · Slack OAuth" .-> X["Third-party APIs"]
+    A --> DB[("PostgreSQL<br/>Flyway")]
+    I -.-> X["Braintree · Mandrill<br/>Intercom · Slack"]
 ```
 
 It is a [Dropwizard](https://www.dropwizard.io) application wired with Spring, through [Fallwizard](https://github.com/Fallwizard/Fallwizard). Jersey serves the HTTP resources, and Spring Data JPA with Hibernate talks to Postgres. On startup, Flyway brings the schema up to date.
@@ -95,13 +96,12 @@ It is a [Dropwizard](https://www.dropwizard.io) application wired with Spring, t
 ### Modules
 
 ```mermaid
-flowchart BT
+flowchart LR
     validation --> dtos
-    dtos --> emails & importer & slack & payment
-    core --> emails & importer & slack & payment
+    dtos & core --> emails & importer & slack & payment
     emails & importer & slack & payment --> application
-    application --> jobs
-    application & jobs --> resources
+    application --> jobs & resources
+    jobs --> resources
     resources --> e2e["e2e-tests"]
 ```
 
@@ -125,20 +125,15 @@ flowchart BT
 sequenceDiagram
     autonumber
     participant C as Web app
-    participant F as AuthorizationRequestFilter
-    participant P as PaymentAuthorizationRequestFilter
-    participant R as ExpenseResource
-    participant S as ExpenseService
+    participant F as Auth and payment filters
+    participant R as Expense resource
     participant D as Postgres
-    C->>F: POST /expenses (Authorization: Bearer JWT)
-    Note over F: @Public? skip.<br/>Otherwise verify the HMAC-SHA256 signature<br/>and put the user id on the request
-    F->>P: userId
-    Note over P: @PaymentRequired and the trial expired?<br/>402 Payment Required
-    P->>R: ExpenseDTO (validated)
-    R->>S: create(expense, userId)
-    S->>D: INSERT, via Spring Data JPA
-    S-->>R: ExpenseDTO
-    R-->>C: 200, JSON
+    C->>F: POST /expenses, Bearer JWT
+    Note over F: Verify the JWT (HMAC-SHA256)<br/>unless the endpoint is @Public
+    Note over F: 402 if @PaymentRequired<br/>and the trial has expired
+    F->>R: ExpenseDTO (validated), userId
+    R->>D: INSERT, via Spring Data JPA
+    R-->>C: 200, the saved expense as JSON
 ```
 
 ## Quick start
@@ -230,13 +225,14 @@ CI runs the full suite on JDK 8 on every push.
 | Mar 2015        | The email pipeline: confirmation, password reset, retries                                                                                                            |
 | Apr to May 2015 | Insights, imports from Mint and Spendee, Braintree payments                                                                                                          |
 | 27 Jun 2015     | **Beta launch**, tagged [`1.0.0`](https://github.com/ioanlucut/revaluate-api/releases/tag/1.0.0)                                                                     |
-| Aug to Sep 2015 | Goals, Facebook and Google sign-in, the Slack integration                                                                                                            |
-| Oct 2015        | Featured on Product Hunt; [`1.0.8`](https://github.com/ioanlucut/revaluate-api/releases/tag/1.0.8)                                                                   |
+| Aug 2015        | Facebook and Google sign-in, [`1.0.5`](https://github.com/ioanlucut/revaluate-api/releases/tag/1.0.5)                                                                |
+| Sep 2015        | Goals, [`1.0.7`](https://github.com/ioanlucut/revaluate-api/releases/tag/1.0.7); **featured on Product Hunt** on 11 September                                        |
+| Oct 2015        | The Slack integration, [`1.0.8`](https://github.com/ioanlucut/revaluate-api/releases/tag/1.0.8)                                                                      |
 | Nov to Dec 2015 | Performance work: database indexes and connection pool tuning; [`1.0.14`](https://github.com/ioanlucut/revaluate-api/releases/tag/1.0.14)                            |
 | Nov 2016        | Moved off Heroku to Docker on EC2, and dropped Mandrill ([`archive/ec2-migration-2016`](https://github.com/ioanlucut/revaluate-api/tree/archive/ec2-migration-2016)) |
 | 2026            | Revived: builds again, all tests pass, runs with one command                                                                                                         |
 
-In numbers: **622 commits** between February 2015 and November 2016, **16 releases**, **37 schema migrations**, and about **22,000 lines of Java**, 8,700 of them tests. Revaluate was a team of two. The API is almost entirely my work; the web app I built together with [Sorin Pantiș](https://github.com/sorinpantis).
+In numbers: **622 commits** between February 2015 and November 2016, **16 releases**, **37 schema migrations**, and about **22,000 lines of Java**, 8,700 of them tests. Revaluate was a team of two: I did the engineering, all of this API and most of [the web app](https://github.com/ioanlucut/revaluate-web), and [Sorin Pantis](https://github.com/sorinpantis) did product and design.
 
 An unmerged prototype of recurring expense reminders (iCal recurrence rules) is kept at [`archive/reminders-prototype-2015`](https://github.com/ioanlucut/revaluate-api/tree/archive/reminders-prototype-2015).
 
