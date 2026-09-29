@@ -16,7 +16,7 @@ Expenses, categories, monthly goals and spending insights, with imports from Min
 [![Product Hunt: 124 upvotes](https://img.shields.io/badge/Product%20Hunt-124%20upvotes-da552f)](https://www.producthunt.com/products/revaluate)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-**622** commits · **16** releases · **70** endpoints · **223** tests · **37** schema migrations · **11** modules
+**622** commits in 2015–16 · **16** releases · **70** endpoints · **223** tests · **37** schema migrations · **11** modules
 
 <img src="docs/images/app-main.png" alt="Revaluate: an expense entry bar (amount, category, description, date) above a timeline of expenses grouped by day and a chart of this month's daily spending." width="100%">
 
