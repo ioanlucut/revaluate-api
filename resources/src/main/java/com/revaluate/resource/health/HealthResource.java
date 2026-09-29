@@ -22,6 +22,6 @@ public class HealthResource extends Resource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response checkHealth() {
 
-        return Responses.respond(Response.Status.OK, "I'm alive, thanks God.");
+        return Responses.respond(Response.Status.OK, "OK");
     }
 }
