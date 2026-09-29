@@ -20,3 +20,23 @@ jobs:
           cache: maven
       - name: Build, unit and integration tests
         run: mvn -B -PexecITs install
+
+  smoke:
+    name: Docker quick-start smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Build and start the documented stack
+        run: docker compose -p revaluate-smoke up --build -d
+      - name: Exercise the HTTP API against PostgreSQL
+        run: python3 scripts/smoke-test.py
+      - name: Show container logs on failure
+        if: failure()
+        run: docker compose -p revaluate-smoke logs --no-color --tail=200
+      - name: Remove the disposable stack
+        if: always()
+        run: docker compose -p revaluate-smoke down --volumes --remove-orphans
